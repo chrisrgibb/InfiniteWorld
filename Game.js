@@ -1,6 +1,9 @@
 // main game function
 var Game = function(argument) { };
 
+Game.fps = 50;
+Game.then = Date.now(); // for fps
+
 /**
 	Main draw function
 **/
@@ -29,5 +32,9 @@ Game.run = function(){
 	Game.update();
 	Game.draw();
 	requestAnimationFrame(Game.run);
+	var now = Date.now();
+	var elapsed = ( now - Game.then) / 1000;
+	Game.then = Date.now();
+	var fps = 1 / elapsed;
 
 }
