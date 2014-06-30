@@ -1,0 +1,52 @@
+var canvas,
+	ctx,
+	WIDTH,
+	HEIGHT,
+	player,
+	game,
+	level;
+	var scale = 2;
+
+(function() {
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    window.requestAnimationFrame = requestAnimationFrame;
+})();
+
+function init(){
+	canvas = document.getElementById('canvas');
+	ctx = canvas.getContext('2d');
+	WIDTH = canvas.width;
+	HEIGHT = canvas.height;
+	level = new Level();
+	ctx.scale(scale, scale);
+	player = new Player();
+	game = Game();
+	player.draw(ctx);
+	Game.run();
+}
+
+window.addEventListener("load", init);
+
+document.getElementById('scale-button').addEventListener('click', function(){
+	if(scale==2){
+		scale = .5;
+		ctx.scale(scale, scale);
+		this.innerHTML = "1x";
+	}else {
+		scale = 2;
+		ctx.scale(scale, scale);
+		this.innerHTML = "2x";
+	}
+
+});
+
+function scaleCtx(size){
+	if(size==2){
+		ctx.scale(2, 2);
+		return 2;
+	}else{
+		ctx.scale(.5, .5);
+		return 1;
+	}
+}
+
