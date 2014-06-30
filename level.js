@@ -1,76 +1,74 @@
 var Level = function() {
 	this.tileMap = [];
+
+	// draws the level and stores the level
+
+
+	// this is really a level renderer
+
+
 	// var map = [
-	// 	[0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
-	// 	[1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
 	// 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	// 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	// 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	// 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
-	// 	[0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0],
-	// 	[0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
-	// 	[0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0],
-	// 	[0,1,0,1,1,0,0,0,1,1,0,0,1,0,0,0],
-	// 	[1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1]
+	// 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	// 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	// 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	// 	[1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1],
+	// 	[1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1],
+	// 	[1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1],
+	// 	[1,1,1,1,0,0,1,1,1,1,1,0,0,0,1,1],
+	// 	[1,1,1,1,0,0,0,1,1,1,0,0,0,0,0,1],
+	// 	[1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1],
+	// 	[1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
+	// 	[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
+	// 	[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
+	// 	[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
+	// 	[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
+	// 	[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
+	// 	[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1]
 	// ];
-	var map = [
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1],
-		[1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1],
-		[1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1],
-		[1,1,1,1,0,0,1,1,1,1,1,0,0,0,1,1],
-		[1,1,1,1,0,0,0,1,1,1,0,0,0,0,0,1],
-		[1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1],
-		[1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
-		[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
-		[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
-		[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
-		[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
-		[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
-		[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1]
-	];
+	var map = new Map();
+
+	// 2 = starblock
 	
 	var tilesToHighlight = [];
 	var tileSize = 16;
 
 
 	function mapWidth(){
-		return map[0].length;
+		return map.getWidth();
 	}
 	function mapHeight(){
-		return map.length;
+		return map.getHeight();
 	}
 
 	function getTile(x, y){
-		if(map[y]===undefined){ // in case block goes out of array bounds
+		// if(map[y]===undefined){ // in case block goes out of array bounds
+		// 	return 1;
+		// }
+		if(y > map.getHeight()-1){
 			return 1;
 		}
-		return map[y][x];
-
+		else return map.getTile(x, y);
+		// return map[y][x];
 	}
 
 	function draw(){
-		
-		for(var row = 0; row < map.length; row++ ){
-				for(var col = 0; col < map[0].length; col++){
-					if(map[row][col]==1){
-						ctx.fillStyle = "green";
-						ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-					}	
+		for(var row = 0; row < map.getHeight(); row++ ){
+				for(var col = 0; col < map.getWidth(); col++){
+					// if(map[row][col]==1){
+				if(map.getTile(col, row)==1){
+					ctx.fillStyle = "green";
+					ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+				} else if(map.getTile(col, row) == 2){
+					ctx.fillStyle = "yellow";
+					ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+				}	
 			}
 		}
 		highLightTiles();
-
 	}
 
 	function addToHighLights(x, y, col){
@@ -79,6 +77,9 @@ var Level = function() {
 	}
 	// draws tiles different colors
 
+	function getMap(){
+		return map;
+	}
 
 	function highLightTiles(){
 		ctx.fillStyle = "red";
@@ -98,7 +99,8 @@ var Level = function() {
 			 getTile : getTile,
 			 mapWidth : mapWidth
 			 ,mapHeight : mapHeight,
-			 addToHighLights : addToHighLights
+			 addToHighLights : addToHighLights,
+			 getMap : getMap
 			};
 
 };

@@ -2,6 +2,12 @@ var Block = function(x, y, breakable, imagePath){
 	this.x = x;
 	this.y = y;
 	this.breakable = breakable;
-	this.image = new Image();
-	this.image.src = imagePath;
+	if(!imagePath){
+
+	}else {
+		this.image = new Image();
+		this.image.src = imagePath;
+	}
+
+
 };

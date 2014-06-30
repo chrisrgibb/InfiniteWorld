@@ -59,7 +59,7 @@ Player.prototype.move = function(first_argument) {
 			}
 		} else if(this.jumping && this.yVel < 0 ){ // going up
 			this.yVel -= .35;
-			console.log(this.yVel);
+			// console.log(this.yVel);
 		}
 	}else{
 		this.jumpTime = 0;
@@ -80,8 +80,8 @@ Player.prototype.move = function(first_argument) {
 
 		var ay = (this.y -(this.height/2) + dY ) /16 | 0;
 
-		var left  = (  5 + this.x - (this.width/2)  )/16   | 0;
-		var right = ( -5 + this.x + (this.width/2)  )/16   | 0;
+		var left  = (  1 + this.x - (this.width/2)  )/16   | 0;
+		var right = ( -1 + this.x + (this.width/2)  )/16   | 0;
 
 		var leftTile  = level.getTile(left, ay);
 		var rightTile = level.getTile(right, ay );
@@ -107,15 +107,15 @@ Player.prototype.move = function(first_argument) {
 		var ay = (this.y +(this.height/2) + dY) / 16 | 0;
 
 		
-		var left = (this.x - (this.width/2)  )/16  | 0;
-		var right = (this.x + (this.width/2) - 4 )/16   | 0;
+		var left = (this.x - (this.width/2)  +1 )     /16  | 0;
+		var right = (this.x + (this.width/2) - 1 ) /16   | 0;
 
 
 		var leftTile  = level.getTile(left, ay);
 		var rightTile = level.getTile(right, ay ); // the minus for is 
 
 
-		if(leftTile ==1) {
+		if(leftTile == 1) {
 			level.addToHighLights(left, ay, "#EDE5E2");
 		}
 		if( rightTile == 1) {
