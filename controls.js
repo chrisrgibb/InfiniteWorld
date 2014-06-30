@@ -12,13 +12,11 @@ window.addEventListener('keydown', function(e){
 						case 37:	
 							keys["left"] = true;
 							player.left = true;			
-							break;
-							
+							break;							
 						case 38:							
 							keys["up"] = true;
 							break;
-						case 39:
-		
+						case 39:		
 							keys["right"]= true;
 							player.right = true;
 							break;

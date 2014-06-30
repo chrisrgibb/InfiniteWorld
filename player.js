@@ -7,8 +7,8 @@ function Player(){
 	this.yVel = 0;
 	this.xVel = 0;
 	this.speed = 4;
-	this.xSpeed = 6;
-	this.gravity = .7;
+	this.xSpeed = 3;
+	this.gravity = .6;
 	this.friction = .8;
 
 	this.jumping = false;
@@ -34,7 +34,7 @@ Player.prototype.move = function(first_argument) {
 		if(this.xVel > 0){
 			this.xVel = 0;
 		}
-		if(this.xVel > -this.speed){
+		if(this.xVel > -this.xSpeed){
 			this.xVel --;
 		}
 		dX = this.xVel;
@@ -43,12 +43,12 @@ Player.prototype.move = function(first_argument) {
 		if(this.xVel< 0){
 			this.xVel = 0;
 		}
-		if(this.xVel < this.speed){
+		if(this.xVel < this.xSpeed){
 			this.xVel ++;
 		}
 		dX = this.xVel;		
 	}
-	if ( keys["up"] ){
+	if ( keys["jump"] ){
 		if(!this.jumping && this.canJump){		
 			if(this.onGround){
 				this.canJump = false;
@@ -58,7 +58,7 @@ Player.prototype.move = function(first_argument) {
 				// jumpKeyReleased =false;
 			}
 		} else if(this.jumping && this.yVel < 0 ){ // going up
-			this.yVel -= .5;
+			this.yVel -= .35;
 			console.log(this.yVel);
 		}
 	}else{
@@ -129,7 +129,8 @@ Player.prototype.move = function(first_argument) {
 
 			this.onGround = true;
 			this.jumping = false;
-			if(!keys["up"]){
+			if(!keys[
+"jump"]){
 				this.canJump = true;
 			}
 			this.yVel = 0;
@@ -281,6 +282,6 @@ Player.prototype.draw = function(ctx) {
 	}
 
 	var frame = 4;
-	ctx.drawImage(this.image, frame*32, 0, 32, 48, this.x - this.width, this.y - this.height/2, this.height, this.height);
+	// ctx.drawImage(this.image, frame*32, 0, 32, 48, this.x - this.width, this.y - this.height/2, this.height, this.height);
 	
 };
