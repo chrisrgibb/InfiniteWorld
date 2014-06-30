@@ -22,6 +22,7 @@ var Map = function(){
 		[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1],
 		[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1]
 	];
+	
 	this.blocks = this.createBlocks();
 
 };
@@ -36,7 +37,6 @@ Map.prototype.createBlocks = function(){
 			} else {
 				rowArray.push( new Block(x, y, false, null ));
 			}
-			// rowArray.push(this.tiles[i][j]);
 		}
 		array.push(rowArray);
 	}
@@ -45,12 +45,20 @@ Map.prototype.createBlocks = function(){
 
 	
 Map.prototype.getTile = function(x, y){
-	 // if(this.tiles[y][x]==2){
-	 // 	return 1;
-	 // }
-
 	return this.tiles[y][x];
 };
+
+
+/**
+ * 	
+ **/
+Map.prototype.isBlocking = function(x, y){
+	if(this.tiles[y][x]==0){
+		return 0;
+	}else{
+		return 1;
+	}
+}
 
 Map.prototype.getWidth = function(){
 	return this.tiles[0].length;

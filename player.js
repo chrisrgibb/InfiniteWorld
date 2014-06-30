@@ -11,6 +11,8 @@ function Player(){
 	this.gravity = .6;
 	this.friction = .8;
 
+	this.dir = 1;
+
 	this.jumping = false;
 	this.left = false;
 	this.right = false;
@@ -33,7 +35,9 @@ Player.prototype.move = function(first_argument) {
 	if(this.left){
 		if(this.xVel > 0){
 			this.xVel = 0;
+			this.dir = -1;
 		}
+
 		if(this.xVel > -this.xSpeed){
 			this.xVel --;
 		}
@@ -42,6 +46,7 @@ Player.prototype.move = function(first_argument) {
 
 		if(this.xVel< 0){
 			this.xVel = 0;
+			this.dir = 1;
 		}
 		if(this.xVel < this.xSpeed){
 			this.xVel ++;
@@ -55,11 +60,11 @@ Player.prototype.move = function(first_argument) {
 				this.yVel = -6;
 				this.jumping = true;
 				this.onGround = false;	
-				// jumpKeyReleased =false;
+	
 			}
 		} else if(this.jumping && this.yVel < 0 ){ // going up
 			this.yVel -= .35;
-			// console.log(this.yVel);
+
 		}
 	}else{
 		this.jumpTime = 0;
@@ -72,10 +77,11 @@ Player.prototype.move = function(first_argument) {
 	this.yVel += this.gravity;	
 	dY = this.yVel;
 
-	// this.collisions(this.x, this.y, dX, dY);
+
 
 
 	// check up collisions 
+
 	if(this.jumping ){
 
 		var ay = (this.y -(this.height/2) + dY ) /16 | 0;
@@ -83,18 +89,17 @@ Player.prototype.move = function(first_argument) {
 		var left  = (  1 + this.x - (this.width/2)  )/16   | 0;
 		var right = ( -1 + this.x + (this.width/2)  )/16   | 0;
 
-		var leftTile  = level.getTile(left, ay);
-		var rightTile = level.getTile(right, ay );
+		var leftTile  = map.isBlocking(left, ay);
+		var rightTile = map.isBlocking(right, ay );
 
-		if(leftTile ==1) {
+		if(leftTile) {
 			level.addToHighLights(left, ay, "#9BF0E9");
 		}
-		if( rightTile == 1) {
+		if( rightTile) {
 			level.addToHighLights(right, ay, "#9BF0E9");
 		}
 
-
-		if(leftTile==1 || rightTile==1){
+		if(leftTile || rightTile){
 			tempY = ( (ay+1) * 16) + (this.height/2) + 2;
 			this.yVel = 0;
 			dY = 1; // so we don't get stuck under block
@@ -111,26 +116,25 @@ Player.prototype.move = function(first_argument) {
 		var right = (this.x + (this.width/2) - 1 ) /16   | 0;
 
 
-		var leftTile  = level.getTile(left, ay);
-		var rightTile = level.getTile(right, ay ); // the minus for is 
+		var leftTile  = map.isBlocking(left, ay);
+		var rightTile = map.isBlocking(right, ay ); // the minus for is 
 
 
-		if(leftTile == 1) {
+		if(leftTile) {
 			level.addToHighLights(left, ay, "#EDE5E2");
 		}
-		if( rightTile == 1) {
+		if( rightTile) {
 			level.addToHighLights(right, ay, "#EDE5E2");
 		}
 
 
-		if((leftTile==1 || rightTile==1 )   ) {
+		if((leftTile || rightTile )   ) {
 			// hit the ground
 			tempY = (ay * 16) - (this.height/2);
 
 			this.onGround = true;
 			this.jumping = false;
-			if(!keys[
-"jump"]){
+			if(!keys["jump"]){
 				this.canJump = true;
 			}
 			this.yVel = 0;
@@ -148,18 +152,18 @@ Player.prototype.move = function(first_argument) {
 			var yBotttom = (-3 + this.y + this.height/2) / 16 | 0;
 			
 
-			var tileX2 = level.getTile(ax, yBotttom);
-			var tileX1 = level.getTile(ax, yTop);
+			var tileX2 = map.isBlocking(ax, yBotttom);
+			var tileX1 = map.isBlocking(ax, yTop);
 
 			// For DEBUGGINS
-			if(tileX1 ==1) {
+			if(tileX1 ) {
 				level.addToHighLights(ax, yTop, "#FDB1B1");
 			}
-			if( tileX2 == 1) {
+			if( tileX2 ) {
 				level.addToHighLights(ax, yBotttom, "#FDB1B1");
 			}
 
-			if(tileX1==1 || tileX2==1){ // collision
+			if(tileX1 || tileX2){ // collision
 				tempX = (ax * 16) - (this.width/2) ;
 				// this.xVel = 0;
 				
@@ -175,27 +179,34 @@ Player.prototype.move = function(first_argument) {
 			var yBotttom = (-3 + this.y + this.height/2) / 16 | 0;
 
 
-			var tileX2 = level.getTile(ax, yBotttom);
-			var tileX1 = level.getTile(ax, yTop);
+			var tileX2 = map.isBlocking(ax, yBotttom);
+			var tileX1 = map.isBlocking(ax, yTop);
 
-			if(tileX1 ==1) {
+			if(tileX1) {
 				level.addToHighLights(ax, yTop, "#9BF0E9");
 			}
-			if( tileX2 == 1) {
+			if( tileX2) {
 				level.addToHighLights(ax, yBotttom, "#9BF0E9");
 			}
 
-			if(tileX1==1 || tileX2==1){ 
+			if(tileX1 || tileX2 ){ 
 				tempX = ( (ax+1) * 16) + (this.width/2) ; // 
-				this.blocked = true;
 			}else { 
 				tempX = this.x + dX;
-				this.blocked = false;
 			}
 		}	
 
-	this.x = tempX;
 	this.y = tempY;
+	this.x = tempX;
+
+
+	if(!keys["down"] && keys["punch"]){
+
+
+	}else{
+		
+
+	}
 
 
 	// check left of screen
@@ -257,7 +268,7 @@ Player.prototype.collisions = function(x, y, dx, dy){
 Player.prototype.isBlocking = function(xx, yy){
 	var x = xx / 32 | 0;
 	var y = yy / 32 | 0;
-	var block = level.getTile(x, y);
+	var block = map.isBlocking(x, y);
 	return block==1;
 }
 
@@ -265,7 +276,7 @@ Player.prototype.isBlocking = function(xx, yy){
 Player.prototype.collisionRight = function(){
 	var ax = this.x / 32 | 0;
 	var ay = this.y /32 | 0;
-	return level.getTile(ax, ay)==1;
+	return map.isBlocking(ax, ay)==1;
 
 };
 
@@ -279,6 +290,9 @@ Player.prototype.draw = function(ctx) {
 		ctx.fillRect(this.x - this.width/2, this.y, this.width, this.height/2);
 	}else{
 		ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+	}
+	if(keys["punch"]){
+		ctx.fillRect(this.x + ( this.width/2 * this.dir  ), this.y - this.height/2 +4, 8 * this.dir, 10 );
 	}
 
 	var frame = 4;

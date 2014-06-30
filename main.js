@@ -4,7 +4,8 @@ var canvas,
 	HEIGHT,
 	player,
 	game,
-	level;
+	level,
+	map;
 	var scale = 2;
 
 (function() {
@@ -17,9 +18,13 @@ function init(){
 	ctx = canvas.getContext('2d');
 	WIDTH = canvas.width;
 	HEIGHT = canvas.height;
-	level = new Level();
+
+	map = new Map();
+
+
 	ctx.scale(scale, scale);
 	player = new Player();
+	level = new LevelRenderer(map, player);
 	game = Game();
 	player.draw(ctx);
 	Game.run();

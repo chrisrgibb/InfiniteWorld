@@ -7,8 +7,9 @@ var keys = {
 var jumpKeyReleased=true;
 
 window.addEventListener('keydown', function(e){
-
+console.log(e.keyCode);
 	switch(e.keyCode){
+
 						case 37:	
 							keys["left"] = true;
 							player.left = true;			
@@ -23,9 +24,13 @@ window.addEventListener('keydown', function(e){
 						case 40:
 							keys["down"] = true;
 							break;
-						case 90: // z
+						case 65: // a
 							keys["jump"] = true;
 							break;
+						case 83:
+							keys["punch"] = true;
+							break;
+
 					}
 	});
 
@@ -49,8 +54,11 @@ window.addEventListener('keyup', function(e){
 
 							keys["down"] = false;
 							break;
-						case 90: // z
+						case 65: // a
 							keys["jump"] = false;
+							break;
+						case 83:
+							keys["punch"] = false;
 							break;
 					}
 });
