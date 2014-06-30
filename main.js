@@ -21,7 +21,6 @@ function init(){
 
 	map = new Map();
 
-
 	ctx.scale(scale, scale);
 	player = new Player();
 	level = new LevelRenderer(map, player);

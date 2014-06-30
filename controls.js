@@ -7,7 +7,7 @@ var keys = {
 var jumpKeyReleased=true;
 
 window.addEventListener('keydown', function(e){
-console.log(e.keyCode);
+// console.log(e.keyCode);
 	switch(e.keyCode){
 
 						case 37:	
