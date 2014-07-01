@@ -11,7 +11,7 @@ var LevelRenderer = function(mapp, player) {
 
 
 	// this is really a level renderer
-
+	var tileSheet = new TileSheet();
 	var map = mapp;
 
 	// 2 = starblock
@@ -61,16 +61,27 @@ var LevelRenderer = function(mapp, player) {
 				var x = (col * tileSize) - camera.x;
 
 				if(map.getTile( col, row)==1){
-					ctx.fillStyle = "green";
+					ctx.fillStyle = "#ad5200";
 					// ctx.fillRect(col * tileSize, (row * tileSize), tileSize, tileSize);
 					ctx.fillRect(x, y, tileSize, tileSize);
 				} else if(map.getTile(col, row) == 2){
 					ctx.fillStyle = "yellow";
 					ctx.fillRect(x, y, tileSize, tileSize);
+					ctx.strokeStyle= "black";
+					ctx.strokeRect(x, y, tileSize, tileSize);
 				} else {
 					ctx.fillStyle = "#0000ff";
 					ctx.fillRect(x, y, tileSize, tileSize);
 				}
+
+				if(map.getTile(col, row)==2){
+					tileSheet.drawTile(2, x, y);
+				}
+				if(map.getTile(col, row)==5){
+					tileSheet.drawTile(5-1, x, y);
+				}
+
+
 			}
 		}
 		highLightTiles();

@@ -6,7 +6,7 @@ function Player(){
 	this.height= 19;
 	this.yVel = 0;
 	this.xVel = 0;
-	this.speed = 4;
+	this.speed = 2;
 	this.xSpeed = 3;
 	this.gravity = .6;
 	this.friction = .8;
@@ -123,8 +123,8 @@ Player.prototype.moveX = function(dX, dY){
 		//moving right
 		var nextX = this.x + dX + (this.width/2); // the nextX 
 		var ax =  nextX / 16 | 0; // the index of the next tile 
-		var yTop = (2 + this.y - this.height/2) / 16 | 0;
-		var yBotttom = (-2 + this.y + this.height/2) / 16 | 0;
+		var yTop = (1 + this.y - this.height/2) / 16 | 0;
+		var yBotttom = (-1 + this.y + this.height/2) / 16 | 0;
 		
 
 		var tileX2 = map.isBlocking(ax, yBotttom);
@@ -150,8 +150,8 @@ Player.prototype.moveX = function(dX, dY){
 		var nextX = this.x + dX - (this.width/2) ;
 		var ax = nextX / 16 | 0; // index of the tile to the left
 
-		var yTop = (2 + this.y - this.height/2) / 16 | 0; 
-		var yBotttom = (-2 + this.y + this.height/2) / 16 | 0;
+		var yTop = 	   	(1 + this.y - this.height/2) / 16 | 0; 
+		var yBotttom = 	(-1 + this.y + this.height/2) / 16 | 0;
 
 
 		var tileX2 = map.isBlocking(ax, yBotttom);
@@ -208,8 +208,8 @@ Player.prototype.moveY = function(dX, dY){
 		var ay = (this.y +(this.height/2) + dY) / 16 | 0;
 
 		
-		var left = (this.x - (this.width/2)  +2 )     /16  | 0;
-		var right = (this.x + (this.width/2) - 2 ) /16   | 0;
+		var left = (this.x - (this.width/2)  +1 )     /16  | 0;
+		var right = (this.x + (this.width/2) - 1 ) /16   | 0;
 
 
 		var leftTile  = map.isBlocking(left, ay);

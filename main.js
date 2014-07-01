@@ -16,6 +16,7 @@ var canvas,
 function init(){
 	canvas = document.getElementById('canvas');
 	ctx = canvas.getContext('2d');
+	ctx.imageSmoothingEnabled = false;
 	WIDTH = canvas.width;
 	HEIGHT = canvas.height;
 
