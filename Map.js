@@ -3,10 +3,10 @@ var Map = function(){
 	this.tiles = [
 		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
 		[0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0],
 		[1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1],
 		[1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1],
@@ -43,8 +43,15 @@ Map.prototype.createBlocks = function(){
 	return array;
 }
 
+Map.prototype.punchTile = function(x, y){
+	if(this.tiles[y][x]==2){
+		this.tiles[y][x] =0;
+	}
+	
+}
 	
 Map.prototype.getTile = function(x, y){
+
 	return this.tiles[y][x];
 };
 
@@ -53,6 +60,13 @@ Map.prototype.getTile = function(x, y){
  * 	
  **/
 Map.prototype.isBlocking = function(x, y){
+	if(x > this.getWidth()-1){
+		return 1;
+	}
+	if(y > this.getHeight()-1){
+		return 1;
+	}
+	
 	if(this.tiles[y][x]==0){
 		return 0;
 	}else{

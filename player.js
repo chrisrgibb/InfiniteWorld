@@ -109,6 +109,7 @@ Player.prototype.punchDetection = function(){
 	
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 	var tile = map.getTile(punchX, this.y/ 16 | 0);
+	map.punchTile(punchX, this.y/ 16 | 0);
 	console.log(tile);
 
 
@@ -122,7 +123,7 @@ Player.prototype.moveX = function(dX, dY){
 		//moving right
 		var nextX = this.x + dX + (this.width/2); // the nextX 
 		var ax =  nextX / 16 | 0; // the index of the next tile 
-		var yTop = (3 + this.y - this.height/2) / 16 | 0;
+		var yTop = (2 + this.y - this.height/2) / 16 | 0;
 		var yBotttom = (-3 + this.y + this.height/2) / 16 | 0;
 		
 
@@ -149,8 +150,8 @@ Player.prototype.moveX = function(dX, dY){
 		var nextX = this.x + dX - (this.width/2) ;
 		var ax = nextX / 16 | 0; // index of the tile to the left
 
-		var yTop = (3 + this.y - this.height/2) / 16 | 0; 
-		var yBotttom = (-3 + this.y + this.height/2) / 16 | 0;
+		var yTop = (2 + this.y - this.height/2) / 16 | 0; 
+		var yBotttom = (-2 + this.y + this.height/2) / 16 | 0;
 
 
 		var tileX2 = map.isBlocking(ax, yBotttom);
@@ -308,8 +309,9 @@ Player.prototype.draw = function(ctx) {
 	if(keys["down"]){
 		ctx.fillRect(this.x - this.width/2, this.y, this.width, this.height/2);
 	}else{
-		ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+		ctx.fillRect(this.x - this.width/2, this.y - this.height/2 - (level.camera.y  ) , this.width, this.height);
 	}
+	// draw rectangle shape of fist of doom
 	if(keys["punch"]){
 		ctx.fillRect(this.x + ( this.width/2 * this.dir  ), this.y - this.height/2 +4, 8 * this.dir, 10 );
 	}

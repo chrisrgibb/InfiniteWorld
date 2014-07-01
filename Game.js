@@ -38,3 +38,5 @@ Game.run = function(){
 	var fps = 1 / elapsed;
 
 }
+
+var debugStuff = [];

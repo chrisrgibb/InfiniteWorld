@@ -1,7 +1,10 @@
 var LevelRenderer = function(mapp, player) {
+	this.screenWidth = 16 * 16;// in pixels
+	this.screenHeight = 20 * 16;
 	this.tileMap = [];
-	this.camera = new Camera();
+	var camera = new Camera();
 	this.player = player;
+	var oldTile;
 
 	// draws the level and stores the level
 
@@ -34,19 +37,40 @@ var LevelRenderer = function(mapp, player) {
 	}
 
 	function draw(){
-		for(var row = 0; row < map.getHeight(); row++ ){
-				for(var col = 0; col < map.getWidth(); col++){
-					// if(map[row][col]==1){
-				if(map.getTile(col, row)==1){
+		var startTileX;
+		var startTileY = camera.y / 16 | 0 ;
+		if(startTileY < 0 ){
+			startTileY = 0;
+		}else if(startTileY > 0 ){
+			console.log("over 0 = " +  startTileY);
+		}
+
+		if(startTileY!=oldTile){
+			oldTile = startTileY;
+		}
+
+		// console.log(oldTile);
+
+		for(var row = startTileY; row < map.getHeight(); row++ ){
+			for(var col = 0; col < map.getWidth(); col++){
+				// if(map[row][col]==1){
+				var y = ( row * tileSize ) - camera.y ; ///16 |0;
+
+
+				if(map.getTile( col, row)==1){
 					ctx.fillStyle = "green";
-					ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+					// ctx.fillRect(col * tileSize, (row * tileSize), tileSize, tileSize);
+					ctx.fillRect(col * tileSize, y, tileSize, tileSize);
 				} else if(map.getTile(col, row) == 2){
 					ctx.fillStyle = "yellow";
-					ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-				}	
+					ctx.fillRect(col * tileSize, y, tileSize, tileSize);
+				} else {
+
+				}
 			}
 		}
 		highLightTiles();
+		camera.update();
 	}
 
 	function addToHighLights(x, y, col){
@@ -78,7 +102,10 @@ var LevelRenderer = function(mapp, player) {
 			 mapWidth : mapWidth
 			 ,mapHeight : mapHeight,
 			 addToHighLights : addToHighLights,
-			 getMap : getMap
+			 getMap : getMap,
+			 screenHeight : this.screenHeight,
+			 screenWidth  : this.screenWidth,
+			 camera : camera
 			};
 
 };
