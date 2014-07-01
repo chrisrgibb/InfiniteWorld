@@ -57,7 +57,7 @@ Player.prototype.move = function(first_argument) {
 		if(!this.jumping && this.canJump){		
 			if(this.onGround){
 				this.canJump = false;
-				this.yVel = -6;
+				this.yVel = -7;
 				this.jumping = true;
 				this.onGround = false;	
 	
@@ -76,6 +76,9 @@ Player.prototype.move = function(first_argument) {
 
 	this.yVel += this.gravity;	
 	dY = this.yVel;
+	if(dY > 3){
+		dY = 6;
+	}
 
 	this.y = this.moveY(dX, dY);
 	this.x = this.moveX(dX, dY);
@@ -109,8 +112,9 @@ Player.prototype.punchDetection = function(){
 	
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 	var tile = map.getTile(punchX, this.y/ 16 | 0);
+
 	map.punchTile(punchX, this.y/ 16 | 0);
-	console.log(tile);
+	// console.log(tile);
 
 
 
@@ -238,6 +242,7 @@ Player.prototype.moveY = function(dX, dY){
 			// must be falling
 			this.onGround = false;
 			tempY = this.y + dY;
+			// console.log(dY);
 		}
 	return tempY;
 }

@@ -11,7 +11,11 @@ Camera.prototype.update = function(){
 
 		// console.log(this.x - player.x);
 		// console.log(this.y - player.y);
-	this.y = player.y - level.screenHeight/2 | 0;
+	var newY = player.y - level.screenHeight/2 | 0;
+	if(newY > this.y){
+		this.y = newY;
+	}
+	
 	this.x = player.x - level.screenWidth /2 | 0;
 	this.minY = this.y;
 
@@ -28,7 +32,6 @@ Camera.prototype.update = function(){
 	}
 	// if(this.y < minY - screenHeight/2)
 
-	console.log(this.minY);
 	if(this.x < 0){
 		this.x = 0;
 	}

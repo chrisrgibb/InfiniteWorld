@@ -45,7 +45,7 @@ var LevelRenderer = function(mapp, player) {
 		if(startTileY < 0 ){
 			startTileY = 0;
 		}else if(startTileY > 0 ){
-			console.log("over 0 = " +  startTileY);
+			// console.log("over 0 = " +  startTileY);
 		}
 
 		if(startTileY!=oldTile){
@@ -59,32 +59,23 @@ var LevelRenderer = function(mapp, player) {
 				// if(map[row][col]==1){
 				var y = ( row * tileSize ) - camera.y ; ///16 |0;
 				var x = (col * tileSize) - camera.x;
-
-				if(map.getTile( col, row)==1){
-					ctx.fillStyle = "#ad5200";
-					// ctx.fillRect(col * tileSize, (row * tileSize), tileSize, tileSize);
-					ctx.fillRect(x, y, tileSize, tileSize);
-				} else if(map.getTile(col, row) == 2){
-					ctx.fillStyle = "yellow";
-					ctx.fillRect(x, y, tileSize, tileSize);
-					ctx.strokeStyle= "black";
-					ctx.strokeRect(x, y, tileSize, tileSize);
-				} else {
-					ctx.fillStyle = "#0000ff";
-					ctx.fillRect(x, y, tileSize, tileSize);
-				}
-
-				if(map.getTile(col, row)==2){
-					tileSheet.drawTile(2, x, y);
-				}
-				if(map.getTile(col, row)==5){
-					tileSheet.drawTile(5-1, x, y);
-				}
-
+				ctx.fillStyle = "#0000ff";
+			 	ctx.fillRect(x, y, tileSize, tileSize);
+			
+				var val = map.getTile(col, row);
+				if(val > 0){
+					tileSheet.drawTile(val, x, y);
+				} 
+					
 
 			}
 		}
 		highLightTiles();
+		for(var i = 0; i< enemys.length; i++){
+			if(isEnemyOnScreen(this.camera, enemys[i])){
+				enemys[i].draw();
+			}
+		}
 		camera.update();
 	}
 

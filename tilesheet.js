@@ -1,6 +1,6 @@
 var TileSheet = function(){
 	this.image = new Image();
-	this.image.src ="images/tiles.png";
+	this.image.src ="images/tiles2.png";
 }
 
 TileSheet.prototype.getImage = function(){
