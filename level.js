@@ -1,10 +1,11 @@
 var LevelRenderer = function(mapp, player) {
 	this.screenWidth = 16 * 16;// in pixels
-	this.screenHeight = 20 * 16;
+	this.screenHeight = 12 * 16;
 	this.tileMap = [];
 	var camera = new Camera();
 	this.player = player;
 	var oldTile;
+	// height of screen = 12 * 16
 
 	// draws the level and stores the level
 
@@ -37,8 +38,10 @@ var LevelRenderer = function(mapp, player) {
 	}
 
 	function draw(){
-		var startTileX;
-		var startTileY = camera.y / 16 | 0 ;
+		var startTileX = camera.x / 16 | 0;
+		var startTileY = camera.y / 16 | 0;
+
+
 		if(startTileY < 0 ){
 			startTileY = 0;
 		}else if(startTileY > 0 ){
@@ -52,20 +55,21 @@ var LevelRenderer = function(mapp, player) {
 		// console.log(oldTile);
 
 		for(var row = startTileY; row < map.getHeight(); row++ ){
-			for(var col = 0; col < map.getWidth(); col++){
+			for(var col = startTileX; col < map.getWidth(); col++){
 				// if(map[row][col]==1){
 				var y = ( row * tileSize ) - camera.y ; ///16 |0;
-
+				var x = (col * tileSize) - camera.x;
 
 				if(map.getTile( col, row)==1){
 					ctx.fillStyle = "green";
 					// ctx.fillRect(col * tileSize, (row * tileSize), tileSize, tileSize);
-					ctx.fillRect(col * tileSize, y, tileSize, tileSize);
+					ctx.fillRect(x, y, tileSize, tileSize);
 				} else if(map.getTile(col, row) == 2){
 					ctx.fillStyle = "yellow";
-					ctx.fillRect(col * tileSize, y, tileSize, tileSize);
+					ctx.fillRect(x, y, tileSize, tileSize);
 				} else {
-
+					ctx.fillStyle = "#0000ff";
+					ctx.fillRect(x, y, tileSize, tileSize);
 				}
 			}
 		}
@@ -90,7 +94,11 @@ var LevelRenderer = function(mapp, player) {
 			var col = tilesToHighlight[i][0];
 			var row = tilesToHighlight[i][1];
 			ctx.fillStyle = color;
-			ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+
+			var y = ( row * tileSize ) - camera.y;
+			var x = (col * tileSize) - camera.x;
+
+			ctx.fillRect(x, y, tileSize, tileSize);
 		}
 		tilesToHighlight = [];
 	}
