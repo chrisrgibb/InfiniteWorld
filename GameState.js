@@ -2,6 +2,7 @@ var enemys = [];
 
 
 // x and y in tile coordinates
+enemys.push(new Enemy(4, 3));
 enemys.push(new Enemy(4, 19));
 
 enemys.push(new Enemy(8, 26));

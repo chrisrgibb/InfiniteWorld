@@ -23,7 +23,9 @@ Game.draw = function(){
 Game.update = function(){
 	if(player){
 		player.move();
-	}
+	} 	
+	// for()
+	// enemys[0].move();
 }
 /*
  * Main game loop

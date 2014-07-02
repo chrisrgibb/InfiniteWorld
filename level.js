@@ -72,7 +72,8 @@ var LevelRenderer = function(mapp, player) {
 		}
 		highLightTiles();
 		for(var i = 0; i< enemys.length; i++){
-			if(isEnemyOnScreen(this.camera, enemys[i])){
+			if( isEnemyOnScreen(this.camera, enemys[i]) ){
+				enemys[i].move();
 				enemys[i].draw(camera);
 			}
 		}
