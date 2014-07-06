@@ -1,13 +1,16 @@
 function Player(){
 
 	this.x = 5;
-	this.y = 6;
+	this.y = 100;
+	// this.x = 130;
+	// this.y = 534;
 	this.width = 10;
 	this.height= 19;
 	this.yVel = 0;
 	this.xVel = 0;
 	this.speed = 2;
 	this.xSpeed = 3;
+	this.xspeedIncrease = 0.6;
 	this.gravity = .6;
 	this.friction = .8;
 
@@ -57,13 +60,13 @@ Player.prototype.move = function(first_argument) {
 		if(!this.jumping && this.canJump){		
 			if(this.onGround){
 				this.canJump = false;
-				this.yVel = -7;
+				this.yVel = -6;
 				this.jumping = true;
 				this.onGround = false;	
 	
 			}
 		} else if(this.jumping && this.yVel < 0 ){ // going up
-			this.yVel -= .35;
+			this.yVel -= .30;
 
 		}
 	}else{
@@ -76,9 +79,14 @@ Player.prototype.move = function(first_argument) {
 
 	this.yVel += this.gravity;	
 	dY = this.yVel;
-	if(dY > 3){
-		dY = 6;
+	if(dY > 4){
+		dY = 4;
 	}
+	if(dY < -5){
+		dY = -5;
+	}
+
+	console.log(dY);
 
 	this.y = this.moveY(dX, dY);
 	this.x = this.moveX(dX, dY);

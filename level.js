@@ -51,9 +51,7 @@ var LevelRenderer = function(mapp, player) {
 		if(startTileY!=oldTile){
 			oldTile = startTileY;
 		}
-
-		// console.log(oldTile);
-
+		
 		for(var row = startTileY; row < map.getHeight(); row++ ){
 			for(var col = startTileX; col < map.getWidth(); col++){
 				// if(map[row][col]==1){
