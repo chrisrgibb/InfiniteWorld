@@ -9,7 +9,7 @@ function Player(){
 	this.yVel = 0;
 	this.xVel = 0;
 	this.speed = 2;
-	this.xSpeed = 3;
+	this.xSpeed = 2;
 	this.xspeedIncrease = 0.6;
 	this.gravity = .6;
 	this.friction = .8;
@@ -42,9 +42,10 @@ Player.prototype.move = function(first_argument) {
 		}
 
 		if(this.xVel > -this.xSpeed){
-			this.xVel --;
+			this.xVel-=this.xspeedIncrease;;
 		}
 		dX = this.xVel;
+		// dX-=this.xspeedIncrease;
 	}else if( keys["right"]){
 
 		if(this.xVel< 0){
@@ -52,9 +53,11 @@ Player.prototype.move = function(first_argument) {
 			this.dir = 1;
 		}
 		if(this.xVel < this.xSpeed){
-			this.xVel ++;
+			// this.xVel ++;
+			this.xVel+=this.xspeedIncrease;
 		}
-		dX = this.xVel;		
+		dX = this.xVel;	
+		// dX+=this.xspeedIncrease;	
 	}
 	if ( keys["jump"] ){
 		if(!this.jumping && this.canJump){		
@@ -73,8 +76,9 @@ Player.prototype.move = function(first_argument) {
 		this.jumpTime = 0;
 	}
 
-	var tempX = this.x;
+	// var tempX = this.x;
 	var tempY = this.y;
+	var tempX = this.x;
 
 
 	this.yVel += this.gravity;	
@@ -86,6 +90,10 @@ Player.prototype.move = function(first_argument) {
 		dY = -5;
 	}
 
+	if(this.onGround){
+		dX *= .894;
+	}
+
 	console.log(dY);
 
 	this.y = this.moveY(dX, dY);
@@ -94,10 +102,10 @@ Player.prototype.move = function(first_argument) {
 
 	if(!keys["down"] && keys["punch"]){
 		this.punchDetection();
-
+		// this.height = this.height/2;
 	}else{
-		
-
+		// this.height = this.height * 2;
+		// this.height = 19;
 	}
 
 
@@ -138,6 +146,9 @@ Player.prototype.moveX = function(dX, dY){
 		var yTop = (1 + this.y - this.height/2) / 16 | 0;
 		var yBotttom = (-1 + this.y + this.height/2) / 16 | 0;
 		
+		if(nextX===tempX){
+			return;
+		}
 
 		var tileX2 = map.isBlocking(ax, yBotttom);
 		var tileX1 = map.isBlocking(ax, yTop);
@@ -151,8 +162,9 @@ Player.prototype.moveX = function(dX, dY){
 		}
 
 		if(tileX1 || tileX2){ // collision
-			tempX = (ax * 16) - (this.width/2) ;
+			tempX = (ax * 16) - (this.width/2);
 			// this.xVel = 0;
+			dX = 0;
 			
 		}else{
 			tempX =this.x +dX;
@@ -216,7 +228,7 @@ Player.prototype.moveY = function(dX, dY){
 
 	// check down collisions
 
-		var nextY = this.y + dY - (this.height/2);
+
 		var ay = (this.y +(this.height/2) + dY) / 16 | 0;
 
 		
@@ -308,7 +320,7 @@ Player.prototype.isBlocking = function(xx, yy){
 
 Player.prototype.collisionRight = function(){
 	var ax = this.x / 32 | 0;
-	var ay = this.y /32 | 0;
+	var ay = this.y / 32 | 0;
 	return map.isBlocking(ax, ay)==1;
 
 };

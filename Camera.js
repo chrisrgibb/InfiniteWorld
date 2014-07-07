@@ -17,11 +17,11 @@ Camera.prototype.update = function(){
 	}
 	
 	this.x = player.x - level.screenWidth /2 | 0;
-	this.minY = this.y;
+	// this.minY = this.y;
 
-	if(this.y > this.minY){
-		this.minY = this.y;
-	}
+	// if(this.y > this.minY){
+	// 	this.minY = this.y;
+	// }
 
 
 	if(this.y < 0 ){
@@ -30,7 +30,6 @@ Camera.prototype.update = function(){
 	if(this.y + level.screenHeight > map.getHeight() * 16){
 		this.y = map.getHeight() * 16 - level.screenHeight;
 	}
-	// if(this.y < minY - screenHeight/2)
 
 	if(this.x < 0){
 		this.x = 0;
@@ -39,11 +38,5 @@ Camera.prototype.update = function(){
 		this.x = map.getWidth() * 16 - level.screenWidth;
 	}
 
-
-
-	if(this.y > 0){
-		// console.log('asd');
-		// console.log(this.y)
-	}
 
 }

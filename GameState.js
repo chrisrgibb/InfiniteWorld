@@ -10,3 +10,6 @@ enemys.push(new Enemy(8, 26));
 enemys.push(new Enemy(4, 34));
 
 enemys.push(new Enemy(8, 37));
+enemys.push(new Enemy(8, 46));
+
+enemys.push(new Enemy(8, 50));
