@@ -29,6 +29,9 @@ function Player(){
 	this.jumpTime = 0;
 	this.xjumpSpeed = 0;
 	this.yjumpSpeed= 0;
+
+	this.xx =0;
+	this.yy = 0;
 }
 
 
@@ -93,12 +96,23 @@ Player.prototype.move = function(first_argument) {
 	if(this.onGround){
 		dX *= .894;
 	}
+	if(dY!=0.6){
+		console.log(dY);
+	}
 
-	console.log(dY);
+	// this.yy = dY;
+	// this.xx = dX;
 
-	this.y = this.moveY(dX, dY);
+	// var tempX = this.moveX(this.xx, this.yy);
+	// var tempY = this.moveY(this.xx, this.yy);
+
+
+	// this.x = tempX;
+	// this.y = tempY;
+
+
 	this.x = this.moveX(dX, dY);
-
+	this.y = this.moveY(dX, dY);
 
 	if(!keys["down"] && keys["punch"]){
 		this.punchDetection();
@@ -164,7 +178,7 @@ Player.prototype.moveX = function(dX, dY){
 		if(tileX1 || tileX2){ // collision
 			tempX = (ax * 16) - (this.width/2);
 			// this.xVel = 0;
-			dX = 0;
+			this.xx = 0;
 			
 		}else{
 			tempX =this.x +dX;
@@ -190,6 +204,7 @@ Player.prototype.moveX = function(dX, dY){
 
 		if(tileX1 || tileX2 ){ 
 			tempX = ( (ax+1) * 16) + (this.width/2) ; // 
+			this.xx = 0;
 		}else { 
 			tempX = this.x + dX;
 		}
@@ -220,15 +235,16 @@ Player.prototype.moveY = function(dX, dY){
 		}
 
 		if(leftTile || rightTile){
-			tempY = ( (ay+1) * 16) + (this.height/2) + 2;
+			tempY = ( (ay+1) * 16) + (this.height/2) + 1;
 			this.yVel = 0;
 			dY = 1; // so we don't get stuck under block
+			return tempY;
 		}
 	}
 
 	// check down collisions
 
-
+	// else if(dY > 0){
 		var ay = (this.y +(this.height/2) + dY) / 16 | 0;
 
 		
@@ -247,7 +263,6 @@ Player.prototype.moveY = function(dX, dY){
 			level.addToHighLights(right, ay, "#EDE5E2");
 		}
 
-
 		if((leftTile || rightTile )   ) {
 			// hit the ground
 			tempY = (ay * 16) - (this.height/2);
@@ -264,6 +279,8 @@ Player.prototype.moveY = function(dX, dY){
 			tempY = this.y + dY;
 			// console.log(dY);
 		}
+	// }
+
 	return tempY;
 }
 

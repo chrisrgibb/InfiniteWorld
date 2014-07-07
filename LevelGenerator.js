@@ -63,7 +63,7 @@ LevelGenerator.prototype.createGap = function(tiles){
 
 // makes a floating platform in the air
 LevelGenerator.prototype.makePlatform = function(tiles){
-
+	
 
 
 };
