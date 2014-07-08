@@ -217,7 +217,7 @@ Player.prototype.moveX = function(dX, dY){
 Player.prototype.moveY = function(dX, dY){
 	var tempY = this.y;
 
-	if(this.jumping ){
+	if(this.jumping && dY < 0 ){
 
 		var ay = (this.y -(this.height/2) + dY ) /16 | 0;
 
@@ -239,12 +239,14 @@ Player.prototype.moveY = function(dX, dY){
 			this.yVel = 0;
 			dY = 1; // so we don't get stuck under block
 			return tempY;
+		} else {
+			tempY += dY;
 		}
 	}
 
 	// check down collisions
 
-	// else if(dY > 0){
+	else {
 		var ay = (this.y +(this.height/2) + dY) / 16 | 0;
 
 		
@@ -273,13 +275,13 @@ Player.prototype.moveY = function(dX, dY){
 				this.canJump = true;
 			}
 			this.yVel = 0;
-		}else  {
+		}else {
 			// must be falling
 			this.onGround = false;
 			tempY = this.y + dY;
 			// console.log(dY);
 		}
-	// }
+	}
 
 	return tempY;
 }
