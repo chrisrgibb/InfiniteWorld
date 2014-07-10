@@ -83,8 +83,12 @@ Player.prototype.move = function(first_argument) {
 	}else{
 		this.jumpTime = 0;
 	}
+	if( Math.abs(this.xVel) < 0.5){
+		// this.xVel = 0;
+	}
 
 	dX = this.xVel;	
+
 
 	// var tempX = this.x;
 	var tempY = this.y;
@@ -312,11 +316,18 @@ Player.prototype.draw = function(ctx) {
 	}
 
 	var frame = 1;
+	if ( this.dir==1){
+		frame = 1;
+	}else {
+		frame = 0;
+	}
+
+
 	if (this.xVel > 0 || this.xVel < 0) {
 		this.frameIndex+=Math.abs(this.xVel);
-
+		// frame = (this.frameIndex/4 | 0)  % 4;
 
 	}
-	ctx.drawImage(this.image, frame*16, 2, 20, 24, this.x - this.width - level.camera.x, this.y - this.height/2 +2 - level.camera.y, this.height, this.height);
+	ctx.drawImage(this.image, frame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
 	
 };
