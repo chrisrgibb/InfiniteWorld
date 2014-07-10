@@ -68,7 +68,7 @@ var LevelRenderer = function(mapp, player) {
 
 			}
 		}
-		highLightTiles();
+		// highLightTiles();
 		for(var i = 0; i< enemys.length; i++){
 			if( isEnemyOnScreen(this.camera, enemys[i]) ){
 				enemys[i].move();

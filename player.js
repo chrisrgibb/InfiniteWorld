@@ -24,7 +24,7 @@ function Player(){
 	this.blocked = false;
 
 	this.image = new Image();
-	this.image.src = "images/spritex2.png";
+	this.image.src = "images/sprite3.png";
 
 	this.jumpTime = 0;
 	this.xjumpSpeed = 0;
@@ -311,12 +311,12 @@ Player.prototype.draw = function(ctx) {
 		ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - level.camera.x, this.y - this.height/2 +4 - level.camera.y, 8 * this.dir, 10 );
 	}
 
-	var frame = 4;
+	var frame = 1;
 	if (this.xVel > 0 || this.xVel < 0) {
-
+		this.frameIndex+=Math.abs(this.xVel);
 
 
 	}
-	// ctx.drawImage(this.image, frame*32, 0, 32, 48, this.x - this.width, this.y - this.height/2, this.height, this.height);
+	ctx.drawImage(this.image, frame*16, 2, 20, 24, this.x - this.width - level.camera.x, this.y - this.height/2 +2 - level.camera.y, this.height, this.height);
 	
 };
