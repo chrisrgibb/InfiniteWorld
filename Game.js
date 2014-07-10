@@ -1,7 +1,7 @@
 // main game function
 var Game = function(argument) { };
 
-Game.fps = 50;
+Game.fps = 50; // 50 is fps 
 Game.then = Date.now(); // for fps
 
 /**
@@ -38,10 +38,11 @@ Game.run = function(){
 	requestAnimationFrame(Game.run);
 	var now = Date.now();
 	var elapsed = ( now - Game.then) / 1000;
+	var otherone = 1000 / (now - Game.then);
+	// if(elapsed > Gam)
 	Game.then = Date.now();
 	var fps = 1 / elapsed;
-	// Game.drawFPS(fps);
-
+	Game.drawFPS(fps);
 }
 
 Game.drawFPS = function(text) {

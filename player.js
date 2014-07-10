@@ -32,6 +32,8 @@ function Player(){
 
 	this.xx =0;
 	this.yy = 0;
+
+	this.frameIndex = 0;
 }
 
 
@@ -66,13 +68,16 @@ Player.prototype.move = function(first_argument) {
 		if(!this.jumping && this.canJump){		
 			if(this.onGround){
 				this.canJump = false;
-				this.yVel = -6;
+				this.yVel = -5;
 				this.jumping = true;
 				this.onGround = false;	
+				if(this.xVel > 0){
+					// this.
+				}
 	
 			}
 		} else if(this.jumping && this.yVel < 0 ){ // going up
-			this.yVel -= .33;
+			this.yVel -= .4;
 
 		}
 	}else{
@@ -283,70 +288,12 @@ Player.prototype.moveY = function(dX, dY){
 			// must be falling
 			this.onGround = false;
 			tempY = this.y + dY;
-			// console.log(dY);
 		}
 	}
 
 	return tempY;
 }
 
-
-// function not actually used
-Player.prototype.collisions = function(x, y, dx, dy){
-	var collide = false;
-	var w = (this.width/2) | 0;
-	var h = (this.height/2 ) | 0;
-	var tempX = this.x + dx;
-	var tempY = this.y + dy;
-	if(dx > 0){
-		// going right
-		if(this.isBlocking(this.x + dx + w, this.y + h)){
-			// top
-			collide = true;
-		}else if (this.isBlocking(this.x + dx + w, this.y - h)) {
-			// bottom 
-			collide = true
-		}
-		if(collide){
-			tempX = (((this.x + w) / 32 + 1) | 0 ) * 16  -1;
-		} 
-	}else if(dx < 0){
-		if(this.isBlocking(this.x + dx - w, this.y + h)){
-			collide =true;
-		}else if(this.isBlocking(this.x + dx - w, this.y - h)) {
-			collide =true;
-		}
-		if(collide){
-			tempX = (((this.x - w) / 32) | 0 ) * 32 + w;
-		} 
-	}
-	if(dy > 0){
-		// going down
-		if(this.isBlocking(this.x + w, this.y + dy + h)){
-			collide = true;
-		} else if( this.isBlocking(this.x - w, this.y + dy + h)){
-			collide = true;
-		}
-		if ( collide ) {
-			// tempY = ((this.y - h) / 32) | 0 ) * 32 
-		}
-	}
-}
-
-Player.prototype.isBlocking = function(xx, yy){
-	var x = xx / 32 | 0;
-	var y = yy / 32 | 0;
-	var block = map.isBlocking(x, y);
-	return block==1;
-}
-
-
-Player.prototype.collisionRight = function(){
-	var ax = this.x / 32 | 0;
-	var ay = this.y / 32 | 0;
-	return map.isBlocking(ax, ay)==1;
-
-};
 
 Player.prototype.draw = function(ctx) {
 	// var frame = this.counter  % 4;
@@ -365,6 +312,11 @@ Player.prototype.draw = function(ctx) {
 	}
 
 	var frame = 4;
+	if (this.xVel > 0 || this.xVel < 0) {
+
+
+
+	}
 	// ctx.drawImage(this.image, frame*32, 0, 32, 48, this.x - this.width, this.y - this.height/2, this.height, this.height);
 	
 };
