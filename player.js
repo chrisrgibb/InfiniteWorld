@@ -1,6 +1,6 @@
 function Player(){
 
-	this.x = 5;
+	this.x = 40;
 	this.y = 100;
 	// this.x = 130;
 	// this.y = 534;
@@ -9,7 +9,7 @@ function Player(){
 	this.yVel = 0;
 	this.xVel = 0;
 	this.speed = 2;
-	this.xSpeed = 2;
+	this.xSpeed = 3;
 	this.xspeedIncrease = 0.6;
 	this.gravity = .6;
 	this.friction = .8;
@@ -47,7 +47,7 @@ Player.prototype.move = function(first_argument) {
 		if(this.xVel > -this.xSpeed){
 			this.xVel-=this.xspeedIncrease;;
 		}
-		dX = this.xVel;
+		// dX = this.xVel;
 		// dX-=this.xspeedIncrease;
 	}else if( keys["right"]){
 
@@ -59,7 +59,7 @@ Player.prototype.move = function(first_argument) {
 			// this.xVel ++;
 			this.xVel+=this.xspeedIncrease;
 		}
-		dX = this.xVel;	
+		// dX = this.xVel;	
 		// dX+=this.xspeedIncrease;	
 	}
 	if ( keys["jump"] ){
@@ -72,12 +72,14 @@ Player.prototype.move = function(first_argument) {
 	
 			}
 		} else if(this.jumping && this.yVel < 0 ){ // going up
-			this.yVel -= .30;
+			this.yVel -= .33;
 
 		}
 	}else{
 		this.jumpTime = 0;
 	}
+
+	dX = this.xVel;	
 
 	// var tempX = this.x;
 	var tempY = this.y;
@@ -92,10 +94,12 @@ Player.prototype.move = function(first_argument) {
 	if(dY < -5){
 		dY = -5;
 	}
+	this.xVel *= this.friction;
 
-	if(this.onGround){
-		dX *= .894;
-	}
+	// if(this.onGround){
+	// 	dX *= .54;
+	// 	this.xVel *= this.friction;
+	// }
 	if(dY!=0.6){
 		console.log(dY);
 	}

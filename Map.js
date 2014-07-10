@@ -95,7 +95,7 @@ Map.prototype.createBlocks = function(){
 			var breakable = this.tiles[y][x];
 
 
-			if( breakable==9 || breakable==8 || breakable ==11 ){
+			if( breakable==9 || breakable==8 || breakable ==11 || breakable==10 ){
 				rowArray.push( new Block(x, y, true, null) );
 			} else {
 				rowArray.push( new Block(x, y, false, null ));
