@@ -120,7 +120,8 @@ var LevelRenderer = function(mapp, player) {
 			 getMap : getMap,
 			 screenHeight : this.screenHeight,
 			 screenWidth  : this.screenWidth,
-			 camera : camera
+			 camera : camera,
+			 tileSheet : tileSheet
 			};
 
 };

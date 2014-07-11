@@ -14,11 +14,10 @@ function MoneyBag(x, y, type){
 MoneyBag.prototype = new GameObject();
 
 MoneyBag.prototype.draw = function(camera){
-	var drawX = (this.x) - camera.x;
-	var drawY = (this.y) - camera.y; 
+	var drawX = ( (this.x) - camera.x ) ;
+	var drawY = ( (this.y) - camera.y ) ; 
 
-	ctx.fillStyle = "ffff00";
-	ctx.fillRect(drawX, drawY, 10, 10);	
+	level.tileSheet.drawTile(12, drawX , drawY);
 }
 
 
