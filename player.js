@@ -3,14 +3,14 @@ function Player(){
 	this.x = 40;
 	this.y = 100;
 	// this.x = 130;
-	// this.y = 534;
+	// this.y = 1300;
 	this.width = 10;
 	this.height= 19;
 	this.yVel = 0;
 	this.xVel = 0;
 	this.speed = 2;
 	this.xSpeed = 3;
-	this.xspeedIncrease = 0.6;
+	this.xspeedIncrease = 0.45;
 	this.gravity = .6;
 	this.friction = .8;
 
@@ -30,41 +30,47 @@ function Player(){
 	this.xjumpSpeed = 0;
 	this.yjumpSpeed= 0;
 
+	this.punchTime = 0;
+	this.canPunch = true;
+
 	this.xx =0;
 	this.yy = 0;
 
 	this.frameIndex = 0;
+	this.counter =0;
 }
 
 
 Player.prototype.move = function(first_argument) {
+
 	var dX = 0, dY = 0;
 
 	if(this.left){
 		if(this.xVel > 0){
 			this.xVel = 0;
-			this.dir = -1;
+
 		}
+		this.dir = -1;
 
 		if(this.xVel > -this.xSpeed){
 			this.xVel-=this.xspeedIncrease;;
 		}
-		// dX = this.xVel;
-		// dX-=this.xspeedIncrease;
+
+
+		this.counter ++;
 	}else if( keys["right"]){
 
 		if(this.xVel< 0){
 			this.xVel = 0;
-			this.dir = 1;
 		}
+		this.dir = 1;
 		if(this.xVel < this.xSpeed){
-			// this.xVel ++;
 			this.xVel+=this.xspeedIncrease;
 		}
-		// dX = this.xVel;	
-		// dX+=this.xspeedIncrease;	
+		this.counter ++;
 	}
 	if ( keys["jump"] ){
+			
 		if(!this.jumping && this.canJump){		
 			if(this.onGround){
 				this.canJump = false;
@@ -80,11 +86,27 @@ Player.prototype.move = function(first_argument) {
 			this.yVel -= .4;
 
 		}
+		// if(!this.jumping && this.canJump){	
+		// 	this.jumpTime = 7;
+		// 	this.yjumpSpeed = -.9;
+		// 	this.canJump = false;
+
+		// 	this.yVel = this.jumpTime * this.yjumpSpeed;
+		// 	this.onGround = false;
+		// 	this.jumping = true;
+		// }  else if(this.jumping && this.yVel < 0 ){
+		// 	this.yVel = this.jumpTime * this.yjumpSpeed;
+		// 	this.jumpTime--;
+
+		// }
+
+
 	}else{
 		this.jumpTime = 0;
 	}
-	if( Math.abs(this.xVel) < 0.5){
-		// this.xVel = 0;
+	if( Math.abs(this.xVel) < 0.1){
+		console.log(this.xVel);
+		this.xVel = 0;
 	}
 
 	dX = this.xVel;	
@@ -110,29 +132,26 @@ Player.prototype.move = function(first_argument) {
 	// 	this.xVel *= this.friction;
 	// }
 	if(dY!=0.6){
-		console.log(dY);
+		// console.log(dY);
 	}
-
-	// this.yy = dY;
-	// this.xx = dX;
-
-	// var tempX = this.moveX(this.xx, this.yy);
-	// var tempY = this.moveY(this.xx, this.yy);
+	this.counter++;
 
 
-	// this.x = tempX;
-	// this.y = tempY;
 
 
 	this.x = this.moveX(dX, dY);
 	this.y = this.moveY(dX, dY);
 
-	if(!keys["down"] && keys["punch"]){
+	if(!keys["down"] && keys["punch"] && this.punchTime==0 && this.canPunch){
 		this.punchDetection();
-		// this.height = this.height/2;
+		this.punchTime = 8;
+		this.canPunch = false;
 	}else{
-		// this.height = this.height * 2;
-		// this.height = 19;
+		if(this.punchTime > 0){
+			this.punchTime--;
+		}else if(!keys["punch"]){
+			this.canPunch = true;
+		}
 	}
 
 
@@ -157,8 +176,6 @@ Player.prototype.punchDetection = function(){
 	var tile = map.getTile(punchX, this.y/ 16 | 0);
 
 	map.punchTile(punchX, this.y/ 16 | 0);
-	// console.log(tile);
-
 
 
 }
@@ -311,9 +328,7 @@ Player.prototype.draw = function(ctx) {
 		ctx.fillRect(this.x - this.width/2- level.camera.x, this.y - this.height/2 - (level.camera.y  ) , this.width, this.height);
 	}
 	// draw rectangle shape of fist of doom
-	if(keys["punch"]){
-		ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - level.camera.x, this.y - this.height/2 +4 - level.camera.y, 8 * this.dir, 10 );
-	}
+
 
 	var frame = 1;
 	if ( this.dir==1){
@@ -324,10 +339,30 @@ Player.prototype.draw = function(ctx) {
 
 
 	if (this.xVel > 0 || this.xVel < 0) {
-		this.frameIndex+=Math.abs(this.xVel);
+		this.frameIndex = this.counter %4;
 		// frame = (this.frameIndex/4 | 0)  % 4;
-
+		// frame = this.frameindex;
 	}
-	ctx.drawImage(this.image, frame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
-	
+	if(this.punchTime>0){
+		ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - level.camera.x, this.y - this.height/2 +4 - level.camera.y, 8 * this.dir, 10 );
+		var punchFrame = 112;
+		if(this.dir==-1){
+			punchFrame = 136;
+			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - level.camera.x -4, this.y - this.height/2  - level.camera.y - 4, 24, 24);
+
+		}else{
+			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - level.camera.x +2, this.y - this.height/2  - level.camera.y - 4, 24, 24);
+		}
+
+	} else if(this.jumping || this.yVel > 0){
+		ctx.drawImage(this.image, 6*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+
+	} else if( Math.abs(this.xVel) >0){
+		var drawFrame = (COUNTER % 2)+2;
+		ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+
+	} else{
+
+		ctx.drawImage(this.image, frame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+	}
 };

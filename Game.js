@@ -22,6 +22,10 @@ Game.draw = function(){
 
 
 Game.update = function(){
+	COUNTER++;
+	if(COUNTER>16){
+		COUNTER=0;
+	}
 	if(player){
 		player.move();
 	} 	
@@ -42,7 +46,7 @@ Game.run = function(){
 	// if(elapsed > Gam)
 	Game.then = Date.now();
 	var fps = 1 / elapsed;
-	Game.drawFPS(fps);
+	Game.drawFPS(COUNTER);
 }
 
 Game.drawFPS = function(text) {

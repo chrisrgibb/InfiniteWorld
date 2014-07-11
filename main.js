@@ -7,6 +7,7 @@ var canvas,
 	level,
 	map;
 	var scale = 2;
+	var COUNTER = 0;
 
 (function() {
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
