@@ -26,6 +26,7 @@ function init(){
 	ctx.scale(scale, scale);
 	player = new Player();
 	level = new LevelRenderer(map, player);
+	initEnemies();
 	game = Game();
 	player.draw(ctx);
 	Game.run();

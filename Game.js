@@ -23,7 +23,7 @@ Game.draw = function(){
 
 Game.update = function(){
 	COUNTER++;
-	if(COUNTER>16){
+	if(COUNTER>23){
 		COUNTER=0;
 	}
 	if(player){

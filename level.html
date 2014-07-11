@@ -82,7 +82,10 @@
 				} else if (tiles[row][col]==8){
 					ctx.fillStyle ="#ffff00";
 					ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-				}
+				} else if(tiles[row][col]!=0){
+          ctx.fillStyle ="#ffff00";
+          ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+        }
 				
 
 			}

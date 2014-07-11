@@ -56,8 +56,6 @@ Player.prototype.move = function(first_argument) {
 			this.xVel-=this.xspeedIncrease;;
 		}
 
-
-		this.counter ++;
 	}else if( keys["right"]){
 
 		if(this.xVel< 0){
@@ -67,7 +65,6 @@ Player.prototype.move = function(first_argument) {
 		if(this.xVel < this.xSpeed){
 			this.xVel+=this.xspeedIncrease;
 		}
-		this.counter ++;
 	}
 	if ( keys["jump"] ){
 			
@@ -105,11 +102,17 @@ Player.prototype.move = function(first_argument) {
 		this.jumpTime = 0;
 	}
 	if( Math.abs(this.xVel) < 0.1){
-		console.log(this.xVel);
+		// console.log(this.xVel);
 		this.xVel = 0;
 	}
 
 	dX = this.xVel;	
+	if(COUNTER % 6 ==0){
+		this.counter++;
+		if(this.counter > 3){
+			this.counter =0 ;
+		}
+	} 
 
 
 	// var tempX = this.x;
@@ -127,16 +130,9 @@ Player.prototype.move = function(first_argument) {
 	}
 	this.xVel *= this.friction;
 
-	// if(this.onGround){
-	// 	dX *= .54;
-	// 	this.xVel *= this.friction;
-	// }
 	if(dY!=0.6){
 		// console.log(dY);
 	}
-	this.counter++;
-
-
 
 
 	this.x = this.moveX(dX, dY);
@@ -336,13 +332,9 @@ Player.prototype.draw = function(ctx) {
 	}else {
 		frame = 0;
 	}
-
-
-	if (this.xVel > 0 || this.xVel < 0) {
-		this.frameIndex = this.counter %4;
-		// frame = (this.frameIndex/4 | 0)  % 4;
-		// frame = this.frameindex;
-	}
+	/**
+	 * Punchgin
+	 */ 
 	if(this.punchTime>0){
 		ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - level.camera.x, this.y - this.height/2 +4 - level.camera.y, 8 * this.dir, 10 );
 		var punchFrame = 112;
@@ -354,15 +346,37 @@ Player.prototype.draw = function(ctx) {
 			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - level.camera.x +2, this.y - this.height/2  - level.camera.y - 4, 24, 24);
 		}
 
-	} else if(this.jumping || this.yVel > 0){
+	} 
+	/**
+	 * Jumping
+	 */
+	else if(this.jumping || this.yVel > 0){
 		ctx.drawImage(this.image, 6*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
 
-	} else if( Math.abs(this.xVel) >0){
-		var drawFrame = (COUNTER % 2)+2;
-		ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
-
+	} 
+	/**
+	 * walgking
+	 */
+	else if( Math.abs(this.xVel) >0){
+		// var drawFrame = this.counter + 2;
+		// ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+		this.drawWalking();
 	} else{
-
+	/**
+   	 *	standing still
+ 	 */	
 		ctx.drawImage(this.image, frame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
 	}
 };
+
+Player.prototype.drawWalking = function(){
+	if(this.dir==1){
+		var drawFrame = this.counter + 2;
+		ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+	}else{
+		var drawFrame = this.counter + 10;
+		ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+
+	}
+
+}
