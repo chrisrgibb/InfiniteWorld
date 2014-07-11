@@ -16,7 +16,6 @@ MoneyBag.prototype = new GameObject();
 MoneyBag.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) ;
 	var drawY = ( (this.y) - camera.y ) ; 
-
 	level.tileSheet.drawTile(12, drawX , drawY);
 }
 
