@@ -165,11 +165,9 @@ Player.prototype.move = function(first_argument) {
 	}
 }
 
-Player.prototype.punchDetection = function(){
-	//ctx.fillRect(this.x + ( this.width/2 * this.dir  ), this.y - this.height/2 +4, 8 * this.dir, 10 );
-	
+Player.prototype.punchDetection = function(){	
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
-	var tile = map.getTile(punchX, this.y/ 16 | 0);
+	// var tile = map.getTile(punchX, this.y/ 16 | 0); // not needed
 
 	map.punchTile(punchX, this.y/ 16 | 0);
 
@@ -311,6 +309,12 @@ Player.prototype.moveY = function(dX, dY){
 	return tempY;
 }
 
+Player.prototype.coords = function(){
+	var str = "x :" + (this.x /16 | 0);
+	str += " y : " + (this.y / 16 | 0);
+	return str;
+	// return "x : " + this.x / 16 | 0 + " y : " + this.y / 16 | 0; 
+}
 
 Player.prototype.draw = function(ctx) {
 	// var frame = this.counter  % 4;

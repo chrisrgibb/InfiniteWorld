@@ -63,10 +63,6 @@ LevelGenerator.prototype.createGap = function(tiles){
 LevelGenerator.prototype.addClouds = function(tiles){
 	var numberOfClouds = randomInt(10)+1;
 
-
-
-
-
 }
 
 LevelGenerator.prototype.randomInt = function(size){

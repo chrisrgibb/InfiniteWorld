@@ -6,7 +6,7 @@ var Enemy = function(x, y){
 	this.height = 16;
 	this.dir = -1;
 	this.speed = .3;
-	this.blcok = false;
+	this.block = false;
 	this.color = "green";
 	// this.color = 
 }
@@ -18,7 +18,6 @@ Enemy.prototype.move = function(first_argument) {
 		if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )){
 			this.dir *= -1;
 			this.blcok = true;
-
 		}
 	} else if(dX > 0){
 		if(map.isBlocking( (this.x + this.width + dX ) / 16 | 0, this.y  / 16 | 0)){
@@ -63,7 +62,7 @@ function isEnemyOnScreen(camera, enemy){
 
 
 function Scorpion(x, y){
-	Enemy.call(this);
+	// Enemy.call(this);
 	this.color = 'red';
 	this.x = x * 16;
 	this.y = y * 16 + 2;
@@ -73,7 +72,7 @@ function Scorpion(x, y){
 
 	while(g){
 
-		if(map.getTile(this.x /16 | 0 , (this.y / 16 | 0)+1 )==0){
+		if(!map.isBlocking((this.x) / 16 | 0,   (this.y / 16 | 0 )+1       )){
 			this.y += 16;
 		}else{
 			g = false;
@@ -81,10 +80,7 @@ function Scorpion(x, y){
 	}
 }
 
-
 Scorpion.prototype = new Enemy();
-
-
 
 Scorpion.prototype.move = function(){
 	
@@ -92,35 +88,27 @@ Scorpion.prototype.move = function(){
 	if(dX < 0){
 		if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )/* or if scorpion is about to fall off block */ ){
 			this.dir *= -1;
-			this.blcok = true;
+			this.block = true;
 
 		}
-		var tile = map.getTile((this.x + dX) / 16 | 0,   (this.y / 16 | 0 )+1  );
-		console.log(tile);
-		if(tile==0){
+		// stop the scorpion from going off edge of block		
+		if( !map.isBlocking((this.x + dX) / 16 | 0,   (this.y / 16 | 0 )+1       )	){
 			this.dir = 1
 		}
-		// if(!map.isBlocking( (this.x + dX) / 16 | 0, (this.y / 16 | 0 )+1   ) ){
-		// 	alert("eeks!!");
-		// }
+
 
 
 	} else if(dX > 0){
 		if(map.isBlocking( (this.x + this.width + dX ) / 16 | 0, this.y  / 16 | 0)){
 			this.dir *= -1;
 		}
-		var tile = map.getTile((this.x + dX + this.width) / 16 | 0,   (this.y / 16 | 0 )+1  );
-		if(tile==0){
+			// stop the scorpion from going off edge of block
+		if( !map.isBlocking((this.x + dX + this.width) / 16 | 0,   (this.y / 16 | 0 )+1       )	){
 			this.dir = -1
 		}
-		console.log(tile);
 	}
 	this.x += dX;
-
-
-
-
-
+	// stop goind off edge of screen
 	if(this.x < 0 ){
 		this.dir *= -1;
 		this.x = 2;

@@ -4,7 +4,6 @@ var LevelRenderer = function(mapp, player) {
 	this.tileMap = [];
 	var camera = new Camera();
 	this.player = player;
-	var oldTile;
 	// height of screen = 12 * 16
 
 	// draws the level and stores the level
@@ -23,21 +22,23 @@ var LevelRenderer = function(mapp, player) {
 	function mapWidth(){
 		return map.getWidth();
 	}
+
 	function mapHeight(){
 		return map.getHeight();
 	}
 
 	function getTile(x, y){
-		// if(map[y]===undefined){ // in case block goes out of array bounds
-		// 	return 1;
-		// }
 		if(y > map.getHeight()-1){
 			return 1;
 		}
-		else return map.getTile(x, y);
+		else 
+			return map.getTile(x, y);
 	}
 
 	function draw(){
+		/**
+			main drawing function
+		*/
 		var startTileX = camera.x / 16 | 0;
 		var startTileY = camera.y / 16 | 0;
 
@@ -48,13 +49,11 @@ var LevelRenderer = function(mapp, player) {
 			// console.log("over 0 = " +  startTileY);
 		}
 
-		if(startTileY!=oldTile){
-			oldTile = startTileY;
-		}
 		
 		for(var row = startTileY; row < map.getHeight(); row++ ){
 			for(var col = startTileX; col < map.getWidth(); col++){
-				// if(map[row][col]==1){
+
+
 				var y = ( row * tileSize ) - camera.y ; ///16 |0;
 				var x = (col * tileSize) - camera.x;
 				ctx.fillStyle = "#0000ff";
@@ -65,9 +64,16 @@ var LevelRenderer = function(mapp, player) {
 					tileSheet.drawTile(val, x, y);
 				} 
 					
-
 			}
 		}
+		var gameObjects = map.getObjects();
+		for(var i = 0; i < gameObjects.length; i++){
+			if(isEnemyOnScreen(this.camera, gameObjects[i] )) {
+				gameObjects[i].draw(camera);
+			}
+		}
+
+
 		// highLightTiles();
 		for(var i = 0; i< enemys.length; i++){
 			if( isEnemyOnScreen(this.camera, enemys[i]) ){

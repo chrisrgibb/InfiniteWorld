@@ -1,18 +1,13 @@
-var Block = function(x, y, breakable, imagePath){
+var Block = function(x, y, breakable, image){
 	this.x = x;
 	this.y = y;
 	this.breakable = breakable;
-	if(!imagePath){
-
-	}else {
-		this.image = new Image();
-		this.image.src = imagePath;
-	}
+	this.image = image;
 };
 
-
-function softBlock(x, y, breakable){
+function softBlock(x, y, breakable, image){
 	this.x = x;
 	this.y = y;
 	this.breakable = breakable;
+	this.image = image;
 }
