@@ -154,7 +154,8 @@ Player.prototype.punchDetection = function(){
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 
 
-	map.punchTile(punchX, this.y/ 16 | 0);
+	// map.punchTile(punchX, this.y/ 16 | 0);
+	levelState.punchTile(punchX, this.y/ 16 | 0);
 
 }
 
@@ -263,7 +264,6 @@ Player.prototype.moveY = function(dX, dY){
 	else {
 		var ay = (this.y +(this.height/2) + dY) / 16 | 0;
 
-		
 		var left = (this.x - (this.width/2)  +1 )     /16  | 0;
 		var right = (this.x + (this.width/2) - 1 ) /16   | 0;
 

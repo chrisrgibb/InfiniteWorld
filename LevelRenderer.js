@@ -67,21 +67,21 @@ var LevelRenderer = function(mapp, player) {
 					
 			}
 		}
-		var gameObjects = map.getObjects();
-		for(var i = 0; i < gameObjects.length; i++){
-			if(isEnemyOnScreen(this.camera, gameObjects[i] )) {
-				gameObjects[i].draw(camera);
-			}
-		}
+		// var gameObjects = map.getObjects();
+		// for(var i = 0; i < gameObjects.length; i++){
+		// 	if(isEnemyOnScreen(this.camera, gameObjects[i] )) {
+		// 		gameObjects[i].draw(camera);
+		// 	}
+		// }
 
 
 		// highLightTiles();
-		for(var i = 0; i< enemys.length; i++){
-			if( isEnemyOnScreen(this.camera, enemys[i]) ){
-				enemys[i].move();
-				enemys[i].draw(camera);
-			}
-		}
+		// for(var i = 0; i< enemys.length; i++){
+		// 	if( isEnemyOnScreen(this.camera, enemys[i]) ){
+		// 		enemys[i].move();
+		// 		enemys[i].draw(camera);
+		// 	}
+		// }
 		camera.update();
 	}
 

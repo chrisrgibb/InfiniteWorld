@@ -17,6 +17,7 @@ function initEnemies(){
 	enemys.push(new Enemy(8, 50));
 
 	enemys.push(new Scorpion( 4,4) ) ;
+	enemys.push(new Enemy(4, 81));
 
 }
 

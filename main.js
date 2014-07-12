@@ -5,7 +5,8 @@ var canvas,
 	player,
 	game,
 	level,
-	map;
+	map,
+	levelState;
 	var scale = 2;
 	var COUNTER = 0;
 
@@ -21,12 +22,20 @@ function init(){
 	WIDTH = canvas.width;
 	HEIGHT = canvas.height;
 
-	map = new Map();
+	levelState = new LevelState();
+	levelState.init();
 
 	ctx.scale(scale, scale);
 	player = new Player();
+	// level = new LevelRenderer(map, player);
+
+	
+	map = levelState.map;
 	level = new LevelRenderer(map, player);
-	initEnemies();
+	// initEnemies();
+
+
+
 	game = Game();
 	player.draw(ctx);
 	Game.run();

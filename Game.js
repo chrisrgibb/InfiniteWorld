@@ -14,9 +14,11 @@ Game.draw = function(){
 	if(level){
 		level.draw();
 	}
+	levelState.draw();
 	if(player){
 		player.draw(ctx); 
 	}
+
 	// Game.drawFPS();
 }
 
@@ -26,11 +28,10 @@ Game.update = function(){
 	if(COUNTER>23){
 		COUNTER=0;
 	}
+	levelState.update();
 	if(player){
 		player.move();
 	} 	
-	// for()
-	// enemys[0].move();
 
 }
 /*

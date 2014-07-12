@@ -8,7 +8,7 @@ var Enemy = function(x, y){
 	this.speed = .3;
 	this.block = false;
 	this.color = "green";
-	// this.color = 
+
 }
 
 
@@ -51,10 +51,8 @@ function isEnemyOnScreen(camera, enemy){
 
 	if(eX > camera.x && eX <  xWidth){
 		if(eY > camera.y && eY < cameraHeight ){
-			
 			return true;
 		}
-		
 	}
 
 	return false;
@@ -70,9 +68,10 @@ function Scorpion(x, y){
 	this.height = 14;
 	var g = true;
 
+	// gets moved down vertically until it reaches ground
 	while(g){
 
-		if(!map.isBlocking((this.x) / 16 | 0,   (this.y / 16 | 0 )+1       )){
+		if(!levelState.map.isBlocking( (this.x) / 16 | 0,  (this.y / 16 | 0 )   +1  )){
 			this.y += 16;
 		}else{
 			g = false;
@@ -95,8 +94,6 @@ Scorpion.prototype.move = function(){
 		if( !map.isBlocking((this.x + dX) / 16 | 0,   (this.y / 16 | 0 )+1       )	){
 			this.dir = 1
 		}
-
-
 
 	} else if(dX > 0){
 		if(map.isBlocking( (this.x + this.width + dX ) / 16 | 0, this.y  / 16 | 0)){
