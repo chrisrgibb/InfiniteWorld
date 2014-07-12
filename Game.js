@@ -14,7 +14,7 @@ Game.draw = function(){
 	if(level){
 		level.draw();
 	}
-	levelState.draw();
+	// levelState.draw();
 	if(player){
 		player.draw(ctx); 
 	}

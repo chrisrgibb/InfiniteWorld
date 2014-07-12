@@ -29,12 +29,9 @@ function init(){
 	player = new Player();
 	// level = new LevelRenderer(map, player);
 
-	
+
 	map = levelState.map;
 	level = new LevelRenderer(map, player);
-	// initEnemies();
-
-
 
 	game = Game();
 	player.draw(ctx);

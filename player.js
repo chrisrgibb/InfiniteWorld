@@ -137,8 +137,11 @@ Player.prototype.move = function(first_argument) {
 
 
 	// check left of screen
-	if(this.x-(this.width/2) < 0){
-		this.x = 0 + (this.width/2);
+	// if(this.x-(this.width/2) < 0){
+	// 	this.x = 0 + (this.width/2);
+	// }
+	if(this.x-(this.width/2) < level.camera.x){
+		this.x = level.camera.x + (this.width/2);
 	}
 	// check right of screen
 	if(this.x+(this.width/2) > level.mapWidth()*16){

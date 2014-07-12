@@ -62,22 +62,19 @@ LevelState.prototype.update = function(){
 			enemys[i].move();
 		}
 	}
-
-
 };
 
-LevelState.prototype.draw = function(){
-	var enemys = this.enemys;
-	for(var i = 0; i< enemys.length; i++){
-		if( isEnemyOnScreen(level.camera, enemys[i]) ){
-			// enemys[i].move();
-			enemys[i].draw(level.camera);
-		}
-	}
-	var gameObjects = this.objects;
-	for(var i = 0; i < gameObjects.length; i++){
-		if(isEnemyOnScreen(level.camera, gameObjects[i] )) {
-			gameObjects[i].draw(level.camera);
-		}
-	}
-}
+// LevelState.prototype.draw = function(){
+// 	var enemys = this.enemys;
+// 	for(var i = 0; i< enemys.length; i++){
+// 		if( isEnemyOnScreen(level.camera, enemys[i]) ){
+// 			enemys[i].draw(level.camera);
+// 		}
+// 	}
+// 	var gameObjects = this.objects;
+// 	for(var i = 0; i < gameObjects.length; i++){
+// 		if(isEnemyOnScreen(level.camera, gameObjects[i] )) {
+// 			gameObjects[i].draw(level.camera);
+// 		}
+// 	}
+// }
