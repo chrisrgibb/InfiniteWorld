@@ -100,10 +100,6 @@ Player.prototype.move = function(first_argument) {
 	} 
 
 
-	// var tempX = this.x;
-	var tempY = this.y;
-	var tempX = this.x;
-
 
 	this.yVel += this.gravity;	
 	dY = this.yVel;
@@ -120,21 +116,28 @@ Player.prototype.move = function(first_argument) {
 	}
 
 
-	this.x = this.moveX(dX, dY);
-	this.y = this.moveY(dX, dY);
+
 
 	if(!keys["down"] && keys["punch"] && this.punchTime==0 && this.canPunch){
 		this.punchDetection();
 		this.punchTime = 8;
 		this.canPunch = false;
+		if(this.onGround){
+			dX = 0;
+		}
 	}else{
 		if(this.punchTime > 0){
 			this.punchTime--;
+			if(this.onGround){
+				dX = 0;
+			}
 		}else if(!keys["punch"]){
 			this.canPunch = true;
 		}
 	}
 
+	this.x = this.moveX(dX, dY);
+	this.y = this.moveY(dX, dY);
 
 	// check left of screen
 	// if(this.x-(this.width/2) < 0){
@@ -156,8 +159,6 @@ Player.prototype.move = function(first_argument) {
 Player.prototype.punchDetection = function(){	
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 
-
-	// map.punchTile(punchX, this.y/ 16 | 0);
 	levelState.punchTile(punchX, this.y/ 16 | 0);
 
 }

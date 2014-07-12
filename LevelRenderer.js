@@ -74,6 +74,12 @@ var LevelRenderer = function(mapp, player) {
 			}
 		}
 
+		gameObjects = levelState.onScreenObjects;
+		for(var i = 0; i< gameObjects.length; i++){
+			if(isEnemyOnScreen(this.camera, gameObjects[i] )) {
+				gameObjects[i].draw(camera);
+			}
+		}
 
 		// highLightTiles();
 		var enemys = levelState.enemys;

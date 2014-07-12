@@ -114,16 +114,11 @@ var Map = function(){
 
 	];
 
-	// this.objects = [new MoneyBag(7, 45), 
-	// 			    new MoneyBag(2, 48),
-	// 			    new MoneyBag(8, 62),
-	// 			    new MoneyBag(2, 78),
-	// 			    new MoneyBag(2, 79)
-	// 			    ];
 
-	var lg = new LevelGenerator();
 
-	this.tiles = lg.createLevel();
+	// var lg = new LevelGenerator();
+
+	// this.tiles = lg.createLevel();
 
 
 
@@ -155,38 +150,16 @@ Map.prototype.createBlocks = function(){
 		for(var x = 0; x < this.getWidth(); x++){
 			var breakable = this.tiles[y][x];
 
-
 			if( breakable==9 || breakable==8 || breakable ==11 || breakable==10 ){
 				rowArray.push( new Block(x, y, true, breakable) );
 			} else {
 				rowArray.push( new Block(x, y, false, breakable ));
 			}
-
 		}
 		array.push(rowArray);
 	}
 	return array;
 }
-
-// Map.prototype.punchTile = function(x, y){
-// 	if(x > this.blocks[0].length-1){
-// 		return;
-// 	}
-
-// 	if ( this.blocks[y][x].breakable ){
-// 		// alert("pow!");
-// 		if(this.tiles[y][x]==9){
-// 			this.objects.push(new MoneyBag(x, y))
-// 		}
-// 		this.blocks[y][x] = new Block(x, y, false, null );	
-// 		this.tiles[y][x] =0;	
-// 	}
-
-// 	if(this.tiles[y][x]==2){
-// 		this.tiles[y][x] =0;
-// 	}
-	
-// }
 	
 Map.prototype.getTile = function(x, y){
 	return this.tiles[y][x];

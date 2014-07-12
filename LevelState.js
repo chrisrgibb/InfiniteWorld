@@ -3,6 +3,10 @@ var LevelState = function(){
 	this.enemys = [];
 	this.map = null;
 	this.objects = [];
+	
+	this.onScreenObjects = [];
+
+	this.objectsToRemove = [];
 
 };
 
@@ -34,6 +38,12 @@ LevelState.prototype.init = function() {
 
 };
 
+LevelState.prototype.gameObject = function(x, y){
+
+
+
+}
+
 LevelState.prototype.punchTile = function(x, y){
 
 	if(x > this.map.blocks[0].length-1){
@@ -43,8 +53,15 @@ LevelState.prototype.punchTile = function(x, y){
 	if ( this.map.blocks[y][x].breakable ){
 		// alert("pow!");
 		if(this.map.tiles[y][x]==9){
-			this.objects.push(new MoneyBag(x, y))
+			this.onScreenObjects.push(new MoneyBag(x, y, true));
+			if(this.onScreenObjects.length > 2){
+				this.objectsToRemove.push(this.onScreenObjects[0]);
+			}
+		
+		} else if(this.map.tiles[y][x]==8){
+			// alert("ring");
 		}
+
 		this.map.blocks[y][x] = new Block(x, y, false, null );	
 		this.map.tiles[y][x] =0;	
 	}
@@ -57,24 +74,30 @@ LevelState.prototype.punchTile = function(x, y){
 
 LevelState.prototype.update = function(){
 	var enemys = this.enemys;
+	// var objectsToRemove = [];
 	for(var i = 0; i< enemys.length; i++){
 		if( isEnemyOnScreen(level.camera, enemys[i]) ){
 			enemys[i].move();
 		}
 	}
+	for(var i = 0; i < this.onScreenObjects.length; i++){
+		this.onScreenObjects[i].timer++;
+		if(this.onScreenObjects[i].timer > 100){
+			this.objectsToRemove.push(this.onScreenObjects[i]);
+		}
+	}
+
+	for(var i = 0, len = this.objectsToRemove.length; i < len; i++){
+		var index = this.onScreenObjects.indexOf(this.objectsToRemove[i]);
+		console.log(index);
+		if(index!=-1){
+			this.onScreenObjects.splice(index, 1);
+			this.objectsToRemove.splice(i, 1);
+		}
+
+
+	}
+
 };
 
-// LevelState.prototype.draw = function(){
-// 	var enemys = this.enemys;
-// 	for(var i = 0; i< enemys.length; i++){
-// 		if( isEnemyOnScreen(level.camera, enemys[i]) ){
-// 			enemys[i].draw(level.camera);
-// 		}
-// 	}
-// 	var gameObjects = this.objects;
-// 	for(var i = 0; i < gameObjects.length; i++){
-// 		if(isEnemyOnScreen(level.camera, gameObjects[i] )) {
-// 			gameObjects[i].draw(level.camera);
-// 		}
-// 	}
-// }
+// 
