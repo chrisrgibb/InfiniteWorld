@@ -17,7 +17,6 @@ LevelState.prototype.init = function() {
 	this.enemys.push(new Enemy(4, 19));
 
 	this.enemys.push(new Enemy(8, 26));
-
 	this.enemys.push(new Enemy(4, 34));
 
 	this.enemys.push(new Enemy(8, 37));
@@ -39,10 +38,10 @@ LevelState.prototype.init = function() {
 };
 
 LevelState.prototype.gameObject = function(x, y){
-
-
+	
 
 }
+
 
 LevelState.prototype.punchTile = function(x, y){
 
@@ -74,29 +73,38 @@ LevelState.prototype.punchTile = function(x, y){
 
 LevelState.prototype.update = function(){
 	var enemys = this.enemys;
+	var removeEnemys = [];
 	// var objectsToRemove = [];
 	for(var i = 0; i< enemys.length; i++){
 		if( isEnemyOnScreen(level.camera, enemys[i]) ){
 			enemys[i].move();
+		}	else {
+			// removeEnemys.push(enemys[i]);
 		}
 	}
 	for(var i = 0; i < this.onScreenObjects.length; i++){
 		this.onScreenObjects[i].timer++;
-		if(this.onScreenObjects[i].timer > 100){
+		if(this.onScreenObjects[i].timer > 150){
 			this.objectsToRemove.push(this.onScreenObjects[i]);
 		}
 	}
-
+	// remove static objects
 	for(var i = 0, len = this.objectsToRemove.length; i < len; i++){
 		var index = this.onScreenObjects.indexOf(this.objectsToRemove[i]);
-		console.log(index);
 		if(index!=-1){
 			this.onScreenObjects.splice(index, 1);
 			this.objectsToRemove.splice(i, 1);
 		}
-
-
 	}
+	// remove enemies
+	for(var i = 0, len = removeEnemys.length; i < len; i++){
+		var index = enemys.indexOf(removeEnemys[i]);
+		if(index!=-1){
+			enemys.splice(index, 1);
+			removeEnemys.splice(i, 1);
+		}
+	}
+
 
 };
 

@@ -28,7 +28,6 @@ function MoneyBag(x, y, tilenumber){
 	} else {
 		this.tilenumber = 13;
 	}
-
 }
 
 MoneyBag.prototype = new GameObject();

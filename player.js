@@ -139,6 +139,10 @@ Player.prototype.move = function(first_argument) {
 	this.x = this.moveX(dX, dY);
 	this.y = this.moveY(dX, dY);
 
+	if(levelState.gameObject(this.x, this.y) ) {
+		
+	}
+
 	// check left of screen
 	// if(this.x-(this.width/2) < 0){
 	// 	this.x = 0 + (this.width/2);
