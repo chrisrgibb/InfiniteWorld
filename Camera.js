@@ -8,21 +8,16 @@ function Camera(){
 
 
 Camera.prototype.update = function(){
-
-		// console.log(this.x - player.x);
-		// console.log(this.y - player.y);
+	// can't go backwards
 	var newY = player.y - level.screenHeight/2 | 0;
 	if(newY > this.y){
 		this.y = newY;
 	}
+	var newX = player.x - level.screenWidth/2 | 0;
+	if(newX > this.x){
+		this.x = newX;
+	}
 	
-	this.x = player.x - level.screenWidth /2 | 0;
-	// this.minY = this.y;
-
-	// if(this.y > this.minY){
-	// 	this.minY = this.y;
-	// }
-
 
 	if(this.y < 0 ){
 		this.y = 0;

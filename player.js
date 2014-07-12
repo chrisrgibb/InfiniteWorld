@@ -83,21 +83,6 @@ Player.prototype.move = function(first_argument) {
 			this.yVel -= .4;
 
 		}
-		// if(!this.jumping && this.canJump){	
-		// 	this.jumpTime = 7;
-		// 	this.yjumpSpeed = -.9;
-		// 	this.canJump = false;
-
-		// 	this.yVel = this.jumpTime * this.yjumpSpeed;
-		// 	this.onGround = false;
-		// 	this.jumping = true;
-		// }  else if(this.jumping && this.yVel < 0 ){
-		// 	this.yVel = this.jumpTime * this.yjumpSpeed;
-		// 	this.jumpTime--;
-
-		// }
-
-
 	}else{
 		this.jumpTime = 0;
 	}
@@ -167,10 +152,9 @@ Player.prototype.move = function(first_argument) {
 
 Player.prototype.punchDetection = function(){	
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
-	// var tile = map.getTile(punchX, this.y/ 16 | 0); // not needed
+
 
 	map.punchTile(punchX, this.y/ 16 | 0);
-
 
 }
 
@@ -203,6 +187,9 @@ Player.prototype.moveX = function(dX, dY){
 			tempX = (ax * 16) - (this.width/2);
 			// this.xVel = 0;
 			this.xx = 0;
+			if(!this.onGround){
+				this.xVel = 0;
+			}
 			
 		}else{
 			tempX =this.x +dX;
@@ -229,6 +216,9 @@ Player.prototype.moveX = function(dX, dY){
 		if(tileX1 || tileX2 ){ 
 			tempX = ( (ax+1) * 16) + (this.width/2) ; // 
 			this.xx = 0;
+			if(!this.onGround){
+				this.xVel = 0;
+			}
 		}else { 
 			tempX = this.x + dX;
 		}
@@ -313,13 +303,9 @@ Player.prototype.coords = function(){
 	var str = "x :" + (this.x /16 | 0);
 	str += " y : " + (this.y / 16 | 0);
 	return str;
-	// return "x : " + this.x / 16 | 0 + " y : " + this.y / 16 | 0; 
 }
 
 Player.prototype.draw = function(ctx) {
-	// var frame = this.counter  % 4;
-	// var frame = this.frameIndex % 4 ;
-
 
 	ctx.fillStyle = "red";
 	if(keys["down"]){
@@ -328,7 +314,6 @@ Player.prototype.draw = function(ctx) {
 		ctx.fillRect(this.x - this.width/2- level.camera.x, this.y - this.height/2 - (level.camera.y  ) , this.width, this.height);
 	}
 	// draw rectangle shape of fist of doom
-
 
 	var frame = 1;
 	if ( this.dir==1){
@@ -349,23 +334,19 @@ Player.prototype.draw = function(ctx) {
 		}else{
 			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - level.camera.x +2, this.y - this.height/2  - level.camera.y - 4, 24, 24);
 		}
-
 	} 
 	/**
 	 * Jumping
 	 */
 	else if(this.jumping || this.yVel > 0){
 		ctx.drawImage(this.image, 6*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
-
 	} 
 	/**
-	 * walgking
+	 * walking
 	 */
-	else if( Math.abs(this.xVel) >0){
-		// var drawFrame = this.counter + 2;
-		// ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+	else if( Math.abs(this.xVel) >0) {
 		this.drawWalking();
-	} else{
+	} else {
 	/**
    	 *	standing still
  	 */	

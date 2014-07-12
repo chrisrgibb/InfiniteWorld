@@ -1,7 +1,8 @@
 var LevelRenderer = function(mapp, player) {
 	this.screenWidth = 16 * 16;// in pixels
 	this.screenHeight = 12 * 16;
-	this.tileMap = [];
+
+
 	var camera = new Camera();
 	this.player = player;
 	// height of screen = 12 * 16
