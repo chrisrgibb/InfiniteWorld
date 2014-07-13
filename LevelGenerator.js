@@ -17,7 +17,7 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	}
 	for(var i = this.height -2; i < this.height; i++ ){
 		for(var j =0; j< length; j++){
-			tiles[i][j] = 5;
+			tiles[i][j] = 18;
 		}	
 	}
 
@@ -44,7 +44,7 @@ LevelGenerator.prototype.createGap = function(tiles){
 	console.log("====== numberOfGaps = " + numberOfGaps + " ========");
 
 	for(var i = 0; i< numberOfGaps; i++){
-		var gapSize = Math.round( (Math.random() * 6 )+ 1 );
+		var gapSize = Math.round( (Math.random() * 5 )+ 1 );
 		var gapX =  Math.round(( Math.random() * (tiles[0].length - lastGapEndX) ));// +  lastGapEndX;
 		
 		lastGapEndX = gapX + gapSize;
@@ -52,8 +52,8 @@ LevelGenerator.prototype.createGap = function(tiles){
 		console.log("gap 1 =  " + gapX  + "  - " + lastGapEndX);
 
 		for(var j = gapX; j< gapX + gapSize; j++){
-			tiles[this.height-2][j] = 0;
-			tiles[this.height-1][j] = 0;
+			tiles[this.height-2][j] = 24;
+			tiles[this.height-1][j] = 23;
 		}
 
 	}
