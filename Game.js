@@ -14,7 +14,6 @@ Game.draw = function(){
 	if(level){
 		level.draw();
 	}
-	// levelState.draw();
 	if(player){
 		player.draw(ctx); 
 	}
@@ -53,7 +52,7 @@ Game.calcFPS = function(){
 
 	Game.then = Date.now();
 	var fps = 1 / elapsed;
-	Game.drawFPS(player.yVel);
+	Game.drawFPS(player.inventory.money + " " + player.inventory.ring);
 	// Game.drawFPS(fps);
 
 

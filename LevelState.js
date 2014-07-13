@@ -5,6 +5,7 @@ var LevelState = function(){
 	this.objects = [];
 	
 	this.onScreenObjects = [];
+	this.onScreenEnemies = [];
 
 	this.objectsToRemove = [];
 
@@ -32,14 +33,35 @@ LevelState.prototype.init = function() {
 				    new MoneyBag(2, 48),
 				    new MoneyBag(8, 62),
 				    new MoneyBag(2, 78),
-				    new MoneyBag(2, 79)
+				    new MoneyBag(2, 79),
+				    new MoneyBag(11, 6)
 				    ];
 
 };
 
 LevelState.prototype.gameObject = function(x, y){
-	
+	for(var i = 0; i < this.onScreenObjects.length; i++){
+		var objectInquestion = this.onScreenObjects[i];
+		var obx = this.onScreenObjects[i].x / 16 | 0;
+		var oby = this.onScreenObjects[i].y / 16 | 0;
+		if(x===obx && y ===oby){
+			console.log("picked up object at " + x + " ,  " + y   );
+			this.objectsToRemove.push(this.onScreenObjects[i]);
+			//
+			objectInquestion.process(player);
+		}
+	}
+	for(var i = 0; i < this.objects.length; i++){
+		var obx = this.objects[i].x / 16 | 0;
+		var oby = this.objects[i].y / 16 | 0;
+		if(x===obx && y ===oby){
+			console.log("picked up object at " + x + " ,  " + y   );
+			this.objectsToRemove.push(this.objects[i]);
+			
+			this.objects[i].process(player);
 
+		}
+	}
 }
 
 
@@ -59,6 +81,10 @@ LevelState.prototype.punchTile = function(x, y){
 		
 		} else if(this.map.tiles[y][x]==8){
 			// alert("ring");
+			this.onScreenObjects.push(new Ring(x, y, true));
+			if(this.onScreenObjects.length > 2){
+				this.objectsToRemove.push(this.onScreenObjects[0]);
+			}
 		}
 
 		this.map.blocks[y][x] = new Block(x, y, false, null );	
@@ -72,27 +98,43 @@ LevelState.prototype.punchTile = function(x, y){
 
 
 LevelState.prototype.update = function(){
+
+	
+
+
+	// remove everything
 	var enemys = this.enemys;
 	var removeEnemys = [];
 	// var objectsToRemove = [];
 	for(var i = 0; i< enemys.length; i++){
 		if( isEnemyOnScreen(level.camera, enemys[i]) ){
 			enemys[i].move();
-		}	else {
-			// removeEnemys.push(enemys[i]);
+		}	else if(enemys[i].y < level.camera.y+16) {
+			removeEnemys.push(enemys[i]);
 		}
 	}
+
+	// increment timer on all onscreen objects (ring, money, life)
 	for(var i = 0; i < this.onScreenObjects.length; i++){
 		this.onScreenObjects[i].timer++;
 		if(this.onScreenObjects[i].timer > 150){
+			// tag for removal
 			this.objectsToRemove.push(this.onScreenObjects[i]);
 		}
 	}
+
+
+
 	// remove static objects
 	for(var i = 0, len = this.objectsToRemove.length; i < len; i++){
 		var index = this.onScreenObjects.indexOf(this.objectsToRemove[i]);
 		if(index!=-1){
 			this.onScreenObjects.splice(index, 1);
+			this.objectsToRemove.splice(i, 1);
+		}
+		var index = this.objects.indexOf(this.objectsToRemove[i]);
+		if( index != -1){
+			this.objects.splice(index, 1);
 			this.objectsToRemove.splice(i, 1);
 		}
 	}

@@ -38,6 +38,9 @@ function Player(){
 
 	this.frameIndex = 0;
 	this.counter =0;
+
+	this.money = 0;
+	this.inventory = new Inventory();
 }
 
 
@@ -139,7 +142,7 @@ Player.prototype.move = function(first_argument) {
 	this.x = this.moveX(dX, dY);
 	this.y = this.moveY(dX, dY);
 
-	if(levelState.gameObject(this.x, this.y) ) {
+	if(levelState.gameObject(this.x/16 |0, this.y/ 16 | 0) ) {
 		
 	}
 

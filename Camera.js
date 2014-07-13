@@ -32,6 +32,4 @@ Camera.prototype.update = function(){
 	if(this.x + level.screenWidth > map.getWidth() * 16){
 		this.x = map.getWidth() * 16 - level.screenWidth;
 	}
-
-
 }

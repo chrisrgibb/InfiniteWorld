@@ -12,6 +12,7 @@ var LevelRenderer = function(mapp, player) {
 
 	// this is really a level renderer
 	var tileSheet = new TileSheet();
+	var objectSheet = new ObjectSheet();
 	var map = mapp;
 
 	// 2 = starblock
@@ -37,6 +38,7 @@ var LevelRenderer = function(mapp, player) {
 	}
 
 	function draw(){
+		camera.update();
 		/**
 			main drawing function
 		*/
@@ -53,7 +55,6 @@ var LevelRenderer = function(mapp, player) {
 		
 		for(var row = startTileY; row < map.getHeight(); row++ ){
 			for(var col = startTileX; col < map.getWidth(); col++){
-
 
 				var y = ( row * tileSize ) - camera.y ; ///16 |0;
 				var x = (col * tileSize) - camera.x;
@@ -88,8 +89,14 @@ var LevelRenderer = function(mapp, player) {
 				enemys[i].draw(camera);
 			}
 		}
-		camera.update();
 	}
+
+	function renderEnemies(){
+
+
+		
+	}
+
 
 	function addToHighLights(x, y, col){
 		var tempTile = [x, y, col];
@@ -128,7 +135,8 @@ var LevelRenderer = function(mapp, player) {
 			 screenHeight : this.screenHeight,
 			 screenWidth  : this.screenWidth,
 			 camera : camera,
-			 tileSheet : tileSheet
+			 tileSheet : tileSheet,
+			 objectSheet : objectSheet
 			};
 
 };
