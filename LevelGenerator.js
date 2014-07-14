@@ -1,5 +1,35 @@
 var LevelGenerator = function(){
 	this.height = 12;
+	this.groundTile = 18;
+	this.obsticleTile1 = 24;
+	this.obsticleTile2 = 23;
+	this.breakableBlock = 11;
+	this.unBreakableBlcok = 12;
+	this.currentOption = "two";
+}
+
+
+// var options = {
+// 	"one" : [18, 24, 23, 11, 12],
+// 	"two" : [13, 24, 23, 21, 20]
+
+// }
+var options = {
+	"one" : {
+		"groundTile" : 18,
+		"pitTile1" : 23,
+		"pitTile2" : 22,
+		"breakable" : 11,
+		"unbreakable" : 12
+	},
+	"two" : {
+		"groundTile" : 13,
+		"pitTile1" : 29,
+		"pitTile2" : 27,
+		"breakable" : 21,
+		"unbreakable" : 20
+
+	}
 
 }
 
@@ -17,7 +47,7 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	}
 	for(var i = this.height -2; i < this.height; i++ ){
 		for(var j =0; j< length; j++){
-			tiles[i][j] = 18;
+			tiles[i][j] = options[this.currentOption].groundTile;
 		}	
 	}
 
@@ -52,8 +82,8 @@ LevelGenerator.prototype.createGap = function(tiles){
 		console.log("gap 1 =  " + gapX  + "  - " + lastGapEndX);
 
 		for(var j = gapX; j< gapX + gapSize; j++){
-			tiles[this.height-2][j] = 24;
-			tiles[this.height-1][j] = 23;
+			tiles[this.height-2][j] = options[this.currentOption].pitTile1;
+			tiles[this.height-1][j] = options[this.currentOption].pitTile2;
 		}
 
 	}
@@ -79,8 +109,15 @@ LevelGenerator.prototype.makePlatform = function(tiles){
 
 	for(var j = start; j< start+ platformSize; j++){
 		var offGround = tiles.length - platformHeight -1;
-		tiles[offGround][j] = 1;
+		// tiles[offGround][j] = this.breakableBlock;
+		tiles[offGround][j] = options[this.currentOption].breakable;
 	}
 
 
 };
+
+var Noise = function(){
+
+
+
+}

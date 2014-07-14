@@ -116,9 +116,9 @@ var Map = function(){
 
 
 
-	// var lg = new LevelGenerator();
+	var lg = new LevelGenerator();
 
-	// this.tiles = lg.createLevel();
+	this.tiles = lg.createLevel();
 
 
 
