@@ -106,13 +106,25 @@ LevelState.prototype.update = function(){
 	var enemys = this.enemys;
 	var removeEnemys = [];
 	// var objectsToRemove = [];
+	var countage = 0;
 	for(var i = 0; i< enemys.length; i++){
+
+		// GOING to use this later???z`
+		// if( enemys[i].x > level.camera.x + level.screenWidth 
+		// 	|| enemys[i].y > level.camera.y + level.screenHeight){
+		// 	// console.log("offscreen");
+		// 	countage++;
+		// }
+
+
 		if( isEnemyOnScreen(level.camera, enemys[i]) ){
 			enemys[i].move();
 		}	else if(enemys[i].y < level.camera.y+16) {
 			removeEnemys.push(enemys[i]);
 		}
 	}
+
+	// console.log("offscreen " + countage);
 
 	// increment timer on all onscreen objects (ring, money, life)
 	for(var i = 0; i < this.onScreenObjects.length; i++){

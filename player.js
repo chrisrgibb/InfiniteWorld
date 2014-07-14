@@ -6,6 +6,7 @@ function Player(){
 	// this.y = 1300;
 	this.width = 10;
 	this.height= 19;
+	this.duckingheight = 10;
 	this.yVel = 0;
 	this.xVel = 0;
 	this.speed = 2;
@@ -73,8 +74,9 @@ Player.prototype.move = function(first_argument) {
 			
 		if(!this.jumping && this.canJump){		
 			if(this.onGround){
+				console.log("xVel = "+ this.xVel);
 				this.canJump = false;
-				this.yVel = -5;
+				this.yVel = -4.2 - Math.abs(this.xVel / 5);
 				this.jumping = true;
 				this.onGround = false;	
 				if(this.xVel > 0){
@@ -83,7 +85,7 @@ Player.prototype.move = function(first_argument) {
 	
 			}
 		} else if(this.jumping && this.yVel < 0 ){ // going up
-			this.yVel -= .4;
+			this.yVel -= .47;
 
 		}
 	}else{
@@ -107,9 +109,11 @@ Player.prototype.move = function(first_argument) {
 	this.yVel += this.gravity;	
 	dY = this.yVel;
 	if(dY > 4){
+		// max fall speed
 		dY = 4;
 	}
 	if(dY < -5){
+		// max jump speed
 		dY = -5;
 	}
 	this.xVel *= this.friction;
@@ -117,7 +121,7 @@ Player.prototype.move = function(first_argument) {
 	if(dY!=0.6){
 		// console.log(dY);
 	}
-
+	// console.log(dY);
 
 
 
@@ -145,6 +149,7 @@ Player.prototype.move = function(first_argument) {
 	if(levelState.gameObject(this.x/16 |0, this.y/ 16 | 0) ) {
 		
 	}
+	levelState.gameObject( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 ); 
 
 	// check left of screen
 	// if(this.x-(this.width/2) < 0){
