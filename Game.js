@@ -4,6 +4,8 @@ var Game = function(argument) { };
 Game.fps = 50; // 50 is fps 
 Game.then = Date.now(); // for fps
 
+var currentDebugText = "hi there";
+
 /**
 	Main draw function
 **/
@@ -52,7 +54,8 @@ Game.calcFPS = function(){
 
 	Game.then = Date.now();
 	var fps = 1 / elapsed;
-	Game.drawFPS(player.inventory.money + " " + player.inventory.ring);
+	// Game.drawFPS(player.inventory.money + " " + player.inventory.ring);
+	Game.drawFPS(currentDebugText);
 	// Game.drawFPS(fps);
 
 

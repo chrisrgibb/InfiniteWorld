@@ -14,10 +14,8 @@ var LevelRenderer = function(mapp, player) {
 	var tileSheet = new TileSheet();
 	var objectSheet = new ObjectSheet();
 	var map = mapp;
-
-	// 2 = starblock
 	
-	var tilesToHighlight = [];
+	var tilesToHighlight = []; // for debuggin
 	var tileSize = 16;
 
 

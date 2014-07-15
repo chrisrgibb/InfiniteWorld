@@ -9,6 +9,10 @@ var LevelState = function(){
 
 	this.objectsToRemove = [];
 
+	this.currentItem = 0;
+
+	this.backgroundColor = "#0000ff";
+
 };
 
 LevelState.prototype.init = function() {
@@ -41,7 +45,7 @@ LevelState.prototype.init = function() {
 
 LevelState.prototype.gameObject = function(x, y){
 	for(var i = 0; i < this.onScreenObjects.length; i++){
-		var objectInquestion = this.onScreenObjects[i];
+		var objectInquestion = this.onScreenObjects[i]; // gross variable name
 		var obx = this.onScreenObjects[i].x / 16 | 0;
 		var oby = this.onScreenObjects[i].y / 16 | 0;
 		if(x===obx && y ===oby){
@@ -80,8 +84,22 @@ LevelState.prototype.punchTile = function(x, y){
 			}
 		
 		} else if(this.map.tiles[y][x]==8){
-			// alert("ring");
-			this.onScreenObjects.push(new Ring(x, y, true));
+			// ring o
+			switch(this.currentItem){
+				case 0 : 
+					this.onScreenObjects.push(new Ring(x, y, true));
+					this.currentItem++;
+					break;
+				case 1 : 
+					this.enemys.push(new Ghost(x , y));
+					this.currentItem++;
+					break;
+				case 2 :
+					this.onScreenObjects.push(new Life(x, y, true));
+					this.currentItem = 0;
+					break
+			}
+			
 			if(this.onScreenObjects.length > 2){
 				this.objectsToRemove.push(this.onScreenObjects[0]);
 			}
@@ -110,11 +128,18 @@ LevelState.prototype.update = function(){
 	for(var i = 0; i< enemys.length; i++){
 
 		// GOING to use this later???z`
-		// if( enemys[i].x > level.camera.x + level.screenWidth 
-		// 	|| enemys[i].y > level.camera.y + level.screenHeight){
-		// 	// console.log("offscreen");
-		// 	countage++;
-		// }
+		if( enemys[i].x > level.camera.x + level.screenWidth 
+			|| enemys[i].y > level.camera.y + level.screenHeight){
+			// console.log("offscreen");
+			countage++;
+			currentDebugText = countage + " " + this.enemys.length + " " + this.onScreenEnemies.length;
+		} else {
+			// var index = this.onScreenEnemies.indexOf(enemys[i]);
+			// if(index==-1) {
+			// 	this.onScreenEnemies.push(enemys[i]);
+			// 	var gggg = 0;
+			// }
+		}
 
 
 		if( isEnemyOnScreen(level.camera, enemys[i]) ){
@@ -139,7 +164,9 @@ LevelState.prototype.update = function(){
 
 	// remove static objects
 	for(var i = 0, len = this.objectsToRemove.length; i < len; i++){
+
 		var index = this.onScreenObjects.indexOf(this.objectsToRemove[i]);
+
 		if(index!=-1){
 			this.onScreenObjects.splice(index, 1);
 			this.objectsToRemove.splice(i, 1);
@@ -154,8 +181,10 @@ LevelState.prototype.update = function(){
 	for(var i = 0, len = removeEnemys.length; i < len; i++){
 		var index = enemys.indexOf(removeEnemys[i]);
 		if(index!=-1){
+
 			enemys.splice(index, 1);
 			removeEnemys.splice(i, 1);
+
 		}
 	}
 

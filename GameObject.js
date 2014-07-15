@@ -59,3 +59,17 @@ Ring.prototype.process = function(player){
 	player.inventory.ring = true;
 }
 
+function Life(x, y){
+	this.x = x * 16;
+	this.y = y * 16;
+	this.timer = 0;
+	this.tilenumber = 3;
+}
+// function Life(x, y){}
+
+Life.prototype = new GameObject();
+
+Life.prototype.process = function(player){
+	player.inventory.lives += 1;
+}
+

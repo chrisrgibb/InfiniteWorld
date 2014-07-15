@@ -7,7 +7,7 @@ var Enemy = function(x, y){
 	this.dir = -1;
 	this.speed = .3;
 	this.block = false;
-	this.color = "green";
+	this.color = "#adad03";
 
 }
 
@@ -58,10 +58,27 @@ function isEnemyOnScreen(camera, enemy){
 	return false;
 }
 
+function Ghost(x, y){
+	this.color = "#adadff";
+	this.x = x * 16;
+	this.y = y *16;
+	this.width = 12;
+	this.height = 16;
+
+}
+
+Ghost.prototype = new Enemy();
+
+Ghost.prototype.move = function(){
+
+	// do nothing
+
+}
+
 
 function Scorpion(x, y){
 	// Enemy.call(this);
-	this.color = 'red';
+	this.color = '#ff0303';
 	this.x = x * 16;
 	this.y = y * 16 + 2;
 	this.width = 13;
@@ -110,8 +127,5 @@ Scorpion.prototype.move = function(){
 		this.dir *= -1;
 		this.x = 2;
 	}
-
-
-	// body...
 }
 
