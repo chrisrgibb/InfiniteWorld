@@ -1,4 +1,4 @@
-var LevelRenderer = function(mapp, player) {
+var LevelRenderer = function(mapp, player, levelState) {
 	this.screenWidth = 16 * 16;// in pixels
 	this.screenHeight = 12 * 16;
 
@@ -13,6 +13,7 @@ var LevelRenderer = function(mapp, player) {
 	// this is really a level renderer
 	var tileSheet = new TileSheet();
 	var objectSheet = new ObjectSheet();
+	var levelState = levelState;
 	var map = mapp;
 	
 	var tilesToHighlight = []; // for debuggin
@@ -50,13 +51,14 @@ var LevelRenderer = function(mapp, player) {
 			// console.log("over 0 = " +  startTileY);
 		}
 
+		ctx.fillStyle = levelState.backgroundColor; //"#0000ff";
 		
 		for(var row = startTileY; row < map.getHeight(); row++ ){
 			for(var col = startTileX; col < map.getWidth(); col++){
 
 				var y = ( row * tileSize ) - camera.y ; ///16 |0;
 				var x = (col * tileSize) - camera.x;
-				ctx.fillStyle = "#0000ff";
+			
 			 	ctx.fillRect(x, y, tileSize, tileSize);
 			
 				var val = map.getTile(col, row);

@@ -31,7 +31,7 @@ function init(){
 
 
 	map = levelState.map;
-	level = new LevelRenderer(map, player);
+	level = new LevelRenderer(map, player, levelState);
 
 	game = Game();
 	player.draw(ctx);

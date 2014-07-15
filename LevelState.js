@@ -91,7 +91,8 @@ LevelState.prototype.punchTile = function(x, y){
 					this.currentItem++;
 					break;
 				case 1 : 
-					this.enemys.push(new Ghost(x , y));
+					// this.enemys.push(new Ghost(x , y));
+					this.onScreenObjects.push(new Ghost(x, y, true));
 					this.currentItem++;
 					break;
 				case 2 :
@@ -127,19 +128,19 @@ LevelState.prototype.update = function(){
 	var countage = 0;
 	for(var i = 0; i< enemys.length; i++){
 
-		// GOING to use this later???z`
-		if( enemys[i].x > level.camera.x + level.screenWidth 
-			|| enemys[i].y > level.camera.y + level.screenHeight){
-			// console.log("offscreen");
-			countage++;
-			currentDebugText = countage + " " + this.enemys.length + " " + this.onScreenEnemies.length;
-		} else {
-			// var index = this.onScreenEnemies.indexOf(enemys[i]);
-			// if(index==-1) {
-			// 	this.onScreenEnemies.push(enemys[i]);
-			// 	var gggg = 0;
-			// }
-		}
+		// // GOING to use this later???z`
+		// if( enemys[i].x > level.camera.x + level.screenWidth 
+		// 	|| enemys[i].y > level.camera.y + level.screenHeight){
+		// 	// console.log("offscreen");
+		// 	countage++;
+		// 	currentDebugText = countage + " " + this.enemys.length + " " + this.onScreenEnemies.length;
+		// } else {
+		// 	var index = this.onScreenEnemies.indexOf(enemys[i]);
+		// 	if(index==-1) {
+		// 		this.onScreenEnemies.push(enemys[i]);
+		// 		var gggg = 0;
+		// 	}
+		// }
 
 
 		if( isEnemyOnScreen(level.camera, enemys[i]) ){
@@ -153,7 +154,8 @@ LevelState.prototype.update = function(){
 
 	// increment timer on all onscreen objects (ring, money, life)
 	for(var i = 0; i < this.onScreenObjects.length; i++){
-		this.onScreenObjects[i].timer++;
+		// this.onScreenObjects[i].timer++;
+		this.onScreenObjects[i].update();
 		if(this.onScreenObjects[i].timer > 150){
 			// tag for removal
 			this.objectsToRemove.push(this.onScreenObjects[i]);

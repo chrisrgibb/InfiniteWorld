@@ -20,6 +20,9 @@ GameObject.prototype.process = function(player){
 	// player.inventory.money += 10;
 }
 
+GameObject.prototype.update = function(){
+	this.timer++;
+}
 
 function MoneyBag(x, y, tilenumber){
 	this.x = x*16;
@@ -73,3 +76,38 @@ Life.prototype.process = function(player){
 	player.inventory.lives += 1;
 }
 
+
+function Ghost(x, y){
+	this.color = "#adadff";
+	this.x = x * 16;
+	this.y = y *16;
+	this.width = 12;
+	this.height = 16;
+	this.timer = 0;
+
+}
+
+Ghost.prototype = new GameObject(); // could probably change to enemy if 
+									// i renamed the enemy move function to update
+
+Ghost.prototype.update = function(){
+
+}	
+
+Ghost.prototype.draw = function(camera){
+	var drawX = ( (this.x) - camera.x ) ;
+	var drawY = ( (this.y) - camera.y ) ; 
+	// level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
+	ctx.fillStyle = this.color;
+	ctx.fillRect(drawX, drawY, this.width, this.height);	
+}
+
+Ghost.prototype.process = function(){
+	alert("player is dead");
+}							
+
+Ghost.prototype.move = function(){
+
+	// do nothing
+
+}

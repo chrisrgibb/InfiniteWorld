@@ -8,7 +8,8 @@ var Enemy = function(x, y){
 	this.speed = .3;
 	this.block = false;
 	this.color = "#adad03";
-
+	this.imageWidth = 24;
+	this.imageHeight = 16;
 }
 
 
@@ -58,22 +59,7 @@ function isEnemyOnScreen(camera, enemy){
 	return false;
 }
 
-function Ghost(x, y){
-	this.color = "#adadff";
-	this.x = x * 16;
-	this.y = y *16;
-	this.width = 12;
-	this.height = 16;
 
-}
-
-Ghost.prototype = new Enemy();
-
-Ghost.prototype.move = function(){
-
-	// do nothing
-
-}
 
 
 function Scorpion(x, y){

@@ -5,7 +5,8 @@ var LevelGenerator = function(){
 	this.obsticleTile2 = 23;
 	this.breakableBlock = 11;
 	this.unBreakableBlcok = 12;
-	this.currentOption = "one";
+	this.currentOption = "three";
+	this.groundIndex = 10; 
 }
 
 
@@ -15,7 +16,7 @@ var LevelGenerator = function(){
 
 // }
 var themeOptions = {
-	"one" : {
+	"one" : { 
 		"groundTile" : 18,
 		"hazard1" : 23,
 		"hazard2" : 22,
@@ -49,17 +50,6 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	this.createPlainLevel(tiles, length);
 
 
-	// for(var i =0; i< tiles.length; i++){
-	// 	tiles[i] = [];
-	// 	for(var j = 0; j< length; j++){
-	// 		tiles[i].push(0);
-	// 	}
-	// }
-	// for(var i = this.height -2; i < this.height; i++ ){
-	// 	for(var j =0; j< length; j++){
-	// 		tiles[i][j] = themeOptions[this.currentOption].groundTile;
-	// 	}	
-	// }
 
 	for( var i =0; i < length; i++) {
 		var ran = Math.random();
@@ -89,7 +79,7 @@ LevelGenerator.prototype.createPlainLevel = function(tiles, length){
 			tiles[i][j] = themeOptions[this.currentOption].groundTile;
 		}	
 	}
-
+	this.triangleThing(tiles);
 	return tiles;
 }
 
@@ -125,6 +115,28 @@ LevelGenerator.prototype.addClouds = function(tiles){
 
 }
 
+
+// 		 0
+//     0 0 0
+//   0 0 0 0 0 
+// 0 0 0 0 0 0 0  
+
+
+LevelGenerator.prototype.triangleThing = function(tiles){
+		var height = (Math.random() * 2 ) + 3 | 0; // either three or 4
+		var start =  Math.random() * 40 | 0;
+		console.log("hig " + height);
+		for(var i = 0; i< height; i++){
+			for(var j = start + (height - i - 1); j < start + (height + i ); j++ ){
+				tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].breakable; 
+
+				// tiles[this.groundIndex -height + i][start + height - 2 ];
+			}
+		}
+
+}
+
+
 LevelGenerator.prototype.randomInt = function(size){
 	return Math.round(Math.random() * size);
 }
@@ -132,18 +144,23 @@ LevelGenerator.prototype.randomInt = function(size){
 
 // makes a floating platform in the air
 LevelGenerator.prototype.makePlatform = function(tiles){
+	var maxPlatformHeight = 4;
+
 	var platformSize = Math.round(Math.random() * 8)  + 2;
 	var platformHeight = Math.round(Math.random() * 4) + 2;
+
+	// console.log(platformHeight);
 	var platforms = [];
 	var start =  Math.round(Math.random() * tiles[0].length- (platformSize * 2)) ;
+	if( platformHeight > maxPlatformHeight){
+		tiles[this.groundIndex - 2][start++] = this.breakableBlock;
+	}
 
 	for(var j = start; j< start+ platformSize; j++){
 		var offGround = tiles.length - platformHeight -1;
 		// tiles[offGround][j] = this.breakableBlock;
 		tiles[offGround][j] = themeOptions[this.currentOption].breakable;
 	}
-
-
 };
 
 var Noise = function(){
