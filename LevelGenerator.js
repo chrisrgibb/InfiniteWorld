@@ -21,7 +21,7 @@ var LevelGenerator = function(){
 	this.obsticleTile2 = 23;
 	this.breakableBlock = 11;
 	this.unBreakableBlcok = 12;
-	this.currentOption = "two";
+	this.currentOption = "one";
 	this.groundIndex = 10; 
 }
 
@@ -54,8 +54,12 @@ var themeOptions = {
 LevelGenerator.prototype.createLevel = function(first_argument) {
 	// body...
 	var length = 32 + (Math.random() * 128) | 0;
-	var EndingX = length - 3;
+	var EndingX = length - randomInt(3); // area to put the rice ball / hamburger
 	console.log(length);
+
+	// var chunks = length / randomInt(32) | 0;
+
+	var chunks = [];
 	
 	var tiles = new Array(this.height);
 	this.createPlainLevel(tiles, length);
@@ -70,11 +74,26 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 		}
 	}
 
-	this.createGap(tiles);
+	this.createGap(tiles, 24);
 	this.makePlatform(tiles);
 
 	return tiles;
 };
+
+LevelGenerator.prototype.castleLevel = function(rooms){
+	var mapsize = rooms *32;
+	var tiles = new Array(mapsize);
+	for(var i = 0; i< mapsize ;i++){
+		tiles[i] = [];
+		for(var j = 0; j < mapsize; j++){
+			tiles[i].push(0);
+		}
+	}
+	// console.log(tiles);
+
+	return tiles;
+}
+
 
 LevelGenerator.prototype.createPlainLevel = function(tiles, length){
 	// var tiles = new Array(this.height);
@@ -93,6 +112,18 @@ LevelGenerator.prototype.createPlainLevel = function(tiles, length){
 	return tiles;
 }
 
+function get2dArray(size){
+	var tiles = new Array(size);
+	for(var i = 0; i< size ;i++){
+		tiles[i] = [];
+		for(var j = 0; j < size; j++){
+			tiles[i].push(0);
+		}
+	}
+
+	return tiles;
+
+}
 
 
 LevelGenerator.prototype.createGap = function(tiles, startX, length){
@@ -115,7 +146,7 @@ LevelGenerator.prototype.createGap = function(tiles, startX, length){
 		var gapSize = Math.round( (Math.random() * 5 )+ 1 );
 		var gapX =  Math.round(( Math.random() * (tiles[0].length - lastGapEndX) ));// +  lastGapEndX;
 		
-		lastGapEndX = gapX + gapSize;
+		lastGapEndX = 0 + gapX + gapSize;
 
 		console.log("gap 1 =  " + gapX  + "  - " + lastGapEndX);
 
@@ -149,22 +180,40 @@ LevelGenerator.prototype.triangleThing = function(tiles){
 	   trianle with random unbreakable bits
 	*/
 
+	var odds = randomInt(10);
 
-		var height = (Math.random() * 6 ) + 3 | 0; // either three or 4
-		var startX =  Math.random() * 40 | 0;
-		console.log("hig " + height);
-		for(var i = 0; i< height; i++){
-			for(var j = startX + (height - i - 1); j < startX + (height + i ); j++ ){
-				tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].breakable; 
 
-				// tiles[this.groundIndex -height + i][start + height - 2 ];
+
+	var height = (Math.random() * 6 ) + 3 | 0; // either three or 4
+	// width of triangle will  be 2n -1 wide
+
+	var startX =  Math.random() * 40 | 0;
+	var middle = startX + (height - 1);
+	console.log("hig " + height);
+
+	var ranNoise = randomValues(1, height+1);
+	// var ranNoise = getRandomNoise(height+1);	
+	for(var i = 0; i< height; i++){
+		// start at top
+		for(var j = startX + (height - i - 1); j < startX + (height + i ); j++ ){ // x 
+			tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].breakable; 
+			if(j==middle){
+				tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].unbreakable; 
 			}
+			var x = j - startX - height;
+			var noise = ranNoise[i][j-startX];
+			if( noise > .9 ){
+				tiles[this.groundIndex - height  + i][j] = 9;
+				//themeOptions[this.currentOption].unbreakable; 
+			}
+			// tiles[this.groundIndex -height + i][start + height - 2 ];
 		}
+	}
 
 }
 
 
-LevelGenerator.prototype.randomInt = function(size){
+var randomInt = function(size){
 	return Math.round(Math.random() * size);
 }
 
@@ -191,8 +240,53 @@ LevelGenerator.prototype.makePlatform = function(tiles){
 };
 
 var Noise = function(){
+	//http://mrl.nyu.edu/~perlin/noise/
 
 
 
+}
+
+function randomValues(interval, size){
+	var stepsize = 1;
+	if(interval > 2){
+		stepsize = size / interval;
+	}
+	var noise = get2dArray(size); // 2d array filled with 0s;
+	for(var i = 0; i < size; i++ ){
+		for(var j = 0; j < size; j++){
+			var sample = Math.random();
+
+			noise[i][j] = sample;
+		}
+	}
+	return noise;
+}
+
+function getRandomNoise(size){
+	var tiles = randomValues(1, size);
+	return smoothSample(tiles);
+}
+
+// assumes  n * n 2d array
+function smoothSample(noise){
+	var size = noise.length;
+	var samples = get2dArray(size);
+
+	for(var y = 1; y< size-1; y++){
+		for(var x = 1; x < size-1; x++){
+			var corners = (noise[y-1][x-1] + noise[y-1][x+1] +
+						   noise[y+1][x-1] + noise[y+1][x+1]) / 16;
+			var sides =  (noise[y][x-1]   + noise[y][x+1] + noise[y+1][x] + noise[y-1][x] ) /8; 
+			var center = noise[y][x] /4;
+
+			samples[y][x] =corners + sides + center;
+		}
+	}
+	return samples;
+}
+
+
+function lerp(a, b, c){
+	return (1-t) * a + t*b;
 
 }

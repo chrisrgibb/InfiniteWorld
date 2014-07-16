@@ -116,9 +116,9 @@ var Map = function(){
 
 
 
-	var lg = new LevelGenerator();
+	// var lg = new LevelGenerator();
 
-	this.tiles = lg.createLevel();
+	// this.tiles = lg.createLevel();
 
 
 
@@ -159,6 +159,7 @@ Map.prototype.createBlocks = function(){
 			 	case 35:
 					rowArray.push( new Block(x, y, true, breakable, 1) );
 					break;
+				case 16:
 				default:
 					rowArray.push( new Block(x, y, false, breakable, 0 ));
 					break;
