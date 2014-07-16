@@ -1,3 +1,19 @@
+// "DESIGN GRAMMER"
+/*
+
+
+
+
+
+
+
+
+*/
+
+
+
+
+
 var LevelGenerator = function(){
 	this.height = 12;
 	this.groundTile = 18;
@@ -5,16 +21,10 @@ var LevelGenerator = function(){
 	this.obsticleTile2 = 23;
 	this.breakableBlock = 11;
 	this.unBreakableBlcok = 12;
-	this.currentOption = "three";
+	this.currentOption = "two";
 	this.groundIndex = 10; 
 }
 
-
-// var themeOptions = {
-// 	"one" : [18, 24, 23, 11, 12],
-// 	"two" : [13, 24, 23, 21, 20]
-
-// }
 var themeOptions = {
 	"one" : { 
 		"groundTile" : 18,
@@ -44,11 +54,11 @@ var themeOptions = {
 LevelGenerator.prototype.createLevel = function(first_argument) {
 	// body...
 	var length = 32 + (Math.random() * 128) | 0;
+	var EndingX = length - 3;
 	console.log(length);
 	
 	var tiles = new Array(this.height);
 	this.createPlainLevel(tiles, length);
-
 
 
 	for( var i =0; i < length; i++) {
@@ -56,7 +66,7 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 		// var ran2 = 
 
 		if(ran > .4 && ran < .6 ){
-			tiles[5][i] = 8;
+			tiles[5][i] = 8;// creates some random blocks in the air
 		}
 	}
 
@@ -85,7 +95,17 @@ LevelGenerator.prototype.createPlainLevel = function(tiles, length){
 
 
 
-LevelGenerator.prototype.createGap = function(tiles){
+LevelGenerator.prototype.createGap = function(tiles, startX, length){
+	/*
+		Creates a hazard for player to jump over
+		options
+		small hazard that player can jump over
+		small hazard that player must be high up to jump over
+		can have a platform over it
+		can have a vine thing going up and down
+		can have a large platform over
+		can have a few blocks scattered over the top
+	*/
 	var numberOfGaps = Math.round( (Math.random() * 4) +2 ) ;
 	var gaps = [];
 	var lastGapEndX = 0;
@@ -123,11 +143,18 @@ LevelGenerator.prototype.addClouds = function(tiles){
 
 
 LevelGenerator.prototype.triangleThing = function(tiles){
-		var height = (Math.random() * 2 ) + 3 | 0; // either three or 4
-		var start =  Math.random() * 40 | 0;
+	/* options 
+	   plain triangle
+	   triangle with random money
+	   trianle with random unbreakable bits
+	*/
+
+
+		var height = (Math.random() * 6 ) + 3 | 0; // either three or 4
+		var startX =  Math.random() * 40 | 0;
 		console.log("hig " + height);
 		for(var i = 0; i< height; i++){
-			for(var j = start + (height - i - 1); j < start + (height + i ); j++ ){
+			for(var j = startX + (height - i - 1); j < startX + (height + i ); j++ ){
 				tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].breakable; 
 
 				// tiles[this.groundIndex -height + i][start + height - 2 ];
@@ -164,6 +191,7 @@ LevelGenerator.prototype.makePlatform = function(tiles){
 };
 
 var Noise = function(){
+
 
 
 

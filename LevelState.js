@@ -43,7 +43,9 @@ LevelState.prototype.init = function() {
 
 };
 
+// If player moves into the tile that the gameobject is in
 LevelState.prototype.gameObject = function(x, y){
+
 	for(var i = 0; i < this.onScreenObjects.length; i++){
 		var objectInquestion = this.onScreenObjects[i]; // gross variable name
 		var obx = this.onScreenObjects[i].x / 16 | 0;
@@ -77,13 +79,13 @@ LevelState.prototype.punchTile = function(x, y){
 
 	if ( this.map.blocks[y][x].breakable ){
 		// alert("pow!");
-		if(this.map.tiles[y][x]==9){
+		if(this.map.tiles[y][x]==9){ // star block
 			this.onScreenObjects.push(new MoneyBag(x, y, true));
 			if(this.onScreenObjects.length > 2){
 				this.objectsToRemove.push(this.onScreenObjects[0]);
 			}
 		
-		} else if(this.map.tiles[y][x]==8){
+		} else if(this.map.tiles[y][x]==8){ // question block
 			// ring o
 			switch(this.currentItem){
 				case 0 : 
@@ -105,8 +107,8 @@ LevelState.prototype.punchTile = function(x, y){
 				this.objectsToRemove.push(this.onScreenObjects[0]);
 			}
 		}
-
-		this.map.blocks[y][x] = new Block(x, y, false, null );	
+		// create new empty space block
+		this.map.blocks[y][x] = new Block(x, y, false, 0, 0 );	 
 		this.map.tiles[y][x] =0;	
 	}
 
@@ -156,7 +158,7 @@ LevelState.prototype.update = function(){
 	for(var i = 0; i < this.onScreenObjects.length; i++){
 		// this.onScreenObjects[i].timer++;
 		this.onScreenObjects[i].update();
-		if(this.onScreenObjects[i].timer > 150){
+		if(this.onScreenObjects[i].remove){
 			// tag for removal
 			this.objectsToRemove.push(this.onScreenObjects[i]);
 		}

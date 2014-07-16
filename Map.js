@@ -150,11 +150,27 @@ Map.prototype.createBlocks = function(){
 		for(var x = 0; x < this.getWidth(); x++){
 			var breakable = this.tiles[y][x];
 
-			if( breakable==9 || breakable==8 || breakable ==11 || breakable==10 ){
-				rowArray.push( new Block(x, y, true, breakable) );
-			} else {
-				rowArray.push( new Block(x, y, false, breakable ));
+			switch(breakable){
+				case 8:
+				case 9:
+				case 10:
+				case 11:
+				case 21:
+			 	case 35:
+					rowArray.push( new Block(x, y, true, breakable, 1) );
+					break;
+				default:
+					rowArray.push( new Block(x, y, false, breakable, 0 ));
+					break;
+
 			}
+
+			// if( breakable==9 || breakable==8 || breakable ==11 || breakable==10 || breakable==21 
+			// 	|| breakable==35 ){
+			// 	rowArray.push( new Block(x, y, true, breakable, 1) );
+			// } else {
+			// 	rowArray.push( new Block(x, y, false, breakable, 0 ));
+			// }
 		}
 		array.push(rowArray);
 	}
@@ -162,7 +178,8 @@ Map.prototype.createBlocks = function(){
 }
 	
 Map.prototype.getTile = function(x, y){
-	return this.tiles[y][x];
+	// return this.tiles[y][x];
+	return this.blocks[y][x].image;
 };
 
 
@@ -182,11 +199,17 @@ Map.prototype.isBlocking = function(x, y){
 		return 1;
 	}
 	
-	if(this.tiles[y][x]==0 || this.tiles[y][x]==16 || this.tiles[y][x]==17){
+	// if(this.tiles[y][x]==0 || this.tiles[y][x]==16 || this.tiles[y][x]==17){
+	// 	return 0;
+	// }else{
+	// 	return this.blocks[y][x].breakable;
+	// }
+	if(this.blocks[y][x].image ==0 || this.tiles[y][x].image == 16 || this.tiles[y][x] ==17){
 		return 0;
-	}else{
+	}else {
 		return 1;
 	}
+
 }
 
 Map.prototype.getWidth = function(){

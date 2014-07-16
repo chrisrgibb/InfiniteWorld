@@ -104,8 +104,6 @@ Player.prototype.move = function(first_argument) {
 		}
 	} 
 
-
-
 	this.yVel += this.gravity;	
 	dY = this.yVel;
 	if(dY > 4){

@@ -8,6 +8,7 @@ var GameObject = function(x, y, type){
 	this.type = type;
 	this.timer = -1;
 	this.tilenumber = 0;
+	this.remove = false;
 };
 
 GameObject.prototype.draw = function(camera){
@@ -22,6 +23,9 @@ GameObject.prototype.process = function(player){
 
 GameObject.prototype.update = function(){
 	this.timer++;
+	if(this.timer > 150){
+		this.remove = true;
+	}
 }
 
 function MoneyBag(x, y, tilenumber){
@@ -84,6 +88,7 @@ function Ghost(x, y){
 	this.width = 12;
 	this.height = 16;
 	this.timer = 0;
+	this.speed = .5;
 
 }
 
@@ -91,22 +96,47 @@ Ghost.prototype = new GameObject(); // could probably change to enemy if
 									// i renamed the enemy move function to update
 
 Ghost.prototype.update = function(){
+	this.timer++;
+	this.move();
 
 }	
 
 Ghost.prototype.draw = function(camera){
+	currentDebugText = this.timer;
 	var drawX = ( (this.x) - camera.x ) ;
 	var drawY = ( (this.y) - camera.y ) ; 
 	// level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 	ctx.fillStyle = this.color;
 	ctx.fillRect(drawX, drawY, this.width, this.height);	
+	enemySheet.draw(0, drawX, drawY, this.width, this.height);	
 }
 
 Ghost.prototype.process = function(){
-	alert("player is dead");
+	currentDebugText = this.timer;
+	if(this.timer > 50){
+		alert("player is dead");
+	}
 }							
 
 Ghost.prototype.move = function(){
+	if(this.timer < 50){
+		return;
+	}
+	var destX = player.x;
+	var destY = player.y;
+
+	if(destX > this.x){
+		this.x += this.speed;
+	}else if(destX < this.x){
+		this.x -= this.speed;
+	}
+	if(destY < this.y){
+		this.y -= this.speed;
+	}else if(destY > this.y){
+		this.y += this.speed;
+	}
+	
+
 
 	// do nothing
 
