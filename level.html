@@ -61,7 +61,8 @@
       var tileSize = 8;
 
       document.getElementById('go').addEventListener('click', function(){
-      	tiles = lg.createLevel();
+      	// tiles = lg.createLevel();
+        tiles = lg.plainNoise(11);
       	console.log(tiles);
       	resizeCanvas();
       	drawMap();

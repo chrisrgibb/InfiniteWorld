@@ -116,10 +116,9 @@ var Map = function(){
 
 
 
-	// var lg = new LevelGenerator();
+	var lg = new LevelGenerator();
 
-	// this.tiles = lg.createLevel();
-
+	this.tiles = lg.createLevel();
 
 
 	// this.tiles = [
@@ -159,7 +158,8 @@ Map.prototype.createBlocks = function(){
 			 	case 35:
 					rowArray.push( new Block(x, y, true, breakable, 1) );
 					break;
-				case 16:
+				// case 16:
+				// case 17:
 				default:
 					rowArray.push( new Block(x, y, false, breakable, 0 ));
 					break;
@@ -205,7 +205,7 @@ Map.prototype.isBlocking = function(x, y){
 	// }else{
 	// 	return this.blocks[y][x].breakable;
 	// }
-	if(this.blocks[y][x].image ==0 || this.tiles[y][x].image == 16 || this.tiles[y][x] ==17){
+	if(this.blocks[y][x].image ==0 || this.blocks[y][x].image == 16 || this.blocks[y][x].image ==17){
 		return 0;
 	}else {
 		return 1;

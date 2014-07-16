@@ -21,7 +21,7 @@ var LevelGenerator = function(){
 	this.obsticleTile2 = 23;
 	this.breakableBlock = 11;
 	this.unBreakableBlcok = 12;
-	this.currentOption = "one";
+	this.currentOption = "two";
 	this.groundIndex = 10; 
 }
 
@@ -52,7 +52,11 @@ var themeOptions = {
 }
 
 LevelGenerator.prototype.createLevel = function(first_argument) {
-	// body...
+	// Choose theme
+	var possibleOptions = ["one", "two", "three"];
+	var poss = Math.random() * 3 | 0;
+	this.currentOption = possibleOptions[poss];
+
 	var length = 32 + (Math.random() * 128) | 0;
 	var EndingX = length - randomInt(3); // area to put the rice ball / hamburger
 	console.log(length);
@@ -60,6 +64,14 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	// var chunks = length / randomInt(32) | 0;
 
 	var chunks = [];
+	var start = 12;
+	var index = 12;
+	while(index < length){
+		var newChunk = 3 + Math.random() * 12 | 0;
+		chunks.push(newChunk);
+		index+=newChunk;
+	}
+	console.log(chunks);
 	
 	var tiles = new Array(this.height);
 	this.createPlainLevel(tiles, length);
@@ -80,6 +92,18 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	return tiles;
 };
 
+
+
+LevelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
+	var noise = 
+
+
+
+}
+
+
+
+
 LevelGenerator.prototype.castleLevel = function(rooms){
 	var mapsize = rooms *32;
 	var tiles = new Array(mapsize);
@@ -96,7 +120,7 @@ LevelGenerator.prototype.castleLevel = function(rooms){
 
 
 LevelGenerator.prototype.createPlainLevel = function(tiles, length){
-	// var tiles = new Array(this.height);
+
 	for(var i =0; i< tiles.length; i++){
 		tiles[i] = [];
 		for(var j = 0; j< length; j++){
@@ -112,6 +136,23 @@ LevelGenerator.prototype.createPlainLevel = function(tiles, length){
 	return tiles;
 }
 
+LevelGenerator.prototype.plainNoise = function(number){
+	var tiles = randomValues(10, 32);
+	var newtiles = get2dArray(32);
+
+	for(var i = 0; i< 32; i++){
+		for(var j = 0; j < 32; j++){
+			if(tiles[i][j]> 0.70 && tiles[i][j] < 0.77){
+				newtiles[i][j] = number;	
+			}
+			
+		}
+	}
+
+	return newtiles;
+}
+
+
 function get2dArray(size){
 	var tiles = new Array(size);
 	for(var i = 0; i< size ;i++){
@@ -122,7 +163,6 @@ function get2dArray(size){
 	}
 
 	return tiles;
-
 }
 
 
@@ -197,12 +237,12 @@ LevelGenerator.prototype.triangleThing = function(tiles){
 		// start at top
 		for(var j = startX + (height - i - 1); j < startX + (height + i ); j++ ){ // x 
 			tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].breakable; 
-			if(j==middle){
+			if(Math.random() > .95 && j==middle){
 				tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].unbreakable; 
 			}
 			var x = j - startX - height;
 			var noise = ranNoise[i][j-startX];
-			if( noise > .9 ){
+			if( noise > .95 ){
 				tiles[this.groundIndex - height  + i][j] = 9;
 				//themeOptions[this.currentOption].unbreakable; 
 			}
