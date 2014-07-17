@@ -50,6 +50,7 @@ MoneyBag.prototype = new GameObject();
 
 MoneyBag.prototype.process = function(player){
 	player.inventory.money += this.cost;
+	this.remove = true;
 }
 
 
@@ -64,6 +65,7 @@ Ring.prototype = new GameObject();
 
 Ring.prototype.process = function(player){
 	player.inventory.ring = true;
+	this.remove = true;
 }
 
 function Life(x, y){
@@ -78,6 +80,7 @@ Life.prototype = new GameObject();
 
 Life.prototype.process = function(player){
 	player.inventory.lives += 1;
+	this.remove = true;
 }
 
 
@@ -89,6 +92,7 @@ function Ghost(x, y){
 	this.height = 16;
 	this.timer = 0;
 	this.speed = .5;
+	this.playerDead = false;
 
 }
 
@@ -112,11 +116,17 @@ Ghost.prototype.draw = function(camera){
 }
 
 Ghost.prototype.process = function(){
-	currentDebugText = this.timer;
+	// currentDebugText = this.timer;
 	if(this.timer > 50){
+		currentDebugText = "DEAD";
 		alert("player is dead");
+		this.playerDead = true;
+		// this.remove = true;
 	}
-}							
+}	
+
+
+
 
 Ghost.prototype.move = function(){
 	if(this.timer < 50){
@@ -124,20 +134,71 @@ Ghost.prototype.move = function(){
 	}
 	var destX = player.x;
 	var destY = player.y;
-
-	if(destX > this.x){
-		this.x += this.speed;
-	}else if(destX < this.x){
-		this.x -= this.speed;
-	}
-	if(destY < this.y){
-		this.y -= this.speed;
-	}else if(destY > this.y){
+	if(this.playerDead){ 
 		this.y += this.speed;
+	} else {
+		if(destX > this.x){
+			this.x += this.speed;
+		}else if(destX < this.x){
+			this.x -= this.speed;
+		} 
+		if(destY < this.y){
+			this.y -= this.speed;
+		}else if(destY > this.y){
+			this.y += this.speed;
+		}
+
 	}
 	
-
-
 	// do nothing
 
 }
+
+
+function ShockWave(){
+	this.x = 0;
+	this.y = 0;
+	this.speed = 2;
+	this.dir = 1;
+	this.timer = 0;
+	this.ShockWave = true;
+	if(this.dir > 1){
+		this.tilenumber = 12 ;
+	} else {
+		this.tilenumber = 13 ;
+	}
+	this.dead = true;
+}
+
+ShockWave.prototype.launch = function(x, y, dir){
+	this.dead = false;
+	this.x = x;
+	this.y = y;
+	this.dir = dir;
+	this.timer = 0;
+	if(this.dir > 1){
+		this.tilenumber = 12 ;
+	} else {
+		this.tilenumber = 13 ;
+	}
+}
+
+ShockWave.prototype.update = function(){
+	if(!this.dead){
+		this.x += this.dir * this.speed;
+	}
+	// if(this.x > )
+}
+
+ShockWave.prototype.draw = function(camera){
+	var drawX = ( (this.x) - camera.x ) ;
+	var drawY = ( (this.y) - camera.y ) ; 
+	level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
+}
+
+ShockWave.prototype.process = function(){
+	console.log("Sohockwave process");
+} 
+
+// ShockWave.
+

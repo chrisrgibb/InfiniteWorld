@@ -13,6 +13,8 @@ var LevelState = function(){
 
 	this.backgroundColor = "#0000ff";
 
+	this.shockWave = new ShockWave();
+
 };
 
 LevelState.prototype.init = function() {
@@ -48,15 +50,22 @@ LevelState.prototype.gameObject = function(x, y){
 
 	for(var i = 0; i < this.onScreenObjects.length; i++){
 		var objectInquestion = this.onScreenObjects[i]; // gross variable name
+
+
 		var obx = this.onScreenObjects[i].x / 16 | 0;
 		var oby = this.onScreenObjects[i].y / 16 | 0;
 		if(x===obx && y ===oby){
 			console.log("picked up object at " + x + " ,  " + y   );
-			this.objectsToRemove.push(this.onScreenObjects[i]);
+			
 			//
 			objectInquestion.process(player);
+			if(objectInquestion.remove){
+				console.log("REMOVE");
+				this.objectsToRemove.push(this.onScreenObjects[i]);
+			}
 		}
 	}
+
 	for(var i = 0; i < this.objects.length; i++){
 		var obx = this.objects[i].x / 16 | 0;
 		var oby = this.objects[i].y / 16 | 0;
@@ -115,6 +124,26 @@ LevelState.prototype.punchTile = function(x, y){
 	if(this.map.tiles[y][x]==2){
 		this.map.tiles[y][x] =0;
 	}
+
+
+}
+
+LevelState.prototype.useBracelet = function(player){
+	// this.onScreenObjects.push(new ShockWave(player.x, player.y, player.dir) );
+	this.shockWave.launch(player.x, player.y, player.dir);
+}
+
+LevelState.prototype.walkedOverBadStuff = function(x, y){
+	if(x > this.map.blocks[0].length-1 || y > this.map.blocks.length-1){
+		return;
+	}
+	if(this.map.blocks[y][x].image == 7){
+		alert("pinkies");
+		this.onScreenObjects.push(new Ghost(x, y, true));
+		this.currentItem++;
+	}
+
+
 }
 
 
@@ -162,6 +191,17 @@ LevelState.prototype.update = function(){
 			// tag for removal
 			this.objectsToRemove.push(this.onScreenObjects[i]);
 		}
+	}
+
+	if(!levelState.shockWave.dead){
+		levelState.shockWave.update();
+		var sx = levelState.shockWave.x / 16 | 0;
+		var sy = levelState.shockWave.y / 16 | 0;
+		
+		if(map.getBlock(sx, sy).breakable){
+			console.log( sx + " " +  sy);
+		}
+
 	}
 
 

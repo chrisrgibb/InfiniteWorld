@@ -116,9 +116,9 @@ var Map = function(){
 
 
 
-	var lg = new LevelGenerator();
+	// var lg = new LevelGenerator();
 
-	this.tiles = lg.createLevel();
+	// this.tiles = lg.createLevel();
 
 
 	// this.tiles = [
@@ -182,6 +182,10 @@ Map.prototype.getTile = function(x, y){
 	// return this.tiles[y][x];
 	return this.blocks[y][x].image;
 };
+
+Map.prototype.getBlock = function(x, y){
+	return this.blocks[y][x];
+}
 
 
 

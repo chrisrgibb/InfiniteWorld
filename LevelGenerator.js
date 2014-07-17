@@ -23,6 +23,8 @@ var LevelGenerator = function(){
 	this.unBreakableBlcok = 12;
 	this.currentOption = "two";
 	this.groundIndex = 10; 
+	this.tiles = [];
+	this.difficulty = 1;
 }
 
 var themeOptions = {
@@ -61,41 +63,61 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	var EndingX = length - randomInt(3); // area to put the rice ball / hamburger
 	console.log(length);
 
-	// var chunks = length / randomInt(32) | 0;
+
+	console.log(chunks);
+	
+	this.tiles = new Array(this.height);
+	this.createPlainLevel(this.tiles, length);
+
 
 	var chunks = [];
 	var start = 12;
 	var index = 12;
 	while(index < length){
+
 		var newChunk = 3 + Math.random() * 12 | 0;
 		chunks.push(newChunk);
-		index+=newChunk;
+		
+		this.createOneGap(index, newChunk-2);
+		this.addClouds(index, 6);
+
+		index+=newChunk; 
+		newChunk = 3 + Math.random() * 12 | 0;
+		chunks.push(newChunk);
+		
+		this.generateBlocks(index, newChunk);
 	}
-	console.log(chunks);
-	
-	var tiles = new Array(this.height);
-	this.createPlainLevel(tiles, length);
 
 
 	for( var i =0; i < length; i++) {
 		var ran = Math.random();
 		// var ran2 = 
 
-		if(ran > .4 && ran < .6 ){
-			tiles[5][i] = 8;// creates some random blocks in the air
+		if(ran > .4 && ran < .45 ){
+			this.tiles[5][i] = 8;// creates some random blocks in the air
 		}
+
 	}
 
-	this.createGap(tiles, 24);
-	this.makePlatform(tiles);
+	// this.createGap(this.tiles, 24);
+	this.makePlatform(this.tiles);
 
-	return tiles;
+	return this.tiles;
 };
 
 
+LevelGenerator.prototype.generateBlocks = function(startX, length){
+
+
+
+	this.tiles[7][startX] = 7;
+	this.tiles[8][startX+1]  =8 ;
+
+}
+
 
 LevelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
-	var noise = 
+	// var noise = 
 
 
 
@@ -165,6 +187,23 @@ function get2dArray(size){
 	return tiles;
 }
 
+LevelGenerator.prototype.createOneGap = function(startX, length){
+	if(length > 5){
+		this.tiles[this.height - 4][startX + 4] = themeOptions[this.currentOption].unbreakable;
+	}
+
+	for(var i = startX+1; i< startX+ length-1; i++){
+		this.tiles[this.height-2][i] = themeOptions[this.currentOption].hazard1;
+		this.tiles[this.height-1][i] = themeOptions[this.currentOption].hazard2;
+	}
+	var ranran = Math.random();
+	if(ranran > .33 && ranran < .45 ){
+		// create bridge over it
+
+
+	}
+}
+
 
 LevelGenerator.prototype.createGap = function(tiles, startX, length){
 	/*
@@ -201,8 +240,20 @@ LevelGenerator.prototype.createGap = function(tiles, startX, length){
 
 
 
-LevelGenerator.prototype.addClouds = function(tiles){
-	var numberOfClouds = randomInt(10)+1;
+LevelGenerator.prototype.addClouds = function(startX, size){
+	// var numberOfClouds = randomInt(10)+1;
+	var noisearray = randomValues(1, 6);
+	var length = noisearray.length;
+	for(var y = 1; y< length-1; y++){
+		for(var x = 1; x < length-1; x++){
+			if(noisearray[y][x] > 0.98){
+				this.tiles[y][startX+ x] = 16;
+				this.tiles[y][startX+ x+ 1] = 17;
+			}
+
+		}
+	}
+
 
 }
 

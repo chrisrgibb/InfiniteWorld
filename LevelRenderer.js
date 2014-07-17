@@ -89,6 +89,15 @@ var LevelRenderer = function(mapp, player, levelState) {
 				enemys[i].draw(camera);
 			}
 		}
+		if(!levelState.shockWave.dead){
+			currentDebugText = "not dead " + (levelState.shockWave.x  | 0 )+ "  " + isEnemyOnScreen(camera, levelState.shockWave) ;
+			levelState.shockWave.draw(camera);
+			if(!isEnemyOnScreen(camera, levelState.shockWave)){
+				levelState.shockWave.dead = true;
+			}
+		}else{
+			currentDebugText = "Dead";
+		}
 	}
 
 	function renderEnemies(){

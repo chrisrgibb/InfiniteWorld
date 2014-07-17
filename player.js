@@ -42,6 +42,7 @@ function Player(){
 
 	this.money = 0;
 	this.inventory = new Inventory();
+	this.braceletActivated = true;
 }
 
 
@@ -136,6 +137,7 @@ Player.prototype.move = function(first_argument) {
 			if(this.onGround){
 				dX = 0;
 			}
+			levelState.useBracelet(this);
 		}else if(!keys["punch"]){
 			this.canPunch = true;
 		}
@@ -143,11 +145,14 @@ Player.prototype.move = function(first_argument) {
 
 	this.x = this.moveX(dX, dY);
 	this.y = this.moveY(dX, dY);
+	// check walk into object
+	// check hazard below eg spikes / lava or pink skull 
 
 	if(levelState.gameObject(this.x/16 |0, this.y/ 16 | 0) ) {
 		
 	}
 	levelState.gameObject( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 ); 
+	levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 ); 
 
 	// check left of screen
 	// if(this.x-(this.width/2) < 0){
@@ -170,7 +175,6 @@ Player.prototype.punchDetection = function(){
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 
 	levelState.punchTile(punchX, this.y/ 16 | 0);
-
 }
 
 
