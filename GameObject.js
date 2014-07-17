@@ -191,8 +191,8 @@ ShockWave.prototype.update = function(){
 }
 
 ShockWave.prototype.draw = function(camera){
-	var drawX = ( (this.x) - camera.x ) ;
-	var drawY = ( (this.y) - camera.y ) ; 
+	var drawX = ( (this.x) - camera.x ) - 8 ;
+	var drawY = ( (this.y) - camera.y ) - 8 ; 
 	level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 }
 

@@ -195,11 +195,17 @@ LevelState.prototype.update = function(){
 
 	if(!levelState.shockWave.dead){
 		levelState.shockWave.update();
-		var sx = levelState.shockWave.x / 16 | 0;
-		var sy = levelState.shockWave.y / 16 | 0;
+		var x = levelState.shockWave.x / 16 | 0;
+		var y = levelState.shockWave.y / 16 | 0;
 		
-		if(map.getBlock(sx, sy).breakable){
-			console.log( sx + " " +  sy);
+		// if x is not off screen
+
+		if(x < level.camera.x + (level.screenWidth / 16 | 0)  && map.getBlock(x, y).breakable){
+			console.log( x + " " +  y);
+			currentDebugText = " BOOM !!!!!";
+			alert("Boom");
+			this.map.blocks[y][x] = new Block(x, y, false, 0, 0 );	 
+			this.map.tiles[y][x] =0;
 		}
 
 	}
