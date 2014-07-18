@@ -25,6 +25,8 @@ var LevelGenerator = function(){
 	this.groundIndex = 10; 
 	this.tiles = [];
 	this.difficulty = 1;
+
+	this.endingX;
 }
 
 var themeOptions = {
@@ -62,7 +64,7 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 
 	// map length
 	var length = 32 + (Math.random() * 128) | 0;
-	var EndingX = length - randomInt(3); // area to put the rice ball / hamburger
+	this.EndingX = length - randomInt(3) - 1; // area to put the rice ball / hamburger
 	console.log(length);
 
 
@@ -111,6 +113,7 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 LevelGenerator.prototype.createNewMap = function(difficulty){
 	var tiles = this.createLevel();
 	var map = new Map(tiles);
+	map.objects.push(new RiceBall(this.EndingX, 8));
 
 	return map;
 }
