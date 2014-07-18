@@ -126,6 +126,8 @@ Player.prototype.move = function(first_argument) {
 
 
 	if(!keys["down"] && keys["punch"] && this.punchTime==0 && this.canPunch){
+		// start of punch
+
 		this.punchDetection();
 		this.punchTime = 8;
 		this.canPunch = false;
@@ -134,6 +136,7 @@ Player.prototype.move = function(first_argument) {
 		}
 	}else{
 		if(this.punchTime > 0){
+
 			this.punchTime--;
 			if(this.onGround){
 				dX = 0;

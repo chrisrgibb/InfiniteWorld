@@ -22,7 +22,10 @@ var LevelState = function(){
 
 LevelState.prototype.init = function() {
 	this.enemys = [];
-	this.map = new Map();
+	// this.map = new Map("tiles");
+	var lg = new LevelGenerator();
+
+	this.map = lg.createNewMap();
 	// this.enemys.push(new Enemy(4, 3));
 	// this.enemys.push(new Enemy(4, 19));
 
@@ -67,7 +70,7 @@ LevelState.prototype.gameObject = function(x, y){
 			//
 			objectInquestion.process(player);
 			if(objectInquestion.remove){
-				console.log("REMOVE");
+				console.log("Object REMOVED");
 				this.objectsToRemove.push(this.onScreenObjects[i]);
 			}
 		}
@@ -181,7 +184,7 @@ LevelState.prototype.updateShockwave = function(){
 		var y = levelState.shockWave.y / 16 | 0;
 		
 		// if x is not off screen
-		if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 ) {
+		if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 || !isOnScreen(level.camera, this.shockWave) ) {
 			levelState.shockWave.dead = true;
 			player.shockwaveOnscreen = false;
 			return; 
@@ -237,7 +240,7 @@ LevelState.prototype.update = function(){
 		// }
 
 
-		if( isEnemyOnScreen(level.camera, enemys[i]) ){
+		if( isOnScreen(level.camera, enemys[i]) ){
 			enemys[i].move();
 			countage++;
 			currentDebugText = countage;

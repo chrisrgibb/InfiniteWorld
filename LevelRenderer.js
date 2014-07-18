@@ -70,14 +70,14 @@ var LevelRenderer = function(mapp, player, levelState) {
 		}
 		var gameObjects = levelState.objects;
 		for(var i = 0; i < gameObjects.length; i++){
-			if(isEnemyOnScreen(this.camera, gameObjects[i] )) {
+			if(isOnScreen(this.camera, gameObjects[i] )) {
 				gameObjects[i].draw(camera);
 			}
 		}
 
 		gameObjects = levelState.onScreenObjects;
 		for(var i = 0; i< gameObjects.length; i++){
-			if(isEnemyOnScreen(this.camera, gameObjects[i] )) {
+			if(isOnScreen(this.camera, gameObjects[i] )) {
 				gameObjects[i].draw(camera);
 			}
 		}
@@ -85,15 +85,15 @@ var LevelRenderer = function(mapp, player, levelState) {
 		// highLightTiles();
 		var enemys = levelState.enemys;
 		for(var i = 0; i< enemys.length; i++){
-			if( isEnemyOnScreen(this.camera, enemys[i]) ){
+			if( isOnScreen(this.camera, enemys[i]) ){
 				enemys[i].draw(camera);
 			}
 		}
 
 		if(!levelState.shockWave.dead){
-			// currentDebugText = "not dead " + (levelState.shockWave.x  | 0 )+ "  " + isEnemyOnScreen(camera, levelState.shockWave) ;
+			// currentDebugText = "not dead " + (levelState.shockWave.x  | 0 )+ "  " + isOnScreen(camera, levelState.shockWave) ;
 			levelState.shockWave.draw(camera);
-			// if(!isEnemyOnScreen(camera, levelState.shockWave)){
+			// if(!isOnScreen(camera, levelState.shockWave)){
 			// 	levelState.shockWave.dead = true;
 			// }
 		}else{

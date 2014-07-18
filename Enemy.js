@@ -42,10 +42,12 @@ Enemy.prototype.draw = function(camera){
 	ctx.fillRect(drawX, drawY, this.width, this.height);		
 }
 
-function isEnemyOnScreen(camera, enemy){
+function isOnScreen(camera, enemy){
 	// console.log(level);
-	var xWidth = camera.x + level.mapWidth() * 16;
+	// var xWidth = camera.x + level.mapWidth() * 16;
+
 	// var cameraHeight = (camera.y + level.mapHeight() * 16);
+	var xWidth = (camera.x + level.screenWidth);
 	var cameraHeight = (camera.y + level.screenHeight);
 	var eX = enemy.x ;
 	var eY = enemy.y ;

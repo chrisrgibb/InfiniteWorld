@@ -59,6 +59,8 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	var poss = Math.random() * 3 | 0;
 	this.currentOption = possibleOptions[poss];
 
+
+	// map length
 	var length = 32 + (Math.random() * 128) | 0;
 	var EndingX = length - randomInt(3); // area to put the rice ball / hamburger
 	console.log(length);
@@ -93,7 +95,7 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 		var ran = Math.random();
 		// var ran2 = 
 
-		if(ran > .4 && ran < .45 ){
+		if(ran > .4 && ran < .5 ){
 			this.tiles[5][i] = 8;// creates some random blocks in the air
 		}
 
@@ -105,6 +107,13 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	return this.tiles;
 };
 
+
+LevelGenerator.prototype.createNewMap = function(difficulty){
+	var tiles = this.createLevel();
+	var map = new Map(tiles);
+
+	return map;
+}
 
 LevelGenerator.prototype.generateBlocks = function(startX, length){
 
@@ -335,6 +344,10 @@ LevelGenerator.prototype.makePlatform = function(tiles){
 		tiles[offGround][j] = themeOptions[this.currentOption].breakable;
 	}
 };
+
+
+
+
 
 var Noise = function(){
 	//http://mrl.nyu.edu/~perlin/noise/

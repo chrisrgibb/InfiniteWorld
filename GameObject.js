@@ -53,6 +53,20 @@ MoneyBag.prototype.process = function(player){
 	this.remove = true;
 }
 
+function RiceBall(x, y){
+	this.x = x*16;
+	this.y = y*16;
+	this.timer = -1;
+	this.tilenumber = 4;
+
+}
+
+RiceBall.prototype = new GameObject();
+
+RiceBall.prototype.process = function(){
+	alert("End level!!!");
+}
+
 
 function Ring(x, y){
 	this.x = x*16;
@@ -83,6 +97,10 @@ Life.prototype.process = function(player){
 	this.remove = true;
 }
 
+	/*
+	 * GHOST!!
+	 *
+	 */
 
 function Ghost(x, y){
 	this.color = "#adadff";
@@ -102,7 +120,7 @@ Ghost.prototype = new GameObject(); // could probably change to enemy if
 Ghost.prototype.update = function(){
 	this.timer++;
 	this.move();
-	if(!isEnemyOnScreen(level.camera, this)){
+	if(!isOnScreen(level.camera, this)){
 		// currentDebugText = "OFFSCREEN";
 		// alert("off");
 		this.remove = true;
@@ -128,9 +146,6 @@ Ghost.prototype.process = function(){
 		// this.remove = true;
 	}
 }	
-
-
-
 
 Ghost.prototype.move = function(){
 	if(this.timer < 50){
@@ -160,7 +175,8 @@ Ghost.prototype.move = function(){
 }
 
 
-// 
+//  Shockwave Protectile
+
 function ShockWave(){
 	this.x = 0;
 	this.y = 0;
@@ -193,7 +209,7 @@ ShockWave.prototype.update = function(){
 	if(!this.dead){
 		this.x += this.dir * this.speed;
 	}
-	if(!isEnemyOnScreen(level.camera, this)){
+	if(!isOnScreen(level.camera, this)){
 		this.dead = true;
 	}
 
