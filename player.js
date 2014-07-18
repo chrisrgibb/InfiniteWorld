@@ -42,7 +42,7 @@ function Player(){
 
 	this.money = 0;
 	this.inventory = new Inventory();
-	this.braceletActivated = true;
+	this.braceletActivated = false;
 }
 
 
@@ -137,7 +137,10 @@ Player.prototype.move = function(first_argument) {
 			if(this.onGround){
 				dX = 0;
 			}
-			levelState.useBracelet(this);
+			if(!this.braceletActivated){
+				levelState.useBracelet(this); // creates a new shockwave thing
+				this.braceletActivated = true;
+			}
 		}else if(!keys["punch"]){
 			this.canPunch = true;
 		}
@@ -313,7 +316,6 @@ Player.prototype.moveY = function(dX, dY){
 			tempY = this.y + dY;
 		}
 	}
-
 	return tempY;
 }
 
@@ -343,7 +345,7 @@ Player.prototype.draw = function(ctx) {
 	 * Punchgin
 	 */ 
 	if(this.punchTime>0){
-		ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - level.camera.x, this.y - this.height/2 +4 - level.camera.y, 8 * this.dir, 10 );
+		// ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - level.camera.x, this.y - this.height/2 +4 - level.camera.y, 8 * this.dir, 10 );
 		var punchFrame = 112;
 		if(this.dir==-1){
 			punchFrame = 136;

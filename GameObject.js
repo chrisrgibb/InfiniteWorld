@@ -102,11 +102,15 @@ Ghost.prototype = new GameObject(); // could probably change to enemy if
 Ghost.prototype.update = function(){
 	this.timer++;
 	this.move();
-
+	if(!isEnemyOnScreen(level.camera, this)){
+		// currentDebugText = "OFFSCREEN";
+		// alert("off");
+		this.remove = true;
+	}
 }	
 
 Ghost.prototype.draw = function(camera){
-	currentDebugText = this.timer;
+	// currentDebugText = this.timer;
 	var drawX = ( (this.x) - camera.x ) ;
 	var drawY = ( (this.y) - camera.y ) ; 
 	// level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
@@ -118,8 +122,8 @@ Ghost.prototype.draw = function(camera){
 Ghost.prototype.process = function(){
 	// currentDebugText = this.timer;
 	if(this.timer > 50){
-		currentDebugText = "DEAD";
-		alert("player is dead");
+		// currentDebugText = "DEAD";
+		// alert("player is dead");
 		this.playerDead = true;
 		// this.remove = true;
 	}
@@ -149,20 +153,22 @@ Ghost.prototype.move = function(){
 		}
 
 	}
+
 	
 	// do nothing
 
 }
 
 
+// 
 function ShockWave(){
 	this.x = 0;
 	this.y = 0;
-	this.speed = 2;
+	this.speed = 4;
 	this.dir = 1;
 	this.timer = 0;
 	this.ShockWave = true;
-	if(this.dir > 1){
+	if(this.dir > 0){
 		this.tilenumber = 12 ;
 	} else {
 		this.tilenumber = 13 ;
@@ -176,7 +182,7 @@ ShockWave.prototype.launch = function(x, y, dir){
 	this.y = y;
 	this.dir = dir;
 	this.timer = 0;
-	if(this.dir > 1){
+	if(this.dir > 0){
 		this.tilenumber = 12 ;
 	} else {
 		this.tilenumber = 13 ;
@@ -187,12 +193,16 @@ ShockWave.prototype.update = function(){
 	if(!this.dead){
 		this.x += this.dir * this.speed;
 	}
-	// if(this.x > )
+	if(!isEnemyOnScreen(level.camera, this)){
+		this.dead = true;
+	}
+
+
 }
 
 ShockWave.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) - 8 ;
-	var drawY = ( (this.y) - camera.y ) - 8 ; 
+	var drawY = ( (this.y) - camera.y ) -7 ; 
 	level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 }
 

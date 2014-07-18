@@ -89,15 +89,17 @@ var LevelRenderer = function(mapp, player, levelState) {
 				enemys[i].draw(camera);
 			}
 		}
+
 		if(!levelState.shockWave.dead){
-			currentDebugText = "not dead " + (levelState.shockWave.x  | 0 )+ "  " + isEnemyOnScreen(camera, levelState.shockWave) ;
+			// currentDebugText = "not dead " + (levelState.shockWave.x  | 0 )+ "  " + isEnemyOnScreen(camera, levelState.shockWave) ;
 			levelState.shockWave.draw(camera);
-			if(!isEnemyOnScreen(camera, levelState.shockWave)){
-				levelState.shockWave.dead = true;
-			}
+			// if(!isEnemyOnScreen(camera, levelState.shockWave)){
+			// 	levelState.shockWave.dead = true;
+			// }
 		}else{
-			currentDebugText = "Dead";
+			// currentDebugText = "Dead";
 		}
+		level.objectSheet.drawTile(12, 18* 16 , 5* 16);
 	}
 
 	function renderEnemies(){

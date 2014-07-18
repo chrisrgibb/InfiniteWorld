@@ -110,8 +110,8 @@ LevelGenerator.prototype.generateBlocks = function(startX, length){
 
 
 
-	this.tiles[7][startX] = 7;
-	this.tiles[8][startX+1]  =8 ;
+	// this.tiles[7][startX] = 7;
+	// this.tiles[8][startX+1]  =8 ;
 
 }
 
@@ -164,15 +164,19 @@ LevelGenerator.prototype.plainNoise = function(number){
 
 	for(var i = 0; i< 32; i++){
 		for(var j = 0; j < 32; j++){
-			if(tiles[i][j]> 0.70 && tiles[i][j] < 0.77){
+			if(tiles[i][j]> 0.70 && tiles[i][j] < 0.87){
 				newtiles[i][j] = number;	
 			}
-			
+			if(tiles[i][j] > .71 && tiles[i][j] < 0.75 ){
+				newtiles[i][j] = 12;
+			}
 		}
 	}
 
 	return newtiles;
 }
+
+// LevelGenerator.prototype.
 
 
 function get2dArray(size){
@@ -188,8 +192,10 @@ function get2dArray(size){
 }
 
 LevelGenerator.prototype.createOneGap = function(startX, length){
+
 	if(length > 5){
 		this.tiles[this.height - 4][startX + 4] = themeOptions[this.currentOption].unbreakable;
+		this.tiles[this.height - randomInt(2) - 4 ][startX + randomInt(8) ] = themeOptions[this.currentOption].breakable;
 	}
 
 	for(var i = startX+1; i< startX+ length-1; i++){

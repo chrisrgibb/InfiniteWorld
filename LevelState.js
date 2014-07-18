@@ -8,12 +8,15 @@ var LevelState = function(){
 	this.onScreenEnemies = [];
 
 	this.objectsToRemove = [];
+	this.permanentItems = [];
 
 	this.currentItem = 0;
 
 	this.backgroundColor = "#0000ff";
 
 	this.shockWave = new ShockWave();
+
+	this.playerOnGhost =true;
 
 };
 
@@ -130,21 +133,70 @@ LevelState.prototype.punchTile = function(x, y){
 
 LevelState.prototype.useBracelet = function(player){
 	// this.onScreenObjects.push(new ShockWave(player.x, player.y, player.dir) );
-	this.shockWave.launch(player.x, player.y, player.dir);
+	if(player.dir==1 ){
+		this.shockWave.launch(player.x + (20), player.y, player.dir);
+
+	}else {
+		this.shockWave.launch(player.x + (8 * player.dir), player.y, player.dir);
+	}
+
+
 }
 
 LevelState.prototype.walkedOverBadStuff = function(x, y){
 	if(x > this.map.blocks[0].length-1 || y > this.map.blocks.length-1){
 		return;
 	}
-	if(this.map.blocks[y][x].image == 7){
-		alert("pinkies");
-		this.onScreenObjects.push(new Ghost(x, y, true));
-		this.currentItem++;
+	if(this.map.blocks[y][x].image == 7 ){
+
+		if(!this.playerOnGhost){
+			// alert("pinkies");
+			this.onScreenObjects.push(new Ghost(x, y, true));
+			this.currentItem++;
+			this.playerOnGhost = true;
+
+			// to ensure only two items on screen
+			if(this.onScreenObjects.length > 2){
+				this.objectsToRemove.push(this.onScreenObjects[0]);
+			}
+		}
+	} else {
+		this.playerOnGhost = false;
 	}
 
 
 }
+
+LevelState.prototype.updateShockwave = function(){
+	if(!levelState.shockWave.dead){
+		levelState.shockWave.update();
+
+
+		// if(levelState.shockWave.)
+
+		var x = levelState.shockWave.x / 16 | 0;
+		var y = levelState.shockWave.y / 16 | 0;
+		
+		// if x is not off screen
+		if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 ) {
+			levelState.shockWave.dead = true;
+			player.braceletActivated = false;
+			return; 
+		}
+		var block = map.getBlock(x,y);
+
+		if(x < level.camera.x + (level.screenWidth / 16 | 0)  && map.getBlock(x, y).breakable){
+			// connects with breakable block
+			this.punchTile(x, y);
+		} else if(x < level.camera.x + (level.screenWidth / 16 | 0)  && map.getBlock(x, y).isSolid){
+			// hits a solidblock
+			levelState.shockWave.dead = true;
+			player.braceletActivated = false;
+		}
+
+	}
+}
+
 
 
 LevelState.prototype.update = function(){
@@ -157,6 +209,15 @@ LevelState.prototype.update = function(){
 	var removeEnemys = [];
 	// var objectsToRemove = [];
 	var countage = 0;
+
+
+	// enemy logic
+	// search through enemys for next one to appear
+	// add to on screen enemies.
+	// if its off screen remove it.
+	// requires 3 lists!!!!
+
+
 	for(var i = 0; i< enemys.length; i++){
 
 		// // GOING to use this later???z`
@@ -176,7 +237,10 @@ LevelState.prototype.update = function(){
 
 		if( isEnemyOnScreen(level.camera, enemys[i]) ){
 			enemys[i].move();
+			countage++;
+			currentDebugText = countage;
 		}	else if(enemys[i].y < level.camera.y+16) {
+
 			removeEnemys.push(enemys[i]);
 		}
 	}
@@ -193,23 +257,7 @@ LevelState.prototype.update = function(){
 		}
 	}
 
-	if(!levelState.shockWave.dead){
-		levelState.shockWave.update();
-		var x = levelState.shockWave.x / 16 | 0;
-		var y = levelState.shockWave.y / 16 | 0;
-		
-		// if x is not off screen
-
-		if(x < level.camera.x + (level.screenWidth / 16 | 0)  && map.getBlock(x, y).breakable){
-			console.log( x + " " +  y);
-			currentDebugText = " BOOM !!!!!";
-			alert("Boom");
-			this.map.blocks[y][x] = new Block(x, y, false, 0, 0 );	 
-			this.map.tiles[y][x] =0;
-		}
-
-	}
-
+	this.updateShockwave();
 
 
 	// remove static objects

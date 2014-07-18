@@ -116,9 +116,9 @@ var Map = function(){
 
 
 
-	var lg = new LevelGenerator();
+	// var lg = new LevelGenerator();
 
-	this.tiles = lg.createLevel();
+	// this.tiles = lg.createLevel();
 
 
 	// this.tiles = [
@@ -147,24 +147,70 @@ Map.prototype.createBlocks = function(){
 	for(var y = 0; y < this.getHeight(); y++){
 		var rowArray = [];
 		for(var x = 0; x < this.getWidth(); x++){
-			var breakable = this.tiles[y][x];
+			var type = this.tiles[y][x];
 
-			switch(breakable){
+			// switch(type){
+			// 	// blocks that can be broken
+			// 	case 8:
+			// 	case 9:
+			// 	case 10:
+			// 	case 11:
+			// 	case 21:
+			//  	case 35:
+			// 		rowArray.push( new Block(x, y, true, type, 1) );
+			// 		break;
+			// 	// blocks that are solid but can't be broken
+			// 	case 2:
+			// 	case 5:
+			// 	case 7:
+			// 	case 12:
+			// 	case 18:
+			// 	case 19:
+			// 	case 20:
+			// 	case 32:
+			// 		rowArray.push(new Block(x, y, false, type, 1) );
+			// 		break;
+			// 	// case 16:
+			// 	// case 17:
+			// 	default:
+			// 		rowArray.push( new Block(x, y, false, type, 0 ));
+			// 		break;
+			// }
+
+			switch(type){
+				// blocks that can be broken
 				case 8:
 				case 9:
 				case 10:
 				case 11:
 				case 21:
 			 	case 35:
-					rowArray.push( new Block(x, y, true, breakable, 1) );
+					rowArray.push( new Block(x, y, true, type, 1) );
 					break;
+				// blocks that are solid but can't be broken
+				// case 2:
+				// case 5:
+				// case 7:
+				// case 12:
+				// case 18:
+				// case 19:
+				// case 20:
+				// case 32:
+				// 	rowArray.push(new Block(x, y, false, type, 1) );
+				// 	break;
 				// case 16:
 				// case 17:
-				default:
-					rowArray.push( new Block(x, y, false, breakable, 0 ));
+				case 0:
+				case 16:
+				case 17:
+					rowArray.push( new Block(x, y, false, type, 0 ));
 					break;
 
+				default:
+					rowArray.push( new Block(x, y, false, type, 1 ));
+					break;
 			}
+
 
 			// if( breakable==9 || breakable==8 || breakable ==11 || breakable==10 || breakable==21 
 			// 	|| breakable==35 ){
