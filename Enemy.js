@@ -72,14 +72,14 @@ function Scorpion(x, y){
 	var g = true;
 
 	// gets moved down vertically until it reaches ground
-	while(g){
+	// while(g){
 
-		if(!levelState.map.isBlocking( (this.x) / 16 | 0,  (this.y / 16 | 0 )   +1  )){
-			this.y += 16;
-		}else{
-			g = false;
-		}
-	}
+	// 	if(!levelState.map.isBlocking( (this.x) / 16 | 0,  (this.y / 16 | 0 )   +1  )){
+	// 		this.y += 16;
+	// 	}else{
+	// 		g = false;
+	// 	}
+	// }
 }
 
 Scorpion.prototype = new Enemy();

@@ -42,7 +42,8 @@ function Player(){
 
 	this.money = 0;
 	this.inventory = new Inventory();
-	this.braceletActivated = false;
+	this.shockwaveOnscreen = false;
+	this.braceletActivated = true;
 }
 
 
@@ -137,9 +138,9 @@ Player.prototype.move = function(first_argument) {
 			if(this.onGround){
 				dX = 0;
 			}
-			if(!this.braceletActivated){
-				levelState.useBracelet(this); // creates a new shockwave thing
-				this.braceletActivated = true;
+			if(this.braceletActivated && !this.shockwaveOnscreen){
+				levelState.fireShockwave(this); // creates a new shockwave thing onscreen
+ 				this.shockwaveOnscreen = true; // true while on screen
 			}
 		}else if(!keys["punch"]){
 			this.canPunch = true;

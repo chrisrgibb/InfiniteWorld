@@ -140,6 +140,30 @@ var Map = function(){
 	
 	this.blocks = this.createBlocks();
 
+	// create enemies
+	this.enemys = [];
+
+	this.enemys.push(new Enemy(4, 3));
+	this.enemys.push(new Enemy(4, 19));
+	this.enemys.push(new Enemy(8, 26));
+	this.enemys.push(new Enemy(4, 34));
+	this.enemys.push(new Enemy(8, 37));
+	this.enemys.push(new Enemy(8, 46));
+	this.enemys.push(new Enemy(8, 50));
+	this.enemys.push(new Scorpion( 4,6) ) ;
+
+
+	this.objects = [
+				new MoneyBag(7, 45), 
+			    new MoneyBag(2, 48),
+			    new MoneyBag(8, 62),
+			    new MoneyBag(2, 78),
+			    new MoneyBag(2, 79),
+			    new MoneyBag(11, 6)
+			    ];
+
+
+
 };
 
 Map.prototype.createBlocks = function(){

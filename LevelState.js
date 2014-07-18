@@ -23,28 +23,32 @@ var LevelState = function(){
 LevelState.prototype.init = function() {
 	this.enemys = [];
 	this.map = new Map();
-	this.enemys.push(new Enemy(4, 3));
-	this.enemys.push(new Enemy(4, 19));
+	// this.enemys.push(new Enemy(4, 3));
+	// this.enemys.push(new Enemy(4, 19));
 
-	this.enemys.push(new Enemy(8, 26));
-	this.enemys.push(new Enemy(4, 34));
+	// this.enemys.push(new Enemy(8, 26));
+	// this.enemys.push(new Enemy(4, 34));
 
-	this.enemys.push(new Enemy(8, 37));
-	this.enemys.push(new Enemy(8, 46));
+	// this.enemys.push(new Enemy(8, 37));
+	// this.enemys.push(new Enemy(8, 46));
 
-	this.enemys.push(new Enemy(8, 50));
+	// this.enemys.push(new Enemy(8, 50));
 
-	this.enemys.push(new Scorpion( 4,4) ) ;
+	// this.enemys.push(new Scorpion( 4,4) ) ;
+
+	this.enemys = this.map.enemys;
 
 
-	this.objects = [
-					new MoneyBag(7, 45), 
-				    new MoneyBag(2, 48),
-				    new MoneyBag(8, 62),
-				    new MoneyBag(2, 78),
-				    new MoneyBag(2, 79),
-				    new MoneyBag(11, 6)
-				    ];
+
+	// this.objects = [
+	// 				new MoneyBag(7, 45), 
+	// 			    new MoneyBag(2, 48),
+	// 			    new MoneyBag(8, 62),
+	// 			    new MoneyBag(2, 78),
+	// 			    new MoneyBag(2, 79),
+	// 			    new MoneyBag(11, 6)
+	// 			    ];
+	this.objects = this.map.objects;
 
 };
 
@@ -131,11 +135,10 @@ LevelState.prototype.punchTile = function(x, y){
 
 }
 
-LevelState.prototype.useBracelet = function(player){
+LevelState.prototype.fireShockwave = function(player){
 	// this.onScreenObjects.push(new ShockWave(player.x, player.y, player.dir) );
 	if(player.dir==1 ){
 		this.shockWave.launch(player.x + (20), player.y, player.dir);
-
 	}else {
 		this.shockWave.launch(player.x + (8 * player.dir), player.y, player.dir);
 	}
@@ -180,7 +183,7 @@ LevelState.prototype.updateShockwave = function(){
 		// if x is not off screen
 		if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 ) {
 			levelState.shockWave.dead = true;
-			player.braceletActivated = false;
+			player.shockwaveOnscreen = false;
 			return; 
 		}
 		var block = map.getBlock(x,y);
@@ -191,7 +194,7 @@ LevelState.prototype.updateShockwave = function(){
 		} else if(x < level.camera.x + (level.screenWidth / 16 | 0)  && map.getBlock(x, y).isSolid){
 			// hits a solidblock
 			levelState.shockWave.dead = true;
-			player.braceletActivated = false;
+			player.shockwaveOnscreen = false;
 		}
 
 	}
@@ -201,7 +204,6 @@ LevelState.prototype.updateShockwave = function(){
 
 LevelState.prototype.update = function(){
 
-	
 
 
 	// remove everything
