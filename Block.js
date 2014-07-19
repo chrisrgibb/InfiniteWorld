@@ -4,6 +4,7 @@ var Block = function(x, y, breakable, image, solid){
 	this.breakable = breakable;
 	this.image = image;
 	this.isSolid = solid;
+	this.animated = false;
 };
 
 function softBlock(x, y, breakable, image){

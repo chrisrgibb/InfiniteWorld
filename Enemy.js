@@ -18,7 +18,7 @@ Enemy.prototype.move = function(first_argument) {
 	if(dX < 0){
 		if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )){
 			this.dir *= -1;
-			this.blcok = true;
+			this.block = true; // ???
 		}
 	} else if(dX > 0){
 		if(map.isBlocking( (this.x + this.width + dX ) / 16 | 0, this.y  / 16 | 0)){

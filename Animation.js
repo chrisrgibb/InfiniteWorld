@@ -1,4 +1,3 @@
-Animation.js
 
 var Animation = function(x , y){
 	this.x = x;

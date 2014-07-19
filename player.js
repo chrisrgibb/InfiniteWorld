@@ -1,5 +1,9 @@
 function Player(){
 
+	/*
+		Need to fix players movement in the air
+	*/
+
 	this.x = 40;
 	this.y = 100;
 	// this.x = 130;
@@ -36,7 +40,7 @@ function Player(){
 
 	this.xx =0;
 	this.yy = 0;
-
+	// for animation
 	this.frameIndex = 0;
 	this.counter =0;
 
@@ -71,7 +75,10 @@ Player.prototype.move = function(first_argument) {
 		if(this.xVel < this.xSpeed){
 			this.xVel+=this.xspeedIncrease;
 		}
+	} else {
+		currentDebugText = this.xVel;
 	}
+
 	if ( keys["jump"] ){
 			
 		if(!this.jumping && this.canJump){		
@@ -83,8 +90,7 @@ Player.prototype.move = function(first_argument) {
 				this.onGround = false;	
 				if(this.xVel > 0){
 					// this.
-				}
-	
+				}	
 			}
 		} else if(this.jumping && this.yVel < 0 ){ // going up
 			this.yVel -= .47;
@@ -92,13 +98,16 @@ Player.prototype.move = function(first_argument) {
 		}
 	}else{
 		this.jumpTime = 0;
+			// this.xVel *= this.friction;
 	}
 	if( Math.abs(this.xVel) < 0.1){
-		// console.log(this.xVel);
+		// console.log(this.xVel);	
 		this.xVel = 0;
 	}
-
 	dX = this.xVel;	
+
+	// currentDebugText = this.xVel;
+
 	if(COUNTER % 6 ==0){
 		this.counter++;
 		if(this.counter > 3){
@@ -116,6 +125,7 @@ Player.prototype.move = function(first_argument) {
 		// max jump speed
 		dY = -5;
 	}
+		
 	this.xVel *= this.friction;
 
 	if(dY!=0.6){

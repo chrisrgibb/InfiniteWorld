@@ -239,7 +239,6 @@ LevelState.prototype.update = function(){
 		// 	}
 		// }
 
-
 		if( isOnScreen(level.camera, enemys[i]) ){
 			enemys[i].move();
 			countage++;

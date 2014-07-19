@@ -19,6 +19,8 @@ var LevelRenderer = function(mapp, player, levelState) {
 	var tilesToHighlight = []; // for debuggin
 	var tileSize = 16;
 
+	var animationCounter = 0;
+
 
 	function mapWidth(){
 		return map.getWidth();
@@ -44,7 +46,6 @@ var LevelRenderer = function(mapp, player, levelState) {
 		var startTileX = camera.x / 16 | 0;
 		var startTileY = camera.y / 16 | 0;
 
-
 		if(startTileY < 0 ){
 			startTileY = 0;
 		}else if(startTileY > 0 ){
@@ -52,22 +53,40 @@ var LevelRenderer = function(mapp, player, levelState) {
 		}
 
 		ctx.fillStyle = levelState.backgroundColor; //"#0000ff";
-		
+		ctx.fillRect(0, 0 , WIDTH, HEIGHT);
+
+		// DRAW TILES
 		for(var row = startTileY; row < map.getHeight(); row++ ){
 			for(var col = startTileX; col < map.getWidth(); col++){
 
 				var y = ( row * tileSize ) - camera.y ; ///16 |0;
 				var x = (col * tileSize) - camera.x;
-			
-			 	ctx.fillRect(x, y, tileSize, tileSize);
-			
-				var val = map.getTile(col, row);
-				if(val > 0){
-					tileSheet.drawTile(val, x, y);
-				} 
-					
+
+				var tile = map.getBlock(col, row);
+				
+			 	// ctx.fillRect(x, y, tileSize, tileSize);
+			 	if(tile.animated){
+			 		if(COUNTER % 23 ==0){
+			 			animationCounter++;
+			 			if(animationCounter > 3){
+							animationCounter = 0 ;
+						}
+			 		}
+			 		var val = tile.image;
+			 		tileSheet.drawTile(val + animationCounter , x , y);
+
+			 	}else {				
+					var val = tile.image;
+					if(val > 0){
+						tileSheet.drawTile(val, x, y);
+					}
+				}
+				
 			}
 		}
+
+
+
 		var gameObjects = levelState.objects;
 		for(var i = 0; i < gameObjects.length; i++){
 			if(isOnScreen(this.camera, gameObjects[i] )) {
@@ -91,13 +110,9 @@ var LevelRenderer = function(mapp, player, levelState) {
 		}
 
 		if(!levelState.shockWave.dead){
-			// currentDebugText = "not dead " + (levelState.shockWave.x  | 0 )+ "  " + isOnScreen(camera, levelState.shockWave) ;
 			levelState.shockWave.draw(camera);
-			// if(!isOnScreen(camera, levelState.shockWave)){
-			// 	levelState.shockWave.dead = true;
-			// }
 		}else{
-			// currentDebugText = "Dead";
+			// comment
 		}
 		level.objectSheet.drawTile(12, 18* 16 , 5* 16);
 	}

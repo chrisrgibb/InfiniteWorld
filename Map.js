@@ -1,5 +1,6 @@
 var Map = function(newtiles){
-
+		this.enemys = [];
+		this.objects = [];
 	if(!newtiles){
 
 		this.tiles = [
@@ -115,6 +116,25 @@ var Map = function(newtiles){
 
 		];
 
+	this.enemys.push(new Enemy(4, 3));
+	this.enemys.push(new Enemy(4, 19));
+	this.enemys.push(new Enemy(8, 26));
+	this.enemys.push(new Enemy(4, 34));
+	this.enemys.push(new Enemy(8, 37));
+	this.enemys.push(new Enemy(8, 46));
+	this.enemys.push(new Enemy(8, 50));
+	this.enemys.push(new Scorpion( 4,6) ) ;
+
+
+	this.objects = [
+				new MoneyBag(7, 45), 
+			    new MoneyBag(2, 48),
+			    new MoneyBag(8, 62),
+			    new MoneyBag(2, 78),
+			    new MoneyBag(2, 79),
+			    ];
+
+
 	} else {
 		this.tiles = newtiles;
 		// var lg = new LevelGenerator();
@@ -142,26 +162,8 @@ var Map = function(newtiles){
 	this.blocks = this.createBlocks();
 
 	// create enemies
-	this.enemys = [];
-
-	this.enemys.push(new Enemy(4, 3));
-	this.enemys.push(new Enemy(4, 19));
-	this.enemys.push(new Enemy(8, 26));
-	this.enemys.push(new Enemy(4, 34));
-	this.enemys.push(new Enemy(8, 37));
-	this.enemys.push(new Enemy(8, 46));
-	this.enemys.push(new Enemy(8, 50));
-	this.enemys.push(new Scorpion( 4,6) ) ;
 
 
-	this.objects = [
-				new MoneyBag(7, 45), 
-			    new MoneyBag(2, 48),
-			    new MoneyBag(8, 62),
-			    new MoneyBag(2, 78),
-			    new MoneyBag(2, 79),
-			    new MoneyBag(11, 6)
-			    ];
 
 
 
@@ -189,6 +191,13 @@ Map.prototype.createBlocks = function(){
 				case 16:
 				case 17:
 					rowArray.push( new Block(x, y, false, type, 0 ));
+					break;
+				// animated tiles
+				case 23:
+				case 28:
+					var block = new Block(x, y, false, type, 0);
+					block.animated = true;
+					rowArray.push(block);
 					break;
 				// blocks that are solid but can't be broken
 				default:

@@ -104,9 +104,9 @@ Life.prototype.process = function(player){
 
 function Ghost(x, y){
 	this.color = "#adadff";
-	this.x = x * 16;
-	this.y = y *16;
-	this.width = 12;
+	this.x =  8+ x * 16;
+	this.y =  8 + y *16;
+	this.width = 16;
 	this.height = 16;
 	this.timer = 0;
 	this.speed = .5;
@@ -121,29 +121,22 @@ Ghost.prototype.update = function(){
 	this.timer++;
 	this.move();
 	if(!isOnScreen(level.camera, this)){
-		// currentDebugText = "OFFSCREEN";
-		// alert("off");
 		this.remove = true;
 	}
 }	
 
 Ghost.prototype.draw = function(camera){
-	// currentDebugText = this.timer;
 	var drawX = ( (this.x) - camera.x ) ;
 	var drawY = ( (this.y) - camera.y ) ; 
 	// level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 	ctx.fillStyle = this.color;
-	ctx.fillRect(drawX, drawY, this.width, this.height);	
-	enemySheet.draw(0, drawX, drawY, this.width, this.height);	
+	// ctx.fillRect(drawX, drawY, this.width, this.height);	
+	enemySheet.draw(0, drawX- this.width/2, drawY- this.width/2, this.width, this.height);	
 }
 
 Ghost.prototype.process = function(){
-	// currentDebugText = this.timer;
 	if(this.timer > 50){
-		// currentDebugText = "DEAD";
-		// alert("player is dead");
 		this.playerDead = true;
-		// this.remove = true;
 	}
 }	
 
