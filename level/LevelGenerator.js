@@ -27,6 +27,9 @@ var LevelGenerator = function(){
 	this.difficulty = 1;
 
 	this.endingX;
+
+	this.enemies = [];
+	this.objects  = [];
 }
 
 var themeOptions = {
@@ -81,6 +84,9 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	while(index < length){
 
 		var newChunk = 3 + Math.random() * 12 | 0;
+
+		this.objects[7][index + ] = new Enemy()
+
 		
 		this.createOneGap(index, newChunk-2);
 		this.tiles[10][index] = 16;
@@ -229,8 +235,6 @@ LevelGenerator.prototype.addClouds = function(startX, size){
 
 		}
 	}
-
-
 }
 
 
@@ -279,7 +283,7 @@ LevelGenerator.prototype.triangleThing = function(tiles){
 				tiles[this.groundIndex - height  + i][j] = 9;
 				//themeOptions[this.currentOption].unbreakable; 
 			}
-			// tiles[this.groundIndex -height + i][start + height - 2 ];
+
 		}
 	}
 
