@@ -26,31 +26,9 @@ LevelState.prototype.init = function() {
 	var lg = new LevelGenerator();
 
 	this.map = lg.createNewMap();
-	// this.enemys.push(new Enemy(4, 3));
-	// this.enemys.push(new Enemy(4, 19));
 
-	// this.enemys.push(new Enemy(8, 26));
-	// this.enemys.push(new Enemy(4, 34));
-
-	// this.enemys.push(new Enemy(8, 37));
-	// this.enemys.push(new Enemy(8, 46));
-
-	// this.enemys.push(new Enemy(8, 50));
-
-	// this.enemys.push(new Scorpion( 4,4) ) ;
 
 	this.enemys = this.map.enemys;
-
-
-
-	// this.objects = [
-	// 				new MoneyBag(7, 45), 
-	// 			    new MoneyBag(2, 48),
-	// 			    new MoneyBag(8, 62),
-	// 			    new MoneyBag(2, 78),
-	// 			    new MoneyBag(2, 79),
-	// 			    new MoneyBag(11, 6)
-	// 			    ];
 	this.objects = this.map.objects;
 
 };
@@ -66,7 +44,6 @@ LevelState.prototype.gameObject = function(x, y){
 		var oby = this.onScreenObjects[i].y / 16 | 0;
 		if(x===obx && y ===oby){
 			console.log("picked up object at " + x + " ,  " + y   );
-			
 			//
 			objectInquestion.process(player);
 			if(objectInquestion.remove){

@@ -66,14 +66,11 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 	this.currentOption = ["two"];
 
 
-
 	// map length
 	var length = 32 + (Math.random() * 128) | 0;
 	this.EndingX = length - randomInt(3) - 1; // area to put the rice ball / hamburger
 	console.log(length);
 
-	console.log(chunks);
-	
 	this.tiles = new Array(this.height);
 	this.createPlainLevel(this.tiles, length);
 
@@ -86,8 +83,14 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 		var newChunk = 3 + Math.random() * 12 | 0;
 
 		this.enemies.push(new Enemy(index, randomInt(5)  ));
-
-		this.createOneGap(index, newChunk-2);
+		var chance = Math.random();
+		if(chance < .33) {
+			this.createOneGap(index, newChunk-2);
+		} else if( chance >= .33 && chance < .66 ) {
+			this.makePlatform2(index, newChunk-2);
+		} else {
+			this.tiles[0][index] = 6;
+		}
 
 		this.tiles[10][index] = 16; // start of gap
 		this.addClouds(index, 6);
@@ -100,63 +103,36 @@ LevelGenerator.prototype.createLevel = function(first_argument) {
 
 	for( var i =0; i < length; i++) {
 		var ran = Math.random();
-		// var ran2 = 
 
 		if(ran > .4 && ran < .5 ){
 			this.tiles[5][i] = 8;// creates some random blocks in the air
 		}
 	}
 
-	this.makePlatform(this.tiles);
-
-	this.makePlatform(this.tiles);
-
-
 
 	return this.tiles;
 };
 
 
+
 // makes a floating platform in the air
-LevelGenerator.prototype.makePlatform = function(tiles){
+LevelGenerator.prototype.makePlatform2 = function(start, length){
 	var maxPlatformHeight = 4;
 
-	var platformSize = Math.round(Math.random() * 8)  + 2;
+	// var platformSize = Math.round(Math.random() * 8)  + 2;
 	var platformHeight = Math.round(Math.random() * 4) + 2;
 
 	// console.log(platformHeight);
-	var platforms = [];
-	var start =  Math.round(Math.random() * tiles[0].length- (platformSize * 2)) ;
+
+	// var start =  Math.round(Math.random() * this.tiles[0].length- (platformSize * 2)) ;
 	if( platformHeight > maxPlatformHeight){
-		tiles[this.groundIndex - 2][start++] = this.breakableBlock;
+		this.tiles[this.groundIndex - 2][start++] = this.breakableBlock;
 	}
 
-	for(var j = start; j< start+ platformSize; j++){
-		var offGround = tiles.length - platformHeight -1;
+	for(var j = start; j< start + length; j++){
+		var offGround = this.tiles.length - platformHeight -1;
 		// tiles[offGround][j] = this.breakableBlock;
-		tiles[offGround][j] = themeOptions[this.currentOption].breakable;
-	}
-};
-
-
-// makes a floating platform in the air
-LevelGenerator.prototype.makePlatform2 = function(tiles){
-	var maxPlatformHeight = 4;
-
-	var platformSize = Math.round(Math.random() * 8)  + 2;
-	var platformHeight = Math.round(Math.random() * 4) + 2;
-
-	// console.log(platformHeight);
-	var platforms = [];
-	var start =  Math.round(Math.random() * tiles[0].length- (platformSize * 2)) ;
-	if( platformHeight > maxPlatformHeight){
-		tiles[this.groundIndex - 2][start++] = this.breakableBlock;
-	}
-
-	for(var j = start; j< start+ platformSize; j++){
-		var offGround = tiles.length - platformHeight -1;
-		// tiles[offGround][j] = this.breakableBlock;
-		tiles[offGround][j] = themeOptions[this.currentOption].breakable;
+		this.tiles[offGround][j] = themeOptions[this.currentOption].breakable;
 	}
 };
 

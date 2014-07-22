@@ -14,7 +14,7 @@ function Player(){
 	this.yVel = 0;
 	this.xVel = 0;
 	this.speed = 2;
-	this.xSpeed = 3;
+	this.xSpeed = 8;
 	this.xspeedIncrease = 0.45;
 	this.gravity = .6;
 	this.friction = .8;
@@ -76,21 +76,22 @@ Player.prototype.move = function(first_argument) {
 			this.xVel+=this.xspeedIncrease;
 		}
 	} else {
-		currentDebugText = this.xVel;
+		// currentDebugText = this.xVel;
 	}
-
+	 currentDebugText = this.xVel;
 	if ( keys["jump"] ){
 			
 		if(!this.jumping && this.canJump){		
 			if(this.onGround){
-				console.log("xVel = "+ this.xVel);
+				console.log("xVel = " + this.xVel);
 				this.canJump = false;
 				this.yVel = -4.2 - Math.abs(this.xVel / 5);
 				this.jumping = true;
 				this.onGround = false;	
+				currentDebugText = this.xVel;
 				if(this.xVel > 0){
-					// this.
-				}	
+					currentDebugText = this.xVel;
+				}
 			}
 		} else if(this.jumping && this.yVel < 0 ){ // going up
 			this.yVel -= .47;
@@ -98,15 +99,14 @@ Player.prototype.move = function(first_argument) {
 		}
 	}else{
 		this.jumpTime = 0;
-			// this.xVel *= this.friction;
+			
 	}
 	if( Math.abs(this.xVel) < 0.1){
-		// console.log(this.xVel);	
 		this.xVel = 0;
 	}
 	dX = this.xVel;	
 
-	// currentDebugText = this.xVel;
+
 
 	if(COUNTER % 6 ==0){
 		this.counter++;
@@ -125,7 +125,7 @@ Player.prototype.move = function(first_argument) {
 		// max jump speed
 		dY = -5;
 	}
-		
+
 	this.xVel *= this.friction;
 
 	if(dY!=0.6){
@@ -172,9 +172,7 @@ Player.prototype.move = function(first_argument) {
 	levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 ); 
 
 	// check left of screen
-	// if(this.x-(this.width/2) < 0){
-	// 	this.x = 0 + (this.width/2);
-	// }
+	
 	if(this.x-(this.width/2) < level.camera.x){
 		this.x = level.camera.x + (this.width/2);
 	}
