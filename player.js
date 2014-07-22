@@ -55,29 +55,7 @@ Player.prototype.move = function(first_argument) {
 
 	var dX = 0, dY = 0;
 
-	if(this.left){
-		if(this.xVel > 0){
-			this.xVel = 0;
 
-		}
-		this.dir = -1;
-
-		if(this.xVel > -this.xSpeed){
-			this.xVel-=this.xspeedIncrease;;
-		}
-
-	}else if( keys["right"]){
-
-		if(this.xVel< 0){
-			this.xVel = 0;
-		}
-		this.dir = 1;
-		if(this.xVel < this.xSpeed){
-			this.xVel+=this.xspeedIncrease;
-		}
-	} else {
-		// currentDebugText = this.xVel;
-	}
 	 currentDebugText = this.xVel;
 	if ( keys["jump"] ){
 			
@@ -101,6 +79,33 @@ Player.prototype.move = function(first_argument) {
 		this.jumpTime = 0;
 			
 	}
+	if(this.left){
+		if(this.xVel > 0){
+			this.xVel = 0;
+
+		}
+		this.dir = -1;
+
+		if(this.xVel > -this.xSpeed){
+			this.xVel-=this.xspeedIncrease;;
+		}
+
+	}else if( keys["right"]){
+
+		if(this.xVel< 0){
+			this.xVel = 0;
+		}
+		this.dir = 1;
+		if(this.xVel < this.xSpeed){
+			this.xVel+=this.xspeedIncrease;
+		}
+	} else if (this.xVel > 0  ) {
+
+	} else {
+		currentDebugText = this.xVel;
+	}
+
+
 	if( Math.abs(this.xVel) < 0.1){
 		this.xVel = 0;
 	}
@@ -125,8 +130,9 @@ Player.prototype.move = function(first_argument) {
 		// max jump speed
 		dY = -5;
 	}
+		this.xVel *= this.friction;
 
-	this.xVel *= this.friction;
+
 
 	if(dY!=0.6){
 		// console.log(dY);
@@ -393,7 +399,5 @@ Player.prototype.drawWalking = function(){
 	}else{
 		var drawFrame = this.counter + 10;
 		ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
-
 	}
-
 }

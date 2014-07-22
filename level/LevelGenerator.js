@@ -138,7 +138,7 @@ LevelGenerator.prototype.makePlatform2 = function(start, length){
 
 LevelGenerator.prototype.createNewMap = function(difficulty){
 	var tiles = this.createLevel();
-	var map = new Map(tiles);
+	var map = new Map();
 	map.enemys = this.enemies;
 	map.objects.push(new RiceBall(this.EndingX, 8));
 
