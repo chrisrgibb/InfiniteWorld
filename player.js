@@ -13,10 +13,9 @@ function Player(){
 	this.duckingheight = 10;
 	this.yVel = 0;
 	this.xVel = 0;
-	this.speed = 2;
-	this.xSpeed = 8;
-	this.xspeedIncrease = 0.45;
-	this.gravity = .6;
+	this.xSpeed = 2;
+	this.xspeedIncrease = 0.20;
+	this.gravity = .25;
 	this.friction = .8;
 
 	this.dir = 1;
@@ -35,6 +34,8 @@ function Player(){
 	this.xjumpSpeed = 0;
 	this.yjumpSpeed= 0;
 
+	this.jumpStart = -1;
+
 	this.punchTime = 0;
 	this.canPunch = true;
 
@@ -48,6 +49,10 @@ function Player(){
 	this.inventory = new Inventory();
 	this.shockwaveOnscreen = false;
 	this.braceletActivated = true;
+	this.oldYvel =0;
+
+	this.maxJumpReached = false;
+
 }
 
 
@@ -56,29 +61,60 @@ Player.prototype.move = function(first_argument) {
 	var dX = 0, dY = 0;
 
 
-	 currentDebugText = this.xVel;
+	 // currentDebugText = this.xVel;
+	this.oldYvel = this.yVel;
 	if ( keys["jump"] ){
 			
 		if(!this.jumping && this.canJump){		
 			if(this.onGround){
-				console.log("xVel = " + this.xVel);
+				this.maxJumpReached  = false;
+				this.jumpStart = this.y;
+				// console.log("xVel = " + this.xVel);
 				this.canJump = false;
-				this.yVel = -4.2 - Math.abs(this.xVel / 5);
+				// this.yVel = -4.2 - Math.abs(this.xVel / 5);
+				if(keys["left"] || keys["right"] ){
+					this.yVel = -3;
+					// currentDebugText = this.yVel;
+				}else{	
+					this.yVel = -2.25;
+				}
 				this.jumping = true;
 				this.onGround = false;	
-				currentDebugText = this.xVel;
+				
 				if(this.xVel > 0){
-					currentDebugText = this.xVel;
+					// currentDebugText = this.xVel;
 				}
 			}
-		} else if(this.jumping && this.yVel < 0 ){ // going up
-			this.yVel -= .47;
+		} else {
+			// now player is in mid air
+			if(!this.maxJumpReached && !this.canJump){
+				if(keys["left"] || keys["right"] ){
+					this.yVel = -3;
+
+					// currentDebugText = this.yVel;
+				}else{	
+					console.log("doubel jump " + this.yVel );
+					this.yVel = -2.25;
+				}
+			}
+			if(this.y < this.jumpStart - 45){
+				this.maxJumpReached = true;
+			}
+			if(this.maxJumpReached){
+				this.yVel += .105;
+			}
 
 		}
 	}else{
+		this.yVel += .105;
+		// this.yVel += .25;
 		this.jumpTime = 0;
 			
 	}
+
+	// var g = this.oldYvel - this.yVel;
+	// console.log(this.yVel);
+	currentDebugText = this.yVel;
 	if(this.left){
 		if(this.xVel > 0){
 			this.xVel = 0;
@@ -99,11 +135,26 @@ Player.prototype.move = function(first_argument) {
 		if(this.xVel < this.xSpeed){
 			this.xVel+=this.xspeedIncrease;
 		}
-	} else if (this.xVel > 0  ) {
+	} 
+	else if (this.xVel > 0 && !this.onGround  ) {
+		// currentDebugText = this.xVel;
+	//	this.xVel += (this.xspeedIncrease / 4);
 
-	} else {
-		currentDebugText = this.xVel;
+	} else if(this.xVel < 0 && !this.onGround ) {
+	//	this.xVel -= (this.xspeedIncrease / 4);
+
+	}else {
+
 	}
+	// else {
+	// 	if(this.xVel < this.xSpeed){
+	// 		this.xVel = this.xSpeed;
+	// 	}
+	// 	// if(this.xVel > -this.xSpeed){
+	// 	// 	this.xVel = -this.xSpeed;
+	// 	// }
+	// 	// currentDebugText = this.xVel;
+	// }
 
 
 	if( Math.abs(this.xVel) < 0.1){
@@ -111,7 +162,7 @@ Player.prototype.move = function(first_argument) {
 	}
 	dX = this.xVel;	
 
-
+	currentDebugText = this.xVel;
 
 	if(COUNTER % 6 ==0){
 		this.counter++;
@@ -120,27 +171,34 @@ Player.prototype.move = function(first_argument) {
 		}
 	} 
 
-	this.yVel += this.gravity;	
+	// this.yVel += this.gravity;	
+
+	if(!this.onGround){
+		this.yVel+=.25;
+	}
+	
 	dY = this.yVel;
-	if(dY > 4){
+	if(dY > 3.5){
 		// max fall speed
-		dY = 4;
+		dY = 3.5;
+		this.yVel = 3.5;
 	}
-	if(dY < -5){
-		// max jump speed
-		dY = -5;
+	// if(dY < -4){
+	// 	// max jump speed
+	// 	dY = -4;
+	// }
+
+	if(this.xVel > 0 ){
+		this.xVel -= .0625;
+		// this.xVel -= .125;
 	}
-		this.xVel *= this.friction;
-
-
-
-	if(dY!=0.6){
-		// console.log(dY);
+	if(this.xVel < 0){
+		 this.xVel += .0625;
+		 // this.xVel += .125;
 	}
-	// console.log(dY);
+	// this.xVel *= this.friction;
 
-
-
+	currentDebugText = this.xVel;
 	if(!keys["down"] && keys["punch"] && this.punchTime==0 && this.canPunch){
 		// start of punch
 
@@ -157,9 +215,15 @@ Player.prototype.move = function(first_argument) {
 			if(this.onGround){
 				dX = 0;
 			}
-			if(this.braceletActivated && !this.shockwaveOnscreen){
-				levelState.fireShockwave(this); // creates a new shockwave thing onscreen
- 				this.shockwaveOnscreen = true; // true while on screen
+			if (this.braceletActivated ) {
+				if (!this.shockwaveOnscreen){
+					levelState.fireShockwave(this); // creates a new shockwave thing onscreen
+	 				this.shockwaveOnscreen = true; // true while on screen
+	 				
+ 				}
+ 				// if (this.onGround && this.xVel==0){
+	 			// 		this.punchTime+= 1;
+	 			// }
 			}
 		}else if(!keys["punch"]){
 			this.canPunch = true;
@@ -190,6 +254,7 @@ Player.prototype.move = function(first_argument) {
 	if(this.y + (this.height/2) > level.mapHeight()*16){
 		this.y = (level.mapHeight()*16)-(this.height/2);
 	}
+	console.log(this.yVel);
 }
 
 Player.prototype.punchDetection = function(){	
@@ -290,7 +355,8 @@ Player.prototype.moveY = function(dX, dY){
 
 		if(leftTile || rightTile){
 			tempY = ( (ay+1) * 16) + (this.height/2) + 1;
-			this.yVel = 0;
+			this.maxJumpReached = true;
+			this.yVel = .125;
 			dY = 1; // so we don't get stuck under block
 			return tempY;
 		} else {
@@ -368,7 +434,6 @@ Player.prototype.draw = function(ctx) {
 		if(this.dir==-1){
 			punchFrame = 136;
 			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - level.camera.x -4, this.y - this.height/2  - level.camera.y - 4, 24, 24);
-
 		}else{
 			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - level.camera.x +2, this.y - this.height/2  - level.camera.y - 4, 24, 24);
 		}
