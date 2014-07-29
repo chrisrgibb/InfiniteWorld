@@ -33,6 +33,7 @@ function Player(){
 	this.jumpTime = 0;
 	this.xjumpSpeed = 0;
 	this.yjumpSpeed= 0;
+	this.startYvel =0 ;
 
 	this.jumpStart = -1;
 
@@ -69,54 +70,45 @@ Player.prototype.move = function(first_argument) {
 			if(this.onGround){
 				this.maxJumpReached  = false;
 				this.jumpStart = this.y;
-				// console.log("xVel = " + this.xVel);
+				
+
 				this.canJump = false;
+
 				// this.yVel = -4.2 - Math.abs(this.xVel / 5);
 				if(keys["left"] || keys["right"] ){
 					this.yVel = -3;
+					this.startYvel = -3;
+					this.jumpTime =20 - Math.abs(this.xVel)/2;
 					// currentDebugText = this.yVel;
 				}else{	
+					this.jumpTime = 22;
 					this.yVel = -2.25;
+					this.startYvel = -2.25;
 				}
 				this.jumping = true;
 				this.onGround = false;	
 				
-				if(this.xVel > 0){
-					// currentDebugText = this.xVel;
-				}
 			}
 		} else {
 			// now player is in mid air
-			if(!this.maxJumpReached && !this.canJump){
-				if(keys["left"] || keys["right"] ){
-					this.yVel = -3;
-
-					// currentDebugText = this.yVel;
-				}else{	
-					console.log("doubel jump " + this.yVel );
-					this.yVel = -2.25;
-				}
+			if(this.jumpTime > 0){
+				this.yVel = this.startYvel;
+			} else{
+				this.yVel += 0.105;
 			}
-			if(this.y < this.jumpStart - 45){
-				this.maxJumpReached = true;
-			}
-			if(this.maxJumpReached){
-				this.yVel += .105;
-			}
+			this.jumpTime--;
 
 		}
 	}else{
 		this.yVel += .105;
-		// this.yVel += .25;
 		this.jumpTime = 0;
 			
 	}
 
-	// var g = this.oldYvel - this.yVel;
-	// console.log(this.yVel);
 	currentDebugText = this.yVel;
 	if(this.left){
 		if(this.xVel > 0){
+			// change direction
 			this.xVel = 0;
 
 		}
@@ -126,24 +118,17 @@ Player.prototype.move = function(first_argument) {
 			this.xVel-=this.xspeedIncrease;;
 		}
 
-	}else if( keys["right"]){
+	} else if( keys["right"]) {
 
 		if(this.xVel< 0){
+			// change direction
 			this.xVel = 0;
 		}
 		this.dir = 1;
 		if(this.xVel < this.xSpeed){
 			this.xVel+=this.xspeedIncrease;
 		}
-	} 
-	else if (this.xVel > 0 && !this.onGround  ) {
-		// currentDebugText = this.xVel;
-	//	this.xVel += (this.xspeedIncrease / 4);
-
-	} else if(this.xVel < 0 && !this.onGround ) {
-	//	this.xVel -= (this.xspeedIncrease / 4);
-
-	}else {
+	} else {
 
 	}
 	// else {
@@ -183,18 +168,29 @@ Player.prototype.move = function(first_argument) {
 		dY = 3.5;
 		this.yVel = 3.5;
 	}
-	// if(dY < -4){
-	// 	// max jump speed
-	// 	dY = -4;
-	// }
 
-	if(this.xVel > 0 ){
-		this.xVel -= .0625;
-		// this.xVel -= .125;
-	}
-	if(this.xVel < 0){
-		 this.xVel += .0625;
-		 // this.xVel += .125;
+	if(this.onGround){
+		// friction
+		if(this.xVel > 0 ){
+			this.xVel -= .0825;
+			// this.xVel -= .125;
+		}
+		if(this.xVel < 0){
+			 this.xVel += .0825;
+			 // this.xVel += .125;
+		}
+	}else {
+		if(this.yVel > -2){
+			if(this.xVel > 0 ){
+				this.xVel -= .0825;
+				// this.xVel -= .125;
+			}
+			if(this.xVel < 0){
+				 this.xVel += .0825;
+				 // this.xVel += .125;
+			}
+
+		}
 	}
 	// this.xVel *= this.friction;
 
@@ -235,11 +231,10 @@ Player.prototype.move = function(first_argument) {
 	// check walk into object
 	// check hazard below eg spikes / lava or pink skull 
 
-	if(levelState.gameObject(this.x/16 |0, this.y/ 16 | 0) ) {
-		
-	}
-	levelState.gameObject( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 ); 
-	levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 ); 
+	levelState.gameObject(this.x/16 |0, this.y / 16 | 0 ; // middle of body
+
+	levelState.gameObject( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 );  // head
+	levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 );  //lava, spikes etc.
 
 	// check left of screen
 	
@@ -254,7 +249,6 @@ Player.prototype.move = function(first_argument) {
 	if(this.y + (this.height/2) > level.mapHeight()*16){
 		this.y = (level.mapHeight()*16)-(this.height/2);
 	}
-	console.log(this.yVel);
 }
 
 Player.prototype.punchDetection = function(){	
@@ -387,9 +381,13 @@ Player.prototype.moveY = function(dX, dY){
 		if((leftTile || rightTile )   ) {
 			// hit the ground
 			tempY = (ay * 16) - (this.height/2);
+			if(!this.onGround){
+				this.xVel *=  .5;
+			}
 
 			this.onGround = true;
 			this.jumping = false;
+			
 			if(!keys["jump"]){
 				this.canJump = true;
 			}
@@ -415,7 +413,7 @@ Player.prototype.draw = function(ctx) {
 	if(keys["down"]){
 		ctx.fillRect(this.x - this.width/2 - level.camera.x, this.y  - (level.camera.y  ) , this.width, this.height/2);
 	}else{
-		ctx.fillRect(this.x - this.width/2- level.camera.x, this.y - this.height/2 - (level.camera.y  ) , this.width, this.height);
+	// 	ctx.fillRect(this.x - this.width/2- level.camera.x, this.y - this.height/2 - (level.camera.y  ) , this.width, this.height);
 	}
 	// draw rectangle shape of fist of doom
 
