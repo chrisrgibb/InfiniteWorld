@@ -58,12 +58,19 @@ var themeOptions = {
 
 }
 
-LevelGenerator.prototype.createNewMap = function(difficulty){
-	// var tiles = this.createLevel();
-	var map = new Map();
+LevelGenerator.prototype.createNewMap = function(random, difficulty){
+	var map;
+	if(random){
+		var tiles = this.createLevel();
+		map = new Map(tiles);
+	}else {
+		map = new Map();
+	}
+
+
+
 	map.enemys = this.enemies;
 	map.objects.push(new RiceBall(this.EndingX, 8));
-
 	return map;
 }
 

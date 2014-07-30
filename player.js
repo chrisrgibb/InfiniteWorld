@@ -35,6 +35,8 @@ function Player(){
 	this.yjumpSpeed= 0;
 	this.startYvel =0 ;
 
+	this.jumpingXSpeed = 0;
+
 	this.jumpStart = -1;
 
 	this.punchTime = 0;
@@ -63,7 +65,7 @@ Player.prototype.move = function(first_argument) {
 
 
 	 // currentDebugText = this.xVel;
-	this.oldYvel = this.yVel;
+	// this.oldYvel = this.yVel;
 	if ( keys["jump"] ){
 			
 		if(!this.jumping && this.canJump){		
@@ -76,9 +78,10 @@ Player.prototype.move = function(first_argument) {
 
 				// this.yVel = -4.2 - Math.abs(this.xVel / 5);
 				if(keys["left"] || keys["right"] ){
-					this.yVel = -3;
-					this.startYvel = -3;
-					this.jumpTime =20 - Math.abs(this.xVel)/2;
+					this.yVel = -2.25;
+					this.startYvel = -2.50;
+					this.jumpTime =  22 - Math.abs(this.xVel)/2;
+					this.jumpingXSpeed = this.xVel;
 					// currentDebugText = this.yVel;
 				}else{	
 					this.jumpTime = 22;
@@ -107,18 +110,29 @@ Player.prototype.move = function(first_argument) {
 
 	currentDebugText = this.yVel;
 	if(this.left){
+		
 		if(this.xVel > 0){
 			// change direction
-			this.xVel = 0;
+			if(this.onGround){
+				this.xVel = 0;
+			} else {
+				this.xVel -= (this.xspeedIncrease/2);
+			}
+		} else {
+		// 0 or left
+			if(this.xVel > -this.xSpeed){
+
+				this.xVel-=this.xspeedIncrease;
+			
+			}
 
 		}
+		
+	
 		this.dir = -1;
 
-		if(this.xVel > -this.xSpeed){
-			this.xVel-=this.xspeedIncrease;;
-		}
-
-	} else if( keys["right"]) {
+		
+	} else if( this.right) {
 
 		if(this.xVel< 0){
 			// change direction
@@ -129,7 +143,22 @@ Player.prototype.move = function(first_argument) {
 			this.xVel+=this.xspeedIncrease;
 		}
 	} else {
+		if(this.xVel > 0){
+			if(this.onGround){
+				this.xVel -= this.xspeedIncrease;
+				console.log(this.xVel);
+			}
+		
+		} 
+		if(this.xVel < 0){
+			if (this.onGround)
+				this.xVel += this.xspeedIncrease;
+			if(this.xVel > 0){
+				this.xVel = 0;
+			}
 
+		}
+		// console.log(this.xVel);
 	}
 	// else {
 	// 	if(this.xVel < this.xSpeed){
@@ -144,24 +173,26 @@ Player.prototype.move = function(first_argument) {
 
 	if( Math.abs(this.xVel) < 0.1){
 		this.xVel = 0;
+		console.log(this.xVel);
 	}
 	dX = this.xVel;	
 
-	currentDebugText = this.xVel;
+	currentDebugText = this.yVel;
 
 	if(COUNTER % 6 ==0){
 		this.counter++;
 		if(this.counter > 3){
 			this.counter =0 ;
 		}
-	} 
+	} 	
 
-	// this.yVel += this.gravity;	
 
+
+	// gravity
 	if(!this.onGround){
 		this.yVel+=.25;
 	}
-	
+
 	dY = this.yVel;
 	if(dY > 3.5){
 		// max fall speed
@@ -170,31 +201,31 @@ Player.prototype.move = function(first_argument) {
 	}
 
 	if(this.onGround){
-		// friction
-		if(this.xVel > 0 ){
-			this.xVel -= .0825;
-			// this.xVel -= .125;
-		}
-		if(this.xVel < 0){
-			 this.xVel += .0825;
-			 // this.xVel += .125;
-		}
+		// // friction
+		// if(this.xVel > 0 ){
+		// 	this.xVel -= .0825;
+		// 	// this.xVel -= .125;
+		// }
+		// if(this.xVel < 0){
+		// 	 this.xVel += .0825;
+		// 	 // this.xVel += .125;
+		// }
 	}else {
-		if(this.yVel > -2){
+		// if(this.yVel > -2){
 			if(this.xVel > 0 ){
-				this.xVel -= .0825;
+				this.xVel -= .0425;
 				// this.xVel -= .125;
 			}
 			if(this.xVel < 0){
-				 this.xVel += .0825;
+				 this.xVel += .0425;
 				 // this.xVel += .125;
 			}
 
-		}
+		// }
 	}
 	// this.xVel *= this.friction;
 
-	currentDebugText = this.xVel;
+	currentDebugText = this.yVel;
 	if(!keys["down"] && keys["punch"] && this.punchTime==0 && this.canPunch){
 		// start of punch
 
@@ -228,10 +259,13 @@ Player.prototype.move = function(first_argument) {
 
 	this.x = this.moveX(dX, dY);
 	this.y = this.moveY(dX, dY);
+
+	// console.log(this.yVel + "  " + this.y);
+
 	// check walk into object
 	// check hazard below eg spikes / lava or pink skull 
 
-	levelState.gameObject(this.x/16 |0, this.y / 16 | 0 ; // middle of body
+	levelState.gameObject(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
 
 	levelState.gameObject( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 );  // head
 	levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 );  //lava, spikes etc.
@@ -351,6 +385,7 @@ Player.prototype.moveY = function(dX, dY){
 			tempY = ( (ay+1) * 16) + (this.height/2) + 1;
 			this.maxJumpReached = true;
 			this.yVel = .125;
+			this.jumpTime = 0;
 			dY = 1; // so we don't get stuck under block
 			return tempY;
 		} else {
@@ -381,9 +416,9 @@ Player.prototype.moveY = function(dX, dY){
 		if((leftTile || rightTile )   ) {
 			// hit the ground
 			tempY = (ay * 16) - (this.height/2);
-			if(!this.onGround){
-				this.xVel *=  .5;
-			}
+			// if(!this.onGround){
+			// 	this.xVel *=  .5;
+			// }
 
 			this.onGround = true;
 			this.jumping = false;
