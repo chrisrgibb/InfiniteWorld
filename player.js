@@ -6,8 +6,7 @@ function Player(){
 
 	this.x = 40;
 	this.y = 100;
-	// this.x = 130;
-	// this.y = 1300;
+
 	this.width = 10;
 	this.height= 19;
 	this.duckingheight = 10;
@@ -64,8 +63,6 @@ Player.prototype.move = function(first_argument) {
 	var dX = 0, dY = 0;
 
 
-	 // currentDebugText = this.xVel;
-	// this.oldYvel = this.yVel;
 	if ( keys["jump"] ){
 			
 		if(!this.jumping && this.canJump){		
@@ -76,13 +73,12 @@ Player.prototype.move = function(first_argument) {
 
 				this.canJump = false;
 
-				// this.yVel = -4.2 - Math.abs(this.xVel / 5);
 				if(keys["left"] || keys["right"] ){
+					// if moving give an extra little boost
 					this.yVel = -2.25;
-					this.startYvel = -2.50;
-					this.jumpTime =  22 - Math.abs(this.xVel)/2;
+					this.startYvel = -2.750; //
+					this.jumpTime =  21 + Math.abs(this.xVel)/2;
 					this.jumpingXSpeed = this.xVel;
-					// currentDebugText = this.yVel;
 				}else{	
 					this.jumpTime = 22;
 					this.yVel = -2.25;
@@ -110,22 +106,21 @@ Player.prototype.move = function(first_argument) {
 
 	currentDebugText = this.yVel;
 	if(this.left){
-		
+		// if player is on ground 
+
 		if(this.xVel > 0){
 			// change direction
 			if(this.onGround){
 				this.xVel = 0;
 			} else {
-				this.xVel -= (this.xspeedIncrease/2);
+				// in air
+				this.xVel -= (this.xspeedIncrease/8);
 			}
 		} else {
 		// 0 or left
 			if(this.xVel > -this.xSpeed){
-
 				this.xVel-=this.xspeedIncrease;
-			
 			}
-
 		}
 		
 	
@@ -143,10 +138,12 @@ Player.prototype.move = function(first_argument) {
 			this.xVel+=this.xspeedIncrease;
 		}
 	} else {
+		// nothing is pressed so slow down
+
 		if(this.xVel > 0){
 			if(this.onGround){
 				this.xVel -= this.xspeedIncrease;
-				console.log(this.xVel);
+				// console.log(this.xVel); 
 			}
 		
 		} 
@@ -158,22 +155,12 @@ Player.prototype.move = function(first_argument) {
 			}
 
 		}
-		// console.log(this.xVel);
 	}
-	// else {
-	// 	if(this.xVel < this.xSpeed){
-	// 		this.xVel = this.xSpeed;
-	// 	}
-	// 	// if(this.xVel > -this.xSpeed){
-	// 	// 	this.xVel = -this.xSpeed;
-	// 	// }
-	// 	// currentDebugText = this.xVel;
-	// }
 
 
+	// round down to zero
 	if( Math.abs(this.xVel) < 0.1){
 		this.xVel = 0;
-		console.log(this.xVel);
 	}
 	dX = this.xVel;	
 
@@ -186,8 +173,6 @@ Player.prototype.move = function(first_argument) {
 		}
 	} 	
 
-
-
 	// gravity
 	if(!this.onGround){
 		this.yVel+=.25;
@@ -199,7 +184,7 @@ Player.prototype.move = function(first_argument) {
 		dY = 3.5;
 		this.yVel = 3.5;
 	}
-
+	// Friction
 	if(this.onGround){
 		// // friction
 		// if(this.xVel > 0 ){
