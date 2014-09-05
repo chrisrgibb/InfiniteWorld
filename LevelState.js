@@ -28,7 +28,6 @@ LevelState.prototype.init = function() {
 
 	this.map = lg.createNewMap(false);
 
-
 	this.enemys = this.map.enemys;
 	this.objects = this.map.objects;
 
@@ -208,7 +207,6 @@ LevelState.prototype.update = function(){
 		// 	|| enemys[i].y > level.camera.y + level.screenHeight){
 		// 	// console.log("offscreen");
 		// 	countage++;
-		// 	currentDebugText = countage + " " + this.enemys.length + " " + this.onScreenEnemies.length;
 		// } else {
 		// 	var index = this.onScreenEnemies.indexOf(enemys[i]);
 		// 	if(index==-1) {
@@ -220,7 +218,7 @@ LevelState.prototype.update = function(){
 		if( isOnScreen(level.camera, enemys[i]) ){
 			enemys[i].move();
 			countage++;
-			currentDebugText = countage;
+			debug.setText(countage);
 		}	else if(enemys[i].y < level.camera.y+16) {
 
 			removeEnemys.push(enemys[i]);

@@ -4,23 +4,19 @@ var Game = function(argument) { };
 Game.fps = 50; // 50 is fps 
 Game.then = Date.now(); // for fps
 
-var currentDebugText = "hi there";
 
 /**
 	Main draw function
 **/
 Game.draw = function(){
-	// ctx.fillStyle = "black";
-	// ctx.fillRect(0, 0 , WIDTH, HEIGHT);
 
 	if(level){
 		level.draw();
 	}
-	if(player){
-		player.draw(ctx); 
-	}
+	player.draw(ctx); 
+	debug.render(ctx);
 
-	// Game.drawFPS();
+
 }
 
 
@@ -33,7 +29,6 @@ Game.update = function(){
 	if(player){
 		player.move();
 	} 	
-
 }
 /*
  * Main game loop
@@ -55,7 +50,6 @@ Game.calcFPS = function(){
 	Game.then = Date.now();
 	var fps = 1 / elapsed;
 	// Game.drawFPS(player.inventory.money + " " + player.inventory.ring);
-	Game.drawFPS(currentDebugText);
 	// Game.drawFPS(fps);
 
 
@@ -65,7 +59,6 @@ Game.drawFPS = function(text) {
 	ctx.fillStyle = "yellow";
 	ctx.font = "bold 18px sans-serif";
 	ctx.fillText(text, 20, 20);
-	// body...
 };
 
 var debugStuff = [];

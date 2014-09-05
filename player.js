@@ -13,7 +13,7 @@ function Player(){
 	this.yVel = 0;
 	this.xVel = 0;
 	this.xSpeed = 2;
-	this.xspeedIncrease = 0.20;
+	this.xspeedIncrease = 0.15625;
 	this.gravity = .25;
 	this.friction = .8;
 
@@ -32,7 +32,8 @@ function Player(){
 	this.jumpTime = 0;
 	this.xjumpSpeed = 0;
 	this.yjumpSpeed= 0;
-	this.startYvel =0 ;
+	this.startYvel = 0;
+	this.startXvel = 0;
 
 	this.jumpingXSpeed = 0;
 
@@ -50,7 +51,7 @@ function Player(){
 	this.money = 0;
 	this.inventory = new Inventory();
 	this.shockwaveOnscreen = false;
-	this.braceletActivated = true;
+	this.braceletActivated = false;
 	this.oldYvel =0;
 
 	this.maxJumpReached = false;
@@ -67,6 +68,7 @@ Player.prototype.move = function(first_argument) {
 			
 		if(!this.jumping && this.canJump){		
 			if(this.onGround){
+				this.startXvel = this.xVel;
 				this.maxJumpReached  = false;
 				this.jumpStart = this.y;
 				
@@ -104,30 +106,42 @@ Player.prototype.move = function(first_argument) {
 			
 	}
 
-	currentDebugText = this.yVel;
+	// currentDebugText = this.yVel;
+	debug.setText(this.yVel);
 	if(this.left){
 		// if player is on ground 
-
-		if(this.xVel > 0){
-			// change direction
-			if(this.onGround){
+		if(this.onGround){
+			// if going right xvel = 0
+			if(this.xVel > 0){
 				this.xVel = 0;
-			} else {
-				// in air
-				this.xVel -= (this.xspeedIncrease/8);
 			}
-		} else {
-		// 0 or left
+				// move left
 			if(this.xVel > -this.xSpeed){
 				this.xVel-=this.xspeedIncrease;
+			
+			}
+		
+		} else {
+			if(this.startXvel<0){
+				debugger;
+			}
+
+			//if going going left already increase xvel 
+			if(this.xVel<0){
+				// console.log(this.xVel);
+				this.xVel-=.0425;
+				console.log(this.xVel);
+			} else {
+				// else decrease xvel by a small amount
+				this.xVel -= .15625;
 			}
 		}
-		
 	
 		this.dir = -1;
 
 		
-	} else if( this.right) {
+	} 
+	else if( this.right) {
 
 		if(this.xVel< 0){
 			// change direction
@@ -137,7 +151,8 @@ Player.prototype.move = function(first_argument) {
 		if(this.xVel < this.xSpeed){
 			this.xVel+=this.xspeedIncrease;
 		}
-	} else {
+	} 
+	else {
 		// nothing is pressed so slow down
 
 		if(this.xVel > 0){
@@ -159,7 +174,7 @@ Player.prototype.move = function(first_argument) {
 
 
 	// round down to zero
-	if( Math.abs(this.xVel) < 0.1){
+	if( Math.abs(this.xVel) < 0.01){
 		this.xVel = 0;
 	}
 	dX = this.xVel;	
@@ -197,6 +212,7 @@ Player.prototype.move = function(first_argument) {
 		// }
 	}else {
 		// if(this.yVel > -2){
+		if (!this.left || !this.right){
 			if(this.xVel > 0 ){
 				this.xVel -= .0425;
 				// this.xVel -= .125;
@@ -205,7 +221,7 @@ Player.prototype.move = function(first_argument) {
 				 this.xVel += .0425;
 				 // this.xVel += .125;
 			}
-
+		}
 		// }
 	}
 	// this.xVel *= this.friction;

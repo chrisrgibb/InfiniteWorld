@@ -6,7 +6,8 @@ var canvas,
 	game,
 	level,
 	map,
-	levelState;
+	levelState,
+	debug;
 	var scale = 2;
 	var COUNTER = 0;
 
@@ -16,26 +17,31 @@ var canvas,
 })();
 
 function init(){
-	canvas = document.getElementById('canvas');
-	ctx = canvas.getContext('2d');
-	ctx.imageSmoothingEnabled = false;
-	WIDTH = canvas.width;
-	HEIGHT = canvas.height;
+	debug = new Debugger();
+
+	initCanvas();
 
 	levelState = new LevelState();
 	levelState.init();
 
-	ctx.scale(scale, scale);
+	
 	player = new Player();
 	// level = new LevelRenderer(map, player);
-
 
 	map = levelState.map;
 	level = new LevelRenderer(map, player, levelState);
 
 	game = Game();
-	player.draw(ctx);
 	Game.run();
+
+	function initCanvas(){
+		canvas = document.getElementById('canvas');
+		ctx = canvas.getContext('2d');
+		ctx.imageSmoothingEnabled = false;
+		WIDTH = canvas.width;
+		HEIGHT = canvas.height;
+		ctx.scale(scale, scale);	
+	}
 }
 
 window.addEventListener("load", init);
