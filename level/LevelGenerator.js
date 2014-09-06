@@ -58,7 +58,25 @@ var themeOptions = {
 
 }
 
-LevelGenerator.prototype.createLevel = function(first_argument) {
+LevelGenerator.prototype.createNewMap = function(random, difficulty){
+	var map;
+	if(random){
+		var tiles = this.createLevel();
+		map = new Map(tiles);
+	}else {
+		map = new Map();
+	}
+
+
+
+	map.enemys = this.enemies;
+	map.objects.push(new RiceBall(this.EndingX, 8));
+	return map;
+}
+
+
+
+LevelGenerator.prototype.createLevel = function() {
 	// Choose theme
 	var possibleOptions = ["one", "two", "three"];
 	var poss = Math.random() * 3 | 0;
@@ -135,15 +153,6 @@ LevelGenerator.prototype.makePlatform2 = function(start, length){
 		this.tiles[offGround][j] = themeOptions[this.currentOption].breakable;
 	}
 };
-
-LevelGenerator.prototype.createNewMap = function(difficulty){
-	var tiles = this.createLevel();
-	var map = new Map();
-	map.enemys = this.enemies;
-	map.objects.push(new RiceBall(this.EndingX, 8));
-
-	return map;
-}
 
 
 LevelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
@@ -237,8 +246,6 @@ LevelGenerator.prototype.createOneGap = function(startX, length){
 
 	}
 }
-
-
 
 
 LevelGenerator.prototype.addClouds = function(startX, size){
