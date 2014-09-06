@@ -111,35 +111,32 @@ Player.prototype.move = function(first_argument) {
 	if(this.left){
 		// if player is on ground 
 		if(this.onGround){
-			// if going right xvel = 0
+			// stop moving
 			if(this.xVel > 0){
 				this.xVel = 0;
 			}
-				// move left
+			// move left
 			if(this.xVel > -this.xSpeed){
 				this.xVel-=this.xspeedIncrease;
 			
 			}
 		
 		} else {
+			// in air
 			if(this.startXvel<0){
-				debugger;
+				console.log('going left')
+				if(this.xVel > -this.xSpeed){
+					this.xVel-=this.xspeedIncrease;
+				}
 			}
-
-			//if going going left already increase xvel 
-			if(this.xVel<0){
-				// console.log(this.xVel);
-				this.xVel-=.0425;
-				console.log(this.xVel);
-			} else {
-				// else decrease xvel by a small amount
-				this.xVel -= .15625;
+			// changin direction
+			if(this.startXvel >= 0){
+				this.xVel -= .0825;
+				// was going right
 			}
 		}
 	
 		this.dir = -1;
-
-		
 	} 
 	else if( this.right) {
 
@@ -151,8 +148,7 @@ Player.prototype.move = function(first_argument) {
 		if(this.xVel < this.xSpeed){
 			this.xVel+=this.xspeedIncrease;
 		}
-	} 
-	else {
+	} else {
 		// nothing is pressed so slow down
 
 		if(this.xVel > 0){
@@ -260,8 +256,6 @@ Player.prototype.move = function(first_argument) {
 
 	this.x = this.moveX(dX, dY);
 	this.y = this.moveY(dX, dY);
-
-	// console.log(this.yVel + "  " + this.y);
 
 	// check walk into object
 	// check hazard below eg spikes / lava or pink skull 
