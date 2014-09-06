@@ -72,7 +72,6 @@ Player.prototype.move = function(first_argument) {
 				this.maxJumpReached  = false;
 				this.jumpStart = this.y;
 				
-
 				this.canJump = false;
 
 				if(keys["left"] || keys["right"] ){
@@ -140,21 +139,35 @@ Player.prototype.move = function(first_argument) {
 	} 
 	else if( this.right) {
 
-		if(this.xVel< 0){
-			// change direction
-			this.xVel = 0;
+		if(this.onGround){
+			if(this.xVel< 0){
+				this.xVel = 0;
+			}
+			// move left
+			if(this.xVel < this.xSpeed){
+				this.xVel+=this.xspeedIncrease;
+			}
+		} else {
+			// in air
+			if(this.startXvel>0){
+				console.log('going right')
+				if(this.xVel < this.xSpeed){
+					this.xVel+=this.xspeedIncrease;
+				}
+			}
+			// changin direction
+			if(this.startXvel <= 0){
+				this.xVel += .0825;
+				// was going right
+			}
 		}
 		this.dir = 1;
-		if(this.xVel < this.xSpeed){
-			this.xVel+=this.xspeedIncrease;
-		}
 	} else {
 		// nothing is pressed so slow down
 
 		if(this.xVel > 0){
 			if(this.onGround){
 				this.xVel -= this.xspeedIncrease;
-				// console.log(this.xVel); 
 			}
 		
 		} 
@@ -173,9 +186,7 @@ Player.prototype.move = function(first_argument) {
 	if( Math.abs(this.xVel) < 0.01){
 		this.xVel = 0;
 	}
-	dX = this.xVel;	
 
-	currentDebugText = this.yVel;
 
 	if(COUNTER % 6 ==0){
 		this.counter++;
@@ -184,45 +195,11 @@ Player.prototype.move = function(first_argument) {
 		}
 	} 	
 
-	// gravity
-	if(!this.onGround){
-		this.yVel+=.25;
-	}
-
+	this.calcGravity();	
+	this.calcFriction();
+	dX = this.xVel;	
 	dY = this.yVel;
-	if(dY > 3.5){
-		// max fall speed
-		dY = 3.5;
-		this.yVel = 3.5;
-	}
-	// Friction
-	if(this.onGround){
-		// // friction
-		// if(this.xVel > 0 ){
-		// 	this.xVel -= .0825;
-		// 	// this.xVel -= .125;
-		// }
-		// if(this.xVel < 0){
-		// 	 this.xVel += .0825;
-		// 	 // this.xVel += .125;
-		// }
-	}else {
-		// if(this.yVel > -2){
-		if (!this.left || !this.right){
-			if(this.xVel > 0 ){
-				this.xVel -= .0425;
-				// this.xVel -= .125;
-			}
-			if(this.xVel < 0){
-				 this.xVel += .0425;
-				 // this.xVel += .125;
-			}
-		}
-		// }
-	}
-	// this.xVel *= this.friction;
 
-	currentDebugText = this.yVel;
 	if(!keys["down"] && keys["punch"] && this.punchTime==0 && this.canPunch){
 		// start of punch
 
@@ -284,6 +261,28 @@ Player.prototype.punchDetection = function(){
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 
 	levelState.punchTile(punchX, this.y/ 16 | 0);
+}
+
+Player.prototype.calcFriction = function(){
+	if(!this.onGround) {
+		if (!this.left && !this.right){
+			if(this.xVel > 0 ){
+				this.xVel -= .0425;
+			}
+			if(this.xVel < 0){
+				 this.xVel += .0425;
+			}
+		}
+	}
+}
+
+Player.prototype.calcGravity = function(){
+	if(!this.onGround){
+		this.yVel+=.25;
+	}
+	if(this.yVel > 3.5){
+		this.yVel = 3.5;
+	}
 }
 
 
@@ -411,9 +410,6 @@ Player.prototype.moveY = function(dX, dY){
 		if((leftTile || rightTile )   ) {
 			// hit the ground
 			tempY = (ay * 16) - (this.height/2);
-			// if(!this.onGround){
-			// 	this.xVel *=  .5;
-			// }
 
 			this.onGround = true;
 			this.jumping = false;
@@ -447,12 +443,7 @@ Player.prototype.draw = function(ctx) {
 	}
 	// draw rectangle shape of fist of doom
 
-	var frame = 1;
-	if ( this.dir==1){
-		frame = 1;
-	}else {
-		frame = 0;
-	}
+
 	/**
 	 * Punchgin
 	 */ 
@@ -470,7 +461,8 @@ Player.prototype.draw = function(ctx) {
 	 * Jumping
 	 */
 	else if(this.jumping || this.yVel > 0){
-		ctx.drawImage(this.image, 6*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+		var frame = 16 * (this.dir== 1 ? 6 : 14 );
+		ctx.drawImage(this.image, frame, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
 	} 
 	/**
 	 * walking
@@ -481,16 +473,12 @@ Player.prototype.draw = function(ctx) {
 	/**
    	 *	standing still
  	 */	
+ 	 	var frame = (this.dir==1 ? 1 : 0)
 		ctx.drawImage(this.image, frame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
 	}
 };
 
 Player.prototype.drawWalking = function(){
-	if(this.dir==1){
-		var drawFrame = this.counter + 2;
-		ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
-	}else{
-		var drawFrame = this.counter + 10;
-		ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
-	}
+	var drawFrame = this.counter + (this.dir==1 ? 2 : 10);
+	ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);	
 }
