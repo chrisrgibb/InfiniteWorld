@@ -9,15 +9,12 @@ Game.then = Date.now(); // for fps
 	Main draw function
 **/
 Game.draw = function(){
-
 	if(level){
 		level.draw();
 	}
 	player.draw(ctx); 
 	debug.render(ctx);
-
-
-}
+};
 
 
 Game.update = function(){
@@ -29,7 +26,7 @@ Game.update = function(){
 	if(player){
 		player.move();
 	} 	
-}
+};
 /*
  * Main game loop
  */
@@ -39,21 +36,17 @@ Game.run = function(){
 	requestAnimationFrame(Game.run);
 	Game.calcFPS();
 
-}
+};
 
 Game.calcFPS = function(){
 	var now = Date.now();
 	var elapsed = ( now - Game.then) / 1000;
 	var otherone = 1000 / (now - Game.then);
 
-
 	Game.then = Date.now();
 	var fps = 1 / elapsed;
-	// Game.drawFPS(player.inventory.money + " " + player.inventory.ring);
 	// Game.drawFPS(fps);
-
-
-}
+};
 
 Game.drawFPS = function(text) {
 	ctx.fillStyle = "yellow";

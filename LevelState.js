@@ -26,7 +26,7 @@ LevelState.prototype.init = function() {
 	this.map = new Map();
 	var lg = new LevelGenerator();
 
-	this.map = lg.createNewMap(false);
+	this.map = lg.createNewMap(true);
 
 	this.enemys = this.map.enemys;
 	this.objects = this.map.objects;
@@ -36,35 +36,22 @@ LevelState.prototype.init = function() {
 // If player moves into the tile that the gameobject is in
 LevelState.prototype.gameObject = function(x, y){
 
-	for(var i = 0; i < this.onScreenObjects.length; i++){
-		var objectInquestion = this.onScreenObjects[i]; // gross variable name
+	var me = this;
 
-
-		var obx = this.onScreenObjects[i].x / 16 | 0;
-		var oby = this.onScreenObjects[i].y / 16 | 0;
-		if(x===obx && y ===oby){
-			console.log("picked up object at " + x + " ,  " + y   );
-			//
-			objectInquestion.process(player);
-			if(objectInquestion.remove){
-				console.log("Object REMOVED");
-				this.objectsToRemove.push(this.onScreenObjects[i]);
+	function searchObjects(element, index){
+		var obx = element.x / 16 | 0;
+		var oby = element.y / 16 | 0;
+		if(x==obx && y==oby){
+			element.process(player);
+			if(element.remove){
+				me.objectsToRemove.push(element);
 			}
 		}
 	}
 
-	for(var i = 0; i < this.objects.length; i++){
-		var obx = this.objects[i].x / 16 | 0;
-		var oby = this.objects[i].y / 16 | 0;
-		if(x===obx && y ===oby){
-			console.log("picked up object at " + x + " ,  " + y   );
-			this.objectsToRemove.push(this.objects[i]);
-			
-			this.objects[i].process(player);
-
-		}
-	}
-}
+	this.onScreenObjects.forEach(searchObjects);
+	this.objects.forEach(searchObjects);
+};
 
 
 LevelState.prototype.punchTile = function(x, y){
@@ -74,7 +61,7 @@ LevelState.prototype.punchTile = function(x, y){
 	}
 
 	if ( this.map.blocks[y][x].breakable ){
-		// alert("pow!");
+
 		if(this.map.tiles[y][x]==9){ // star block
 			this.onScreenObjects.push(new MoneyBag(x, y, true));
 			if(this.onScreenObjects.length > 2){
@@ -96,7 +83,7 @@ LevelState.prototype.punchTile = function(x, y){
 				case 2 :
 					this.onScreenObjects.push(new Life(x, y, true));
 					this.currentItem = 0;
-					break
+					break;
 			}
 			
 			if(this.onScreenObjects.length > 2){
@@ -111,20 +98,15 @@ LevelState.prototype.punchTile = function(x, y){
 	if(this.map.tiles[y][x]==2){
 		this.map.tiles[y][x] =0;
 	}
-
-
-}
+};
 
 LevelState.prototype.fireShockwave = function(player){
-	// this.onScreenObjects.push(new ShockWave(player.x, player.y, player.dir) );
 	if(player.dir==1 ){
 		this.shockWave.launch(player.x + (20), player.y, player.dir);
 	}else {
 		this.shockWave.launch(player.x + (8 * player.dir), player.y, player.dir);
 	}
-
-
-}
+};
 
 LevelState.prototype.walkedOverBadStuff = function(x, y){
 	if(x > this.map.blocks[0].length-1 || y > this.map.blocks.length-1){
@@ -133,7 +115,6 @@ LevelState.prototype.walkedOverBadStuff = function(x, y){
 	if(this.map.blocks[y][x].image == 7 ){
 
 		if(!this.playerOnGhost){
-			// alert("pinkies");
 			this.onScreenObjects.push(new Ghost(x, y, true));
 			this.currentItem++;
 			this.playerOnGhost = true;
@@ -146,16 +127,11 @@ LevelState.prototype.walkedOverBadStuff = function(x, y){
 	} else {
 		this.playerOnGhost = false;
 	}
-
-
-}
+};
 
 LevelState.prototype.updateShockwave = function(){
 	if(!levelState.shockWave.dead){
 		levelState.shockWave.update();
-
-
-		// if(levelState.shockWave.)
 
 		var x = levelState.shockWave.x / 16 | 0;
 		var y = levelState.shockWave.y / 16 | 0;
@@ -178,18 +154,14 @@ LevelState.prototype.updateShockwave = function(){
 		}
 
 	}
-}
+};
 
 
 
 LevelState.prototype.update = function(){
-
-
-
 	// remove everything
 	var enemys = this.enemys;
 	var removeEnemys = [];
-	// var objectsToRemove = [];
 	var countage = 0;
 
 
@@ -198,7 +170,6 @@ LevelState.prototype.update = function(){
 	// add to on screen enemies.
 	// if its off screen remove it.
 	// requires 3 lists!!!!
-
 
 	for(var i = 0; i< enemys.length; i++){
 
@@ -228,7 +199,7 @@ LevelState.prototype.update = function(){
 	// console.log("offscreen " + countage);
 
 	// increment timer on all onscreen objects (ring, money, life)
-	for(var i = 0; i < this.onScreenObjects.length; i++){
+	for(i = 0; i < this.onScreenObjects.length; i++){
 		// this.onScreenObjects[i].timer++;
 		this.onScreenObjects[i].update();
 		if(this.onScreenObjects[i].remove){
@@ -241,7 +212,7 @@ LevelState.prototype.update = function(){
 
 
 	// remove static objects
-	for(var i = 0, len = this.objectsToRemove.length; i < len; i++){
+	for(i = 0, len = this.objectsToRemove.length; i < len; i++){
 
 		var index = this.onScreenObjects.indexOf(this.objectsToRemove[i]);
 
@@ -249,14 +220,14 @@ LevelState.prototype.update = function(){
 			this.onScreenObjects.splice(index, 1);
 			this.objectsToRemove.splice(i, 1);
 		}
-		var index = this.objects.indexOf(this.objectsToRemove[i]);
+		index = this.objects.indexOf(this.objectsToRemove[i]);
 		if( index != -1){
 			this.objects.splice(index, 1);
 			this.objectsToRemove.splice(i, 1);
 		}
 	}
 	// remove enemies
-	for(var i = 0, len = removeEnemys.length; i < len; i++){
+	for(i = 0, len = removeEnemys.length; i < len; i++){
 		var index = enemys.indexOf(removeEnemys[i]);
 		if(index!=-1){
 
@@ -265,6 +236,8 @@ LevelState.prototype.update = function(){
 
 		}
 	}
+
+	// function removeObject(obj,  )
 
 
 };

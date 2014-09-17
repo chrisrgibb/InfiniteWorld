@@ -11,6 +11,8 @@ var canvas,
 	var scale = 2;
 	var COUNTER = 0;
 
+var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
+
 (function() {
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
@@ -21,15 +23,13 @@ function init(){
 
 	initCanvas();
 
+	player = new Player();
+
+	// set up levels
 	levelState = new LevelState();
 	levelState.init();
-
-	
-	player = new Player();
-	// level = new LevelRenderer(map, player);
-
 	map = levelState.map;
-	level = new LevelRenderer(map, player, levelState);
+	level = new LevelRenderer(levelState.map, player, levelState);
 
 	game = Game();
 	Game.run();
@@ -68,4 +68,10 @@ function scaleCtx(size){
 		return 1;
 	}
 }
+
+var something = (function(){
+ var g = 5;
+ this.h = 6;
+ return g;
+})();
 

@@ -15,18 +15,18 @@ GameObject.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) ;
 	var drawY = ( (this.y) - camera.y ) ; 
 	level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
-}
+};
 
 GameObject.prototype.process = function(player){
 	// player.inventory.money += 10;
-}
+};
 
 GameObject.prototype.update = function(){
 	this.timer++;
 	if(this.timer > 150){
 		this.remove = true;
 	}
-}
+};
 
 function MoneyBag(x, y, tilenumber){
 	this.x = x*16;
@@ -36,7 +36,7 @@ function MoneyBag(x, y, tilenumber){
 	if(tilenumber===undefined){
 		this.tilenumber = 0;
 		this.cost = 10;
-	}else if(Math.random()> .5){
+	}else if(Math.random()> 0.5){
 		this.tilenumber =0;
 		this.cost = 20;
 	} else {
@@ -65,8 +65,13 @@ RiceBall.prototype = new GameObject();
 
 RiceBall.prototype.process = function(){
 	alert("End level!!!");
+	this.remove = true;
 }
 
+	/***
+	 *	RING
+	 * 
+	 ***/
 
 function Ring(x, y){
 	this.x = x*16;
@@ -88,7 +93,6 @@ function Life(x, y){
 	this.timer = 0;
 	this.tilenumber = 3;
 }
-// function Life(x, y){}
 
 Life.prototype = new GameObject();
 
@@ -109,7 +113,7 @@ function Ghost(x, y){
 	this.width = 16;
 	this.height = 16;
 	this.timer = 0;
-	this.speed = .5;
+	this.speed = 0.5;
 	this.playerDead = false;
 
 }
@@ -205,8 +209,6 @@ ShockWave.prototype.update = function(){
 	if(!isOnScreen(level.camera, this)){
 		this.dead = true;
 	}
-
-
 }
 
 ShockWave.prototype.draw = function(camera){
@@ -219,5 +221,4 @@ ShockWave.prototype.process = function(){
 	console.log("Sohockwave process");
 } 
 
-// ShockWave.
 

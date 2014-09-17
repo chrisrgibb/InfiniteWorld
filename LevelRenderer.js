@@ -13,7 +13,7 @@ var LevelRenderer = function(mapp, player, levelState) {
 	// this is really a level renderer
 	var tileSheet = new TileSheet();
 	var objectSheet = new ObjectSheet();
-	var levelState = levelState;
+	// var levelState = levelState;
 	var map = mapp;
 	
 	var tilesToHighlight = []; // for debuggin
@@ -66,7 +66,7 @@ var LevelRenderer = function(mapp, player, levelState) {
 				
 			 	// ctx.fillRect(x, y, tileSize, tileSize);
 			 	if(tile.animated){
-			 		if(COUNTER % 23 ==0){
+			 		if(COUNTER % 23 ===0){
 			 			animationCounter++;
 			 			if(animationCounter > 3){
 							animationCounter = 0 ;
@@ -81,40 +81,35 @@ var LevelRenderer = function(mapp, player, levelState) {
 						tileSheet.drawTile(val, x, y);
 					}
 				}
-				
 			}
 		}
-
-
 
 		var gameObjects = levelState.objects;
 		for(var i = 0; i < gameObjects.length; i++){
-			if(isOnScreen(this.camera, gameObjects[i] )) {
-				gameObjects[i].draw(camera);
-			}
+			drawIfOnScreen(gameObjects[i], camera);
 		}
 
 		gameObjects = levelState.onScreenObjects;
-		for(var i = 0; i< gameObjects.length; i++){
-			if(isOnScreen(this.camera, gameObjects[i] )) {
-				gameObjects[i].draw(camera);
-			}
+		for(i = 0; i< gameObjects.length; i++){
+			drawIfOnScreen(gameObjects[i], camera);
 		}
 
 		// highLightTiles();
 		var enemys = levelState.enemys;
-		for(var i = 0; i< enemys.length; i++){
-			if( isOnScreen(this.camera, enemys[i]) ){
-				enemys[i].draw(camera);
-			}
+		for(i = 0; i< enemys.length; i++){	
+			drawIfOnScreen(enemys[i], camera);
 		}
 
 		if(!levelState.shockWave.dead){
 			levelState.shockWave.draw(camera);
-		}else{
-			// comment
 		}
 		level.objectSheet.drawTile(12, 18* 16 , 5* 16);
+	}
+
+	function drawIfOnScreen(obj, camera){
+		if(isOnScreen(camera, obj)){
+			obj.draw(camera);
+		}
 	}
 
 	function renderEnemies(){
@@ -154,8 +149,8 @@ var LevelRenderer = function(mapp, player, levelState) {
 
 	return { draw : draw,
 			 getTile : getTile,
-			 mapWidth : mapWidth
-			 ,mapHeight : mapHeight,
+			 mapWidth : mapWidth,
+			 mapHeight : mapHeight,
 			 addToHighLights : addToHighLights,
 			 getMap : getMap,
 			 screenHeight : this.screenHeight,

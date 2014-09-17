@@ -67,12 +67,12 @@ LevelGenerator.prototype.createNewMap = function(random, difficulty){
 		map = new Map();
 	}
 
-
-
 	map.enemys = this.enemies;
 	map.objects.push(new RiceBall(this.EndingX, 8));
 	return map;
 }
+
+
 
 
 
@@ -81,21 +81,19 @@ LevelGenerator.prototype.createLevel = function() {
 	var possibleOptions = ["one", "two", "three"];
 	var poss = Math.random() * 3 | 0;
 	// this.currentOption = possibleOptions[poss];
-	this.currentOption = ["two"];
+	this.currentOption = ["one"];
 
 
 	// map length
 	var length = 32 + (Math.random() * 128) | 0;
 	this.EndingX = length - randomInt(3) - 1; // area to put the rice ball / hamburger
-	console.log(length);
 
 	this.tiles = new Array(this.height);
 	this.createPlainLevel(this.tiles, length);
 
 
 	var chunks = [];
-	var start = 12;
-	var index = 12;
+	var start = index = 12;
 	while(index < length){
 
 		var newChunk = 3 + Math.random() * 12 | 0;
@@ -105,7 +103,7 @@ LevelGenerator.prototype.createLevel = function() {
 		if(chance < .33) {
 			this.createOneGap(index, newChunk-2);
 		} else if( chance >= .33 && chance < .66 ) {
-			this.makePlatform2(index, newChunk-2);
+			this.makePlatform(index, newChunk-2);
 		} else {
 			this.tiles[0][index] = 6;
 		}
@@ -114,19 +112,7 @@ LevelGenerator.prototype.createLevel = function() {
 		this.addClouds(index, 6);
 
 		index+=newChunk; 
-				
-
 	}
-
-
-	for( var i =0; i < length; i++) {
-		var ran = Math.random();
-
-		if(ran > .4 && ran < .5 ){
-			this.tiles[5][i] = 8;// creates some random blocks in the air
-		}
-	}
-
 
 	return this.tiles;
 };
@@ -134,13 +120,10 @@ LevelGenerator.prototype.createLevel = function() {
 
 
 // makes a floating platform in the air
-LevelGenerator.prototype.makePlatform2 = function(start, length){
+LevelGenerator.prototype.makePlatform = function(start, length){
 	var maxPlatformHeight = 4;
 
-	// var platformSize = Math.round(Math.random() * 8)  + 2;
-	var platformHeight = Math.round(Math.random() * 4) + 2;
-
-	// console.log(platformHeight);
+	var platformHeight = Math.round(Math.random() * 4) + 3;
 
 	// var start =  Math.round(Math.random() * this.tiles[0].length- (platformSize * 2)) ;
 	if( platformHeight > maxPlatformHeight){
@@ -149,7 +132,6 @@ LevelGenerator.prototype.makePlatform2 = function(start, length){
 
 	for(var j = start; j< start + length; j++){
 		var offGround = this.tiles.length - platformHeight -1;
-		// tiles[offGround][j] = this.breakableBlock;
 		this.tiles[offGround][j] = themeOptions[this.currentOption].breakable;
 	}
 };
@@ -174,7 +156,6 @@ LevelGenerator.prototype.castleLevel = function(rooms){
 			tiles[i].push(0);
 		}
 	}
-
 	return tiles;
 }
 
@@ -279,15 +260,10 @@ LevelGenerator.prototype.triangleThing = function(tiles){
 
 	var odds = randomInt(10);
 
-
-
 	var height = (Math.random() * 6 ) + 3 | 0; // either three or 4
 	// width of triangle will  be 2n -1 wide
-
 	var startX =  Math.random() * 40 | 0;
 	var middle = startX + (height - 1);
-	console.log("hig " + height);
-
 	var ranNoise = randomValues(1, height+1);
 	// var ranNoise = getRandomNoise(height+1);	
 

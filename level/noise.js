@@ -7,7 +7,6 @@ var Noise = function(){
 	//http://mrl.nyu.edu/~perlin/noise/
 
 
-
 }
 
 function randomValues(interval, size){

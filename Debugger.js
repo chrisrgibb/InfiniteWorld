@@ -21,4 +21,4 @@ Debugger.prototype.render = function(ctx){
 
 Debugger.prototype.toggleDebug = function(){
 	this.debug = !this.debug;
-}
+};

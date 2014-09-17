@@ -42,7 +42,6 @@ function Player(){
 	this.punchTime = 0;
 	this.canPunch = true;
 
-	this.xx =0;
 	this.yy = 0;
 	// for animation
 	this.frameIndex = 0;
@@ -58,6 +57,56 @@ function Player(){
 
 }
 
+Player.prototype.moveDir = function(dir){
+	var absX = Math.abs(this.xVel);
+
+	if(this.onGround){
+
+		if(absX > this.xSpeed){
+			absX += this.xspeedIncrease;
+		}
+	} else {
+		if(Math.abs(this.startXvel)>0){
+			if(absX > this.xSpeed){
+				absX += this.xspeedIncrease;
+			}
+		} else {
+			if(absX < this.xSpeed){
+				absX+=.0825;
+			}
+		}
+	}
+
+	// if(this.left){
+	// 	// if player is on ground 
+	// 	if(this.onGround){
+	// 		// stop moving
+	// 		if(this.xVel > 0){
+	// 			this.xVel = 0;
+	// 		}
+	// 		// move left
+	// 		if(this.xVel > -this.xSpeed){
+	// 			this.xVel-=this.xspeedIncrease;
+	// 		}
+	// 	} else {
+	// 		// in air
+	// 		if(this.startXvel<0){
+	// 			if(this.xVel > -this.xSpeed){
+	// 				this.xVel-=this.xspeedIncrease;
+	// 			}
+	// 		}
+	// 		// changin direction
+	// 		if(this.startXvel >= 0){
+	// 			if(this.xVel > -this.xSpeed){
+	// 				this.xVel -= .0825;
+	// 			}
+	// 			// was going right
+	// 		}
+	// 	}
+	
+	// this.dir = -1;
+	return dir * absX;
+}
 
 Player.prototype.move = function(first_argument) {
 
@@ -102,13 +151,11 @@ Player.prototype.move = function(first_argument) {
 	}else{
 		this.yVel += .105;
 		this.jumpTime = 0;
-			
 	}
 
-	// currentDebugText = this.yVel;
-	debug.setText(this.yVel);
+	debug.setText(this.xVel);
 	if(this.left){
-		// if player is on ground 
+		//if player is on ground 
 		if(this.onGround){
 			// stop moving
 			if(this.xVel > 0){
@@ -117,25 +164,28 @@ Player.prototype.move = function(first_argument) {
 			// move left
 			if(this.xVel > -this.xSpeed){
 				this.xVel-=this.xspeedIncrease;
-			
 			}
-		
 		} else {
 			// in air
 			if(this.startXvel<0){
-				console.log('going left')
 				if(this.xVel > -this.xSpeed){
 					this.xVel-=this.xspeedIncrease;
 				}
 			}
 			// changin direction
 			if(this.startXvel >= 0){
-				this.xVel -= .0825;
+				if(this.xVel > -this.xSpeed){
+					this.xVel -= .0825;
+				}
 				// was going right
 			}
 		}
 	
 		this.dir = -1;
+
+		console.log(this.moveDir(this.dir) + "  " + this.xVel);
+		// this.xVel =this.moveDir(this.dir);
+
 	} 
 	else if( this.right) {
 
@@ -150,15 +200,16 @@ Player.prototype.move = function(first_argument) {
 		} else {
 			// in air
 			if(this.startXvel>0){
-				console.log('going right')
 				if(this.xVel < this.xSpeed){
 					this.xVel+=this.xspeedIncrease;
 				}
 			}
 			// changin direction
 			if(this.startXvel <= 0){
-				this.xVel += .0825;
-				// was going right
+				if(this.xVel < this.xSpeed){
+					this.xVel += .0825;
+					// was going right
+				}
 			}
 		}
 		this.dir = 1;
@@ -180,7 +231,6 @@ Player.prototype.move = function(first_argument) {
 
 		}
 	}
-
 
 	// round down to zero
 	if( Math.abs(this.xVel) < 0.01){
@@ -208,6 +258,7 @@ Player.prototype.move = function(first_argument) {
 		this.canPunch = false;
 		if(this.onGround){
 			dX = 0;
+			this.xVel = 0;
 		}
 	}else{
 		if(this.punchTime > 0){
@@ -215,6 +266,7 @@ Player.prototype.move = function(first_argument) {
 			this.punchTime--;
 			if(this.onGround){
 				dX = 0;
+				this.xVel = 0;
 			}
 			if (this.braceletActivated ) {
 				if (!this.shockwaveOnscreen){
@@ -256,6 +308,7 @@ Player.prototype.move = function(first_argument) {
 		this.y = (level.mapHeight()*16)-(this.height/2);
 	}
 }
+
 
 Player.prototype.punchDetection = function(){	
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
@@ -303,7 +356,7 @@ Player.prototype.moveX = function(dX, dY){
 		var tileX1 = map.isBlocking(ax, yTop);
 
 		// For DEBUGGINS
-		if(tileX1 ) {
+		if( tileX1 ) {
 			level.addToHighLights(ax, yTop, "#FDB1B1");
 		}
 		if( tileX2 ) {
@@ -312,8 +365,7 @@ Player.prototype.moveX = function(dX, dY){
 
 		if(tileX1 || tileX2){ // collision
 			tempX = (ax * 16) - (this.width/2);
-			// this.xVel = 0;
-			this.xx = 0;
+
 			if(!this.onGround){
 				this.xVel = 0;
 			}
@@ -342,7 +394,7 @@ Player.prototype.moveX = function(dX, dY){
 
 		if(tileX1 || tileX2 ){ 
 			tempX = ( (ax+1) * 16) + (this.width/2) ; // 
-			this.xx = 0;
+
 			if(!this.onGround){
 				this.xVel = 0;
 			}

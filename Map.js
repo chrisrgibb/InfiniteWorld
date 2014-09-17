@@ -211,7 +211,6 @@ Map.prototype.createBlocks = function(){
 }
 	
 Map.prototype.getTile = function(x, y){
-	// return this.tiles[y][x];
 	return this.blocks[y][x].image;
 };
 
