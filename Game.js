@@ -12,7 +12,7 @@ Game.draw = function(){
 	if(level){
 		level.draw();
 	}
-	player.draw(ctx); 
+	player.draw(ctx, level.camera); 
 	debug.render(ctx);
 };
 

@@ -55,13 +55,16 @@ function Player(){
 
 	this.maxJumpReached = false;
 
+	function callthis(){
+		console.log('callthis');
+	}
+
 }
 
 Player.prototype.moveDir = function(dir){
 	var absX = Math.abs(this.xVel);
 
 	if(this.onGround){
-
 		if(absX > this.xSpeed){
 			absX += this.xspeedIncrease;
 		}
@@ -77,33 +80,6 @@ Player.prototype.moveDir = function(dir){
 		}
 	}
 
-	// if(this.left){
-	// 	// if player is on ground 
-	// 	if(this.onGround){
-	// 		// stop moving
-	// 		if(this.xVel > 0){
-	// 			this.xVel = 0;
-	// 		}
-	// 		// move left
-	// 		if(this.xVel > -this.xSpeed){
-	// 			this.xVel-=this.xspeedIncrease;
-	// 		}
-	// 	} else {
-	// 		// in air
-	// 		if(this.startXvel<0){
-	// 			if(this.xVel > -this.xSpeed){
-	// 				this.xVel-=this.xspeedIncrease;
-	// 			}
-	// 		}
-	// 		// changin direction
-	// 		if(this.startXvel >= 0){
-	// 			if(this.xVel > -this.xSpeed){
-	// 				this.xVel -= .0825;
-	// 			}
-	// 			// was going right
-	// 		}
-	// 	}
-	
 	// this.dir = -1;
 	return dir * absX;
 }
@@ -420,6 +396,7 @@ Player.prototype.moveY = function(dX, dY){
 		var leftTile  = map.isBlocking(left, ay);
 		var rightTile = map.isBlocking(right, ay );
 
+
 		if(leftTile) {
 			level.addToHighLights(left, ay, "#9BF0E9");
 		}
@@ -485,11 +462,11 @@ Player.prototype.coords = function(){
 	return str;
 }
 
-Player.prototype.draw = function(ctx) {
+Player.prototype.draw = function(ctx, camera) {
 
 	ctx.fillStyle = "red";
 	if(keys["down"]){
-		ctx.fillRect(this.x - this.width/2 - level.camera.x, this.y  - (level.camera.y  ) , this.width, this.height/2);
+		ctx.fillRect(this.x - this.width/2 - camera.x, this.y - camera.y, this.width, this.height/2);
 	}else{
 	// 	ctx.fillRect(this.x - this.width/2- level.camera.x, this.y - this.height/2 - (level.camera.y  ) , this.width, this.height);
 	}
@@ -504,9 +481,9 @@ Player.prototype.draw = function(ctx) {
 		var punchFrame = 112;
 		if(this.dir==-1){
 			punchFrame = 136;
-			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - level.camera.x -4, this.y - this.height/2  - level.camera.y - 4, 24, 24);
+			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - camera.x -4, this.y - this.height/2  - camera.y - 4, 24, 24);
 		}else{
-			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - level.camera.x +2, this.y - this.height/2  - level.camera.y - 4, 24, 24);
+			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - camera.x +2, this.y - this.height/2  - camera.y - 4, 24, 24);
 		}
 	} 
 	/**
@@ -514,23 +491,23 @@ Player.prototype.draw = function(ctx) {
 	 */
 	else if(this.jumping || this.yVel > 0){
 		var frame = 16 * (this.dir== 1 ? 6 : 14 );
-		ctx.drawImage(this.image, frame, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+		ctx.drawImage(this.image, frame, 0, 16, 24, this.x - this.width - camera.x + 2, this.y - this.height/2  - camera.y - 4, 16, 24);
 	} 
 	/**
 	 * walking
 	 */
 	else if( Math.abs(this.xVel) >0) {
-		this.drawWalking();
+		this.drawWalking(ctx, camera);
 	} else {
 	/**
    	 *	standing still
  	 */	
  	 	var frame = (this.dir==1 ? 1 : 0)
-		ctx.drawImage(this.image, frame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);
+		ctx.drawImage(this.image, frame*16, 0, 16, 24, this.x - this.width - camera.x + 2, this.y - this.height/2  - camera.y - 4, 16, 24);
 	}
 };
 
-Player.prototype.drawWalking = function(){
+Player.prototype.drawWalking = function(ctx, camera){
 	var drawFrame = this.counter + (this.dir==1 ? 2 : 10);
-	ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - level.camera.x + 2, this.y - this.height/2  - level.camera.y - 4, 16, 24);	
+	ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - camera.x + 2, this.y - this.height/2  - camera.y - 4, 16, 24);	
 }

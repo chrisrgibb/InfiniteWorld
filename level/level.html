@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+    <head>
+    	<title> GAMes </title>
+   	    <style type="text/css">
+	          canvas{
+    		  border: 1px solid black;
+              background: #0000ff;
+              padding-left: 0;
+              padding-right: 0;
+              margin-left: auto;
+              margin-right: auto;
+              display: block;
+              /*width: 800px;*/
+	        	}
+            h1#title{
+             text-align: center;
+            }
+            #sidebar{
+              position: relative;
+              display: block;
+              float: right;
+              border: 1px solid black;
+
+
+            }
+	    </style>
+	    <noscript>
+  <!-- anchor linking to external file -->
+  <div id="no-javascript" style="position: fixed; top: 0px; left: 0px; z-index: 3000; 
+                height: 100%; width: 100%; background-color: #FFFFFF; ">
+    <div style = "margin-left: 30px;">
+      <h1>Oh No!</h1> <p> It appears you don't have javascript enabled. Please enable javascript to get the best use out of this page! </p>
+    </div>
+  </div>
+</noscript>
+
+      
+    </head>
+    <body>
+      <h1 id="title">Level Generator in Collision Detection Land </h1>
+      <canvas id="canvas" width="512" height ="384">
+
+      </canvas>
+      <button id="go"> GO !!</button>
+      <div id="sidebar">
+        <p>use arrow keys to move.
+        press up arrow to jump. </p>
+        <label for="scale">scale: </label><button id="scale-button" value=1> 1x </button>
+
+      </div>
+      <input type="range" id="range" name="points" min="1" max="10">
+      <div id="text"></div>
+
+    </body>
+
+      <script src="LevelGenerator.js"></script>
+      <script>
+      var lg = new LevelGenerator(); 
+      var canvas = document.getElementById('canvas');
+	  var ctx = canvas.getContext('2d');
+      var tiles;
+      var tileSize = 8;
+      var rangeSlider = document.getElementById('range');
+       var val = rangeSlider.value;
+
+      document.getElementById('go').addEventListener('click', function(){
+      	// tiles = lg.createLevel();
+        
+        // 
+        tiles = lg.plainNoise(11);
+        tiles = getRandomNoise(32);
+
+
+      	console.log(tiles);
+      	resizeCanvas();
+      	drawMap();
+        console.log("val = " + val);
+      });	
+
+
+    
+      rangeSlider.addEventListener('change', function(){
+
+        console.log("slide");
+          val = rangeSlider.value;
+           document.getElementById('text').innerHTML = val;
+      });
+
+      function resizeCanvas(){
+      	canvas.width = tiles[0].length * tileSize;
+      	canvas.height = tiles.length * tileSize;
+
+      }
+
+      function drawMap(){
+      	for(var row = 0; row < tiles.length; row++ ){
+    			for(var col = 0; col < tiles[0].length; col++){
+    				if(tiles[row][col]==5){
+    					ctx.fillStyle="#ad5200";
+    					ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+    				}  if (tiles[row][col]==8){
+    					ctx.fillStyle ="#ffff00";
+    					ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+    				}   if(tiles[row][col]!=0){
+              ctx.fillStyle ="#ffff00";
+              ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+            } 
+             if( tiles[row][col]==12){
+              ctx.fillStyle ="red";
+              ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+            }
+    			}
+    		}
+      }
+
+      // function draw
+
+      </script>
+
+
+
+
+   
+</html>

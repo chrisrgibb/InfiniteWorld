@@ -130,8 +130,8 @@ LevelState.prototype.walkedOverBadStuff = function(x, y){
 };
 
 LevelState.prototype.updateShockwave = function(){
-	if(!levelState.shockWave.dead){
-		levelState.shockWave.update();
+	if(!this.shockWave.dead){
+		this.shockWave.update();
 
 		var x = levelState.shockWave.x / 16 | 0;
 		var y = levelState.shockWave.y / 16 | 0;
@@ -163,6 +163,7 @@ LevelState.prototype.update = function(){
 	var enemys = this.enemys;
 	var removeEnemys = [];
 	var countage = 0;
+	// var level = game.level;
 
 
 	// enemy logic
