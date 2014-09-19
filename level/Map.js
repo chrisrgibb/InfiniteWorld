@@ -137,9 +137,9 @@ var Map = function(newtiles){
 
 	} else {
 		this.tiles = newtiles;
-		// var lg = new LevelGenerator();
+		// var lg = new levelGenerator();
 
-		// this.tiles = lg.createLevel();
+		// this.tiles = lg.createlevel();
 	}
 
 	// this.tiles = [

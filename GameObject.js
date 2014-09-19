@@ -14,7 +14,7 @@ var GameObject = function(x, y, type){
 GameObject.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) ;
 	var drawY = ( (this.y) - camera.y ) ; 
-	level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
+	levelRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 };
 
 GameObject.prototype.process = function(player){
@@ -64,7 +64,7 @@ function RiceBall(x, y){
 RiceBall.prototype = new GameObject();
 
 RiceBall.prototype.process = function(){
-	alert("End level!!!");
+	alert("End levelRenderer!!!");
 	this.remove = true;
 }
 
@@ -124,7 +124,7 @@ Ghost.prototype = new GameObject(); // could probably change to enemy if
 Ghost.prototype.update = function(){
 	this.timer++;
 	this.move();
-	if(!isOnScreen(level.camera, this)){
+	if(!isOnScreen(levelRenderer.camera, this)){
 		this.remove = true;
 	}
 }	
@@ -132,7 +132,7 @@ Ghost.prototype.update = function(){
 Ghost.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) ;
 	var drawY = ( (this.y) - camera.y ) ; 
-	// level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
+	// levelRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 	ctx.fillStyle = this.color;
 	// ctx.fillRect(drawX, drawY, this.width, this.height);	
 	enemySheet.draw(0, drawX- this.width/2, drawY- this.width/2, this.width, this.height);	
@@ -206,7 +206,7 @@ ShockWave.prototype.update = function(){
 	if(!this.dead){
 		this.x += this.dir * this.speed;
 	}
-	if(!isOnScreen(level.camera, this)){
+	if(!isOnScreen(levelRenderer.camera, this)){
 		this.dead = true;
 	}
 }
@@ -214,7 +214,7 @@ ShockWave.prototype.update = function(){
 ShockWave.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) - 8 ;
 	var drawY = ( (this.y) - camera.y ) -7 ; 
-	level.objectSheet.drawTile(this.tilenumber, drawX , drawY);
+	levelRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 }
 
 ShockWave.prototype.process = function(){

@@ -38,7 +38,7 @@
       
     </head>
     <body>
-      <h1 id="title">Level Generator in Collision Detection Land </h1>
+      <h1 id="title">levelRenderer Generator in Collision Detection Land </h1>
       <canvas id="canvas" width="512" height ="384">
 
       </canvas>
@@ -54,9 +54,9 @@
 
     </body>
 
-      <script src="LevelGenerator.js"></script>
+      <script src="levelGenerator.js"></script>
       <script>
-      var lg = new LevelGenerator(); 
+      var lg = new levelGenerator(); 
       var canvas = document.getElementById('canvas');
 	  var ctx = canvas.getContext('2d');
       var tiles;
@@ -65,7 +65,7 @@
        var val = rangeSlider.value;
 
       document.getElementById('go').addEventListener('click', function(){
-      	// tiles = lg.createLevel();
+      	// tiles = lg.createlevel();
         
         // 
         tiles = lg.plainNoise(11);

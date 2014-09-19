@@ -41,8 +41,8 @@ Enemy.prototype.draw = function(camera){
 };
 
 function isOnScreen(camera, enemy){
-	var xWidth = (camera.x + level.screenWidth);
-	var cameraHeight = (camera.y + level.screenHeight);
+	var xWidth = (camera.x + levelRenderer.screenWidth);
+	var cameraHeight = (camera.y + levelRenderer.screenHeight);
 	var eX = enemy.x ;
 	var eY = enemy.y ;
 
