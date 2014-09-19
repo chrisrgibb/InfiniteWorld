@@ -30,8 +30,6 @@ Enemy.prototype.move = function(first_argument) {
 		this.dir *= -1;
 		this.x = 2;
 	}
-	// body...
-
 };
 
 Enemy.prototype.draw = function(camera){
@@ -40,13 +38,9 @@ Enemy.prototype.draw = function(camera){
 
 	ctx.fillStyle = this.color;
 	ctx.fillRect(drawX, drawY, this.width, this.height);		
-}
+};
 
 function isOnScreen(camera, enemy){
-	// console.log(level);
-	// var xWidth = camera.x + level.mapWidth() * 16;
-
-	// var cameraHeight = (camera.y + level.mapHeight() * 16);
 	var xWidth = (camera.x + level.screenWidth);
 	var cameraHeight = (camera.y + level.screenHeight);
 	var eX = enemy.x ;
@@ -59,7 +53,7 @@ function isOnScreen(camera, enemy){
 	}
 
 	return false;
-}
+};
 
 
 
@@ -96,7 +90,7 @@ Scorpion.prototype.move = function(){
 
 		}
 		// stop the scorpion from going off edge of block		
-		if( !map.isBlocking((this.x + dX) / 16 | 0,   (this.y / 16 | 0 )+1       )	){
+		if(!map.isBlocking((this.x + dX) / 16 | 0, (this.y / 16 | 0 )+1)){
 			this.dir = 1
 		}
 
@@ -105,15 +99,15 @@ Scorpion.prototype.move = function(){
 			this.dir *= -1;
 		}
 			// stop the scorpion from going off edge of block
-		if( !map.isBlocking((this.x + dX + this.width) / 16 | 0,   (this.y / 16 | 0 )+1       )	){
+		if(!map.isBlocking((this.x + dX + this.width) / 16 | 0,   (this.y / 16 | 0 )+1       )	){
 			this.dir = -1
 		}
 	}
 	this.x += dX;
-	// stop goind off edge of screen
+	// stop going off edge of screen
 	if(this.x < 0 ){
 		this.dir *= -1;
 		this.x = 2;
 	}
-}
+};
 

@@ -54,16 +54,10 @@ function Player(){
 	this.oldYvel =0;
 
 	this.maxJumpReached = false;
-
-	function callthis(){
-		console.log('callthis');
-	}
-
 }
 
 Player.prototype.moveDir = function(dir){
 	var absX = Math.abs(this.xVel);
-
 	if(this.onGround){
 		if(absX > this.xSpeed){
 			absX += this.xspeedIncrease;
@@ -79,8 +73,6 @@ Player.prototype.moveDir = function(dir){
 			}
 		}
 	}
-
-	// this.dir = -1;
 	return dir * absX;
 }
 

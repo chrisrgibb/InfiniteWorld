@@ -1,3 +1,4 @@
+// global variables whoop
 var canvas,
 	ctx,
 	WIDTH,
