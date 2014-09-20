@@ -1,4 +1,4 @@
-var LevelRenderer = function(mapp, player, levelState) {
+var levelRenderer = function(mapp, player, levelState) {
 	this.screenWidth = 16 * 16;// in pixels
 	this.screenHeight = 12 * 16;
 
@@ -7,10 +7,10 @@ var LevelRenderer = function(mapp, player, levelState) {
 	this.player = player;
 	// height of screen = 12 * 16
 
-	// draws the level and stores the level
+	// draws the levelRenderer and stores the levelRenderer
 
 
-	// this is really a level renderer
+	// this is really a levelRenderer renderer
 	var tileSheet = new TileSheet();
 	var objectSheet = new ObjectSheet();
 	// var levelState = levelState;
@@ -103,7 +103,7 @@ var LevelRenderer = function(mapp, player, levelState) {
 		if(!levelState.shockWave.dead){
 			levelState.shockWave.draw(camera);
 		}
-		level.objectSheet.drawTile(12, 18* 16 , 5* 16);
+		levelRenderer.objectSheet.drawTile(12, 18* 16 , 5* 16);
 	}
 
 	function drawIfOnScreen(obj, camera){
@@ -132,10 +132,9 @@ var LevelRenderer = function(mapp, player, levelState) {
 	function highLightTiles(){
 		ctx.fillStyle = "red";
 		for(var i =0; i< tilesToHighlight.length; i++){
-			var color = tilesToHighlight[i][2];
 			var col = tilesToHighlight[i][0];
 			var row = tilesToHighlight[i][1];
-			ctx.fillStyle = color;
+			ctx.fillStyle = tilesToHighlight[i][2];
 
 			var y = ( row * tileSize ) - camera.y;
 			var x = (col * tileSize) - camera.x;

@@ -5,7 +5,7 @@ var canvas,
 	HEIGHT,
 	player,
 	game,
-	level,
+	levelRenderer,
 	map,
 	levelState,
 	debug;
@@ -26,11 +26,11 @@ function init(){
 
 	player = new Player();
 
-	// set up levels
-	levelState = new LevelState();
+	// set up levelRenderers
+	levelState = new levelState();
 	levelState.init();
 	map = levelState.map;
-	level = new LevelRenderer(levelState.map, player, levelState);
+	levelRenderer = new levelRenderer(levelState.map, player, levelState);
 
 	game = Game();
 	Game.run();

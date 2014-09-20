@@ -1,7 +1,7 @@
 // "DESIGN GRAMMER"
 /*
-
-
+	
+	
 
 
 
@@ -14,7 +14,7 @@
 
 
 
-var LevelGenerator = function(){
+var levelGenerator = function(){
 	this.height = 12;
 	this.groundTile = 18;
 	this.obsticleTile1 = 24;
@@ -58,10 +58,10 @@ var themeOptions = {
 
 }
 
-LevelGenerator.prototype.createNewMap = function(random, difficulty){
+levelGenerator.prototype.createNewMap = function(random, difficulty){
 	var map;
 	if(random){
-		var tiles = this.createLevel();
+		var tiles = this.createlevel();
 		map = new Map(tiles);
 	}else {
 		map = new Map();
@@ -76,7 +76,7 @@ LevelGenerator.prototype.createNewMap = function(random, difficulty){
 
 
 
-LevelGenerator.prototype.createLevel = function() {
+levelGenerator.prototype.createlevel = function() {
 	// Choose theme
 	var possibleOptions = ["one", "two", "three"];
 	var poss = Math.random() * 3 | 0;
@@ -89,7 +89,7 @@ LevelGenerator.prototype.createLevel = function() {
 	this.EndingX = length - randomInt(3) - 1; // area to put the rice ball / hamburger
 
 	this.tiles = new Array(this.height);
-	this.createPlainLevel(this.tiles, length);
+	this.createPlainlevel(this.tiles, length);
 
 
 	var chunks = [];
@@ -104,6 +104,8 @@ LevelGenerator.prototype.createLevel = function() {
 			this.createOneGap(index, newChunk-2);
 		} else if( chance >= .33 && chance < .66 ) {
 			this.makePlatform(index, newChunk-2);
+		} else if (chance > 0.66 && chance < 0.7 ) {
+			this.triangleThing(5);
 		} else {
 			this.tiles[0][index] = 6;
 		}
@@ -120,12 +122,11 @@ LevelGenerator.prototype.createLevel = function() {
 
 
 // makes a floating platform in the air
-LevelGenerator.prototype.makePlatform = function(start, length){
+levelGenerator.prototype.makePlatform = function(start, length){
 	var maxPlatformHeight = 4;
 
 	var platformHeight = Math.round(Math.random() * 4) + 3;
 
-	// var start =  Math.round(Math.random() * this.tiles[0].length- (platformSize * 2)) ;
 	if( platformHeight > maxPlatformHeight){
 		this.tiles[this.groundIndex - 2][start++] = this.breakableBlock;
 	}
@@ -137,7 +138,7 @@ LevelGenerator.prototype.makePlatform = function(start, length){
 };
 
 
-LevelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
+levelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
 	// var noise = 
 
 
@@ -147,7 +148,7 @@ LevelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
 
 
 
-LevelGenerator.prototype.castleLevel = function(rooms){
+levelGenerator.prototype.castlelevel = function(rooms){
 	var mapsize = rooms *32;
 	var tiles = new Array(mapsize);
 	for(var i = 0; i< mapsize ;i++){
@@ -160,7 +161,7 @@ LevelGenerator.prototype.castleLevel = function(rooms){
 }
 
 
-LevelGenerator.prototype.createPlainLevel = function(tiles, length){
+levelGenerator.prototype.createPlainlevel = function(tiles, length){
 
 	for(var i =0; i< tiles.length; i++){
 		tiles[i] = [];
@@ -173,11 +174,10 @@ LevelGenerator.prototype.createPlainLevel = function(tiles, length){
 			tiles[i][j] = themeOptions[this.currentOption].groundTile;
 		}	
 	}
-	this.triangleThing(tiles);
 	return tiles;
 }
 
-LevelGenerator.prototype.plainNoise = function(number){
+levelGenerator.prototype.plainNoise = function(number){
 	var tiles = randomValues(10, 32);
 	var newtiles = get2dArray(32);
 
@@ -191,7 +191,6 @@ LevelGenerator.prototype.plainNoise = function(number){
 			}
 		}
 	}
-
 	return newtiles;
 }
 
@@ -209,7 +208,7 @@ function get2dArray(size){
 	return tiles;
 }
 
-LevelGenerator.prototype.createOneGap = function(startX, length){
+levelGenerator.prototype.createOneGap = function(startX, length){
 
 	if(length > 5){
 		this.tiles[this.height - 4][startX + 4] = themeOptions[this.currentOption].unbreakable;
@@ -229,7 +228,7 @@ LevelGenerator.prototype.createOneGap = function(startX, length){
 }
 
 
-LevelGenerator.prototype.addClouds = function(startX, size){
+levelGenerator.prototype.addClouds = function(startX, size){
 	// var numberOfClouds = randomInt(10)+1;
 	var noisearray = randomValues(1, 6);
 	var length = noisearray.length;
@@ -251,7 +250,7 @@ LevelGenerator.prototype.addClouds = function(startX, size){
 // 0 0 0 0 0 0 0  
 
 
-LevelGenerator.prototype.triangleThing = function(tiles){
+levelGenerator.prototype.triangleThing = function(length){
 	/* options 
 	   plain triangle
 	   triangle with random money
@@ -259,30 +258,27 @@ LevelGenerator.prototype.triangleThing = function(tiles){
 	*/
 
 	var odds = randomInt(10);
-
-	var height = (Math.random() * 6 ) + 3 | 0; // either three or 4
+	var height = length || (Math.random() * 6 ) + 3 | 0;
+	// var height = (Math.random() * 6 ) + 3 | 0; // either three or 4
 	// width of triangle will  be 2n -1 wide
 	var startX =  Math.random() * 40 | 0;
 	var middle = startX + (height - 1);
 	var ranNoise = randomValues(1, height+1);
-	// var ranNoise = getRandomNoise(height+1);	
-
 
 	for(var i = 0; i< height; i++){
 		// start at top
 		// for triangles with 2 blocks at top initialize j to startX + (height - i)
 
 		for(var j = startX + (height - i -1); j < startX + (height + i ); j++ ){  
-			tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].breakable; 
+			this.tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].breakable; 
 			
-
 			if(Math.random() > .4 && j==middle){
-				tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].unbreakable; 
+				this.tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].unbreakable; 
 			}
 			var x = j - startX - height;
 			var noise = ranNoise[i][j-startX];
 			if( noise > .95 ){
-				tiles[this.groundIndex - height  + i][j] = 9;
+				this.tiles[this.groundIndex - height  + i][j] = 9;
 				//themeOptions[this.currentOption].unbreakable; 
 			}
 

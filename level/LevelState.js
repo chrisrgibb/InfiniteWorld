@@ -1,4 +1,4 @@
-var LevelState = function(){
+var levelState = function(){
 
 	this.enemys = [];
 	this.map = null;
@@ -20,11 +20,11 @@ var LevelState = function(){
 
 };
 
-LevelState.prototype.init = function() {
+levelState.prototype.init = function() {
 	this.enemys = [];
 	// this.map = new Map("tiles");
 	this.map = new Map();
-	var lg = new LevelGenerator();
+	var lg = new levelGenerator();
 
 	this.map = lg.createNewMap(true);
 
@@ -34,7 +34,7 @@ LevelState.prototype.init = function() {
 };
 
 // If player moves into the tile that the gameobject is in
-LevelState.prototype.gameObject = function(x, y){
+levelState.prototype.gameObject = function(x, y){
 
 	var me = this;
 
@@ -54,7 +54,7 @@ LevelState.prototype.gameObject = function(x, y){
 };
 
 
-LevelState.prototype.punchTile = function(x, y){
+levelState.prototype.punchTile = function(x, y){
 
 	if(x > this.map.blocks[0].length-1){
 		return;
@@ -100,7 +100,7 @@ LevelState.prototype.punchTile = function(x, y){
 	}
 };
 
-LevelState.prototype.fireShockwave = function(player){
+levelState.prototype.fireShockwave = function(player){
 	if(player.dir==1 ){
 		this.shockWave.launch(player.x + (20), player.y, player.dir);
 	}else {
@@ -108,7 +108,7 @@ LevelState.prototype.fireShockwave = function(player){
 	}
 };
 
-LevelState.prototype.walkedOverBadStuff = function(x, y){
+levelState.prototype.walkedOverBadStuff = function(x, y){
 	if(x > this.map.blocks[0].length-1 || y > this.map.blocks.length-1){
 		return;
 	}
@@ -129,7 +129,7 @@ LevelState.prototype.walkedOverBadStuff = function(x, y){
 	}
 };
 
-LevelState.prototype.updateShockwave = function(){
+levelState.prototype.updateShockwave = function(){
 	if(!this.shockWave.dead){
 		this.shockWave.update();
 
@@ -137,17 +137,17 @@ LevelState.prototype.updateShockwave = function(){
 		var y = levelState.shockWave.y / 16 | 0;
 		
 		// if x is not off screen
-		if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 || !isOnScreen(level.camera, this.shockWave) ) {
+		if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 || !isOnScreen(levelRenderer.camera, this.shockWave) ) {
 			levelState.shockWave.dead = true;
 			player.shockwaveOnscreen = false;
 			return; 
 		}
 		var block = map.getBlock(x,y);
 
-		if(x < level.camera.x + (level.screenWidth / 16 | 0)  && map.getBlock(x, y).breakable){
+		if(x < levelRenderer.camera.x + (levelRenderer.screenWidth / 16 | 0)  && map.getBlock(x, y).breakable){
 			// connects with breakable block
 			this.punchTile(x, y);
-		} else if(x < level.camera.x + (level.screenWidth / 16 | 0)  && map.getBlock(x, y).isSolid){
+		} else if(x < levelRenderer.camera.x + (levelRenderer.screenWidth / 16 | 0)  && map.getBlock(x, y).isSolid){
 			// hits a solidblock
 			levelState.shockWave.dead = true;
 			player.shockwaveOnscreen = false;
@@ -158,13 +158,11 @@ LevelState.prototype.updateShockwave = function(){
 
 
 
-LevelState.prototype.update = function(){
+levelState.prototype.update = function(){
 	// remove everything
 	var enemys = this.enemys;
 	var removeEnemys = [];
 	var countage = 0;
-	// var level = game.level;
-
 
 	// enemy logic
 	// search through enemys for next one to appear
@@ -175,8 +173,8 @@ LevelState.prototype.update = function(){
 	for(var i = 0; i< enemys.length; i++){
 
 		// // GOING to use this later???z`
-		// if( enemys[i].x > level.camera.x + level.screenWidth 
-		// 	|| enemys[i].y > level.camera.y + level.screenHeight){
+		// if( enemys[i].x > levelRenderer.camera.x + levelRenderer.screenWidth 
+		// 	|| enemys[i].y > levelRenderer.camera.y + levelRenderer.screenHeight){
 		// 	// console.log("offscreen");
 		// 	countage++;
 		// } else {
@@ -187,60 +185,43 @@ LevelState.prototype.update = function(){
 		// 	}
 		// }
 
-		if( isOnScreen(level.camera, enemys[i]) ){
+		if( isOnScreen(levelRenderer.camera, enemys[i]) ){
 			enemys[i].move();
 			countage++;
 			debug.setText(countage);
-		}	else if(enemys[i].y < level.camera.y+16) {
+		}	else if(enemys[i].y < levelRenderer.camera.y+16) {
 
 			removeEnemys.push(enemys[i]);
 		}
 	}
-
-	// console.log("offscreen " + countage);
 
 	// increment timer on all onscreen objects (ring, money, life)
 	for(i = 0; i < this.onScreenObjects.length; i++){
 		// this.onScreenObjects[i].timer++;
 		this.onScreenObjects[i].update();
 		if(this.onScreenObjects[i].remove){
-			// tag for removal
-			this.objectsToRemove.push(this.onScreenObjects[i]);
+			this.objectsToRemove.push(this.onScreenObjects[i]);	// tag for removal
 		}
 	}
-
 	this.updateShockwave();
-
 
 	// remove static objects
 	for(i = 0, len = this.objectsToRemove.length; i < len; i++){
-
-		var index = this.onScreenObjects.indexOf(this.objectsToRemove[i]);
-
-		if(index!=-1){
-			this.onScreenObjects.splice(index, 1);
-			this.objectsToRemove.splice(i, 1);
-		}
-		index = this.objects.indexOf(this.objectsToRemove[i]);
-		if( index != -1){
-			this.objects.splice(index, 1);
-			this.objectsToRemove.splice(i, 1);
-		}
+		removeObject(this.onScreenObjects, this.objectsToRemove[i], this.objectsToRemove, i);
+		removeObject(this.objects, this.objectsToRemove[i], this.objectsToRemove, i);
 	}
 	// remove enemies
 	for(i = 0, len = removeEnemys.length; i < len; i++){
-		var index = enemys.indexOf(removeEnemys[i]);
+		removeObject(enemys, removeEnemys[i], removeEnemys, i);
+	}
+	
+	function removeObject(fromArray, obj, toArray, i){
+		var index = fromArray.indexOf(obj);
 		if(index!=-1){
-
-			enemys.splice(index, 1);
-			removeEnemys.splice(i, 1);
-
+			fromArray.splice(index, 1);
+			toArray.splice(i, 1);
 		}
 	}
-
-	// function removeObject(obj,  )
-
-
 };
 
 // 

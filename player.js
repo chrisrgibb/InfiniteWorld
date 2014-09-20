@@ -95,7 +95,7 @@ Player.prototype.move = function(first_argument) {
 					// if moving give an extra little boost
 					this.yVel = -2.25;
 					this.startYvel = -2.750; //
-					this.jumpTime =  21 + Math.abs(this.xVel)/2;
+					this.jumpTime =  21 + Math.abs(this.xVel)/2;// magic numbers
 					this.jumpingXSpeed = this.xVel;
 				}else{	
 					this.jumpTime = 22;
@@ -264,16 +264,16 @@ Player.prototype.move = function(first_argument) {
 
 	// check left of screen
 	
-	if(this.x-(this.width/2) < level.camera.x){
-		this.x = level.camera.x + (this.width/2);
+	if(this.x-(this.width/2) < levelRenderer.camera.x){
+		this.x = levelRenderer.camera.x + (this.width/2);
 	}
 	// check right of screen
-	if(this.x+(this.width/2) > level.mapWidth()*16){
-		this.x = (level.mapWidth()*16)- (this.width/2);
+	if(this.x+(this.width/2) > levelRenderer.mapWidth()*16){
+		this.x = (levelRenderer.mapWidth()*16)- (this.width/2);
 	}
 	// check bottom of screen
-	if(this.y + (this.height/2) > level.mapHeight()*16){
-		this.y = (level.mapHeight()*16)-(this.height/2);
+	if(this.y + (this.height/2) > levelRenderer.mapHeight()*16){
+		this.y = (levelRenderer.mapHeight()*16)-(this.height/2);
 	}
 }
 
@@ -325,10 +325,10 @@ Player.prototype.moveX = function(dX, dY){
 
 		// For DEBUGGINS
 		if( tileX1 ) {
-			level.addToHighLights(ax, yTop, "#FDB1B1");
+			levelRenderer.addToHighLights(ax, yTop, "#FDB1B1");
 		}
 		if( tileX2 ) {
-			level.addToHighLights(ax, yBotttom, "#FDB1B1");
+			levelRenderer.addToHighLights(ax, yBotttom, "#FDB1B1");
 		}
 
 		if(tileX1 || tileX2){ // collision
@@ -354,10 +354,10 @@ Player.prototype.moveX = function(dX, dY){
 		var tileX1 = map.isBlocking(ax, yTop);
 
 		if(tileX1) {
-			level.addToHighLights(ax, yTop, "#9BF0E9");
+			levelRenderer.addToHighLights(ax, yTop, "#9BF0E9");
 		}
 		if( tileX2) {
-			level.addToHighLights(ax, yBotttom, "#9BF0E9");
+			levelRenderer.addToHighLights(ax, yBotttom, "#9BF0E9");
 		}
 
 		if(tileX1 || tileX2 ){ 
@@ -390,10 +390,10 @@ Player.prototype.moveY = function(dX, dY){
 
 
 		if(leftTile) {
-			level.addToHighLights(left, ay, "#9BF0E9");
+			levelRenderer.addToHighLights(left, ay, "#9BF0E9");
 		}
 		if( rightTile) {
-			level.addToHighLights(right, ay, "#9BF0E9");
+			levelRenderer.addToHighLights(right, ay, "#9BF0E9");
 		}
 
 		if(leftTile || rightTile){
@@ -422,10 +422,10 @@ Player.prototype.moveY = function(dX, dY){
 
 
 		if(leftTile) {
-			level.addToHighLights(left, ay, "#EDE5E2");
+			levelRenderer.addToHighLights(left, ay, "#EDE5E2");
 		}
 		if( rightTile) {
-			level.addToHighLights(right, ay, "#EDE5E2");
+			levelRenderer.addToHighLights(right, ay, "#EDE5E2");
 		}
 
 		if((leftTile || rightTile )   ) {
@@ -460,7 +460,7 @@ Player.prototype.draw = function(ctx, camera) {
 	if(keys["down"]){
 		ctx.fillRect(this.x - this.width/2 - camera.x, this.y - camera.y, this.width, this.height/2);
 	}else{
-	// 	ctx.fillRect(this.x - this.width/2- level.camera.x, this.y - this.height/2 - (level.camera.y  ) , this.width, this.height);
+	// 	ctx.fillRect(this.x - this.width/2- levelRenderer.camera.x, this.y - this.height/2 - (levelRenderer.camera.y  ) , this.width, this.height);
 	}
 	// draw rectangle shape of fist of doom
 
@@ -469,7 +469,7 @@ Player.prototype.draw = function(ctx, camera) {
 	 * Punchgin
 	 */ 
 	if(this.punchTime>0){
-		// ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - level.camera.x, this.y - this.height/2 +4 - level.camera.y, 8 * this.dir, 10 );
+		// ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - levelRenderer.camera.x, this.y - this.height/2 +4 - levelRenderer.camera.y, 8 * this.dir, 10 );
 		var punchFrame = 112;
 		if(this.dir==-1){
 			punchFrame = 136;
