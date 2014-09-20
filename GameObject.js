@@ -132,9 +132,7 @@ Ghost.prototype.update = function(){
 Ghost.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) ;
 	var drawY = ( (this.y) - camera.y ) ; 
-	// levelRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 	ctx.fillStyle = this.color;
-	// ctx.fillRect(drawX, drawY, this.width, this.height);	
 	enemySheet.draw(0, drawX- this.width/2, drawY- this.width/2, this.width, this.height);	
 }
 

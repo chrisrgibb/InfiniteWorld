@@ -132,10 +132,9 @@ var levelRenderer = function(mapp, player, levelState) {
 	function highLightTiles(){
 		ctx.fillStyle = "red";
 		for(var i =0; i< tilesToHighlight.length; i++){
-			var color = tilesToHighlight[i][2];
 			var col = tilesToHighlight[i][0];
 			var row = tilesToHighlight[i][1];
-			ctx.fillStyle = color;
+			ctx.fillStyle = tilesToHighlight[i][2];
 
 			var y = ( row * tileSize ) - camera.y;
 			var x = (col * tileSize) - camera.x;

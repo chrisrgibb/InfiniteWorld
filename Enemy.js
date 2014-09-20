@@ -5,12 +5,12 @@ var Enemy = function(x, y){
 	this.width = 24;
 	this.height = 16;
 	this.dir = -1;
-	this.speed = .3;
+	this.speed = 0.3;
 	this.block = false;
 	this.color = "#adad03";
 	this.imageWidth = 24;
 	this.imageHeight = 16;
-}
+};
 
 
 Enemy.prototype.move = function(first_argument) {
@@ -51,9 +51,8 @@ function isOnScreen(camera, enemy){
 			return true;
 		}
 	}
-
 	return false;
-};
+}
 
 
 
@@ -67,15 +66,6 @@ function Scorpion(x, y){
 	this.height = 14;
 	var g = true;
 
-	// gets moved down vertically until it reaches ground
-	// while(g){
-
-	// 	if(!levelState.map.isBlocking( (this.x) / 16 | 0,  (this.y / 16 | 0 )   +1  )){
-	// 		this.y += 16;
-	// 	}else{
-	// 		g = false;
-	// 	}
-	// }
 }
 
 Scorpion.prototype = new Enemy();
@@ -87,11 +77,10 @@ Scorpion.prototype.move = function(){
 		if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )/* or if scorpion is about to fall off block */ ){
 			this.dir *= -1;
 			this.block = true;
-
 		}
 		// stop the scorpion from going off edge of block		
 		if(!map.isBlocking((this.x + dX) / 16 | 0, (this.y / 16 | 0 )+1)){
-			this.dir = 1
+			this.dir = 1;
 		}
 
 	} else if(dX > 0){
@@ -100,7 +89,7 @@ Scorpion.prototype.move = function(){
 		}
 			// stop the scorpion from going off edge of block
 		if(!map.isBlocking((this.x + dX + this.width) / 16 | 0,   (this.y / 16 | 0 )+1       )	){
-			this.dir = -1
+			this.dir = -1;
 		}
 	}
 	this.x += dX;

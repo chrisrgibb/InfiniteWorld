@@ -163,8 +163,6 @@ levelState.prototype.update = function(){
 	var enemys = this.enemys;
 	var removeEnemys = [];
 	var countage = 0;
-	// var levelRenderer = game.levelRenderer;
-
 
 	// enemy logic
 	// search through enemys for next one to appear
@@ -197,50 +195,33 @@ levelState.prototype.update = function(){
 		}
 	}
 
-	// console.log("offscreen " + countage);
-
 	// increment timer on all onscreen objects (ring, money, life)
 	for(i = 0; i < this.onScreenObjects.length; i++){
 		// this.onScreenObjects[i].timer++;
 		this.onScreenObjects[i].update();
 		if(this.onScreenObjects[i].remove){
-			// tag for removal
-			this.objectsToRemove.push(this.onScreenObjects[i]);
+			this.objectsToRemove.push(this.onScreenObjects[i]);	// tag for removal
 		}
 	}
-
 	this.updateShockwave();
-
 
 	// remove static objects
 	for(i = 0, len = this.objectsToRemove.length; i < len; i++){
-
-		var index = this.onScreenObjects.indexOf(this.objectsToRemove[i]);
-
-		if(index!=-1){
-			this.onScreenObjects.splice(index, 1);
-			this.objectsToRemove.splice(i, 1);
-		}
-		index = this.objects.indexOf(this.objectsToRemove[i]);
-		if( index != -1){
-			this.objects.splice(index, 1);
-			this.objectsToRemove.splice(i, 1);
-		}
+		removeObject(this.onScreenObjects, this.objectsToRemove[i], this.objectsToRemove, i);
+		removeObject(this.objects, this.objectsToRemove[i], this.objectsToRemove, i);
 	}
 	// remove enemies
 	for(i = 0, len = removeEnemys.length; i < len; i++){
-		var index = enemys.indexOf(removeEnemys[i]);
+		removeObject(enemys, removeEnemys[i], removeEnemys, i);
+	}
+	
+	function removeObject(fromArray, obj, toArray, i){
+		var index = fromArray.indexOf(obj);
 		if(index!=-1){
-
-			enemys.splice(index, 1);
-			removeEnemys.splice(i, 1);
-
+			fromArray.splice(index, 1);
+			toArray.splice(i, 1);
 		}
 	}
-
-	// function removeObject(obj,  )
-
-
 };
 
 // 
