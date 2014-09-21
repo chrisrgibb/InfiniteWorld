@@ -172,25 +172,11 @@ levelState.prototype.update = function(){
 
 	for(var i = 0; i< enemys.length; i++){
 
-		// // GOING to use this later???z`
-		// if( enemys[i].x > levelRenderer.camera.x + levelRenderer.screenWidth 
-		// 	|| enemys[i].y > levelRenderer.camera.y + levelRenderer.screenHeight){
-		// 	// console.log("offscreen");
-		// 	countage++;
-		// } else {
-		// 	var index = this.onScreenEnemies.indexOf(enemys[i]);
-		// 	if(index==-1) {
-		// 		this.onScreenEnemies.push(enemys[i]);
-		// 		var gggg = 0;
-		// 	}
-		// }
-
 		if( isOnScreen(levelRenderer.camera, enemys[i]) ){
 			enemys[i].move();
 			countage++;
 			debug.setText(countage);
-		}	else if(enemys[i].y < levelRenderer.camera.y+16) {
-
+		}	else if(enemys[i].y < levelRenderer.camera.y + 16) {
 			removeEnemys.push(enemys[i]);
 		}
 	}
@@ -223,5 +209,3 @@ levelState.prototype.update = function(){
 		}
 	}
 };
-
-// 

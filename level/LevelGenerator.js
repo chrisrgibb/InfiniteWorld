@@ -32,7 +32,7 @@ var levelGenerator = function(){
 	this.objects  = [];
 }
 
-var themeOptions = {
+CONSTANTS.themeOptions = {
 	"one" : { 
 		"groundTile" : 18,
 		"hazard1" : 23,
@@ -54,8 +54,6 @@ var themeOptions = {
 		"breakable" : 35,
 		"unbreakable" : 32
 	}
-
-
 }
 
 levelGenerator.prototype.createNewMap = function(random, difficulty){
@@ -80,9 +78,9 @@ levelGenerator.prototype.createlevel = function() {
 	// Choose theme
 	var possibleOptions = ["one", "two", "three"];
 	var poss = Math.random() * 3 | 0;
+	var odds = [];
 	// this.currentOption = possibleOptions[poss];
 	this.currentOption = ["one"];
-
 
 	// map length
 	var length = 32 + (Math.random() * 128) | 0;
@@ -133,7 +131,7 @@ levelGenerator.prototype.makePlatform = function(start, length){
 
 	for(var j = start; j< start + length; j++){
 		var offGround = this.tiles.length - platformHeight -1;
-		this.tiles[offGround][j] = themeOptions[this.currentOption].breakable;
+		this.tiles[offGround][j] = CONSTANTS.themeOptions[this.currentOption].breakable;
 	}
 };
 
@@ -171,7 +169,7 @@ levelGenerator.prototype.createPlainlevel = function(tiles, length){
 	}
 	for(var i = this.height -2; i < this.height; i++ ){
 		for(var j =0; j< length; j++){
-			tiles[i][j] = themeOptions[this.currentOption].groundTile;
+			tiles[i][j] = CONSTANTS.themeOptions[this.currentOption].groundTile;
 		}	
 	}
 	return tiles;
@@ -209,7 +207,7 @@ function get2dArray(size){
 }
 
 levelGenerator.prototype.createOneGap = function(startX, length){
-
+	var themeOptions = CONSTANTS.themeOptions;
 	if(length > 5){
 		this.tiles[this.height - 4][startX + 4] = themeOptions[this.currentOption].unbreakable;
 		this.tiles[this.height - randomInt(2) - 4 ][startX + randomInt(8) ] = themeOptions[this.currentOption].breakable;
@@ -251,6 +249,7 @@ levelGenerator.prototype.addClouds = function(startX, size){
 
 
 levelGenerator.prototype.triangleThing = function(length){
+	var themeOptions = CONSTANTS.themeOptions;
 	/* options 
 	   plain triangle
 	   triangle with random money

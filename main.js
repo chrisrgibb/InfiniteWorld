@@ -8,9 +8,10 @@ var canvas,
 	levelRenderer,
 	map,
 	levelState,
-	debug;
-	var scale = 2;
-	var COUNTER = 0;
+	debug,
+	scale = 2,
+	COUNTER = 0,
+	CONSTANTS = {};
 
 var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
 
