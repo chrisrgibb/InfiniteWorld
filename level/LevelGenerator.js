@@ -56,6 +56,9 @@ CONSTANTS.themeOptions = {
 	}
 }
 
+
+
+
 levelGenerator.prototype.createNewMap = function(random, difficulty){
 	var map;
 	if(random){
@@ -78,9 +81,16 @@ levelGenerator.prototype.createlevel = function() {
 	// Choose theme
 	var possibleOptions = ["one", "two", "three"];
 	var poss = Math.random() * 3 | 0;
-	var odds = [];
+	var odds = {};
 	// this.currentOption = possibleOptions[poss];
 	this.currentOption = ["one"];
+	
+	odds["createGap"] = 30;
+	odds["makePlatform"] = 30;
+	odds["triangleThing"] = 5;
+	odds["flatGround"] = 30;
+
+
 
 	// map length
 	var length = 32 + (Math.random() * 128) | 0;
@@ -108,7 +118,7 @@ levelGenerator.prototype.createlevel = function() {
 			this.tiles[0][index] = 6;
 		}
 
-		this.tiles[10][index] = 16; // start of gap
+		// this.tiles[10][index] = 16; // start of gap
 		this.addClouds(index, 6);
 
 		index+=newChunk; 

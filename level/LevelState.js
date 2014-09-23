@@ -8,7 +8,6 @@ var levelState = function(){
 	this.onScreenEnemies = [];
 
 	this.objectsToRemove = [];
-	this.permanentItems = [];
 
 	this.currentItem = 0;
 
@@ -108,6 +107,8 @@ levelState.prototype.fireShockwave = function(player){
 	}
 };
 
+
+
 levelState.prototype.walkedOverBadStuff = function(x, y){
 	if(x > this.map.blocks[0].length-1 || y > this.map.blocks.length-1){
 		return;
@@ -128,6 +129,10 @@ levelState.prototype.walkedOverBadStuff = function(x, y){
 		this.playerOnGhost = false;
 	}
 };
+
+
+
+
 
 levelState.prototype.updateShockwave = function(){
 	if(!this.shockWave.dead){
@@ -158,20 +163,14 @@ levelState.prototype.updateShockwave = function(){
 
 
 
+
 levelState.prototype.update = function(){
 	// remove everything
 	var enemys = this.enemys;
 	var removeEnemys = [];
 	var countage = 0;
 
-	// enemy logic
-	// search through enemys for next one to appear
-	// add to on screen enemies.
-	// if its off screen remove it.
-	// requires 3 lists!!!!
-
 	for(var i = 0; i< enemys.length; i++){
-
 		if( isOnScreen(levelRenderer.camera, enemys[i]) ){
 			enemys[i].move();
 			countage++;
@@ -201,6 +200,10 @@ levelState.prototype.update = function(){
 		removeObject(enemys, removeEnemys[i], removeEnemys, i);
 	}
 	
+	/*
+	*	
+	*/
+
 	function removeObject(fromArray, obj, toArray, i){
 		var index = fromArray.indexOf(obj);
 		if(index!=-1){

@@ -14,6 +14,8 @@ Game.draw = function(){
 	}
 	player.draw(ctx, levelRenderer.camera); 
 	debug.render(ctx);
+	Game.drawDebugGrid(ctx, levelRenderer.camera);
+
 };
 
 
@@ -47,6 +49,20 @@ Game.calcFPS = function(){
 	var fps = 1 / elapsed;
 	// Game.drawFPS(fps);
 };
+
+Game.drawDebugGrid = function(ctx, camera){
+	if(debug.drawGrid){
+		var y , x, tilesize = CONSTANTS.tileSize;
+		for(y = 0; y < map.getHeight(); y++ ){
+			for(x = 0; x < map.getWidth(); x++ ){
+				if(x%5 ==0){	
+					ctx.font = "bold 8px sans-serif";			
+					ctx.fillText(x, 5 + x * tilesize, 10);
+				}
+			}
+		}
+	}	
+}
 
 Game.drawFPS = function(text) {
 	ctx.fillStyle = "yellow";

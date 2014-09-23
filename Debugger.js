@@ -1,7 +1,7 @@
 var Debugger = function(){
 	this.debugText = "";
 	this.debug = false;
-
+	this.drawGrid = false;
 
 };
 

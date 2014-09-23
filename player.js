@@ -151,9 +151,6 @@ Player.prototype.move = function(first_argument) {
 	
 		this.dir = -1;
 
-		console.log(this.moveDir(this.dir) + "  " + this.xVel);
-		// this.xVel =this.moveDir(this.dir);
-
 	} 
 	else if( this.right) {
 

@@ -2,6 +2,9 @@ var levelRenderer = function(mapp, player, levelState) {
 	this.screenWidth = 16 * 16;// in pixels
 	this.screenHeight = 12 * 16;
 
+	CONSTANTS.tileSize = 16;
+	CONSTANTS.screenWidth = tileSize * 16;
+	CONSTANTS.screenHeight = tileSize * 12;
 
 	var camera = new Camera();
 	this.player = player;
@@ -81,6 +84,14 @@ var levelRenderer = function(mapp, player, levelState) {
 						tileSheet.drawTile(val, x, y);
 					}
 				}
+				if (debug.drawGrid) {
+					ctx.strokeStyle = "yellow";
+					ctx.beginPath();
+					ctx.moveTo(x, 0);
+					ctx.lineTo(x, 320);
+					ctx.stroke();
+				}
+
 			}
 		}
 
