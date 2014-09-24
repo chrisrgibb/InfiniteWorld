@@ -1,6 +1,8 @@
 // "DESIGN GRAMMER"
 /*
-	
+	level := chunks 
+	chunks := chunk | chunk chunks
+
 	
 
 
@@ -57,8 +59,6 @@ CONSTANTS.themeOptions = {
 }
 
 
-
-
 levelGenerator.prototype.createNewMap = function(random, difficulty){
 	var map;
 	if(random){
@@ -81,16 +81,24 @@ levelGenerator.prototype.createlevel = function() {
 	// Choose theme
 	var possibleOptions = ["one", "two", "three"];
 	var poss = Math.random() * 3 | 0;
-	var odds = {};
+	var odds = [];
 	// this.currentOption = possibleOptions[poss];
 	this.currentOption = ["one"];
 	
-	odds["createGap"] = 30;
-	odds["makePlatform"] = 30;
-	odds["triangleThing"] = 5;
-	odds["flatGround"] = 30;
+	odds[0] = 30; // "createGap"
+	odds[1] = 30; //"makePlatform"
+	odds[2] = 5;  //"triangleThing"
+	odds[3] = 30; // "flatGround"
+	var totalOdds = 0;
 
+	for(var i = 0 ; i < odds.length; i++){
 
+		if(odds[i] < 0 ){
+			odds[i]= 0;
+		}
+		totalOdds+=odds[i];
+		odds[i] = totalOdds - odds[i];
+	}
 
 	// map length
 	var length = 32 + (Math.random() * 128) | 0;
@@ -99,31 +107,39 @@ levelGenerator.prototype.createlevel = function() {
 	this.tiles = new Array(this.height);
 	this.createPlainlevel(this.tiles, length);
 
-
-	var chunks = [];
 	var start = index = 12;
 	while(index < length){
 
-		var newChunk = 3 + Math.random() * 12 | 0;
+		var size = 3 + Math.random() * 12 | 0;
 
 		this.enemies.push(new Enemy(index, randomInt(5)  ));
-		var chance = Math.random();
-		if(chance < .33) {
-			this.createOneGap(index, newChunk-2);
-		} else if( chance >= .33 && chance < .66 ) {
-			this.makePlatform(index, newChunk-2);
-		} else if (chance > 0.66 && chance < 0.7 ) {
-			this.triangleThing(5);
-		} else {
-			this.tiles[0][index] = 6;
+		var chance = Math.random() * totalOdds;
+		var type;
+		for (var i = 0; i< odds.length; i++) {
+			if (odds[i] <= chance) {
+				type = i;
+			}
+		}
+	
+		switch (type) {
+			case 0:
+				this.createOneGap(index, size-2);
+				break;				
+			case 1:
+				this.makePlatform(index, size-2);
+				break;
+			case 2:
+				this.triangleThing(5);
+				break;
+			case 3 :
+				this.plainSquare(index, size-2);
+				break;
 		}
 
-		// this.tiles[10][index] = 16; // start of gap
 		this.addClouds(index, 6);
 
-		index+=newChunk; 
+		index+=size; 
 	}
-
 	return this.tiles;
 };
 
@@ -153,6 +169,22 @@ levelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
 
 }
 
+levelGenerator.prototype.plainSquare = function(index, length){
+	var stuff = getRandomNoise(12);
+	var end = length < 12 ? length : 12; 
+	for(var i = 0; i < end; i++) {
+		for(var j = 0; j < end ; j++) {
+			if(stuff[i][j]< .3){
+				this.tiles[j][i+index] = CONSTANTS.themeOptions[this.currentOption].breakable;
+			} else if(stuff[i][j] < .4){
+				this.tiles[j][i+index] = CONSTANTS.themeOptions[this.currentOption].unbreakable;
+			} else if( stuff[i][j] < 0.7){
+				this.tiles[j][i+index] = 9;
+			}
+		}
+	}
+};
+
 
 
 
@@ -166,7 +198,7 @@ levelGenerator.prototype.castlelevel = function(rooms){
 		}
 	}
 	return tiles;
-}
+};
 
 
 levelGenerator.prototype.createPlainlevel = function(tiles, length){
@@ -183,7 +215,7 @@ levelGenerator.prototype.createPlainlevel = function(tiles, length){
 		}	
 	}
 	return tiles;
-}
+};
 
 levelGenerator.prototype.plainNoise = function(number){
 	var tiles = randomValues(10, 32);
@@ -200,7 +232,9 @@ levelGenerator.prototype.plainNoise = function(number){
 		}
 	}
 	return newtiles;
-}
+};
+
+
 
 
 
@@ -246,7 +280,6 @@ levelGenerator.prototype.addClouds = function(startX, size){
 				this.tiles[y][startX+ x] = 16;
 				this.tiles[y][startX+ x+ 1] = 17;
 			}
-
 		}
 	}
 }
