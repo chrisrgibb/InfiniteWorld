@@ -16,7 +16,6 @@ var levelRenderer = function(mapp, player, levelState) {
 	// this is really a levelRenderer renderer
 	var tileSheet = new TileSheet();
 	var objectSheet = new ObjectSheet();
-	// var levelState = levelState;
 	var map = mapp;
 	
 	var tilesToHighlight = []; // for debuggin
@@ -25,20 +24,11 @@ var levelRenderer = function(mapp, player, levelState) {
 	var animationCounter = 0;
 
 
-	function mapWidth(){
-		return map.getWidth();
-	}
-
-	function mapHeight(){
-		return map.getHeight();
-	}
-
 	function getTile(x, y){
 		if(y > map.getHeight()-1){
 			return 1;
-		}
-		else 
-			return map.getTile(x, y);
+		} 
+		return map.getTile(x, y);
 	}
 
 	function draw(){
@@ -94,22 +84,17 @@ var levelRenderer = function(mapp, player, levelState) {
 
 			}
 		}
-
-		var gameObjects = levelState.objects;
-		for(var i = 0; i < gameObjects.length; i++){
-			drawIfOnScreen(gameObjects[i], camera);
-		}
-
-		gameObjects = levelState.onScreenObjects;
-		for(i = 0; i< gameObjects.length; i++){
-			drawIfOnScreen(gameObjects[i], camera);
-		}
-
-		// highLightTiles();
-		var enemys = levelState.enemys;
-		for(i = 0; i< enemys.length; i++){	
-			drawIfOnScreen(enemys[i], camera);
-		}
+		// draw objects
+		levelState.objects.forEach(function(element){
+			drawIfOnScreen(element, camera);
+		});
+		levelState.onScreenObjects.forEach(function(element){
+			drawIfOnScreen(element, camera);
+		})
+		// draw enemies
+		levelState.enemys.forEach(function(element){
+			drawIfOnScreen(element, camera);
+		});
 
 		if(!levelState.shockWave.dead){
 			levelState.shockWave.draw(camera);
@@ -136,10 +121,6 @@ var levelRenderer = function(mapp, player, levelState) {
 	}
 	// draws tiles different colors
 
-	function getMap(){
-		return map;
-	}
-
 	function highLightTiles(){
 		ctx.fillStyle = "red";
 		for(var i =0; i< tilesToHighlight.length; i++){
@@ -157,17 +138,24 @@ var levelRenderer = function(mapp, player, levelState) {
 
 
 
-	return { draw : draw,
-			 getTile : getTile,
-			 mapWidth : mapWidth,
-			 mapHeight : mapHeight,
-			 addToHighLights : addToHighLights,
-			 getMap : getMap,
-			 screenHeight : this.screenHeight,
-			 screenWidth  : this.screenWidth,
-			 camera : camera,
-			 tileSheet : tileSheet,
-			 objectSheet : objectSheet
-			};
+	return { 
+		mapWidth : function(){
+			return map.getWidth();
+		},
+		mapHeight : function(){
+			return map.getHeight();
+		},
+		getMap : function(){
+			return map;
+		},
+		draw : draw,
+		getTile : getTile,
+		addToHighLights : addToHighLights,
+		screenHeight : this.screenHeight,
+		screenWidth  : this.screenWidth,
+		camera : camera,
+		tileSheet : tileSheet,
+		objectSheet : objectSheet
+		};
 
 };

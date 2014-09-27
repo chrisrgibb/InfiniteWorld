@@ -24,32 +24,16 @@ var levelGenerator = function(){
 		hazard1,
 		hazard2,
 		breakable,
-		unbreakable;
-	var groundIndex = 10;
+		unbreakable,
+		groundIndex = 10,
+		EndingX;
 
-
-	this.groundTile = 18;
-	this.obsticleTile1 = 24;
-	this.obsticleTile2 = 23;
-	this.breakableBlock = 11;
-	this.unBreakableBlcok = 12;
-	this.currentOption = "two";
-	this.groundIndex = 10; 
-	this.tiles = [];
-	this.difficulty = 1;
-
-	this.endingX;
-
-	this.enemies = [];
-	this.objects  = [];
 
 	init();
 
 	function init(){
 		console.log("init");
-		setUpLevel('one');
-
-
+		setUpLevel(randomTheme());
 	}
 
 	function setUpLevel(theme){
@@ -61,6 +45,10 @@ var levelGenerator = function(){
 		unbreakable = levelSettings.unbreakable();
 	}
 
+
+	function randomTheme(){
+		return (randomInt(10) > 4) ? 'one' : 'two';
+	}
 
 	/*
 	*	array of plain tiles with two tiles on the ground
@@ -82,12 +70,12 @@ var levelGenerator = function(){
 		return tiles;
 	}
 
-	var randomInt = function(size){
+	function randomInt(size){
 		return Math.round(Math.random() * size);
 	}
 
 	function createlevel(){
-		setUpLevel("two");
+		setUpLevel('three');
 		// get theme
 		var length = 100;
 
@@ -108,6 +96,9 @@ var levelGenerator = function(){
 			odds[i] = totalOdds - odds[i];
 		}
 		var index = 12;
+		tiles[4][4] = breakable;
+		tiles[4][5] = unbreakable;
+
 		while (index < length) {
 			var areaSize = 3 + Math.random() * 12 | 0;
 			var chance = Math.random() * totalOdds;
@@ -139,7 +130,7 @@ var levelGenerator = function(){
 			// this.addClouds(index, 6);
 			index+=areaSize;
 		}
-
+		EndingX = tiles[0].length - 5;
 		return tiles;
 	}
 
@@ -147,12 +138,11 @@ var levelGenerator = function(){
 	function createOneGap(tiles, index, length){
 		// so we don't create a gap near the end of the level
 		if(length > 5){
-			var randHeight = height - randomInt(2) - 2;
-			var randX = randomInt(length)+ (index - 2);
+			var randHeight = height - randomInt(2) - 3;
+			var randX = randomInt(4)+ index +2 ;
+
 			tiles[randHeight][randX] = breakable;
 		}
-
-
 		for(var i = index+1; i< index + length-1; i++){
 			if(i > tiles[0].length - 14){
 				// debugger;
@@ -169,7 +159,6 @@ var levelGenerator = function(){
 		   triangle with random money
 		   triangle with random unbreakable bits
 		*/
-		debugger;
 		// width of triangle will  be 2n -1 wide
 		var height = Math.ceil(length / 2);
 	
@@ -191,6 +180,11 @@ var levelGenerator = function(){
 		}
 	}
 
+	function createPlatform(tiles, index, length){
+
+
+	}
+
 
 	return {
 		createNewMap: function(){
@@ -203,14 +197,11 @@ var levelGenerator = function(){
 				map = new Map();
 			}
 			// map.enemys = this.enemies;
-			map.objects.push(new RiceBall(this.EndingX, 8));
+			map.objects.push(new RiceBall(EndingX, 8));
 			return map;
 		}
 	};
 }
-
-
-
 
 
 // makes a floating platform in the air
