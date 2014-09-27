@@ -2,7 +2,8 @@
 /*
 	level := chunks 
 	chunks := chunk | chunk chunks
-
+	chunk := 
+	
 	
 
 
@@ -17,7 +18,9 @@
 
 
 var levelGenerator = function(){
-	this.height = 12;
+	var height = 12;
+	var levelSettings = LevelSettings();
+	var groundTile = levelSettings.groundTile();
 	this.groundTile = 18;
 	this.obsticleTile1 = 24;
 	this.obsticleTile2 = 23;
@@ -32,6 +35,118 @@ var levelGenerator = function(){
 
 	this.enemies = [];
 	this.objects  = [];
+
+
+
+	function createPlainLevel(length){
+		var tiles = new Array(height);
+		for(var i =0; i< tiles.length; i++){
+			tiles[i] = [];
+			for(var j = 0; j< length; j++){
+				tiles[i].push(0);
+			}
+		}
+		for(var i = height -2; i < height; i++ ){
+			for(var j =0; j< length; j++){
+				tiles[i][j] = groundTile;
+			}	
+		}
+		return tiles;
+	}
+
+		function createlevel(){
+			var tiles = createPlainLevel(100);
+			return tiles;
+		}
+
+	return {
+		createNewMap: function(){
+			var map,
+				random = true;
+			if(random){
+				var tiles = createlevel();
+				map = new Map(tiles);
+			}else {
+				map = new Map();
+			}
+			// map.enemys = this.enemies;
+			map.objects.push(new RiceBall(this.EndingX, 8));
+			return map;
+		}
+	};
+
+
+
+	// return {
+	// 	createlevel: function(){
+	// 		// Choose theme
+	// 		var possibleOptions = ["one", "two", "three"];
+	// 		var poss = Math.random() * 3 | 0;
+	// 		var odds = [];
+	// 		// this.currentOption = possibleOptions[poss];
+	// 		this.currentOption = ["one"];
+			
+	// 		odds[0] = 30; // "createGap"
+	// 		odds[1] = 30; //"makePlatform"
+	// 		odds[2] = 5;  //"triangleThing"
+	// 		odds[3] = 30; // "flatGround"
+	// 		var totalOdds = 0;
+
+	// 		for(var i = 0 ; i < odds.length; i++){
+
+	// 			if(odds[i] < 0 ){
+	// 				odds[i]= 0;
+	// 			}
+	// 			totalOdds+=odds[i];
+	// 			odds[i] = totalOdds - odds[i];
+	// 		}
+
+	// 		// map length
+	// 		var length = 32 + (Math.random() * 128) | 0;
+	// 		this.EndingX = length - randomInt(3) - 1; // area to put the rice ball / hamburger
+
+	// 		this.tiles = new Array(this.height);
+	// 		this.createPlainlevel(this.tiles, length);
+
+	// 		var start = index = 12;
+	// 		while(index < length){
+
+	// 			var size = 3 + Math.random() * 12 | 0;
+
+	// 			this.enemies.push(new Enemy(index, randomInt(5)  ));
+	// 			var chance = Math.random() * totalOdds;
+	// 			var type;
+	// 			for (var i = 0; i< odds.length; i++) {
+	// 				if (odds[i] <= chance) {
+	// 					type = i;
+	// 				}
+	// 			}
+	// 			this.plainSquare(index, size-4);
+	// 			// switch (type) {
+	// 			// 	case 0:
+	// 			// 		this.createOneGap(index, size-2);
+	// 			// 		break;				
+	// 			// 	case 1:
+	// 			// 		this.makePlatform(index, size-2);
+	// 			// 		break;
+	// 			// 	case 2:
+	// 			// 		this.triangleThing(5);
+	// 			// 		break;
+	// 			// 	case 3 :
+	// 			// 		this.plainSquare(index, size-2);
+	// 			// 		// this.straightVertical(index, size-2);
+	// 			// 		break;
+	// 			// }
+
+	// 			this.addClouds(index, 6);
+
+	// 			index+=size; 
+	// 		}
+	// 		return this.tiles;
+	// 	}
+
+
+	// };
 }
 
 CONSTANTS.themeOptions = {
@@ -120,21 +235,22 @@ levelGenerator.prototype.createlevel = function() {
 				type = i;
 			}
 		}
-	
-		switch (type) {
-			case 0:
-				this.createOneGap(index, size-2);
-				break;				
-			case 1:
-				this.makePlatform(index, size-2);
-				break;
-			case 2:
-				this.triangleThing(5);
-				break;
-			case 3 :
-				this.plainSquare(index, size-2);
-				break;
-		}
+		this.plainSquare(index, size-4);
+		// switch (type) {
+		// 	case 0:
+		// 		this.createOneGap(index, size-2);
+		// 		break;				
+		// 	case 1:
+		// 		this.makePlatform(index, size-2);
+		// 		break;
+		// 	case 2:
+		// 		this.triangleThing(5);
+		// 		break;
+		// 	case 3 :
+		// 		this.plainSquare(index, size-2);
+		// 		// this.straightVertical(index, size-2);
+		// 		break;
+		// }
 
 		this.addClouds(index, 6);
 
@@ -161,6 +277,19 @@ levelGenerator.prototype.makePlatform = function(start, length){
 	}
 };
 
+levelGenerator.prototype.straightVertical = function(start, length){
+	var vHeight = Math.round(Math.random() * 3) + 2;
+
+	for (var j = 0; j < vHeight; j++) {	
+		this.tiles[j-2]
+
+		for (var i = start; i< start+2; i++) {
+			this.tiles[j-2][i] = CONSTANTS.themeOptions[this.currentOption].breakable;
+		}
+	}
+
+};
+
 
 levelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
 	// var noise = 
@@ -169,18 +298,23 @@ levelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
 
 }
 
+// random square of random noise. 
 levelGenerator.prototype.plainSquare = function(index, length){
-	var stuff = getRandomNoise(12);
+	var stuff = getRandomNoise(10);
 	var end = length < 12 ? length : 12; 
+	var start = Math.random() * 5; // random block to start from 
+
+
 	for(var i = 0; i < end; i++) {
 		for(var j = 0; j < end ; j++) {
-			if(stuff[i][j]< .3){
+			if(stuff[i][j]< .4){
 				this.tiles[j][i+index] = CONSTANTS.themeOptions[this.currentOption].breakable;
-			} else if(stuff[i][j] < .4){
-				this.tiles[j][i+index] = CONSTANTS.themeOptions[this.currentOption].unbreakable;
-			} else if( stuff[i][j] < 0.7){
-				this.tiles[j][i+index] = 9;
 			}
+			//  else if(stuff[i][j] < .4){
+			// 	this.tiles[j][i+index] = CONSTANTS.themeOptions[this.currentOption].unbreakable;
+			// } else if( stuff[i][j] < 0.7){
+			// 	this.tiles[j][i+index] = 9;
+			// }
 		}
 	}
 };
@@ -326,7 +460,6 @@ levelGenerator.prototype.triangleThing = function(length){
 
 		}
 	}
-
 }
 
 
