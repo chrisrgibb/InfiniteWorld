@@ -1,6 +1,7 @@
 var Map = function(newtiles){
 		this.enemys = [];
 		this.objects = [];
+		this.backgroundColor = "#0000ff";
 	if(!newtiles){
 
 		this.tiles = [
@@ -182,6 +183,7 @@ Map.prototype.createBlocks = function(){
 				case 11:
 				case 21:
 			 	case 35:
+			 	case 40:
 					rowArray.push( new Block(x, y, true, type, 1) );
 					break;
 				// tiles that are the background
@@ -197,8 +199,9 @@ Map.prototype.createBlocks = function(){
 					block.animated = true;
 					rowArray.push(block);
 					break;
-				// blocks that are solid but can't be broken
+				
 				default:
+					// blocks that are solid but can't be broken
 					rowArray.push( new Block(x, y, false, type, 1 ));
 					break;
 			}

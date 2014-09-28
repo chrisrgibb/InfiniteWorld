@@ -23,6 +23,14 @@ var LevelSettings = function(){
 			"hazard2" : 27,
 			"breakable" : 11,
 			"unbreakable" : 12
+		},
+		'four' : {
+			"groundTile" : 13,
+			"hazard1" : 42,
+			"hazard2" : 41,
+			"breakable" : 40,
+			"unbreakable" : 39,
+			"background" : 0
 		}
 
 		// "one" : { 

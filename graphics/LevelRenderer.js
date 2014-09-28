@@ -3,8 +3,8 @@ var levelRenderer = function(mapp, player, levelState) {
 	this.screenHeight = 12 * 16;
 
 	CONSTANTS.tileSize = 16;
-	CONSTANTS.screenWidth = tileSize * 16;
-	CONSTANTS.screenHeight = tileSize * 12;
+	CONSTANTS.screenWidth = screenWidth = CONSTANTS.tileSize * 16;
+	CONSTANTS.screenHeight = screenHeight = CONSTANTS.tileSize * 12;
 
 	var camera = new Camera();
 	this.player = player;
@@ -36,26 +36,38 @@ var levelRenderer = function(mapp, player, levelState) {
 		/**
 			main drawing function
 		*/
-		var startTileX = camera.x / 16 | 0;
-		var startTileY = camera.y / 16 | 0;
+		var startTileX = Math.floor(camera.x / 16);
+		var startTileY = Math.floor(camera.y / 16);
+		var endTileX = map.getWidth()==16 ? 16 : (startTileX + 18);
+		var endTileY = map.getHeight()==12 ? 12 : (startTileY + 13);
 
 		if(startTileY < 0 ){
 			startTileY = 0;
-		}else if(startTileY > 0 ){
-			// console.log("over 0 = " +  startTileY);
 		}
+		if(endTileX > map.getWidth()){
+			endTileX = map.getWidth();
+		}
+		else if(endTileY > map.getHeight() ){
+			endTileY = map.getHeight();
+		} 
+
 
 		ctx.fillStyle = levelState.backgroundColor; //"#0000ff";
 		ctx.fillRect(0, 0 , WIDTH, HEIGHT);
 
 		// DRAW TILES
-		for(var row = startTileY; row < map.getHeight(); row++ ){
-			for(var col = startTileX; col < map.getWidth(); col++){
-
+	
+		for(var row = startTileY; row < endTileY; row++ ){
+			for(var col = startTileX; col < endTileX; col++){
 				var y = ( row * tileSize ) - camera.y ; ///16 |0;
 				var x = (col * tileSize) - camera.x;
 
 				var tile = map.getBlock(col, row);
+
+				if(!tile){
+					alert("bugger");
+					debugger;
+				}
 				
 			 	// ctx.fillRect(x, y, tileSize, tileSize);
 			 	if(tile.animated){
@@ -151,8 +163,8 @@ var levelRenderer = function(mapp, player, levelState) {
 		draw : draw,
 		getTile : getTile,
 		addToHighLights : addToHighLights,
-		screenHeight : this.screenHeight,
-		screenWidth  : this.screenWidth,
+		screenHeight : CONSTANTS.screenHeight,
+		screenWidth  : CONSTANTS.screenWidth,
 		camera : camera,
 		tileSheet : tileSheet,
 		objectSheet : objectSheet

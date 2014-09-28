@@ -19,6 +19,8 @@ function Player(){
 
 	this.dir = 1;
 
+	this.jiitersTime = 0;
+
 	this.jumping = false;
 	this.left = false;
 	this.right = false;

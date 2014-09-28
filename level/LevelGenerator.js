@@ -75,7 +75,7 @@ var levelGenerator = function(){
 	}
 
 	function createlevel(){
-		setUpLevel('three');
+		setUpLevel('four');
 		// get theme
 		var length = 100;
 
@@ -187,10 +187,9 @@ var levelGenerator = function(){
 
 
 	return {
-		createNewMap: function(){
-			var map,
-				random = true;
-			if(random){
+		createNewMap: function(isRandom){
+			var map;
+			if(isRandom){
 				var tiles = createlevel();
 				map = new Map(tiles);
 			}else {
@@ -253,11 +252,6 @@ levelGenerator.prototype.plainSquare = function(index, length){
 			if(stuff[i][j]< .4){
 				this.tiles[j][i+index] = CONSTANTS.themeOptions[this.currentOption].breakable;
 			}
-			//  else if(stuff[i][j] < .4){
-			// 	this.tiles[j][i+index] = CONSTANTS.themeOptions[this.currentOption].unbreakable;
-			// } else if( stuff[i][j] < 0.7){
-			// 	this.tiles[j][i+index] = 9;
-			// }
 		}
 	}
 };
@@ -341,52 +335,6 @@ levelGenerator.prototype.addClouds = function(startX, size){
 		}
 	}
 }
-
-
-// 		 0
-//     0 0 0
-//   0 0 0 0 0 
-// 0 0 0 0 0 0 0  
-
-
-levelGenerator.prototype.triangleThing = function(length){
-	var themeOptions = CONSTANTS.themeOptions;
-	/* options 
-	   plain triangle
-	   triangle with random money
-	   trianle with random unbreakable bits
-	*/
-
-	var odds = randomInt(10);
-	var height = length || (Math.random() * 6 ) + 3 | 0;
-	// var height = (Math.random() * 6 ) + 3 | 0; // either three or 4
-	// width of triangle will  be 2n -1 wide
-	var startX =  Math.random() * 40 | 0;
-	var middle = startX + (height - 1);
-	var ranNoise = randomValues(1, height+1);
-
-	for(var i = 0; i< height; i++){
-		// start at top
-		// for triangles with 2 blocks at top initialize j to startX + (height - i)
-
-		for(var j = startX + (height - i -1); j < startX + (height + i ); j++ ){  
-			this.tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].breakable; 
-			
-			if(Math.random() > .4 && j==middle){
-				this.tiles[this.groundIndex - height  + i][j] = themeOptions[this.currentOption].unbreakable; 
-			}
-			var x = j - startX - height;
-			var noise = ranNoise[i][j-startX];
-			if( noise > .95 ){
-				this.tiles[this.groundIndex - height  + i][j] = 9;
-				//themeOptions[this.currentOption].unbreakable; 
-			}
-
-		}
-	}
-}
-
-
 
 
 
