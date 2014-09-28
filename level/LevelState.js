@@ -58,9 +58,9 @@ levelState.prototype.punchTile = function(x, y){
 	if(x > this.map.blocks[0].length-1){
 		return;
 	}
-
-	if ( this.map.blocks[y][x].breakable ){
-
+	var tile = this.map.blocks[y][x];
+	if ( tile.breakable ){
+		
 		if(this.map.tiles[y][x]==9){ // star block
 			this.onScreenObjects.push(new MoneyBag(x, y, true));
 			if(this.onScreenObjects.length > 2){
@@ -88,6 +88,9 @@ levelState.prototype.punchTile = function(x, y){
 			if(this.onScreenObjects.length > 2){
 				this.objectsToRemove.push(this.onScreenObjects[0]);
 			}
+		} else if(this.map.tiles[y][x]==10) { // jitters
+			player.jittersTime = 15;
+
 		}
 		// create new empty space block
 		this.map.blocks[y][x] = new Block(x, y, false, 0, 0 );	 

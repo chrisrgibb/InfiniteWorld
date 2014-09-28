@@ -3,8 +3,8 @@ var levelRenderer = function(mapp, player, levelState) {
 	this.screenHeight = 12 * 16;
 
 	CONSTANTS.tileSize = 16;
-	CONSTANTS.screenWidth = tileSize * 16;
-	CONSTANTS.screenHeight = tileSize * 12;
+	CONSTANTS.screenWidth = screenWidth = CONSTANTS.tileSize * 16;
+	CONSTANTS.screenHeight = screenHeight = CONSTANTS.tileSize * 12;
 
 	var camera = new Camera();
 	this.player = player;
@@ -16,7 +16,6 @@ var levelRenderer = function(mapp, player, levelState) {
 	// this is really a levelRenderer renderer
 	var tileSheet = new TileSheet();
 	var objectSheet = new ObjectSheet();
-	// var levelState = levelState;
 	var map = mapp;
 	
 	var tilesToHighlight = []; // for debuggin
@@ -25,20 +24,11 @@ var levelRenderer = function(mapp, player, levelState) {
 	var animationCounter = 0;
 
 
-	function mapWidth(){
-		return map.getWidth();
-	}
-
-	function mapHeight(){
-		return map.getHeight();
-	}
-
 	function getTile(x, y){
 		if(y > map.getHeight()-1){
 			return 1;
-		}
-		else 
-			return map.getTile(x, y);
+		} 
+		return map.getTile(x, y);
 	}
 
 	function draw(){
@@ -46,26 +36,38 @@ var levelRenderer = function(mapp, player, levelState) {
 		/**
 			main drawing function
 		*/
-		var startTileX = camera.x / 16 | 0;
-		var startTileY = camera.y / 16 | 0;
+		var startTileX = Math.floor(camera.x / 16);
+		var startTileY = Math.floor(camera.y / 16);
+		var endTileX = map.getWidth()==16 ? 16 : (startTileX + 18);
+		var endTileY = map.getHeight()==12 ? 12 : (startTileY + 13);
 
 		if(startTileY < 0 ){
 			startTileY = 0;
-		}else if(startTileY > 0 ){
-			// console.log("over 0 = " +  startTileY);
 		}
+		if(endTileX > map.getWidth()){
+			endTileX = map.getWidth();
+		}
+		else if(endTileY > map.getHeight() ){
+			endTileY = map.getHeight();
+		} 
+
 
 		ctx.fillStyle = levelState.backgroundColor; //"#0000ff";
 		ctx.fillRect(0, 0 , WIDTH, HEIGHT);
 
 		// DRAW TILES
-		for(var row = startTileY; row < map.getHeight(); row++ ){
-			for(var col = startTileX; col < map.getWidth(); col++){
-
+	
+		for(var row = startTileY; row < endTileY; row++ ){
+			for(var col = startTileX; col < endTileX; col++){
 				var y = ( row * tileSize ) - camera.y ; ///16 |0;
 				var x = (col * tileSize) - camera.x;
 
 				var tile = map.getBlock(col, row);
+
+				if(!tile){
+					alert("bugger");
+					debugger;
+				}
 				
 			 	// ctx.fillRect(x, y, tileSize, tileSize);
 			 	if(tile.animated){
@@ -94,22 +96,17 @@ var levelRenderer = function(mapp, player, levelState) {
 
 			}
 		}
-
-		var gameObjects = levelState.objects;
-		for(var i = 0; i < gameObjects.length; i++){
-			drawIfOnScreen(gameObjects[i], camera);
-		}
-
-		gameObjects = levelState.onScreenObjects;
-		for(i = 0; i< gameObjects.length; i++){
-			drawIfOnScreen(gameObjects[i], camera);
-		}
-
-		// highLightTiles();
-		var enemys = levelState.enemys;
-		for(i = 0; i< enemys.length; i++){	
-			drawIfOnScreen(enemys[i], camera);
-		}
+		// draw objects
+		levelState.objects.forEach(function(element){
+			drawIfOnScreen(element, camera);
+		});
+		levelState.onScreenObjects.forEach(function(element){
+			drawIfOnScreen(element, camera);
+		})
+		// draw enemies
+		levelState.enemys.forEach(function(element){
+			drawIfOnScreen(element, camera);
+		});
 
 		if(!levelState.shockWave.dead){
 			levelState.shockWave.draw(camera);
@@ -136,10 +133,6 @@ var levelRenderer = function(mapp, player, levelState) {
 	}
 	// draws tiles different colors
 
-	function getMap(){
-		return map;
-	}
-
 	function highLightTiles(){
 		ctx.fillStyle = "red";
 		for(var i =0; i< tilesToHighlight.length; i++){
@@ -157,17 +150,24 @@ var levelRenderer = function(mapp, player, levelState) {
 
 
 
-	return { draw : draw,
-			 getTile : getTile,
-			 mapWidth : mapWidth,
-			 mapHeight : mapHeight,
-			 addToHighLights : addToHighLights,
-			 getMap : getMap,
-			 screenHeight : this.screenHeight,
-			 screenWidth  : this.screenWidth,
-			 camera : camera,
-			 tileSheet : tileSheet,
-			 objectSheet : objectSheet
-			};
+	return { 
+		mapWidth : function(){
+			return map.getWidth();
+		},
+		mapHeight : function(){
+			return map.getHeight();
+		},
+		getMap : function(){
+			return map;
+		},
+		draw : draw,
+		getTile : getTile,
+		addToHighLights : addToHighLights,
+		screenHeight : CONSTANTS.screenHeight,
+		screenWidth  : CONSTANTS.screenWidth,
+		camera : camera,
+		tileSheet : tileSheet,
+		objectSheet : objectSheet
+		};
 
 };
