@@ -25,7 +25,12 @@ var levelGenerator = function(){
 		hazard2,
 		breakable,
 		unbreakable,
+		questionBox,
+		starBox,
+		yellowSkull,
+		pinkSkull,
 		groundIndex = 10,
+		backgroundColor,
 		EndingX;
 
 
@@ -43,6 +48,12 @@ var levelGenerator = function(){
 		hazard2 = levelSettings.hazard2();
 		breakable = levelSettings.breakable();
 		unbreakable = levelSettings.unbreakable();
+		backgroundColor = levelSettings.backgroundColor();
+		starBox = 9;
+		questionBox = 8;
+		pinkSkull = 7;
+		yellowSkull = 10;
+
 	}
 
 
@@ -75,7 +86,7 @@ var levelGenerator = function(){
 	}
 
 	function createlevel(){
-		setUpLevel('four');
+		setUpLevel('three');
 		// get theme
 		var length = 100;
 
@@ -98,7 +109,7 @@ var levelGenerator = function(){
 		var index = 12;
 		tiles[4][4] = breakable;
 		tiles[4][5] = unbreakable;
-
+		longHorizontal(3,  5);
 		while (index < length) {
 			var areaSize = 3 + Math.random() * 12 | 0;
 			var chance = Math.random() * totalOdds;
@@ -123,6 +134,7 @@ var levelGenerator = function(){
 					break;
 				case 3 :
 					createOneGap(tiles, index, areaSize-2);
+					longVert(tiles, index, 4);
 					// this.plainSquare(index, size-2);
 					// this.straightVertical(index, size-2);
 					break;
@@ -131,7 +143,40 @@ var levelGenerator = function(){
 			index+=areaSize;
 		}
 		EndingX = tiles[0].length - 5;
-		return tiles;
+		return {
+			tiles : tiles,
+			backgroundColor : backgroundColor
+		};
+	}
+
+	function applyArrays(tiles, array, x, y){
+		// for(i = 0)
+		// tiles[y][x] = 
+
+
+	}
+
+	function longVert(tiles, index, height){
+		// debugger;
+		var start = groundIndex -2;
+		for (var y = start; y > start-height; y--){
+			tiles[y][index] = breakable;
+		}
+	}
+
+	function longHorizontal(index, size){
+		var array = new Uint8Array(size);
+		for(var i = 0; i < size; i++){
+			var chance = randomInt(10);
+			if(chance < 2){
+				array[i] = breakable;
+			} else if(chance < 4){
+				array[i] = unbreakable;
+			} else if(chance < 6 ){
+				array[i] = starBox;
+			}
+
+		}
 	}
 
 
@@ -190,8 +235,9 @@ var levelGenerator = function(){
 		createNewMap: function(isRandom){
 			var map;
 			if(isRandom){
-				var tiles = createlevel();
-				map = new Map(tiles);
+				var level = createlevel();
+				map = new Map(level.tiles);
+				map.backgroundColor = level.backgroundColor;
 			}else {
 				map = new Map();
 			}
@@ -239,24 +285,6 @@ levelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
 
 
 }
-
-// random square of random noise. 
-levelGenerator.prototype.plainSquare = function(index, length){
-	var stuff = getRandomNoise(10);
-	var end = length < 12 ? length : 12; 
-	var start = Math.random() * 5; // random block to start from 
-
-
-	for(var i = 0; i < end; i++) {
-		for(var j = 0; j < end ; j++) {
-			if(stuff[i][j]< .4){
-				this.tiles[j][i+index] = CONSTANTS.themeOptions[this.currentOption].breakable;
-			}
-		}
-	}
-};
-
-
 
 
 levelGenerator.prototype.castlelevel = function(rooms){

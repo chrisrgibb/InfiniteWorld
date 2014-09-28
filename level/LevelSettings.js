@@ -90,6 +90,9 @@ var LevelSettings = function(){
 		breakable : function(){
 			return themeOptions[_currentTheme].breakable;
 		},
+		backgroundColor : function(){
+			return "#0000ff";
+		},
 		getTheme : function(){
 			return _currentTheme;
 		},
