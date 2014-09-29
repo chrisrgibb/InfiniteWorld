@@ -175,7 +175,6 @@ var levelGenerator = function(){
 			} else if(chance < 6 ){
 				array[i] = starBox;
 			}
-
 		}
 	}
 
@@ -230,12 +229,11 @@ var levelGenerator = function(){
 
 	}
 
-
 	return {
 		createNewMap: function(isRandom){
 			var map;
 			if(isRandom){
-				var level = createlevel();
+				var level = createlevel(); // get level object
 				map = new Map(level.tiles);
 				map.backgroundColor = level.backgroundColor;
 			}else {
@@ -345,7 +343,6 @@ function get2dArray(size){
 			tiles[i].push(0);
 		}
 	}
-
 	return tiles;
 }
 

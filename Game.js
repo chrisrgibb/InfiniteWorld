@@ -12,6 +12,7 @@ Game.draw = function(){
 	if(levelRenderer){
 		levelRenderer.draw();
 	}
+	objectRenderer.draw();
 	player.draw(ctx, levelRenderer.camera); 
 	debug.render(ctx);
 	Game.drawDebugGrid(ctx, levelRenderer.camera);
