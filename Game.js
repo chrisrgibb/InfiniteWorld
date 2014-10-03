@@ -9,9 +9,7 @@ Game.then = Date.now(); // for fps
 	Main draw function
 **/
 Game.draw = function(){
-	if(levelRenderer){
-		levelRenderer.draw();
-	}
+	levelRenderer.draw();
 	objectRenderer.draw();
 	player.draw(ctx, levelRenderer.camera); 
 	debug.render(ctx);

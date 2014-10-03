@@ -121,22 +121,25 @@ var levelGenerator = function(){
 			}
 			switch (type) {
 				case 0:
-					createOneGap(tiles, index, areaSize-2);
+					// createOneGap(tiles, index, areaSize-2);
+					square(tiles, index, areaSize -2 , true);
 					break;				
 				case 1:
 					createOneGap(tiles, index, areaSize-2);
+					square(tiles, index, areaSize -2 , true);
 					// this.makePlatform(index, size-2);
 					break;
 				case 2:
-					// createOneGap(tiles, index, areaSize-2);
 					triangleThing(tiles, index, areaSize-2);
-					// this.triangleThing(5);
+					square(tiles, index, areaSize -2 , true);
 					break;
 				case 3 :
 					createOneGap(tiles, index, areaSize-2);
-					longVert(tiles, index, 4);
-					// this.plainSquare(index, size-2);
-					// this.straightVertical(index, size-2);
+					// longVert(tiles, index, 4);
+					fillSquare(tiles, { x :index, 
+										y : 4, 
+										width : Math.round(areaSize/3), 
+										height : 4 } );
 					break;
 			}
 			// this.addClouds(index, 6);
@@ -153,8 +156,45 @@ var levelGenerator = function(){
 		// for(i = 0)
 		// tiles[y][x] = 
 
-
 	}
+
+	/**
+	* returns a square of 
+	*/
+	function square(tiles, index, size, hollow){
+		// build roof
+		var y, x;
+		var height = 5;
+		var start = groundIndex -height;
+		for(y = start; y< groundIndex; y++ ){
+			for(x =index; x < index + size; x++){
+				if(y===start || x === index || x=== index + size-1 ){
+					tiles[y][x] = breakable;
+				}			
+			}
+		}
+	}
+
+
+	function fillSquare(tiles, rect, odds){
+		var x = rect.x,
+			y = rect.y,
+			width = rect.width,
+			height = rect.height;
+
+		if( x < 0 || x+width > tiles[y-3].length || 
+			y < 0 || y+height > tiles.length -3){
+			console.warn("Array out of bounds");
+			return;
+		}
+		var i, j;
+		for(i = y; i< y+height; i++){
+			for(j = x; j < x+width; j++){
+				tiles[i][j]= 5;
+			}
+		}
+	}
+
 
 	function longVert(tiles, index, height){
 		// debugger;
@@ -163,6 +203,9 @@ var levelGenerator = function(){
 			tiles[y][index] = breakable;
 		}
 	}
+
+
+
 
 	function longHorizontal(index, size){
 		var array = new Uint8Array(size);
@@ -298,22 +341,6 @@ levelGenerator.prototype.castlelevel = function(rooms){
 };
 
 
-levelGenerator.prototype.createPlainlevel = function(tiles, length){
-
-	for(var i =0; i< tiles.length; i++){
-		tiles[i] = [];
-		for(var j = 0; j< length; j++){
-			tiles[i].push(0);
-		}
-	}
-	for(var i = this.height -2; i < this.height; i++ ){
-		for(var j =0; j< length; j++){
-			tiles[i][j] = CONSTANTS.themeOptions[this.currentOption].groundTile;
-		}	
-	}
-	return tiles;
-};
-
 levelGenerator.prototype.plainNoise = function(number){
 	var tiles = randomValues(10, 32);
 	var newtiles = get2dArray(32);
@@ -332,14 +359,18 @@ levelGenerator.prototype.plainNoise = function(number){
 };
 
 
-
-
-
-function get2dArray(size){
-	var tiles = new Array(size);
-	for(var i = 0; i< size ;i++){
-		tiles[i] = [];
-		for(var j = 0; j < size; j++){
+function get2dArray(m, n){
+	// filled with zeroz
+	var i, j,
+		x=m, y=n;
+	if(!n){
+		y = m;
+		// array is cube
+	}
+	var tiles = new Array(y);
+	for (i = 0; i< y;i++){
+		tiles[i]= [];
+		for(j = 0; j<x; j++){
 			tiles[i].push(0);
 		}
 	}
@@ -347,19 +378,8 @@ function get2dArray(size){
 }
 
 
-levelGenerator.prototype.addClouds = function(startX, size){
-	// var numberOfClouds = randomInt(10)+1;
-	var noisearray = randomValues(1, 6);
-	var length = noisearray.length;
-	for(var y = 1; y< length-1; y++){
-		for(var x = 1; x < length-1; x++){
-			if(noisearray[y][x] > 0.98){
-				this.tiles[y][startX+ x] = 16;
-				this.tiles[y][startX+ x+ 1] = 17;
-			}
-		}
-	}
-}
+
+
 
 
 
