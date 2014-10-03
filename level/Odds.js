@@ -16,6 +16,8 @@ var Odds = function(){
 		"question" : 0
 	}
 
+	// configs.
+
 	
 
 	function myOdds(){
@@ -34,16 +36,13 @@ var Odds = function(){
 
 		},
 		myOdds : myOdds
-
 	}
-
-
-
 };
 
 
 
 function countMap(){
+	// get counts of tiles in map
 	var map = levelState.map;
 	var tiles = map.tiles;
 
@@ -54,9 +53,7 @@ function countMap(){
 
 	};
 	tiles.forEach(function(element, index, array){
-		// debugger;
 		element.forEach(function(element, index){
-			// debugger;
 			switch(element){
 				
 				case 8:
@@ -64,19 +61,9 @@ function countMap(){
 				case 10:
 				case 11:
 					count[element] = count[element] ? count[element]+1 : 1;
-					// debugger;
-					
-					if(othercount[element]){
-						othercount[element] ++;
-					}else {
-						othercount[element] = 1;
-					}
-					// debugger;
 					break;
 			}
 		});
 	});
-	console.log(count);
-	console.log(othercount);
-	return count===othercount;
+	return count;
 }
