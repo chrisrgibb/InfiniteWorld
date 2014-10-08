@@ -1,35 +1,14 @@
-var levelRenderer = function(mapp, player, levelState) {
-	this.screenWidth = 16 * 16;// in pixels
-	this.screenHeight = 12 * 16;
+var levelRenderer = function(player, camera, map, levelState) {
 
 	CONSTANTS.tileSize = 16;
 	CONSTANTS.screenWidth = screenWidth = CONSTANTS.tileSize * 16;
 	CONSTANTS.screenHeight = screenHeight = CONSTANTS.tileSize * 12;
 
-	var camera = new Camera();
-	this.player = player;
-	// height of screen = 12 * 16
-
-	// draws the levelRenderer and stores the levelRenderer
-
-
-	// this is really a levelRenderer renderer
-	var tileSheet = new TileSheet();
-	var objectSheet = new ObjectSheet();
-	var map = mapp;
+	var tileSheet = new TileSheet(),
+		tilesToHighlight = [], // for debugging
+		tileSize = 16,
+		animationCounter = 0;
 	
-	var tilesToHighlight = []; // for debuggin
-	var tileSize = 16;
-
-	var animationCounter = 0;
-
-
-	function getTile(x, y){
-		if(y > map.getHeight()-1){
-			return 1;
-		} 
-		return map.getTile(x, y);
-	}
 
 	function draw(){
 		camera.update();
@@ -96,35 +75,8 @@ var levelRenderer = function(mapp, player, levelState) {
 
 			}
 		}
-		// draw objects
-		levelState.objects.forEach(function(element){
-			drawIfOnScreen(element, camera);
-		});
-		levelState.onScreenObjects.forEach(function(element){
-			drawIfOnScreen(element, camera);
-		})
-		// draw enemies
-		levelState.enemys.forEach(function(element){
-			drawIfOnScreen(element, camera);
-		});
-
-		if(!levelState.shockWave.dead){
-			levelState.shockWave.draw(camera);
-		}
-		levelRenderer.objectSheet.drawTile(12, 18* 16 , 5* 16);
 	}
 
-	function drawIfOnScreen(obj, camera){
-		if(isOnScreen(camera, obj)){
-			obj.draw(camera);
-		}
-	}
-
-	function renderEnemies(){
-
-
-		
-	}
 
 
 	function addToHighLights(x, y, col){
@@ -161,13 +113,11 @@ var levelRenderer = function(mapp, player, levelState) {
 			return map;
 		},
 		draw : draw,
-		getTile : getTile,
 		addToHighLights : addToHighLights,
 		screenHeight : CONSTANTS.screenHeight,
 		screenWidth  : CONSTANTS.screenWidth,
 		camera : camera,
-		tileSheet : tileSheet,
-		objectSheet : objectSheet
+		tileSheet : tileSheet
 		};
 
 };

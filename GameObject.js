@@ -13,8 +13,8 @@ var GameObject = function(x, y, type){
 
 GameObject.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) ;
-	var drawY = ( (this.y) - camera.y ) ; 
-	levelRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
+	var drawY = ( (this.y) - camera.y ) ;
+	objectRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 };
 
 GameObject.prototype.process = function(player){
@@ -51,7 +51,7 @@ MoneyBag.prototype = new GameObject();
 MoneyBag.prototype.process = function(player){
 	player.inventory.money += this.cost;
 	this.remove = true;
-}
+};
 
 function RiceBall(x, y){
 	this.x = x*16;
@@ -66,11 +66,11 @@ RiceBall.prototype = new GameObject();
 RiceBall.prototype.process = function(){
 	alert("End levelRenderer!!!");
 	this.remove = true;
-}
+};
 
 	/***
 	 *	RING
-	 * 
+	 *
 	 ***/
 
 function Ring(x, y){
@@ -85,7 +85,7 @@ Ring.prototype = new GameObject();
 Ring.prototype.process = function(player){
 	player.inventory.ring = true;
 	this.remove = true;
-}
+};
 
 function Life(x, y){
 	this.x = x * 16;
@@ -99,7 +99,7 @@ Life.prototype = new GameObject();
 Life.prototype.process = function(player){
 	player.inventory.lives += 1;
 	this.remove = true;
-}
+};
 
 	/*
 	 * GHOST!!
@@ -118,7 +118,7 @@ function Ghost(x, y){
 
 }
 
-Ghost.prototype = new GameObject(); // could probably change to enemy if 
+Ghost.prototype = new GameObject(); // could probably change to enemy if
 									// i renamed the enemy move function to update
 
 Ghost.prototype.update = function(){
@@ -127,20 +127,20 @@ Ghost.prototype.update = function(){
 	if(!isOnScreen(levelRenderer.camera, this)){
 		this.remove = true;
 	}
-}	
+};
 
 Ghost.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) ;
-	var drawY = ( (this.y) - camera.y ) ; 
+	var drawY = ( (this.y) - camera.y ) ;
 	ctx.fillStyle = this.color;
-	enemySheet.draw(0, drawX- this.width/2, drawY- this.width/2, this.width, this.height);	
+	enemySheet.draw(0, drawX- this.width/2, drawY- this.width/2, this.width, this.height);
 }
 
 Ghost.prototype.process = function(){
 	if(this.timer > 50){
 		this.playerDead = true;
 	}
-}	
+}
 
 Ghost.prototype.move = function(){
 	if(this.timer < 50){
@@ -148,14 +148,14 @@ Ghost.prototype.move = function(){
 	}
 	var destX = player.x;
 	var destY = player.y;
-	if(this.playerDead){ 
+	if(this.playerDead){
 		this.y += this.speed;
 	} else {
 		if(destX > this.x){
 			this.x += this.speed;
 		}else if(destX < this.x){
 			this.x -= this.speed;
-		} 
+		}
 		if(destY < this.y){
 			this.y -= this.speed;
 		}else if(destY > this.y){
@@ -164,10 +164,10 @@ Ghost.prototype.move = function(){
 
 	}
 
-	
+
 	// do nothing
 
-}
+};
 
 
 //  Shockwave Protectile
@@ -198,7 +198,7 @@ ShockWave.prototype.launch = function(x, y, dir){
 	} else {
 		this.tilenumber = 13 ;
 	}
-}
+};
 
 ShockWave.prototype.update = function(){
 	if(!this.dead){
@@ -207,16 +207,14 @@ ShockWave.prototype.update = function(){
 	if(!isOnScreen(levelRenderer.camera, this)){
 		this.dead = true;
 	}
-}
+};
 
 ShockWave.prototype.draw = function(camera){
 	var drawX = ( (this.x) - camera.x ) - 8 ;
-	var drawY = ( (this.y) - camera.y ) -7 ; 
+	var drawY = ( (this.y) - camera.y ) -7 ;
 	levelRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
-}
+};
 
 ShockWave.prototype.process = function(){
-	console.log("Sohockwave process");
-} 
-
-
+	console.log("Shockwave process");
+}

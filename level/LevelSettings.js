@@ -32,31 +32,6 @@ var LevelSettings = function(){
 			"unbreakable" : 39,
 			"background" : 0
 		}
-
-		// "one" : { 
-		// 	"groundTile" : 18,
-		// 	"hazard1" : 23,
-		// 	"hazard2" : 22,
-		// 	"breakable" : 11,
-		// 	"unbreakable" : 12
-		// },
-		// "two" : {
-		// 	"groundTile" : 13,
-		// 	"hazard1" : 28,
-		// 	"hazard2" : 27,
-		// 	"breakable" : 21,
-		// 	"unbreakable" : 20
-		// },
-		// "three" : {
-		// 	"groundTile" : 32,
-		// 	"hazard1" : 33,
-		// 	"hazard2" : 33,
-		// 	"breakable" : 35,
-		// 	"unbreakable" : 32
-		// },
-		// "four" : {
-
-		// }
 	};
 
 	var groundTile = themeOptions[_currentTheme].groundTile,
@@ -89,6 +64,9 @@ var LevelSettings = function(){
 		},
 		breakable : function(){
 			return themeOptions[_currentTheme].breakable;
+		},
+		backgroundColor : function(){
+			return "#0000ff";
 		},
 		getTheme : function(){
 			return _currentTheme;

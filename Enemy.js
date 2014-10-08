@@ -100,3 +100,5 @@ Scorpion.prototype.move = function(){
 	}
 };
 
+var hasGP = false;
+

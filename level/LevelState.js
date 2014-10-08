@@ -11,7 +11,8 @@ var levelState = function(){
 
 	this.currentItem = 0;
 
-	this.backgroundColor = "#0000ff";
+	// this.backgroundColor = "#0000ff";
+	this.backgroundColor = "#005200";
 
 	this.shockWave = new ShockWave();
 
@@ -29,6 +30,7 @@ levelState.prototype.init = function() {
 
 	this.enemys = this.map.enemys;
 	this.objects = this.map.objects;
+	this.backgroundColor = this.map.backgroundColor;
 
 };
 

@@ -14,8 +14,8 @@ function Player(){
 	this.xVel = 0;
 	this.xSpeed = 2;
 	this.xspeedIncrease = 0.15625;
-	this.gravity = .25;
-	this.friction = .8;
+	this.gravity = 0.25;
+	this.friction = 0.8;
 
 	this.dir = 1;
 
@@ -71,42 +71,42 @@ Player.prototype.moveDir = function(dir){
 			}
 		} else {
 			if(absX < this.xSpeed){
-				absX+=.0825;
+				absX+=0.0825;
 			}
 		}
 	}
 	return dir * absX;
-}
+};
 
 Player.prototype.move = function(first_argument) {
 
 	var dX = 0, dY = 0;
 
 
-	if ( keys["jump"] ){
-			
-		if(!this.jumping && this.canJump){		
+	if ( keys.jump ){
+
+		if(!this.jumping && this.canJump){
 			if(this.onGround){
 				this.startXvel = this.xVel;
 				this.maxJumpReached  = false;
 				this.jumpStart = this.y;
-				
+
 				this.canJump = false;
 
-				if(keys["left"] || keys["right"] ){
+				if(keys.left || keys.right ){
 					// if moving give an extra little boost
 					this.yVel = -2.25;
 					this.startYvel = -2.750; //
 					this.jumpTime =  21 + Math.abs(this.xVel)/2;// magic numbers
 					this.jumpingXSpeed = this.xVel;
-				}else{	
+				}else{
 					this.jumpTime = 22;
 					this.yVel = -2.25;
 					this.startYvel = -2.25;
 				}
 				this.jumping = true;
-				this.onGround = false;	
-				
+				this.onGround = false;
+
 			}
 		} else {
 			// now player is in mid air
@@ -119,13 +119,13 @@ Player.prototype.move = function(first_argument) {
 
 		}
 	}else{
-		this.yVel += .105;
+		this.yVel += 0.105;
 		this.jumpTime = 0;
 	}
 
 	debug.setText(this.xVel);
 	if(this.left){
-		//if player is on ground 
+		//if player is on ground
 		if(this.onGround){
 			// stop moving
 			if(this.xVel > 0){
@@ -145,15 +145,15 @@ Player.prototype.move = function(first_argument) {
 			// changin direction
 			if(this.startXvel >= 0){
 				if(this.xVel > -this.xSpeed){
-					this.xVel -= .0825;
+					this.xVel -= 0.0825;
 				}
 				// was going right
 			}
 		}
-	
+
 		this.dir = -1;
 
-	} 
+	}
 	else if( this.right) {
 
 		if(this.onGround){
@@ -174,7 +174,7 @@ Player.prototype.move = function(first_argument) {
 			// changin direction
 			if(this.startXvel <= 0){
 				if(this.xVel < this.xSpeed){
-					this.xVel += .0825;
+					this.xVel += 0.0825;
 					// was going right
 				}
 			}
@@ -187,8 +187,8 @@ Player.prototype.move = function(first_argument) {
 			if(this.onGround){
 				this.xVel -= this.xspeedIncrease;
 			}
-		
-		} 
+
+		}
 		if(this.xVel < 0){
 			if (this.onGround)
 				this.xVel += this.xspeedIncrease;
@@ -205,19 +205,19 @@ Player.prototype.move = function(first_argument) {
 	}
 
 
-	if(COUNTER % 6 ==0){
+	if(COUNTER % 6 ===0){
 		this.counter++;
 		if(this.counter > 3){
 			this.counter =0 ;
 		}
-	} 	
+	}
 
-	this.calcGravity();	
+	this.calcGravity();
 	this.calcFriction();
-	dX = this.xVel;	
+	dX = this.xVel;
 	dY = this.yVel;
 
-	if(!keys["down"] && keys["punch"] && this.punchTime==0 && this.canPunch){
+	if(!keys.down && keys.punch && this.punchTime === 0 && this.canPunch){
 		// start of punch
 
 		this.punchDetection();
@@ -239,13 +239,13 @@ Player.prototype.move = function(first_argument) {
 				if (!this.shockwaveOnscreen){
 					levelState.fireShockwave(this); // creates a new shockwave thing onscreen
 	 				this.shockwaveOnscreen = true; // true while on screen
-	 				
+
  				}
  				// if (this.onGround && this.xVel==0){
 	 			// 		this.punchTime+= 1;
 	 			// }
 			}
-		}else if(!keys["punch"]){
+		}else if(!keys.punch){
 			this.canPunch = true;
 		}
 	}
@@ -254,7 +254,7 @@ Player.prototype.move = function(first_argument) {
 	this.y = this.moveY(dX, dY);
 
 	// check walk into object
-	// check hazard below eg spikes / lava or pink skull 
+	// check hazard below eg spikes / lava or pink skull
 
 	levelState.gameObject(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
 
@@ -262,7 +262,7 @@ Player.prototype.move = function(first_argument) {
 	levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 );  //lava, spikes etc.
 
 	// check left of screen
-	
+
 	if(this.x-(this.width/2) < levelRenderer.camera.x){
 		this.x = levelRenderer.camera.x + (this.width/2);
 	}
@@ -274,53 +274,59 @@ Player.prototype.move = function(first_argument) {
 	if(this.y + (this.height/2) > levelRenderer.mapHeight()*16){
 		this.y = (levelRenderer.mapHeight()*16)-(this.height/2);
 	}
-}
+};
 
 
-Player.prototype.punchDetection = function(){	
+Player.prototype.punchDetection = function(){
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 
 	levelState.punchTile(punchX, this.y/ 16 | 0);
-}
+};
 
 Player.prototype.calcFriction = function(){
 	if(!this.onGround) {
 		if (!this.left && !this.right){
 			if(this.xVel > 0 ){
-				this.xVel -= .0425;
+				this.xVel -= 0.0425;
 			}
 			if(this.xVel < 0){
-				 this.xVel += .0425;
+				 this.xVel += 0.0425;
 			}
 		}
 	}
-}
+};
 
 Player.prototype.calcGravity = function(){
 	if(!this.onGround){
-		this.yVel+=.25;
+		this.yVel += 0.25;
 	}
 	if(this.yVel > 3.5){
 		this.yVel = 3.5;
 	}
-}
+};
 
 
 Player.prototype.moveX = function(dX, dY){
-	var tempX = this.x; 
+	var tempX = this.x,
+			tileX1,
+			tileX2,
+			yTop,
+			yBottom,
+			nextX,
+			ax;
 	if( dX> 0){
 		//moving right
-		var nextX = this.x + dX + (this.width/2); // the nextX 
-		var ax =  nextX / 16 | 0; // the index of the next tile 
-		var yTop = (1 + this.y - this.height/2) / 16 | 0;
-		var yBotttom = (-1 + this.y + this.height/2) / 16 | 0;
-		
+		nextX = this.x + dX + (this.width/2); // the nextX
+		ax =  nextX / 16 | 0; // the index of the next tile
+		yTop = (1 + this.y - this.height/2) / 16 | 0;
+		yBotttom = (-1 + this.y + this.height/2) / 16 | 0;
+
 		if(nextX===tempX){
 			return;
 		}
 
-		var tileX2 = map.isBlocking(ax, yBotttom);
-		var tileX1 = map.isBlocking(ax, yTop);
+		tileX2 = map.isBlocking(ax, yBotttom);
+		tileX1 = map.isBlocking(ax, yTop);
 
 		// For DEBUGGINS
 		if( tileX1 ) {
@@ -336,21 +342,21 @@ Player.prototype.moveX = function(dX, dY){
 			if(!this.onGround){
 				this.xVel = 0;
 			}
-			
+
 		}else{
 			tempX =this.x +dX;
 		}
 	}else if( dX <0){
 		//moving left
-		var nextX = this.x + dX - (this.width/2) ;
-		var ax = nextX / 16 | 0; // index of the tile to the left
+		nextX = this.x + dX - (this.width/2) ;
+		ax = nextX / 16 | 0; // index of the tile to the left
 
-		var yTop = 	   	(1 + this.y - this.height/2) / 16 | 0; 
-		var yBotttom = 	(-1 + this.y + this.height/2) / 16 | 0;
+		yTop = 	   	(1 + this.y - this.height/2) / 16 | 0;
+		yBotttom = 	(-1 + this.y + this.height/2) / 16 | 0;
 
 
-		var tileX2 = map.isBlocking(ax, yBotttom);
-		var tileX1 = map.isBlocking(ax, yTop);
+		tileX2 = map.isBlocking(ax, yBotttom);
+		tileX1 = map.isBlocking(ax, yTop);
 
 		if(tileX1) {
 			levelRenderer.addToHighLights(ax, yTop, "#9BF0E9");
@@ -359,33 +365,34 @@ Player.prototype.moveX = function(dX, dY){
 			levelRenderer.addToHighLights(ax, yBotttom, "#9BF0E9");
 		}
 
-		if(tileX1 || tileX2 ){ 
-			tempX = ( (ax+1) * 16) + (this.width/2) ; // 
+		if(tileX1 || tileX2 ){
+			tempX = ( (ax+1) * 16) + (this.width/2) ; //
 
 			if(!this.onGround){
 				this.xVel = 0;
 			}
-		}else { 
+		}else {
 			tempX = this.x + dX;
 		}
-	}	
+	}
 
 	return tempX;
-}
+};
 
 
 Player.prototype.moveY = function(dX, dY){
 	var tempY = this.y;
+	var ay, left, right, leftTile, rightTile;
 
 	if(this.jumping && dY < 0 ){
 
-		var ay = (this.y -(this.height/2) + dY ) /16 | 0;
+		ay = (this.y -(this.height/2) + dY ) /16 | 0;
 
-		var left  = (  1 + this.x - (this.width/2)  )/16   | 0;
-		var right = ( -1 + this.x + (this.width/2)  )/16   | 0;
+		left  = (  1 + this.x - (this.width/2)  )/16   | 0;
+		right = ( -1 + this.x + (this.width/2)  )/16   | 0;
 
-		var leftTile  = map.isBlocking(left, ay);
-		var rightTile = map.isBlocking(right, ay );
+		leftTile  = map.isBlocking(left, ay);
+		rightTile = map.isBlocking(right, ay );
 
 
 		if(leftTile) {
@@ -398,7 +405,7 @@ Player.prototype.moveY = function(dX, dY){
 		if(leftTile || rightTile){
 			tempY = ( (ay+1) * 16) + (this.height/2) + 1;
 			this.maxJumpReached = true;
-			this.yVel = .125;
+			this.yVel = 0.125;
 			this.jumpTime = 0;
 			dY = 1; // so we don't get stuck under block
 			return tempY;
@@ -410,14 +417,14 @@ Player.prototype.moveY = function(dX, dY){
 	// check down collisions
 
 	else {
-		var ay = (this.y +(this.height/2) + dY) / 16 | 0;
+		ay = (this.y +(this.height/2) + dY) / 16 | 0;
 
-		var left = (this.x - (this.width/2)  +1 )     /16  | 0;
-		var right = (this.x + (this.width/2) - 1 ) /16   | 0;
+		left = (this.x - (this.width/2)  +1 )     /16  | 0;
+		right = (this.x + (this.width/2) - 1 ) /16   | 0;
 
 
-		var leftTile  = map.isBlocking(left, ay);
-		var rightTile = map.isBlocking(right, ay ); // the minus for is 
+		leftTile  = map.isBlocking(left, ay);
+		rightTile = map.isBlocking(right, ay ); // the minus for is
 
 
 		if(leftTile) {
@@ -433,8 +440,8 @@ Player.prototype.moveY = function(dX, dY){
 
 			this.onGround = true;
 			this.jumping = false;
-			
-			if(!keys["jump"]){
+
+			if(!keys.jump){
 				this.canJump = true;
 			}
 			this.yVel = 0;
@@ -445,18 +452,18 @@ Player.prototype.moveY = function(dX, dY){
 		}
 	}
 	return tempY;
-}
+};
 
 Player.prototype.coords = function(){
 	var str = "x :" + (this.x /16 | 0);
 	str += " y : " + (this.y / 16 | 0);
 	return str;
-}
+};
 
 Player.prototype.draw = function(ctx, camera) {
-
+	var frame;
 	ctx.fillStyle = "red";
-	if(keys["down"]){
+	if(keys.down){
 		ctx.fillRect(this.x - this.width/2 - camera.x, this.y - camera.y, this.width, this.height/2);
 	}else{
 	// 	ctx.fillRect(this.x - this.width/2- levelRenderer.camera.x, this.y - this.height/2 - (levelRenderer.camera.y  ) , this.width, this.height);
@@ -466,24 +473,25 @@ Player.prototype.draw = function(ctx, camera) {
 
 	/**
 	 * Punchgin
-	 */ 
+	 */
 	if(this.punchTime>0){
 		// ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - levelRenderer.camera.x, this.y - this.height/2 +4 - levelRenderer.camera.y, 8 * this.dir, 10 );
-		var punchFrame = 112;
+		
 		if(this.dir==-1){
-			punchFrame = 136;
-			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - camera.x -4, this.y - this.height/2  - camera.y - 4, 24, 24);
+			frame = 136;
+			ctx.drawImage(this.image, frame, 0, 24, 24, this.x - this.width - camera.x -4, this.y - this.height/2  - camera.y - 4, 24, 24);
 		}else{
-			ctx.drawImage(this.image, punchFrame, 0, 24, 24, this.x - this.width - camera.x +2, this.y - this.height/2  - camera.y - 4, 24, 24);
+			frame = 112;
+			ctx.drawImage(this.image, frame, 0, 24, 24, this.x - this.width - camera.x +2, this.y - this.height/2  - camera.y - 4, 24, 24);
 		}
-	} 
+	}
 	/**
 	 * Jumping
 	 */
 	else if(this.jumping || this.yVel > 0){
-		var frame = 16 * (this.dir== 1 ? 6 : 14 );
+		frame = 16 * (this.dir== 1 ? 6 : 14 );
 		ctx.drawImage(this.image, frame, 0, 16, 24, this.x - this.width - camera.x + 2, this.y - this.height/2  - camera.y - 4, 16, 24);
-	} 
+	}
 	/**
 	 * walking
 	 */
@@ -492,13 +500,13 @@ Player.prototype.draw = function(ctx, camera) {
 	} else {
 	/**
    	 *	standing still
- 	 */	
- 	 	var frame = (this.dir==1 ? 1 : 0)
+ 	 */
+ 	 	frame = (this.dir==1 ? 1 : 0);
 		ctx.drawImage(this.image, frame*16, 0, 16, 24, this.x - this.width - camera.x + 2, this.y - this.height/2  - camera.y - 4, 16, 24);
 	}
 };
 
 Player.prototype.drawWalking = function(ctx, camera){
 	var drawFrame = this.counter + (this.dir==1 ? 2 : 10);
-	ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - camera.x + 2, this.y - this.height/2  - camera.y - 4, 16, 24);	
-}
+	ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - camera.x + 2, this.y - this.height/2  - camera.y - 4, 16, 24);
+};

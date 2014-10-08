@@ -25,7 +25,12 @@ var levelGenerator = function(){
 		hazard2,
 		breakable,
 		unbreakable,
+		questionBox,
+		starBox,
+		yellowSkull,
+		pinkSkull,
 		groundIndex = 10,
+		backgroundColor,
 		EndingX;
 
 
@@ -43,6 +48,12 @@ var levelGenerator = function(){
 		hazard2 = levelSettings.hazard2();
 		breakable = levelSettings.breakable();
 		unbreakable = levelSettings.unbreakable();
+		backgroundColor = levelSettings.backgroundColor();
+		starBox = 9;
+		questionBox = 8;
+		pinkSkull = 7;
+		yellowSkull = 10;
+
 	}
 
 
@@ -75,7 +86,7 @@ var levelGenerator = function(){
 	}
 
 	function createlevel(){
-		setUpLevel('four');
+		setUpLevel('three');
 		// get theme
 		var length = 100;
 
@@ -98,7 +109,7 @@ var levelGenerator = function(){
 		var index = 12;
 		tiles[4][4] = breakable;
 		tiles[4][5] = unbreakable;
-
+		longHorizontal(3,  5);
 		while (index < length) {
 			var areaSize = 3 + Math.random() * 12 | 0;
 			var chance = Math.random() * totalOdds;
@@ -110,32 +121,111 @@ var levelGenerator = function(){
 			}
 			switch (type) {
 				case 0:
-					createOneGap(tiles, index, areaSize-2);
+					// createGap(tiles, index, areaSize-2);
+					square(tiles, index, areaSize -2 , true);
 					break;				
 				case 1:
-					createOneGap(tiles, index, areaSize-2);
+					createGap(tiles, index, areaSize-2);
+					// square(tiles, index, areaSize -2 , true);
 					// this.makePlatform(index, size-2);
 					break;
 				case 2:
-					// createOneGap(tiles, index, areaSize-2);
 					triangleThing(tiles, index, areaSize-2);
-					// this.triangleThing(5);
+					// square(tiles, index, areaSize -2 , true);
 					break;
 				case 3 :
-					createOneGap(tiles, index, areaSize-2);
-					// this.plainSquare(index, size-2);
-					// this.straightVertical(index, size-2);
+					// createGap(tiles, index, areaSize-2);
+					// longVert(tiles, index, 4);
+					fillSquare(tiles, { x :index, 
+										y : 4, 
+										width : Math.round(areaSize/3), 
+										height : 4 },
+										new Odds().myOdds() );
 					break;
 			}
-			// this.addClouds(index, 6);
 			index+=areaSize;
 		}
 		EndingX = tiles[0].length - 5;
-		return tiles;
+		return {
+			tiles : tiles,
+			backgroundColor : backgroundColor
+		};
+	}
+
+	function applyArrays(tiles, array, x, y){
+		// for(i = 0)
+		// tiles[y][x] = 
+
+	}
+
+	/**
+	* returns a square of 
+	*/
+	function square(tiles, index, size, hollow){
+		// build roof
+		var y, x;
+		var height = randomInt(5);
+		var start = groundIndex -height;
+		for(y = start; y< groundIndex; y++ ){
+			for(x =index; x < index + size; x++){
+				if(y===start || x === index || x=== index + size-1 ){
+					tiles[y][x] = breakable;
+				}			
+			}
+		}
 	}
 
 
-	function createOneGap(tiles, index, length){
+	function fillSquare(tiles, rect, odds){
+		var x = rect.x,
+			y = rect.y,
+			width = rect.width,
+			height = rect.height;
+
+		if( x < 0 || x+width > tiles[y-3].length || 
+			y < 0 || y+height > tiles.length -3){
+			console.warn("Array out of bounds");
+			debugger;
+			return;
+		}
+		var i, j;
+		for(i = y; i< y+height; i++){
+			for(j = x; j < x+width; j++){
+				// var newOdds = odds.getNextOdds();
+				// tiles[i][j]= odds ? levelSettings[newOdds]() : 5;
+				tiles[i][j]= odds ? 8 : 5;
+			}
+		}
+	}
+
+
+	function longVert(tiles, index, height){
+		// debugger;
+		var start = groundIndex -2;
+		for (var y = start; y > start-height; y--){
+			tiles[y][index] = breakable;
+		}
+	}
+
+
+
+
+	function longHorizontal(index, size){
+		var array = new Uint8Array(size);
+		for(var i = 0; i < size; i++){
+			var chance = randomInt(10);
+			if(chance < 2){
+				array[i] = breakable;
+			} else if(chance < 4){
+				array[i] = unbreakable;
+			} else if(chance < 6 ){
+				array[i] = starBox;
+			}
+		}
+	}
+
+
+	function createGap(tiles, index, length){
 		// so we don't create a gap near the end of the level
 		if(length > 5){
 			var randHeight = height - randomInt(2) - 3;
@@ -185,13 +275,13 @@ var levelGenerator = function(){
 
 	}
 
-
 	return {
 		createNewMap: function(isRandom){
 			var map;
 			if(isRandom){
-				var tiles = createlevel();
-				map = new Map(tiles);
+				var level = createlevel(); // get level object
+				map = new Map(level.tiles);
+				map.backgroundColor = level.backgroundColor;
 			}else {
 				map = new Map();
 			}
@@ -240,24 +330,6 @@ levelGenerator.prototype.applyMask = function(tiles, prob, tilenumber){
 
 }
 
-// random square of random noise. 
-levelGenerator.prototype.plainSquare = function(index, length){
-	var stuff = getRandomNoise(10);
-	var end = length < 12 ? length : 12; 
-	var start = Math.random() * 5; // random block to start from 
-
-
-	for(var i = 0; i < end; i++) {
-		for(var j = 0; j < end ; j++) {
-			if(stuff[i][j]< .4){
-				this.tiles[j][i+index] = CONSTANTS.themeOptions[this.currentOption].breakable;
-			}
-		}
-	}
-};
-
-
-
 
 levelGenerator.prototype.castlelevel = function(rooms){
 	var mapsize = rooms *32;
@@ -271,22 +343,6 @@ levelGenerator.prototype.castlelevel = function(rooms){
 	return tiles;
 };
 
-
-levelGenerator.prototype.createPlainlevel = function(tiles, length){
-
-	for(var i =0; i< tiles.length; i++){
-		tiles[i] = [];
-		for(var j = 0; j< length; j++){
-			tiles[i].push(0);
-		}
-	}
-	for(var i = this.height -2; i < this.height; i++ ){
-		for(var j =0; j< length; j++){
-			tiles[i][j] = CONSTANTS.themeOptions[this.currentOption].groundTile;
-		}	
-	}
-	return tiles;
-};
 
 levelGenerator.prototype.plainNoise = function(number){
 	var tiles = randomValues(10, 32);
@@ -306,35 +362,27 @@ levelGenerator.prototype.plainNoise = function(number){
 };
 
 
-
-
-
-function get2dArray(size){
-	var tiles = new Array(size);
-	for(var i = 0; i< size ;i++){
-		tiles[i] = [];
-		for(var j = 0; j < size; j++){
+function get2dArray(m, n){
+	// filled with zeroz
+	var i, j,
+		x=m, y=n;
+	if(!n){
+		y = m;
+		// array is cube
+	}
+	var tiles = new Array(y);
+	for (i = 0; i< y;i++){
+		tiles[i]= [];
+		for(j = 0; j<x; j++){
 			tiles[i].push(0);
 		}
 	}
-
 	return tiles;
 }
 
 
-levelGenerator.prototype.addClouds = function(startX, size){
-	// var numberOfClouds = randomInt(10)+1;
-	var noisearray = randomValues(1, 6);
-	var length = noisearray.length;
-	for(var y = 1; y< length-1; y++){
-		for(var x = 1; x < length-1; x++){
-			if(noisearray[y][x] > 0.98){
-				this.tiles[y][startX+ x] = 16;
-				this.tiles[y][startX+ x+ 1] = 17;
-			}
-		}
-	}
-}
+
+
 
 
 

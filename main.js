@@ -5,7 +5,9 @@ var canvas,
 	HEIGHT,
 	player,
 	game,
+	camera,
 	levelRenderer,
+	objectRenderer,
 	map,
 	levelState,
 	debug,
@@ -21,6 +23,7 @@ var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webki
 })();
 
 function init(){
+	camera = new Camera();
 	debug = new Debugger();
 
 	initCanvas();
@@ -31,7 +34,8 @@ function init(){
 	levelState = new levelState();
 	levelState.init();
 	map = levelState.map;
-	levelRenderer = new levelRenderer(levelState.map, player, levelState);
+	levelRenderer = new levelRenderer(player, camera, levelState.map,  levelState);
+	objectRenderer = new ObjectRenderer(camera, player, levelState)
 
 	game = Game();
 	Game.run();
@@ -44,6 +48,13 @@ function init(){
 		HEIGHT = canvas.height;
 		ctx.scale(scale, scale);	
 	}
+
+	// var checkGP = window.setInterval(function() {
+ //                if(navigator.getGamepads()[0]) {
+ //                    if(!hasGP) $(window).trigger("gamepadconnected");
+ //                    window.clearInterval(checkGP);
+ //                }
+ //            }, 500);
 }
 
 window.addEventListener("load", init);

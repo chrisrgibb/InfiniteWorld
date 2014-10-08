@@ -1,7 +1,7 @@
 // main game function
 var Game = function(argument) { };
 
-Game.fps = 50; // 50 is fps 
+Game.fps = 50; // 50 is fps
 Game.then = Date.now(); // for fps
 
 
@@ -9,13 +9,11 @@ Game.then = Date.now(); // for fps
 	Main draw function
 **/
 Game.draw = function(){
-	if(levelRenderer){
-		levelRenderer.draw();
-	}
-	player.draw(ctx, levelRenderer.camera); 
+	levelRenderer.draw();
+	objectRenderer.draw();
+	player.draw(ctx, levelRenderer.camera);
 	debug.render(ctx);
 	Game.drawDebugGrid(ctx, levelRenderer.camera);
-
 };
 
 
@@ -25,9 +23,7 @@ Game.update = function(){
 		COUNTER=0;
 	}
 	levelState.update();
-	if(player){
-		player.move();
-	} 	
+	player.move();
 };
 /*
  * Main game loop
@@ -55,13 +51,13 @@ Game.drawDebugGrid = function(ctx, camera){
 		var y , x, tilesize = CONSTANTS.tileSize;
 		for(y = 0; y < map.getHeight(); y++ ){
 			for(x = 0; x < map.getWidth(); x++ ){
-				if(x%5 ==0){	
-					ctx.font = "bold 8px sans-serif";			
+				if(x%5 ==0){
+					ctx.font = "bold 8px sans-serif";
 					ctx.fillText(x, 5 + x * tilesize, 10);
 				}
 			}
 		}
-	}	
+	}
 }
 
 Game.drawFPS = function(text) {
