@@ -13,8 +13,11 @@ var Odds = function(){
 		"unbreakable" :25,
 		"star" : 11,
 		"skull" : 6,
-		"question" : 0
-	}
+		"question" : 0,
+		"total" : 0
+	};
+
+	var currentOdd = 0;
 
 	// configs.
 
@@ -22,11 +25,23 @@ var Odds = function(){
 
 	function myOdds(){
 		var i, totalOdds = 0;
-		for (key in odds) {
+		var currentOdds = 0;
+		for (var key in odds) {
 			totalOdds += odds[key];
 			odds[key] = totalOdds - odds[key];
 		}
-		odds["total"] = totalOdds;
+		odds.total = totalOdds;
+
+		odds["getNextOdds"] = function(){
+			var chance = Math.random() * totalOdds,
+			type;
+			for (var key in odds) {
+				if(key!=="getNextOdds" && odds[key] < chance){
+					type = key;
+				}
+			}
+			return type;
+		};
 		return odds;
 	}
 
@@ -36,7 +51,7 @@ var Odds = function(){
 
 		},
 		myOdds : myOdds
-	}
+	};
 };
 
 

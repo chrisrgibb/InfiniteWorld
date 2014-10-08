@@ -121,28 +121,28 @@ var levelGenerator = function(){
 			}
 			switch (type) {
 				case 0:
-					// createOneGap(tiles, index, areaSize-2);
+					// createGap(tiles, index, areaSize-2);
 					square(tiles, index, areaSize -2 , true);
 					break;				
 				case 1:
-					createOneGap(tiles, index, areaSize-2);
-					square(tiles, index, areaSize -2 , true);
+					createGap(tiles, index, areaSize-2);
+					// square(tiles, index, areaSize -2 , true);
 					// this.makePlatform(index, size-2);
 					break;
 				case 2:
 					triangleThing(tiles, index, areaSize-2);
-					square(tiles, index, areaSize -2 , true);
+					// square(tiles, index, areaSize -2 , true);
 					break;
 				case 3 :
-					createOneGap(tiles, index, areaSize-2);
+					// createGap(tiles, index, areaSize-2);
 					// longVert(tiles, index, 4);
 					fillSquare(tiles, { x :index, 
 										y : 4, 
 										width : Math.round(areaSize/3), 
-										height : 4 } );
+										height : 4 },
+										new Odds().myOdds() );
 					break;
 			}
-			// this.addClouds(index, 6);
 			index+=areaSize;
 		}
 		EndingX = tiles[0].length - 5;
@@ -164,7 +164,7 @@ var levelGenerator = function(){
 	function square(tiles, index, size, hollow){
 		// build roof
 		var y, x;
-		var height = 5;
+		var height = randomInt(5);
 		var start = groundIndex -height;
 		for(y = start; y< groundIndex; y++ ){
 			for(x =index; x < index + size; x++){
@@ -185,12 +185,15 @@ var levelGenerator = function(){
 		if( x < 0 || x+width > tiles[y-3].length || 
 			y < 0 || y+height > tiles.length -3){
 			console.warn("Array out of bounds");
+			debugger;
 			return;
 		}
 		var i, j;
 		for(i = y; i< y+height; i++){
 			for(j = x; j < x+width; j++){
-				tiles[i][j]= 5;
+				// var newOdds = odds.getNextOdds();
+				// tiles[i][j]= odds ? levelSettings[newOdds]() : 5;
+				tiles[i][j]= odds ? 8 : 5;
 			}
 		}
 	}
@@ -222,7 +225,7 @@ var levelGenerator = function(){
 	}
 
 
-	function createOneGap(tiles, index, length){
+	function createGap(tiles, index, length){
 		// so we don't create a gap near the end of the level
 		if(length > 5){
 			var randHeight = height - randomInt(2) - 3;
