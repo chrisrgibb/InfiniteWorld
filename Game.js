@@ -51,14 +51,14 @@ Game.drawDebugGrid = function(ctx, camera){
 		var y , x, tilesize = CONSTANTS.tileSize;
 		for(y = 0; y < map.getHeight(); y++ ){
 			for(x = 0; x < map.getWidth(); x++ ){
-				if(x%5 ==0){
+				if(x%5 === 0){
 					ctx.font = "bold 8px sans-serif";
 					ctx.fillText(x, 5 + x * tilesize, 10);
 				}
 			}
 		}
 	}
-}
+};
 
 Game.drawFPS = function(text) {
 	ctx.fillStyle = "yellow";

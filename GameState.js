@@ -19,4 +19,4 @@ GameState.prototype.draw = function(){
 GameState.prototype.handlePunch = function(){
 
 
-}
+};

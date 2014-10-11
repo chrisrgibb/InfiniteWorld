@@ -35,7 +35,7 @@ function init(){
 	levelState.init();
 	map = levelState.map;
 	levelRenderer = new levelRenderer(player, camera, levelState.map,  levelState);
-	objectRenderer = new ObjectRenderer(camera, player, levelState)
+	objectRenderer = new ObjectRenderer(camera, player, levelState);
 
 	game = Game();
 	Game.run();
@@ -61,7 +61,7 @@ window.addEventListener("load", init);
 
 document.getElementById('scale-button').addEventListener('click', function(){
 	if(scale==2){
-		scale = .5;
+		scale = 0.5;
 		ctx.scale(scale, scale);
 		this.innerHTML = "1x";
 	}else {
@@ -77,7 +77,7 @@ function scaleCtx(size){
 		ctx.scale(2, 2);
 		return 2;
 	}else{
-		ctx.scale(.5, .5);
+		ctx.scale(0.5, 0.5);
 		return 1;
 	}
 }

@@ -23,7 +23,7 @@ var levelState = function(){
 levelState.prototype.init = function() {
 	this.enemys = [];
 	// this.map = new Map("tiles");
-	this.map = new Map();
+	// this.map = new Map();
 	var lg = new levelGenerator();
 
 	this.map = lg.createNewMap(true);
@@ -62,7 +62,6 @@ levelState.prototype.punchTile = function(x, y){
 	}
 	var tile = this.map.blocks[y][x];
 	if ( tile.breakable ){
-		
 		if(this.map.tiles[y][x]==9){ // star block
 			this.onScreenObjects.push(new MoneyBag(x, y, true));
 			if(this.onScreenObjects.length > 2){

@@ -8,6 +8,7 @@ var Block = function(x, y, breakable, image, solid){
 };
 
 function softBlock(x, y, breakable, image){
+	debugger;
 	this.x = x;
 	this.y = y;
 	this.breakable = breakable;
