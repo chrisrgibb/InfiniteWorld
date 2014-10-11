@@ -174,6 +174,8 @@ var levelGenerator = function(){
 				}			
 			}
 		}
+		tiles[7][index] = starBox;
+		tiles[6][index] = yellowSkull;
 	}
 
 
