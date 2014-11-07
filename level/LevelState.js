@@ -57,6 +57,12 @@ levelState.prototype.gameObject = function(x, y){
 
 levelState.prototype.punchTile = function(x, y){
 
+	if(x > this.map.blocks[0].length-1){
+		return;
+	}
+	var punchedTile = this.map.blocks[y][x],
+		levelstate = this;
+
 	function manageQuestionTile(){
 		switch(levelstate.currentItem){
 			case 0 : 
@@ -73,7 +79,6 @@ levelState.prototype.punchTile = function(x, y){
 				levelstate.currentItem = 0;
 				break;
 		}
-		
 		if(levelstate.onScreenObjects.length > 2){
 			levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
 		}
@@ -81,11 +86,6 @@ levelState.prototype.punchTile = function(x, y){
 
 
 
-	if(x > this.map.blocks[0].length-1){
-		return;
-	}
-	var punchedTile = this.map.blocks[y][x];
-	var levelstate = this;
 	if (punchedTile.breakable ){
 		if (punchedTile.image===9) { 
 			// star block
@@ -111,7 +111,7 @@ levelState.prototype.punchTile = function(x, y){
 	}
 
 
-	if(this.map.tiles[y][x]==2){
+	if(this.map.tiles[y][x]===2){
 		this.map.tiles[y][x] =0;
 	}
 };
@@ -125,7 +125,8 @@ levelState.prototype.fireShockwave = function(player){
 };
 
 
-
+/**
+*/
 levelState.prototype.walkedOverBadStuff = function(x, y){
 	if(x > this.map.blocks[0].length-1 || y > this.map.blocks.length-1){
 		return;
@@ -186,7 +187,9 @@ levelState.prototype.update = function(){
 	var enemys = this.enemys;
 	var removeEnemys = [];
 	var countage = 0;
-
+ 	/* Move stuff 
+ 	 *
+ 	 */
 	for(var i = 0; i< enemys.length; i++){
 		if( isOnScreen(levelRenderer.camera, enemys[i]) ){
 			enemys[i].move();
@@ -206,6 +209,9 @@ levelState.prototype.update = function(){
 		}
 	}
 	this.updateShockwave();
+	/* rEMove stuff 
+ 	 *
+ 	 */
 
 	// remove static objects
 	for(i = 0, len = this.objectsToRemove.length; i < len; i++){

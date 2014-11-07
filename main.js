@@ -88,3 +88,7 @@ var something = (function(){
  return g;
 })();
 
+function mapShit(thing){
+	console.log(thing);
+}
+
