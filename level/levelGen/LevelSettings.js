@@ -45,7 +45,7 @@ var LevelSettings = function(){
 
 	function setTheme(theme){
 		_currentTheme = String(theme);
-		something.thing = theme;
+		// something.thing = theme;
 		return _currentTheme;
 	}
 
@@ -71,8 +71,8 @@ var LevelSettings = function(){
 		getTheme : function(){
 			return _currentTheme;
 		},
-		setTheme : setTheme,
-		fing : something.thing
+		setTheme : setTheme
+		// fing : something.thing
 	};
 
 }

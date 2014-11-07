@@ -54,15 +54,17 @@
 
     </body>
 
-      <script src="levelGenerator.js"></script>
+      <script src="level/levelGen/levelGenerator.js"></script>
+      <script src="level/levelGen/levelSettings.js"></script>
+      <script src="level/levelGen/noise.js"></script>
       <script>
       var lg = new levelGenerator(); 
       var canvas = document.getElementById('canvas');
-	  var ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d');
       var tiles;
       var tileSize = 8;
       var rangeSlider = document.getElementById('range');
-       var val = rangeSlider.value;
+      var val = rangeSlider.value;
 
       document.getElementById('go').addEventListener('click', function(){
       	// tiles = lg.createlevel();

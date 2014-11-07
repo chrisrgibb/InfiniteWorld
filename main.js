@@ -82,9 +82,4 @@ function scaleCtx(size){
 	}
 }
 
-var something = (function(){
- var g = 5;
- this.h = 6;
- return g;
-})();
 

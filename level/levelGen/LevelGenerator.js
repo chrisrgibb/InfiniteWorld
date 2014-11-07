@@ -1,10 +1,10 @@
 // "DESIGN GRAMMER"
 /*
-	level := chunks 
+	level := chunks
 	chunks := chunk | chunk chunks
-	chunk := 
-	
-	
+	chunk :=
+
+
 
 
 
@@ -18,8 +18,10 @@
 
 
 var levelGenerator = function(){
+	var RANDOMSEED = 6;
 	var height = 12;
-	var levelSettings = LevelSettings();
+	var levelSettings = LevelSettings(),
+		randomGen = new Noise(RANDOMSEED);
 	var groundTile,
 		hazard1,
 		hazard2,
@@ -66,7 +68,7 @@ var levelGenerator = function(){
 	*	array of plain tiles with two tiles on the ground
 	*/
 	function createPlainLevel(length){
-		
+
 		var tiles = new Array(height);
 		for(var i =0; i< tiles.length; i++){
 			tiles[i] = [];
@@ -77,21 +79,16 @@ var levelGenerator = function(){
 		for(var i = height -2; i < height; i++ ){
 			for(var j =0; j< length; j++){
 				tiles[i][j] = groundTile;
-			}	
+			}
 		}
 		return tiles;
 	}
 
-	function randomInt(size){
-		return Math.round(Math.random() * size);
+	function randomInt(min, max){
+		return Math.round(randomGen.nextNumber(min, max));
 	}
 
-	function createlevel(){
-		setUpLevel('three');
-		// get theme
-		var length = 100;
-
-		var tiles = createPlainLevel(length);
+	function getOdds(){
 		var odds = [];
 		odds[0] = 30; // "createGap"
 		odds[1] = 30; //"makePlatform"
@@ -107,13 +104,36 @@ var levelGenerator = function(){
 			totalOdds+=odds[i];
 			odds[i] = totalOdds - odds[i];
 		}
+
+		return {
+			odds : odds,
+			totalOdds : totalOdds
+		}
+	}
+
+
+
+	function createlevel(){
+		setUpLevel('three');
+		// get theme
+		var length = 100;
+
+		var tiles = createPlainLevel(length);
+
+		var oddsFactory = getOdds();
+		var odds = oddsFactory.odds;
+		var totalOdds = oddsFactory.totalOdds;
+
 		var index = 12;
 		tiles[4][4] = breakable;
 		tiles[4][5] = unbreakable;
-		longHorizontal(3,  5);
+		
+		longHorizontal(3,  5); // TODO what???
+
 		while (index < length) {
-			var areaSize = 3 + Math.random() * 12 | 0;
-			var chance = Math.random() * totalOdds;
+			var areaSize = 3 + randomInt(12) | 0;
+			// var chance = Math.random() * totalOdds;
+			var chance = randomInt(totalOdds);
 			var type;
 			for (var i = 0; i< odds.length; i++) {
 				if (odds[i] <= chance) {
@@ -122,9 +142,9 @@ var levelGenerator = function(){
 			}
 			switch (type) {
 				case 0:
-					// createGap(tiles, index, areaSize-2);
-					square(tiles, index, areaSize -2 , true);
-					break;				
+					createGap(tiles, index, areaSize-2);
+					// square(tiles, index, areaSize -2 , true);
+					break;
 				case 1:
 					createGap(tiles, index, areaSize-2);
 					// square(tiles, index, areaSize -2 , true);
@@ -137,9 +157,9 @@ var levelGenerator = function(){
 				case 3 :
 					// createGap(tiles, index, areaSize-2);
 					// longVert(tiles, index, 4);
-					fillSquare(tiles, { x :index, 
-										y : 4, 
-										width : Math.round(areaSize/3), 
+					fillSquare(tiles, { x :index,
+										y : 4,
+										width : Math.round(areaSize/3),
 										height : 4 },
 										new Odds().myOdds() );
 					break;
@@ -153,14 +173,9 @@ var levelGenerator = function(){
 		};
 	}
 
-	function applyArrays(tiles, array, x, y){
-		// for(i = 0)
-		// tiles[y][x] = 
-
-	}
 
 	/**
-	* returns a square of 
+	* returns a square of
 	*/
 	function square(tiles, index, size, hollow){
 		// build roof
@@ -171,9 +186,11 @@ var levelGenerator = function(){
 			for(x =index; x < index + size; x++){
 				if(y===start || x === index || x=== index + size-1 ){
 					tiles[y][x] = breakable;
-				}			
+				}
 			}
 		}
+		tiles[7][index] = starBox;
+		tiles[6][index] = yellowSkull;
 	}
 
 
@@ -183,7 +200,7 @@ var levelGenerator = function(){
 			width = rect.width,
 			height = rect.height;
 
-		if( x < 0 || x+width > tiles[y-3].length || 
+		if( x < 0 || x+width > tiles[y-3].length ||
 			y < 0 || y+height > tiles.length -3){
 			console.warn("Array out of bounds");
 			debugger;
@@ -199,7 +216,6 @@ var levelGenerator = function(){
 		}
 	}
 
-
 	function longVert(tiles, index, height){
 		// debugger;
 		var start = groundIndex -2;
@@ -207,8 +223,6 @@ var levelGenerator = function(){
 			tiles[y][index] = breakable;
 		}
 	}
-
-
 
 
 	function longHorizontal(index, size){
@@ -227,32 +241,40 @@ var levelGenerator = function(){
 
 
 	function createGap(tiles, index, length){
-		// so we don't create a gap near the end of the level
-		if(length > 5){
-			var randHeight = height - randomInt(2) - 3;
-			var randX = randomInt(4)+ index +2 ;
 
-			tiles[randHeight][randX] = breakable;
-		}
 		for(var i = index+1; i< index + length-1; i++){
+			// so we don't create a gap near the end of the level
 			if(i > tiles[0].length - 14){
-				// debugger;
 				return;
 			}
 			tiles[height-2][i] = hazard1;
 			tiles[height-1][i] = hazard2;
 		}
+		if(length < 4){
+			return;
+		}
+		// fill in gap with blocks over top
+		var numberOfBlocks = Math.floor(length / 4 );
+		var heightOfFirstBlock = 8;
+		for(var i = 0; i < numberOfBlocks; i++ ){
+
+			var placeX = randomInt(2+i * 4 + index, 2 + (i *4) + index );
+	
+			tiles[heightOfFirstBlock][placeX] = breakable;
+		}
+
+		
 	}
 
 	function triangleThing(tiles, index, length){
-		/* options 
+		/* options
 		   plain triangle
 		   triangle with random money
 		   triangle with random unbreakable bits
 		*/
 		// width of triangle will  be 2n -1 wide
 		var height = Math.ceil(length / 2);
-	
+
 
 		var startX = index;
 		var middle = startX + (height - 1);
@@ -261,11 +283,11 @@ var levelGenerator = function(){
 			// start at top
 			// for triangles with 2 blocks at top initialize j to startX + (height - i)
 
-			for(var j = startX + (height - i -1); j < startX + (height + i ); j++ ){  
-				tiles[groundIndex - height  + i][j] = breakable; 
-				
+			for(var j = startX + (height - i -1); j < startX + (height + i ); j++ ){
+				tiles[groundIndex - height  + i][j] = breakable;
+
 				if(Math.random() > .4 && j==middle){
-					tiles[groundIndex - height  + i][j] = unbreakable; 
+					tiles[groundIndex - height  + i][j] = unbreakable;
 				}
 			}
 		}
@@ -292,46 +314,6 @@ var levelGenerator = function(){
 		}
 	};
 }
-
-
-levelGenerator.prototype.castlelevel = function(rooms){
-	var mapsize = rooms *32;
-	var tiles = new Array(mapsize);
-	for(var i = 0; i< mapsize ;i++){
-		tiles[i] = [];
-		for(var j = 0; j < mapsize; j++){
-			tiles[i].push(0);
-		}
-	}
-	return tiles;
-};
-
-
-
-
-function get2dArray(m, n){
-	// filled with zeroz
-	var i, j,
-		x=m, y=n;
-	if(!n){
-		y = m;
-		// array is cube
-	}
-	var tiles = new Array(y);
-	for (i = 0; i< y;i++){
-		tiles[i]= [];
-		for(j = 0; j<x; j++){
-			tiles[i].push(0);
-		}
-	}
-	return tiles;
-}
-
-
-
-
-
-
 
 
 
