@@ -59,6 +59,11 @@ var levelGenerator = function(){
 
 	}
 
+	function setSeed(newSeed){
+		RANDOMSEED = newSeed;
+		randomGen = new Noise(RANDOMSEED);
+	}
+
 
 	function randomTheme(){
 		return (randomInt(10) > 4) ? 'one' : 'two';
@@ -311,7 +316,8 @@ var levelGenerator = function(){
 			// map.enemys = this.enemies;
 			map.objects.push(new RiceBall(EndingX, 8));
 			return map;
-		}
+		},
+		setSeed : setSeed
 	};
 }
 

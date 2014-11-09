@@ -38,7 +38,7 @@
       
     </head>
     <body>
-      <h1 id="title">Level Generator in Collision Detection Land </h1>
+      <h1 id="title">levelRenderer Generator in Collision Detection Land </h1>
       <canvas id="canvas" width="512" height ="384">
 
       </canvas>
@@ -53,24 +53,30 @@
       <div id="text"></div>
 
     </body>
-
-      <script src="LevelGenerator.js"></script>
+      <script src="Map.js"></script>
+      <script src="Block.js"></script>
+      <script src="levelGen/levelGenerator.js"></script>
+      <script src="levelGen/levelSettings.js"></script>
+      <script src="levelGen/noise.js"></script>
+      <script src="levelGen/Odds.js"></script>
+      <script src="../game/GameObject.js"></script>
       <script>
-      var lg = new LevelGenerator(); 
+
+
+      var lg = new levelGenerator(); 
       var canvas = document.getElementById('canvas');
-	  var ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d');
       var tiles;
       var tileSize = 8;
       var rangeSlider = document.getElementById('range');
-       var val = rangeSlider.value;
+      var val = rangeSlider.value;
 
       document.getElementById('go').addEventListener('click', function(){
-      	// tiles = lg.createLevel();
+      	// tiles = lg.createlevel();
         
-        // 
-        tiles = lg.plainNoise(11);
-        tiles = getRandomNoise(32);
-
+        this.map = lg.createNewMap(true);
+        tiles = this.map;
+        // debugger;
 
       	console.log(tiles);
       	resizeCanvas();
