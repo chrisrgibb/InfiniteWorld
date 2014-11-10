@@ -18,7 +18,7 @@
 
 
 var levelGenerator = function(){
-	var RANDOMSEED = 6;
+	var RANDOMSEED = 9;
 	var height = 12;
 	var levelSettings = LevelSettings(),
 		randomGen = new Noise(RANDOMSEED);
@@ -304,7 +304,12 @@ var levelGenerator = function(){
 	}
 
 	return {
-		createNewMap: function(isRandom){
+		createNewMap: function(isRandom, seed){
+			if(!seed){
+				
+			} else {
+				setSeed(seed);
+			}
 			var map;
 			if(isRandom){
 				var level = createlevel(); // get level object

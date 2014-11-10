@@ -70,54 +70,62 @@
       var tileSize = 8;
       var rangeSlider = document.getElementById('range');
       var val = rangeSlider.value;
+      var tileimage = new Image();
+      tileimage.src = "../images/tiles8px.png";
 
+      /**
+      *
+      *
+      */
       document.getElementById('go').addEventListener('click', function(){
-      	// tiles = lg.createlevel();
-        
-        this.map = lg.createNewMap(true);
-        tiles = this.map;
-        // debugger;
+        var seedValue = rangeSlider.value || 1231231;
+        this.map = lg.createNewMap(true, seedValue);
+        tiles = this.map.tiles;
 
-      	console.log(tiles);
       	resizeCanvas();
       	drawMap();
         console.log("val = " + val);
       });	
 
 
-    
+      /**
+      *
+      *
+      */
       rangeSlider.addEventListener('change', function(){
 
         console.log("slide");
-          val = rangeSlider.value;
-           document.getElementById('text').innerHTML = val;
+        val = rangeSlider.value;
+        document.getElementById('text').innerHTML = val;
       });
 
+      /**
+      *
+      *
+      */
       function resizeCanvas(){
       	canvas.width = tiles[0].length * tileSize;
       	canvas.height = tiles.length * tileSize;
-
       }
 
+      /**
+      *
+      *
+      */
       function drawMap(){
       	for(var row = 0; row < tiles.length; row++ ){
     			for(var col = 0; col < tiles[0].length; col++){
-    				if(tiles[row][col]==5){
-    					ctx.fillStyle="#ad5200";
-    					ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-    				}  if (tiles[row][col]==8){
-    					ctx.fillStyle ="#ffff00";
-    					ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-    				}   if(tiles[row][col]!=0){
-              ctx.fillStyle ="#ffff00";
-              ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-            } 
-             if( tiles[row][col]==12){
-              ctx.fillStyle ="red";
-              ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-            }
-    			}
+            var num = tiles[row][col];
+            drawTile(num, row, col);
+          }
     		}
+      }
+
+      function drawTile(num, row, col){
+        var tx = num % 16;
+        var ty = num / 16 | 0;
+
+        ctx.drawImage(tileimage, tx*8 , ty * 8, 8, 8, col * tileSize, row * tileSize, tileSize, tileSize);
       }
 
       // function draw
