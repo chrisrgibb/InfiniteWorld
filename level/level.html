@@ -67,6 +67,7 @@
       var canvas = document.getElementById('canvas');
       var ctx = canvas.getContext('2d');
       var tiles;
+      var map;
       var tileSize = 8;
       var rangeSlider = document.getElementById('range');
       var val = rangeSlider.value;
@@ -80,6 +81,7 @@
       document.getElementById('go').addEventListener('click', function(){
         var seedValue = rangeSlider.value || 1231231;
         this.map = lg.createNewMap(true, seedValue);
+        map = this.map;
         tiles = this.map.tiles;
 
       	resizeCanvas();
@@ -119,6 +121,27 @@
             drawTile(num, row, col);
           }
     		}
+        drawHeights();
+
+      }
+
+      function drawHeights(){
+        ctx.beginPath();
+        ctx.strokeStyle = "#ff0000";
+        ctx.beginPath();
+        var oldY = canvas.height;
+        var oldX = 0;
+        // ctx.moveTo(oldX, oldY);
+        map.nodes.forEach(function(n){
+          var x = n.index* tileSize;
+          var y = n.height * tileSize;
+          ctx.beginPath();
+          ctx.moveTo(oldX, oldY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+          oldX = x;
+          oldY = y;
+        });
       }
 
       function drawTile(num, row, col){

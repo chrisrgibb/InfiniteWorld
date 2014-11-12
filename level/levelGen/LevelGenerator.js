@@ -290,7 +290,6 @@ var levelGenerator = function(){
 
 			this.getLength = function(count){
 				if(!this.nextNode){
-					debugger;
 					return 1;
 				} else {
 					return this.nextNode.getLength() + 1;
@@ -301,7 +300,7 @@ var levelGenerator = function(){
 		var head = new Node(i, 0, 10);
 		var lastNode = head;
 		i = 10;
-		debugger;
+
 		while(i < len){
 			var nodeLength = randomInt(0, 10);
 			var height = randomInt(0 , 7);
@@ -311,9 +310,6 @@ var levelGenerator = function(){
 			lastNode = newNode;
 			i = i+nodeLength;
 		}
-
-		debugger; 
-
 	}
 
 	function triangleThing(tiles, index, length){
