@@ -135,6 +135,11 @@ var levelGenerator = function(){
 		
 		longHorizontal(3,  5); // TODO what???
 
+		function nodeage(index, height){
+			this.index = index;
+			this.height = height;
+		}
+		var nodes = [];
 		while (index < length) {
 			var areaSize = 3 + randomInt(12) | 0;
 			// var chance = Math.random() * totalOdds;
@@ -145,6 +150,7 @@ var levelGenerator = function(){
 					type = i;
 				}
 			}
+			nodes.push(new nodeage(index, randomInt(8)));
 			switch (type) {
 				case 0:
 					createGap(tiles, index, areaSize-2);
@@ -174,7 +180,8 @@ var levelGenerator = function(){
 		EndingX = tiles[0].length - 5;
 		return {
 			tiles : tiles,
-			backgroundColor : backgroundColor
+			backgroundColor : backgroundColor,
+			nodes: nodes
 		};
 	}
 
@@ -271,6 +278,44 @@ var levelGenerator = function(){
 		
 	}
 
+	function createHeightMap(map){
+		var len = map.tiles[0].length,
+			i = 0;
+
+		function Node(index, height, end, next){
+			this.index = index;
+			this.height = height;
+			this.length = end;
+			this.nextNode = next;
+
+			this.getLength = function(count){
+				if(!this.nextNode){
+					debugger;
+					return 1;
+				} else {
+					return this.nextNode.getLength() + 1;
+				}
+			}
+
+		}
+		var head = new Node(i, 0, 10);
+		var lastNode = head;
+		i = 10;
+		debugger;
+		while(i < len){
+			var nodeLength = randomInt(0, 10);
+			var height = randomInt(0 , 7);
+			var newNode = new Node(i, height, nodeLength);
+			
+			lastNode.nextNode = newNode;
+			lastNode = newNode;
+			i = i+nodeLength;
+		}
+
+		debugger; 
+
+	}
+
 	function triangleThing(tiles, index, length){
 		/* options
 		   plain triangle
@@ -306,19 +351,18 @@ var levelGenerator = function(){
 	return {
 		createNewMap: function(isRandom, seed){
 			if(!seed){
-				
+
 			} else {
 				setSeed(seed);
 			}
 			var map;
 			if(isRandom){
 				var level = createlevel(); // get level object
-				map = new Map(level.tiles);
-				map.backgroundColor = level.backgroundColor;
+				map = new Map(level);
 			}else {
 				map = new Map();
 			}
-			// map.enemys = this.enemies;
+	
 			map.objects.push(new RiceBall(EndingX, 8));
 			return map;
 		},

@@ -1,8 +1,14 @@
-var Map = function(newtiles){
-		this.enemys = [];
-		this.objects = [];
-		this.backgroundColor = "#0000ff";
-	if(!newtiles){
+var Map = function(level){
+	this.enemys = [];
+	this.objects = [];
+	if(level.nodes){
+		this.nodes = level.nodes;
+	}
+	if(level.backgroundColor){
+		this.backgroundColor = level.backgroundColor;
+	}
+
+	if(!level.tiles){
 
 		this.tiles = [
 			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -137,7 +143,7 @@ var Map = function(newtiles){
 
 
 	} else {
-		this.tiles = newtiles;
+		this.tiles = level.tiles;
 
 	}
 
