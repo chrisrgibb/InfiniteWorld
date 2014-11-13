@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-    	<title> GAMes </title>
+    	<title> LEVEL </title>
    	    <style type="text/css">
 	          canvas{
     		  border: 1px solid black;
@@ -38,8 +38,9 @@
       
     </head>
     <body>
+      <div><a href="../index.html">index</a></div>
       <h1 id="title">levelRenderer Generator in Collision Detection Land </h1>
-      <canvas id="canvas" width="512" height ="384">
+      <canvas id="canvas" width="800" height ="96">
 
       </canvas>
       <button id="go"> GO !!</button>
@@ -49,7 +50,7 @@
         <label for="scale">scale: </label><button id="scale-button" value=1> 1x </button>
 
       </div>
-      <input type="range" id="range" name="points" min="1" max="10">
+      <input type="range" id="range" name="points" min="1" max="100">
       <div id="text"></div>
 
     </body>
@@ -78,25 +79,23 @@
       *
       *
       */
-      document.getElementById('go').addEventListener('click', function(){
+      function updateLevel(){
         var seedValue = rangeSlider.value || 1231231;
         this.map = lg.createNewMap(true, seedValue);
         map = this.map;
         tiles = this.map.tiles;
 
-      	resizeCanvas();
-      	drawMap();
-        console.log("val = " + val);
-      });	
-
+        resizeCanvas();
+        drawMap(); 
+      }
 
       /**
       *
       *
       */
       rangeSlider.addEventListener('change', function(){
+        updateLevel();
 
-        console.log("slide");
         val = rangeSlider.value;
         document.getElementById('text').innerHTML = val;
       });
