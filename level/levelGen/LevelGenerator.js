@@ -1,4 +1,4 @@
-// "DESIGN GRAMMER"
+	// "DESIGN GRAMMER"
 /*
 	level := chunks
 	chunks := chunk | chunk chunks
@@ -119,7 +119,7 @@ var levelGenerator = function(){
 
 
 	function createlevel(){
-		setUpLevel('three');
+		setUpLevel('one');
 		// get theme
 		var length = 100;
 
@@ -139,6 +139,7 @@ var levelGenerator = function(){
 			this.index = index;
 			this.height = height;
 		}
+
 		var nodes = [];
 		while (index < length) {
 			var areaSize = 3 + randomInt(12) | 0;
@@ -151,23 +152,19 @@ var levelGenerator = function(){
 				}
 			}
 			nodes.push(new nodeage(index, randomInt(8)));
+
+
 			switch (type) {
 				case 0:
 					createGap(tiles, index, areaSize-2);
-					// square(tiles, index, areaSize -2 , true);
 					break;
 				case 1:
 					createGap(tiles, index, areaSize-2);
-					// square(tiles, index, areaSize -2 , true);
-					// this.makePlatform(index, size-2);
 					break;
 				case 2:
 					triangleThing(tiles, index, areaSize-2);
-					// square(tiles, index, areaSize -2 , true);
 					break;
 				case 3 :
-					// createGap(tiles, index, areaSize-2);
-					// longVert(tiles, index, 4);
 					fillSquare(tiles, { x :index,
 										y : 4,
 										width : Math.round(areaSize/3),
@@ -205,7 +202,6 @@ var levelGenerator = function(){
 		tiles[6][index] = yellowSkull;
 	}
 
-
 	function fillSquare(tiles, rect, odds){
 		var x = rect.x,
 			y = rect.y,
@@ -221,8 +217,6 @@ var levelGenerator = function(){
 		var i, j;
 		for(i = y; i< y+height; i++){
 			for(j = x; j < x+width; j++){
-				// var newOdds = odds.getNextOdds();
-				// tiles[i][j]= odds ? levelSettings[newOdds]() : 5;
 				tiles[i][j]= odds ? 8 : 5;
 			}
 		}
@@ -295,7 +289,6 @@ var levelGenerator = function(){
 					return this.nextNode.getLength() + 1;
 				}
 			}
-
 		}
 		var head = new Node(i, 0, 10);
 		var lastNode = head;
@@ -346,14 +339,13 @@ var levelGenerator = function(){
 
 	return {
 		createNewMap: function(isRandom, seed){
-			if(!seed){
-
-			} else {
+			var map, level;
+			if(seed){
 				setSeed(seed);
 			}
-			var map;
+
 			if(isRandom){
-				var level = createlevel(); // get level object
+				level = createlevel(); // get level object
 				map = new Map(level);
 			}else {
 				map = new Map();

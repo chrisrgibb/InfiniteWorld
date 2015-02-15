@@ -134,13 +134,17 @@
         map.nodes.forEach(function(n){
           var x = n.index* tileSize;
           var y = n.height * tileSize;
-          ctx.beginPath();
-          ctx.moveTo(oldX, oldY);
-          ctx.lineTo(x, y);
-          ctx.stroke();
+          drawLine(oldX, oldY, x, y);
           oldX = x;
           oldY = y;
         });
+      }
+
+      function drawLine(x, y, dx, dy){
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(dx, dy);
+        ctx.stroke();
       }
 
       function drawTile(num, row, col){

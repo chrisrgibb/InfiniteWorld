@@ -1,4 +1,4 @@
-// main game function
+	// main game function
 var Game = function(argument) { };
 
 Game.fps = 50; // 50 is fps
