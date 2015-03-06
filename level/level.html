@@ -60,20 +60,73 @@
       <script src="levelGen/levelSettings.js"></script>
       <script src="levelGen/noise.js"></script>
       <script src="levelGen/Odds.js"></script>
+      <script src="levelGen/CreateTiles.js"></script>
+      <script src="levelGen/newlevelgen.js"></script>
       <script src="../game/GameObject.js"></script>
       <script>
 
+      function Renderer(levelGenerator){
+        this.canvas = document.getElementById('canvas');
+        this.ctx = canvas.getContext('2d');
+        this.tileSize = 8;
+        this.tileimage = new Image();
+        this.tileimage.src = "../images/tiles8px.png";
 
-      var lg = new levelGenerator(); 
-      var canvas = document.getElementById('canvas');
-      var ctx = canvas.getContext('2d');
+        this.drawMap = function(tiles){
+          for(var row = 0; row < tiles.length; row++ ){
+            for(var col = 0; col < tiles[0].length; col++){
+              var num = tiles[row][col];
+              this.drawTile(num, row, col);
+            }
+          }
+        };
+
+        this.drawTile = function(num, row, col){
+          var tileimage = this.tileimage;
+          var tileSize = this.tileSize;
+          var tx = num % 16;
+          var ty = num / 16 | 0;
+          this.ctx.drawImage(tileimage, tx*tileSize , ty * tileSize, tileSize, tileSize, col * tileSize, row * tileSize, tileSize, tileSize);
+        };
+
+        this.drawLine = function (x, y, dx, dy){
+          var ctx = this.ctx;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(dx, dy);
+          ctx.stroke();
+        }
+
+        this.resizeCanvas = function(){
+          this.canvas.width = tiles[0].length * tileSize;
+          this.canvas.height = tiles.length * tileSize;
+        }
+
+        this.drawHeights = function(map){
+          var ctx = this.ctx;
+          ctx.beginPath();
+          ctx.strokeStyle = "#ff0000";
+          ctx.beginPath();
+          var oldY = this.canvas.height;
+          var oldX = 0;
+          
+          // draw the height
+          map.nodes.forEach(function(n){
+            var x = n.index* tileSize;
+            var y = n.height * tileSize;
+            this.drawLine(oldX, oldY, x, y);
+            oldX = x;
+            oldY = y;
+          }, this);
+        };
+      }
+
+
+      var lg = new levelGen2(); 
       var tiles;
       var map;
       var tileSize = 8;
       var rangeSlider = document.getElementById('range');
-      var val = rangeSlider.value;
-      var tileimage = new Image();
-      tileimage.src = "../images/tiles8px.png";
 
       /**
       *
@@ -82,11 +135,10 @@
       function updateLevel(){
         var seedValue = rangeSlider.value || 1231231;
         this.map = lg.createNewMap(true, seedValue);
-        map = this.map;
         tiles = this.map.tiles;
-
-        resizeCanvas();
-        drawMap(); 
+        var renderer = new Renderer();
+        renderer.drawMap(tiles);
+        renderer.drawHeights(map);
       }
 
       /**
@@ -95,66 +147,14 @@
       */
       rangeSlider.addEventListener('change', function(){
         updateLevel();
-
-        val = rangeSlider.value;
-        document.getElementById('text').innerHTML = val;
+        document.getElementById('text').innerHTML = rangeSlider.value;
       });
 
       /**
       *
       *
       */
-      function resizeCanvas(){
-      	canvas.width = tiles[0].length * tileSize;
-      	canvas.height = tiles.length * tileSize;
-      }
 
-      /**
-      *
-      *
-      */
-      function drawMap(){
-      	for(var row = 0; row < tiles.length; row++ ){
-    			for(var col = 0; col < tiles[0].length; col++){
-            var num = tiles[row][col];
-            drawTile(num, row, col);
-          }
-    		}
-        drawHeights();
-
-      }
-
-      function drawHeights(){
-        ctx.beginPath();
-        ctx.strokeStyle = "#ff0000";
-        ctx.beginPath();
-        var oldY = canvas.height;
-        var oldX = 0;
-        // ctx.moveTo(oldX, oldY);
-        map.nodes.forEach(function(n){
-          var x = n.index* tileSize;
-          var y = n.height * tileSize;
-          drawLine(oldX, oldY, x, y);
-          oldX = x;
-          oldY = y;
-        });
-      }
-
-      function drawLine(x, y, dx, dy){
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(dx, dy);
-        ctx.stroke();
-      }
-
-      function drawTile(num, row, col){
-        var tx = num % 16;
-        var ty = num / 16 | 0;
-
-        ctx.drawImage(tileimage, tx*8 , ty * 8, 8, 8, col * tileSize, row * tileSize, tileSize, tileSize);
-      }
-
-      // function draw
 
       </script>
 

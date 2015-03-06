@@ -180,7 +180,7 @@ Map.prototype.createBlocks = function(){
 		var rowArray = [];
 		for(var x = 0; x < this.getWidth(); x++){
 			var type = this.tiles[y][x];
-
+			
 			switch(type){
 				// blocks that can be broken
 				case 8:

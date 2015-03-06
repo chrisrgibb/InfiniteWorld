@@ -8,7 +8,8 @@ var LevelSettings = function(){
 			"hazard1" : 28,
 			"hazard2" : 27,
 			"breakable" : 11,
-			"unbreakable" : 20
+			"unbreakable" : 20,
+			// "backgroundColor" : 
 		},
 		"two" : {
 			"groundTile" : 13,

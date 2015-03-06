@@ -24,9 +24,10 @@ levelState.prototype.init = function() {
 	this.enemys = [];
 	// this.map = new Map("tiles");
 	// this.map = new Map();
-	var lg = new levelGenerator();
-
-	this.map = lg.createNewMap(true);
+	// var lg = new levelGenerator();
+	var lg = new levelGen2();
+	var isRandom = true;
+	this.map = lg.createNewMap(isRandom);
 
 	this.enemys = this.map.enemys;
 	this.objects = this.map.objects;

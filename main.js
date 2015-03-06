@@ -48,13 +48,6 @@ function init(){
 		HEIGHT = canvas.height;
 		ctx.scale(scale, scale);	
 	}
-
-	// var checkGP = window.setInterval(function() {
- //                if(navigator.getGamepads()[0]) {
- //                    if(!hasGP) $(window).trigger("gamepadconnected");
- //                    window.clearInterval(checkGP);
- //                }
- //            }, 500);
 }
 
 window.addEventListener("load", init);

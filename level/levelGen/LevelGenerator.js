@@ -36,14 +36,8 @@ var levelGenerator = function(){
 		EndingX,
 		randomIzer;
 
-
-	init();
-
-	function init(){
-		console.log("init");
-		setUpLevel(randomTheme());
-	}
-
+	setUpLevel(randomTheme());
+	
 	function setUpLevel(theme){
 		levelSettings.setTheme(theme);
 		groundTile = levelSettings.groundTile();
@@ -129,9 +123,7 @@ var levelGenerator = function(){
 		var odds = oddsFactory.odds;
 		var totalOdds = oddsFactory.totalOdds;
 
-		var index = 12;
-		tiles[4][4] = breakable;
-		tiles[4][5] = unbreakable;
+		var index = 12;	// to start off
 		
 		longHorizontal(3,  5); // TODO what???
 
