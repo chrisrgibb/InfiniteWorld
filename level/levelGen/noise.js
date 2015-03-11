@@ -15,6 +15,9 @@ var Noise = function(seed){
 		},
 		nextInt : function(minInt, maxInt){
 			return Math.round(this.nextNumber(minInt, maxInt));
+		},
+		nextBool : function(){
+			return Math.round(this.nextNumber(0,1))===1;
 		}
 	};
 };
