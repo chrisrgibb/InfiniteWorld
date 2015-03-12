@@ -36,41 +36,6 @@ function Shape(type){
 		array.push(item);
 		return true;
 	};
-
-	this.drawLine = function(x1, y1, dx, dy, tiles){
-
-		// var dx = x2 - x1;
-		// var dy = y2 - y1
-		var x2 = dx + x1;
-		var y2 = dy + y1;
-		if( y2 < 0){
-			y2 = 1;
-		}
-		if( x2 < 0){
-			x2 = 1;
-		}
-		if(y2 > 11){
-			y2 =11;
-		}
-		var y = y1;
-		var error = 0;
-		var derror = Math.abs(dy / (dx!=0 ? dx : 1));
-		for(var x = x1; x <x2; x++){
-			tiles[y][x] = 11;
-			error += derror
-			while( error > 0 && y >= 0){
-				tiles[y][x] = 11;
-				y = y + Math.sign(y2- y1);
-				if(y < 0 ){
-					y = 0;
-				}
-				if( y > 11){
-					y = 11;
-				}
-				error -= 1;
-			}
-		}
-	}
 }
 
 function Line(x1, y1, dx, dy){

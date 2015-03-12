@@ -2,13 +2,6 @@ function TilesCreater(levelHeight, tiles){
 	this.levelHeight = levelHeight || 12 ;
 	var levelHeight = 12;
 	this.tiles = tiles;
-
-
-
-	// return {
-	// 	blankArray : getBlankArray,
-	// 	createGround : this.createGround
-	// }
 }
 
 	/*
@@ -42,13 +35,7 @@ TilesCreater.prototype.createGround = function(tiles, start, length){
 	return this;
 }
 
+TilesCreater.prototype.getBlankMap = function(length, height){
+	return this.blankArray(length, height).createGround(tiles, 0, length).tiles;
+}
 
-
-
-TilesCreater.prototype.createHeights = function(tiles) {
-	var length = tiles[0].length;
-
-
-
-
-};

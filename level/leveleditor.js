@@ -1,4 +1,4 @@
-function Renderer(levelGenerator){
+function Renderer(levelGenerator, tileimage){
   this.canvas = document.getElementById('canvas');
   this.ctx = canvas.getContext('2d');
   this.tileSize = 8;
@@ -66,6 +66,7 @@ function Renderer(levelGenerator){
   var tiles;
   var map;
   var rangeSlider = document.getElementById('range');
+  var renderer = new Renderer();
 
   /**
   *
@@ -77,7 +78,7 @@ function Renderer(levelGenerator){
     tiles = this.map.tiles;
 
     // renderer
-    var renderer = new Renderer();
+    // var renderer = new Renderer();
     renderer.drawMap(tiles);
     renderer.drawHeights(map);
   }
