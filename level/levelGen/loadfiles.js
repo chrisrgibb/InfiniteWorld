@@ -2,17 +2,18 @@ var files = [
 "Map.js",
 "Block.js",
 "levelGen/levelGenerator.js",
-"levelGen/levelSettings.js",
+"levelGen/Settings/levelSettings.js",
 "levelGen/noise.js",
-"levelGen/Odds.js",
+"levelGen/Settings/Odds.js",
 "levelGen/CreateTiles.js",
 "levelGen/newlevelgen.js",
 "levelGen/Shape.js",
 "levelGen/Shape.js",
 "levelGen/ShapeManager.js",
-"levelGen/HeightMap.js",
+"levelGen/Settings/HeightMap.js",
 "leveleditor.js",
 "../game/GameObject.js",
+"levelGen/Chunk.js",
 ];
 
 var graphicsFiles = [

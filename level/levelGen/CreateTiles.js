@@ -1,6 +1,6 @@
-function TilesCreater(levelHeight, tiles){
-	this.levelHeight = levelHeight || 12 ;
-	var levelHeight = 12;
+function TilesCreater(height, tiles){
+	this.height = height || 12 ;
+	this.length = 50;
 	this.tiles = tiles;
 }
 
@@ -35,7 +35,45 @@ TilesCreater.prototype.createGround = function(tiles, start, length){
 	return this;
 }
 
+/*
+ *
+ */
 TilesCreater.prototype.getBlankMap = function(length, height){
+	this.length = length;
+	this.height = height;
 	return this.blankArray(length, height).createGround(tiles, 0, length).tiles;
+}
+
+/*
+ * checks the coordinates make sense and then sets the tile to be what you want
+ */
+
+TilesCreater.prototype.setTile = function(tilenumber, x, y){
+	if(isNaN(tilenumber)){
+		tilenumber = 0;
+	}
+	var bounds = this.checkBounds(x, y);
+	y = bounds.y;
+	x = bounds.x;
+	this.tiles[y][x] = tilenumber;
+}
+
+TilesCreater.prototype.checkBounds = function(x, y){
+	if(x < 0){
+		x = 0;
+	}
+	if(y < 0){
+		y = 0;
+	}
+	if(x > this.length){
+		x = this.length-1;
+	}
+	if(y > this.height){
+		y = this.height -1;
+	}
+	return {
+		x : x,
+		y : y
+	};
 }
 

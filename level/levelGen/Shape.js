@@ -58,6 +58,11 @@ function Line(x1, y1, dx, dy){
 		return vectors;
 }
 
+function shapeFunction(x,offset){
+	var gradient = -0.5;
+	return Math.round(x * gradient) + offset;
+}
+
 function Square(x, y, w, h){
 	var coordinates = [];
 	for(var i = y; i < y+h; i++){
