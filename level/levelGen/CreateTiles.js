@@ -58,6 +58,11 @@ TilesCreater.prototype.setTile = function(tilenumber, x, y){
 	this.tiles[y][x] = tilenumber;
 }
 
+/**
+ * takes a set of coordinates and if they are out of range for the tile map 
+ * sets them to be inside the bounds
+ */
+
 TilesCreater.prototype.checkBounds = function(x, y){
 	if(x < 0){
 		x = 0;
