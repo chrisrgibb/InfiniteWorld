@@ -1,4 +1,4 @@
-var levelState = function(){
+var LevelState = function(){
 
 	this.enemys = [];
 	this.map = null;
@@ -20,14 +20,15 @@ var levelState = function(){
 
 };
 
-levelState.prototype.init = function() {
+LevelState.prototype.init = function(seedValue) {
 	this.enemys = [];
+	seedValue = seedValue || 6;
 	// this.map = new Map("tiles");
 	// this.map = new Map();
 	// var lg = new levelGenerator();
 	var lg = new levelGen2();
 	var isRandom = true;
-	this.map = lg.createNewMap(isRandom, 6);
+	this.map = lg.createNewMap(isRandom, seedValue);
 
 	this.enemys = this.map.enemys;
 	this.objects = this.map.objects;
@@ -36,7 +37,7 @@ levelState.prototype.init = function() {
 };
 
 // If player moves into the tile that the gameobject is in
-levelState.prototype.gameObject = function(x, y){
+LevelState.prototype.gameObject = function(x, y){
 
 	var levelState = this;
 
@@ -56,7 +57,7 @@ levelState.prototype.gameObject = function(x, y){
 };
 
 
-levelState.prototype.punchTile = function(x, y){
+LevelState.prototype.punchTile = function(x, y){
 
 	if(x > this.map.blocks[0].length-1){
 		return;
@@ -117,7 +118,7 @@ levelState.prototype.punchTile = function(x, y){
 	}
 };
 
-levelState.prototype.fireShockwave = function(player){
+LevelState.prototype.fireShockwave = function(player){
 	if(player.dir==1 ){
 		this.shockWave.launch(player.x + (20), player.y, player.dir);
 	}else {
@@ -128,7 +129,7 @@ levelState.prototype.fireShockwave = function(player){
 
 /**
 */
-levelState.prototype.walkedOverBadStuff = function(x, y){
+LevelState.prototype.walkedOverBadStuff = function(x, y){
 	if(x > this.map.blocks[0].length-1 || y > this.map.blocks.length-1){
 		return;
 	}
@@ -153,7 +154,8 @@ levelState.prototype.walkedOverBadStuff = function(x, y){
 
 
 
-levelState.prototype.updateShockwave = function(){
+LevelState.prototype.updateShockwave = function(){
+	var levelstate = this;
 	if(!this.shockWave.dead){
 		this.shockWave.update();
 
@@ -183,7 +185,7 @@ levelState.prototype.updateShockwave = function(){
 
 
 
-levelState.prototype.update = function(){
+LevelState.prototype.update = function(){
 	// remove everything
 	var enemys = this.enemys;
 	var removeEnemys = [];

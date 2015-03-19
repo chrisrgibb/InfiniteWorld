@@ -1,4 +1,4 @@
-var levelRenderer = function(player, camera, map, levelState) {
+var LevelRenderer = function(player, camera, map, levelState) {
 
 	CONSTANTS.tileSize = 16;
 	CONSTANTS.screenWidth = screenWidth = CONSTANTS.tileSize * 16;

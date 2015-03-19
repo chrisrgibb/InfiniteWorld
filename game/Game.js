@@ -28,12 +28,14 @@ Game.update = function(){
 /*
  * Main game loop
  */
+
+ var requestId ;
 Game.run = function(){
 	Game.update();
 	Game.draw();
 	requestAnimationFrame(Game.run);
 	Game.calcFPS();
-
+	Game.running = true;
 };
 
 Game.calcFPS = function(){

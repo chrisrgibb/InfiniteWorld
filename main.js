@@ -13,7 +13,8 @@ var canvas,
 	debug,
 	scale = 2,
 	COUNTER = 0,
-	CONSTANTS = {};
+	CONSTANTS = {},
+	haveScaled = false;
 
 var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
 
@@ -31,14 +32,17 @@ function init(){
 	player = new Player();
 
 	// set up levelRenderers
-	levelState = new levelState();
-	levelState.init();
+	var seedValue = rangeSlider.value;
+	levelState = new LevelState();
+	levelState.init(seedValue);
 	map = levelState.map;
-	levelRenderer = new levelRenderer(player, camera, levelState.map,  levelState);
+	levelRenderer = new LevelRenderer(player, camera, levelState.map,  levelState);
 	objectRenderer = new ObjectRenderer(camera, player, levelState);
 
-	game = Game();
-	Game.run();
+	if(!Game.running){
+	// game = Game();
+		Game.run();
+	}
 
 	function initCanvas(){
 		canvas = document.getElementById('canvas');
@@ -46,15 +50,19 @@ function init(){
 		ctx.imageSmoothingEnabled = false;
 		WIDTH = canvas.width;
 		HEIGHT = canvas.height;
-		ctx.scale(scale, scale);	
+		// TODO use function below to scale
+		if(!haveScaled){
+			ctx.scale(scale, scale);
+			haveScaled =true;
+		}	
 	}
 }
 
 window.addEventListener("load", init);
 
-	var rangeSlider = document.getElementById('range').addEventListener('change', function(){
-	init();
-
+var rangeSlider = document.getElementById('range');
+rangeSlider.addEventListener('change', function(){
+	init(rangeSlider.value);
 });
 
 
