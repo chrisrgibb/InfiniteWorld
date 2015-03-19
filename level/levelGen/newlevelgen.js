@@ -39,21 +39,24 @@ levelGen2.prototype.createChunks = function(tilecreater){
 
 	// split up into chunks
 	var index = 0;
-	var chunkSize = 5;
+
+	var sizeOfFirstChunk = 10;
 	var chunks = [];
 	//
-	var rootChunk = Chunk(index, 0, chunkSize, 10);
+	var length = sizeOfFirstChunk;
+	var rootChunk = Chunk(index, 0, sizeOfFirstChunk, 10);
 	var chunk;
 
 	while(index < this.length){
-		var endOfChunk = 5;
 		// debugger;
 		var offsetX = index;
-		var length = endOfChunk;
+				
 		if(chunk== null){
 			chunk = rootChunk;
 		} else {
-			chunk = new Chunk(index, 0, length, 10);
+			var newLength = this.noise.nextInt(3, 10);
+			length = newLength;
+			chunk = new Chunk(index, 0, newLength, 10);
 		}
 
 		var splitChunk = this.noise.nextBool();
@@ -65,10 +68,10 @@ levelGen2.prototype.createChunks = function(tilecreater){
 
 		chunks.push(chunk);
 
-		index+=endOfChunk;
+		index+=length;
 	}
 
-	chunkManager.randomShape(chunks[0].x, chunks[0].width);
+	// chunkManager.randomShape(chunks[0].x, chunks[0].width);
 
 	var levelGen = this;
 

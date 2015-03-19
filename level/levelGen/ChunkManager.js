@@ -23,7 +23,7 @@ ChunkManager.prototype.randomChunk = function(start, end,child, tileNumber){
 	if(type < 50){
 		this.platform(start, end, child, tileNumber);
 	} else {
-		this.gap(start, end, child, tileNumber);
+		this.gap(star	t, end, child, tileNumber);
 	}
 
 }
