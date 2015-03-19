@@ -41,6 +41,27 @@ function Renderer(levelGenerator, tileimage){
     this.canvas.height = tiles.length * this.tileSize;
   }
 
+  this.drawChunks = function(map){
+    map.chunks.forEach(function(chunk){
+      this.drawChunk(chunk);
+
+    }, this);
+
+  }
+
+  this.drawChunk = function(chunk){
+    chunk.children.forEach(this.drawChunk, this)
+    var ctx = this.ctx,
+    tileSize = this.tileSize;
+    ctx.strokeStyle = "yellow";
+
+    var x = chunk.x * tileSize; 
+    var y = chunk.y * tileSize;
+    var width = chunk.width * tileSize;
+    var height = chunk.height * tileSize; 
+    ctx.strokeRect(x, y, width, height);
+  }
+
   this.drawHeights = function(map){
     var ctx = this.ctx;
     var tileSize = this.tileSize;
@@ -81,6 +102,7 @@ function Renderer(levelGenerator, tileimage){
     // var renderer = new Renderer();
     renderer.drawMap(tiles);
     renderer.drawHeights(map);
+    renderer.drawChunks(map);
   }
 
   /**

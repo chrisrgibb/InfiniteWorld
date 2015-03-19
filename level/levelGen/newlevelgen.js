@@ -2,6 +2,7 @@ var levelGen2 = function() {
 	this.height = 12; // how many tiles there are high
 	this.noise = new Noise(5);
 	this.length = 50;
+	this.chunks = [];
 };
 
 levelGen2.prototype.createNewMap = function(isRandom, seedValue){
@@ -24,12 +25,12 @@ levelGen2.prototype.buildMap = function(levelLength) {
 
 	this.createChunks(tilecreater);
 
-
 	return  {
 		tiles : tiles,
 		backgroundColor : backgroundColor,
 		nodes : [{height : 2, index : 12}],
-		length : levelLength
+		length : levelLength,
+		chunks : this.chunks
 	};
 };
 
@@ -72,6 +73,7 @@ levelGen2.prototype.createChunks = function(tilecreater){
 	var levelGen = this;
 
 	var tileNumber = 1;
+	this.chunks = chunks;
 
 	for(var i = 0; i < chunks.length; i++){
 		if(chunks[i].children.length > 0){

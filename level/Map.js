@@ -7,6 +7,7 @@ var Map = function(level){
 	if(level.backgroundColor){
 		this.backgroundColor = level.backgroundColor;
 	}
+	this.chunks = level.chunks;
 
 	if(!level.tiles){
 
