@@ -5,6 +5,7 @@ var levelGen2 = function() {
 };
 
 levelGen2.prototype.createNewMap = function(isRandom, seedValue){
+	this.noise = new Noise(seedValue);
 	var lengthOfMap = this.length;
 	var level = this.buildMap(lengthOfMap);
 	var map = new Map(level);
@@ -18,21 +19,11 @@ levelGen2.prototype.createNewMap = function(isRandom, seedValue){
 */
 levelGen2.prototype.buildMap = function(levelLength) {
 	var tilecreater = new TilesCreater();
-
 	var tiles = tilecreater.getBlankMap(levelLength, this.height);
-
 	var backgroundColor = "#005200";
 
-	var plat = this.randomPlatform();
+	this.createChunks(tilecreater);
 
-	var thresh = 0.5;
-
-
-	for(var x = 4; x < 8; x++){
-		var y = shapeFunction(x,8);
-		console.log(y);
-		tilecreater.setTile(11, x, y);
-	}
 
 	return  {
 		tiles : tiles,
@@ -42,13 +33,75 @@ levelGen2.prototype.buildMap = function(levelLength) {
 	};
 };
 
+levelGen2.prototype.createChunks = function(tilecreater){
+	var chunkManager = new ChunkManager(tilecreater, this.noise);
 
-levelGen2.prototype.randomPlatform = function(){
-	var array = [];
+	// split up into chunks
+	var index = 0;
+	var chunkSize = 5;
+	var chunks = [];
+	//
+	var rootChunk = Chunk(index, 0, chunkSize, 10);
+	var chunk;
 
-	for (var i = 0 ; i < 10; i++){
-		array.push(Math.random());
+	while(index < this.length){
+		var endOfChunk = 5;
+		// debugger;
+		var offsetX = index;
+		var length = endOfChunk;
+		if(chunk== null){
+			chunk = rootChunk;
+		} else {
+			chunk = new Chunk(index, 0, length, 10);
+		}
+
+		var splitChunk = this.noise.nextBool();
+		if(splitChunk){
+			this.splitIntoTwo(chunk);
+		} else {
+			
+		}
+
+		chunks.push(chunk);
+
+		index+=endOfChunk;
 	}
-	return array;
-}
+
+	chunkManager.randomShape(chunks[0].x, chunks[0].width);
+
+	var levelGen = this;
+
+	var tileNumber = 1;
+
+	for(var i = 0; i < chunks.length; i++){
+		if(chunks[i].children.length > 0){
+			var start = chunks[i].x; var end = chunks[i].width + start;
+			chunks[i].children.forEach(function(child){
+				var x = child.x;
+				var y = child.y;
+				tilecreater.tiles[y][x] = levelGen.noise.nextInt(8,11);
+
+				chunkManager.randomChunk(start, end, child, tileNumber);
+				tileNumber ++;
+			});
+		}
+	}
+};
+
+levelGen2.prototype.splitIntoTwo = function(chunk){
+	var splithorizontal = this.noise.nextBool();
+	if(splithorizontal) {
+		var splitPoint = this.noise.nextInt(3, 7);
+		var chunkOne = Chunk(chunk.x, chunk.y, chunk.width, splitPoint);
+		var chunkTwo = Chunk(chunk.x, splitPoint+1, chunk.width, chunk.height);
+		chunk.children.push(chunkOne, chunkTwo); 
+	}else {
+		var splitPoint = this.noise.nextInt(3, 7);
+		var chunkOne = Chunk(chunk.x, chunk.y, chunk.width, splitPoint);
+		var chunkTwo = Chunk(chunk.x, splitPoint+1, chunk.width, chunk.height);
+		chunk.children.push(chunkOne, chunkTwo); 
+	}
+	
+};
+
 

@@ -58,12 +58,27 @@ function Line(x1, y1, dx, dy){
 		return vectors;
 }
 
-function shapeFunction(x,offset){
-	var gradient = -0.5;
-	return Math.round(x * gradient) + offset;
+function shapeFunction(x,offset, gradient){
+	var gradient = gradient || 0.33;
+	var f = x* gradient;
+	return Math.round(f) + offset;
 }
 
-function Square(x, y, w, h){
+function shapeFunction2(x, offset){
+	var f = Math.sqrt(10 - (x * x)) || 0;
+	return Math.round(f) + offset
+}
+
+function shapeFunction3(x, offset){
+	var f = (x *x*x) / 3 +(2*x)+1;
+ 	return Math.round(f)+ offset;
+}
+
+function SquareFunction(w, h){
+
+}
+
+function makeSquare(x, y, w, h){
 	var coordinates = [];
 	for(var i = y; i < y+h; i++){
 		for(var j = x; j < x+w; j++){
@@ -72,3 +87,5 @@ function Square(x, y, w, h){
 	}
 	return coordinates;
 }
+
+

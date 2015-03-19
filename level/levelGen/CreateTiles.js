@@ -23,7 +23,7 @@ TilesCreater.prototype.blankArray = function (width, height){
 	/**
 	*
 	*/
-TilesCreater.prototype.createGround = function(tiles, start, length){
+TilesCreater.prototype.createGround = function(start, length){
 	var height = 12;
 	var groundTile = 13;
 	var tiles = this.tiles;
@@ -41,7 +41,7 @@ TilesCreater.prototype.createGround = function(tiles, start, length){
 TilesCreater.prototype.getBlankMap = function(length, height){
 	this.length = length;
 	this.height = height;
-	return this.blankArray(length, height).createGround(tiles, 0, length).tiles;
+	return this.blankArray(length, height).createGround(0, length).tiles;
 }
 
 /*
@@ -55,7 +55,9 @@ TilesCreater.prototype.setTile = function(tilenumber, x, y){
 	var bounds = this.checkBounds(x, y);
 	y = bounds.y;
 	x = bounds.x;
-	this.tiles[y][x] = tilenumber;
+	if(!bounds.isOut){
+		this.tiles[y][x] = tilenumber;
+	}
 }
 
 /**
@@ -64,21 +66,27 @@ TilesCreater.prototype.setTile = function(tilenumber, x, y){
  */
 
 TilesCreater.prototype.checkBounds = function(x, y){
+	var outOfBounds = false;
 	if(x < 0){
+		outOfBounds = true;
 		x = 0;
 	}
 	if(y < 0){
+		outOfBounds = true;
 		y = 0;
 	}
-	if(x > this.length){
+	if(x > this.length-1){
+		outOfBounds = true;
 		x = this.length-1;
 	}
-	if(y > this.height){
+	if(y > this.height-1){
+		outOfBounds = true;
 		y = this.height -1;
 	}
 	return {
 		x : x,
-		y : y
+		y : y,
+		isOut : outOfBounds
 	};
 }
 

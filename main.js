@@ -52,6 +52,12 @@ function init(){
 
 window.addEventListener("load", init);
 
+	var rangeSlider = document.getElementById('range').addEventListener('change', function(){
+	init();
+
+});
+
+
 document.getElementById('scale-button').addEventListener('click', function(){
 	if(scale==2){
 		scale = 0.5;
