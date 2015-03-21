@@ -15,6 +15,7 @@ var files = [
 "../game/GameObject.js",
 "levelGen/Chunk.js",
 "levelGen/ChunkManager.js",
+"levelGen/Section.js",
 ];
 
 var graphicsFiles = [

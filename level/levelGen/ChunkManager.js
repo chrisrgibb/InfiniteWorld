@@ -6,27 +6,30 @@ var ChunkManager = function(tiles, noise){
 
 
 
-}
+};
 
 ChunkManager.prototype.getGroundHeight = function(){
 	return this.groundHeight;	
-}
+};
 
 ChunkManager.prototype.chunkone = function(start, end){
 	var platforms = this.noise.nextInt(0,6);
 
 
-}
+};
 
 ChunkManager.prototype.randomChunk = function(start, end,child, tileNumber){
 	var type = this.noise.nextInt(0, 100);
-	if(type < 50){
+	if(type < 25){
 		this.platform(start, end, child, tileNumber);
+	// }
+	// else if(type < 50) {
+		// this.randomShape(start, end);
 	} else {
 		this.gap(start, end, child, tileNumber);
-	}
+	} 
 
-}
+};
 
 ChunkManager.prototype.platform = function(start, end,chunk, tilenumber){
 	var tile = tilenumber || 11;
@@ -35,7 +38,7 @@ ChunkManager.prototype.platform = function(start, end,chunk, tilenumber){
 	for(var x = start; x< end; x++){
 		this.tiles.setTile(tile, x, y);
 	}
-}
+};
 
 ChunkManager.prototype.gap = function(start, end, chunk, tilenumber){
 	var width = this.noise.nextInt(start, end);
@@ -45,7 +48,7 @@ ChunkManager.prototype.gap = function(start, end, chunk, tilenumber){
 			this.tiles.setTile(hazardTile, x, y);
 		}
 	}
-}
+};
 
 ChunkManager.prototype.randomShape = function(start, end){
 	var offsetX = start;
@@ -56,7 +59,7 @@ ChunkManager.prototype.randomShape = function(start, end){
 		this.tiles.setTile(11, x + offsetX, y);
 	}
 
-}
+};
 
 ChunkManager.prototype.box = function(start, end){
 	var sizes = 5;
@@ -71,4 +74,4 @@ ChunkManager.prototype.box = function(start, end){
 		}
 	}
 
-}
+};

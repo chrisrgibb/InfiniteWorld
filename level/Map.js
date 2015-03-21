@@ -216,7 +216,7 @@ Map.prototype.createBlocks = function(){
 		array.push(rowArray);
 	}
 	return array;
-}
+};
 	
 Map.prototype.getTile = function(x, y){
 	return this.blocks[y][x].image;
@@ -224,7 +224,7 @@ Map.prototype.getTile = function(x, y){
 
 Map.prototype.getBlock = function(x, y){
 	return this.blocks[y][x];
-}
+};
 
 
 
@@ -243,18 +243,18 @@ Map.prototype.isBlocking = function(x, y){
 		return 1;
 	}
 
-	if(this.blocks[y][x].image ==0 || this.blocks[y][x].image == 16 || this.blocks[y][x].image ==17){
+	if(this.blocks[y][x].image === 0 || this.blocks[y][x].image == 16 || this.blocks[y][x].image ==17){
 		return 0;
 	}else {
 		return 1;
 	}
 
-}
+};
 
 Map.prototype.getWidth = function(){
 	return this.tiles[0].length;
-}
+};
 
 Map.prototype.getHeight  = function(){
 	return this.tiles.length;
-}
+};

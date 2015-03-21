@@ -203,7 +203,6 @@ var levelGenerator = function(){
 		if( x < 0 || x+width > tiles[y-3].length ||
 			y < 0 || y+height > tiles.length -3){
 			console.warn("Array out of bounds");
-			debugger;
 			return;
 		}
 		var i, j;
