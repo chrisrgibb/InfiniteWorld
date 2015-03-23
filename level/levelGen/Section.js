@@ -6,6 +6,7 @@ function Section(start, length, noise) {
 	this.maxLength = 3;
 	this.noise = noise;
 	this.height = 8;
+	this.typeOfChunk = "randomChunk";
 
 };
 
@@ -41,9 +42,11 @@ Section.prototype.getSplitPoint = function(){
 	} else {
 		var point = this.height;
 		this.height -=2;
+		if(this.height < 0) {
+			this.height = 8;
+		}
 		return point;
 	}
-
 };
 
 Section.prototype.split = function(chunk, noise){

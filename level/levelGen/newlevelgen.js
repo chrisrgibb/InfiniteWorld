@@ -12,7 +12,7 @@ levelGen2.prototype.createNewMap = function(isRandom, seedValue){
 	
 	map.objects.push(new RiceBall(level.length-3, 8));
 	return map;
-}
+};
 
 /**
 *
@@ -22,7 +22,6 @@ levelGen2.prototype.buildMap = function(levelLength) {
 	var tiles = tilecreater.getBlankMap(levelLength, this.height);
 	var backgroundColor = "#005200";
 
-	// this.createChunks(tilecreater);
 	this.createSection(tilecreater);
 
 	return  {
@@ -42,48 +41,26 @@ levelGen2.prototype.createSection = function(tilecreater){
 
 	sectionOne.createChunks(tilecreater, this.noise);
 	this.chunks = sectionOne.chunks;
-	this.assignChunks(tilecreater);
+	// this.assignChunks(tilecreater);
+	var chunkManager = new ChunkManager(tilecreater, this.noise);
+
+	for(var i = 0; i< sectionOne.chunks.length; i++){
+		var chunk = sectionOne.chunks[i];
+		var child = chunk.children[0];
+		if(child){
+			chunkManager[sectionOne.typeOfChunk](child.x, child.width+ child.x, child, 11);
+		// meth
+}
+		// debugger;
 
 
-};
 
-levelGen2.prototype.createChunks = function(tilecreater){
-	
-
-	// split up into chunks
-	var index = 0;
-
-	var chunks = [];
-	//
-	var length = 10;
-	var rootChunk = Chunk(index, 0, length, 10);
-	var chunk;
-
-	while(index < this.length){
-				
-		if(chunk== null){
-			chunk = rootChunk;
-		} else {
-			var newLength = this.noise.nextInt(3, 10);
-			length = newLength;
-			chunk = new Chunk(index, 0, newLength, 10);
-		}
-
-		var splitChunk = this.noise.nextBool();
-		if(splitChunk){
-			this.splitIntoTwo(chunk);
-		} 
-		else {
-			
-		}
-
-		chunks.push(chunk);
-		index+=length;
 	}
-	
-	this.chunks = chunks;
-	
+
 };
+
+
+
 
 /**
 *  Gives the chunks random contents
@@ -105,11 +82,12 @@ levelGen2.prototype.assignChunks = function(tilecreater){
 				tilecreater.tiles[y][x] = this.noise.nextInt(8,11);
 
 				chunkManager.randomChunk(start, end, child, tileNumber);
+
 				tileNumber++;
 
 			}, this);
 		}
 	}
-}	
+};	
 
 
