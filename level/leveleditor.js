@@ -73,8 +73,9 @@ function Renderer(levelGenerator, tileimage){
     
     // draw the height
     map.nodes.forEach(function(n){
-      var x = n.index* tileSize;
-      var y = n.height * tileSize;
+
+      var x = n.x* tileSize;
+      var y = n.y * tileSize;
       this.drawLine(oldX, oldY, x, y);
       oldX = x;
       oldY = y;
