@@ -10,6 +10,18 @@ function Section(start, length, noise) {
 
 };
 
+Section.prototype.platform = function(){
+	var height = this.height;
+	var x = this.start;
+	var maxLength = this.maxLength;
+
+	for(var xo = x; xo < x + maxLength; xo++){
+		var tileNumber = this.randomTile();
+		tilecreater.setTile(tileNumber, xo, height);
+	}
+
+};
+
 
 Section.prototype.gap = function(x, maxLength) {
 	// body...
