@@ -41,24 +41,26 @@ function Renderer(levelGenerator, tileimage){
     this.canvas.height = tiles.length * this.tileSize;
   }
 
-  this.drawChunks = function(map){
-    map.chunks.forEach(function(chunk){
-      this.drawChunk(chunk);
+  this.drawSections = function(map){
+    map.sections.forEach(function(section){
+      this.drawChunk(section);
 
     }, this);
 
   }
 
   this.drawChunk = function(chunk){
-    chunk.children.forEach(this.drawChunk, this)
+    // chunk.children.forEach(this.drawChunk, this)
     var ctx = this.ctx,
     tileSize = this.tileSize;
     ctx.strokeStyle = "yellow";
 
+    var groundHeight = 8;
+
     var x = chunk.x * tileSize; 
-    var y = chunk.y * tileSize;
+    var y = chunk.height * tileSize;
     var width = chunk.width * tileSize;
-    var height = chunk.height * tileSize; 
+    var height = groundHeight * tileSize; 
     ctx.strokeRect(x, y, width, height);
   }
 
@@ -89,6 +91,7 @@ function Renderer(levelGenerator, tileimage){
   var map;
   var rangeSlider = document.getElementById('range');
   var renderer = new Renderer();
+  var levelInfo = {};
 
   /**
   *
@@ -103,7 +106,33 @@ function Renderer(levelGenerator, tileimage){
     // var renderer = new Renderer();
     renderer.drawMap(tiles);
     renderer.drawHeights(map);
-    renderer.drawChunks(map);
+    renderer.drawSections(map);
+  }
+
+  function renderLevelInfo(){
+    levelInfo['difficulty'] = 1;
+    var text = "";
+    for(var key in levelInfo){
+
+      if(levelInfo[key].constructor == Array){
+      
+        var array = levelInfo[key];
+        text += turnIntoText(array);
+      
+      } else{
+        text += "<li> " + key + " : " + levelInfo[key] + "</li>";
+      }
+    }
+    document.getElementById('text').innerHTML = text;
+  }
+
+  function turnIntoText(arr){
+    var text = ""
+    for(var i = 0; i < arr.length; i++){
+      var item = arr[i];
+      text += "<li>height : " + item.height + ", length : " + item.length + "</li>";
+    }
+    return text;
   }
 
   /**
@@ -112,5 +141,7 @@ function Renderer(levelGenerator, tileimage){
   */
   rangeSlider.addEventListener('change', function(){
     updateLevel();
-    document.getElementById('text').innerHTML = rangeSlider.value;
+    levelInfo['seed'] = rangeSlider.value;
+    renderLevelInfo();
+    
   });

@@ -4,6 +4,7 @@ var levelGen2 = function() {
 	this.length = 50;
 	this.chunks = [];
 	this.tilecreater = new TilesCreater();
+	this.difficulty = 1;
 };
 
 /**
@@ -25,33 +26,16 @@ levelGen2.prototype.buildMap = function(levelLength) {
 	var tiles = this.tilecreater.getBlankMap(levelLength, this.height);
 	var backgroundColor = "#005200";
 
+	this.heights = [];
 	this.createSection(this.tilecreater);
 
 	return  {
 		tiles : tiles,
 		backgroundColor : backgroundColor,
-		nodes : this.getHeight(levelLength),
+		nodes : this.heights,
 		length : levelLength,
-		chunks : this.chunks
+		sections : this.sections
 	};
-};
-
-levelGen2.prototype.getHeight = function(length){
-	var startHeight = 10;
-	var iterations = 5;
-	var heights = [{x : 0, y : startHeight }];
-	var variation = 5;
-
-	var iterSize = this.length / iterations | 0;
-
-	for(var i = 1; i< iterations; i++){
-		var dx = heights[i-1].x + iterSize;
-		var height = this.noise.nextInt(0, variation);
-		console.log(height);
-		heights.push({x : dx, y : height } );
-	}
-
-	return heights;
 };
 
 
@@ -60,18 +44,36 @@ levelGen2.prototype.createSection = function(tilecreater){
 
 	var index = 0;
 	var sections = [];
+	levelInfo = {};
+	levelInfo['sections'] = [];
 
-	var section1 = new Section(index, 10, this.noise);
-	var section2 = new Section(index, 25, this.noise);
-	
+	while(index < this.length){
+		var newsize = this.noise.nextInt(5, 25);
+		
+		var section = new Section(index, newsize, this.noise, tilecreater, 8)
 
-	this.platform(10, 4, tilecreater);
-	// section1.platform()
-	this.box(24, 4);
+		levelInfo['sections'].push(section);
 
-	this.randomShape( 20, 5, tilecreater);
-	this.randomShape2( 30, 5, tilecreater);
+		sections.push(section);
+
+		index += newsize;
+	}
+
+
+	// this.randomShape2( 30, 5, tilecreater);
+	// sections[0].randomShape( 20, 5, tilecreater);
+	sections[1].platform(tilecreater);
+	sections[2].createChunks();
+	this.sections = sections;
 };
+
+levelGen2.prototype.applySections = function(){
+	
+	this.sections.forEach(function(section){
+		
+
+	});
+}
 
 
 
@@ -96,75 +98,9 @@ levelGen2.prototype.randomTile = function(){
 	if(odds < 8) {
 		return 10;
 	}
-	// if(odds >  8) {
-		return 9;
-	// }
+	return 9;
 }
 
-levelGen2.prototype.box = function(x, maxLength){
-	var isRandom = this.noise.nextBool(),
-		width, height;
-	if(isRandom){
-		width = this.noise.nextInt(1, 3);
-		height = this.noise.nextInt(2, 4);
-		
-		this.tilecreater.setTile(11, x + width, this.height - height);
-
-	}
-
-}
-
-levelGen2.prototype.randomShape2 = function(x, maxLength, tilecreater){
-	var start = x;
-	var y = 6;
-	var point = {x : x, y : y};
-	var dx = 1;
-	var dy = 0;
-
-	tilecreater.setTile(11, point.x, point.y);
-
-	for(var i = 0; i < maxLength; i++){
-		var changeDir = this.noise.nextBool();
-		if(changeDir) {
-			dx = this.noise.nextInt(0, 1);
-			dy = this.noise.nextInt(-1, 1);
-		}
-
-		point.x += dx;
-		point.y += dy;
-
-		tilecreater.setTile(11, point.x, point.y);
-	}
-}
-
-levelGen2.prototype.randomShape = function(x, maxLength, tilecreater){
-	var directions = {
-		"up" : 0,
-		"right" : 1,
-		"down" : 2
-	};
-	var start = x;
-	var y = 6;
-	var dir = directions.right;
-	var point = {x : x, y : y};
-
-	tilecreater.setTile(11, point.x, point.y);
-
-	for(var i = 0; i < maxLength; i++){
-
-		dir = this.noise.nextInt(0, 2);
-		if(dir===directions.up){
-			point.y--;
-		}
-		if(dir===directions.right){
-			point.x++;
-		}
-		if(dir===directions.down){
-			point.y++;
-		}
-		tilecreater.setTile(11, point.x, point.y);
-	}
-};
 
 
 
