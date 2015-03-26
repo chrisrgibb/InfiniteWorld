@@ -50,7 +50,7 @@ levelGen2.prototype.createSection = function(tilecreater){
 	while(index < this.length){
 		var newsize = this.noise.nextInt(5, 25);
 		
-		var section = new Section(index, newsize, this.noise, tilecreater, 8)
+		var section = new Section(index, newsize, this.noise, tilecreater, 6)
 
 		levelInfo['sections'].push(section);
 
@@ -59,18 +59,14 @@ levelGen2.prototype.createSection = function(tilecreater){
 		index += newsize;
 	}
 
-
-	// this.randomShape2( 30, 5, tilecreater);
-	// sections[0].randomShape( 20, 5, tilecreater);
-	sections[1].platform(tilecreater);
-	sections[2].createChunks();
+	sections[1].createChunks();
 	this.sections = sections;
 };
 
 levelGen2.prototype.applySections = function(){
-	
+
 	this.sections.forEach(function(section){
-		
+
 
 	});
 }

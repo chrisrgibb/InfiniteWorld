@@ -1,11 +1,7 @@
-function Section(start, length, noise, tilecreater, height) {
+function Section(start, width, noise, tilecreater, height) {
 	this.chunks = [];
-	this.start = start;
 	this.x = start;
-	this.length = length;
-	this.width = length;
-	this.minLength = 2;
-	this.maxLength = 3;
+	this.width = width;
 	this.noise = noise;
 	this.height = height;
 	this.typeOfChunk = "randomChunk";
@@ -14,21 +10,46 @@ function Section(start, length, noise, tilecreater, height) {
 };
 
 Section.prototype.createChunks = function(){
-	var chunkSizes = 5;
-	var index = this.start;
-	var end = this.start+ this.length;
-	while(index < end){
-		var odds = this.noise.nextInt(0, 10);
+	this.createPlatforms();
 
-		if(odds < 5){
-			// this.platform(null, index, chunkSizes);
-		} else {
-			this.randomShape(index, chunkSizes, this.tilecreater );
-		}
-		index += chunkSizes;
-	}
+	// var chunkSizes = 5;
+	// var index = this.x;
+	// var end = this.x + this.width;
+	// while(index < end){
+	// 	var odds = this.noise.nextInt(0, 10);
+
+	// 	if(odds < 5){
+	// 		// this.platform(null, index, chunkSizes);
+	// 		this.createPlatforms();
+	// 	} else {
+	// 		// this.randomShape(index, chunkSizes, this.tilecreater );
+	// 	}
+	// 	index += chunkSizes;
+	// }
 
 };
+
+Section.prototype.createPlatforms = function(){
+	var i = this.x;
+	var end = this.x + this.width;
+	var currentHeight = 7;
+	var noise = this.noise;
+	var gapBetween = 3;
+
+	this.getOdds();
+
+	// this.platform(i, 4, currentHeight);
+
+	while(i < end){
+		var width = noise.nextInt(2, 5);
+		var gap = noise.nextInt(1, gapBetween);
+		this.platform(i, width, currentHeight);
+		i = i + width + gap;
+		currentHeight -= 2;
+	}
+
+
+}
 
 
 
@@ -59,17 +80,22 @@ Section.prototype.randomShape = function(x, maxLength, tilecreater){
 
 
 
-Section.prototype.platform = function(tilecreater, start, length){
-	tilecreater = this.tilecreater;
-	var height = this.height;
-	var x =  start || this.start;
+Section.prototype.platform = function(x, width, height){
 	var maxLength = length || this.maxLength;
 
-	for(var xo = x; xo < x + maxLength; xo++){
+	// var randomTile
+	var otherTile = this.noise.nextBool();
+
+	var odds = {
+
+	}
+
+	for(var xo = x; xo < x + width; xo++){
 		var tileNumber = this.randomTile();
-		tilecreater.setTile(tileNumber, xo, height);
+		this.tilecreater.setTile(tileNumber, xo, height);
 	}
 };
+
 
 Section.prototype.box = function(x, maxLength){
 
@@ -81,6 +107,27 @@ Section.prototype.box = function(x, maxLength){
 Section.prototype.gap = function(x, maxLength) {
 	// body...
 };
+
+/**
+** {Map}
+*/
+Section.prototype.getOdds = function(odds){
+	/**
+	** Odds is a map of the probabilites of a number you want
+	{ probability : value}
+
+	*/
+	odds = odds || { 
+					 2  : 9,   // star (money)
+					 1  : 10,  // skulls ( jitters)
+					 10 : 11,  // breakable
+					 1  : 12   // unbreakable
+					  };
+
+	
+
+
+}
 
 
 Section.prototype.randomTile = function(){
