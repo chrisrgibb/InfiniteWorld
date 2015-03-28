@@ -39,8 +39,4 @@ RandomShape.prototype.create = function(tiles) {
 		tiles.setTile(11, this.points[i].x, this.points[i].y);
 	}
 
-	// for(x = this.x ; x < this.width + this.x; x++){
-	// 	this.tilecreater.setTile(tileNumber, x, this.y);
-	// }
-
 };

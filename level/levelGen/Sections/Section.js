@@ -100,6 +100,22 @@ Section.prototype.getOdds = function(odds){
 	}
 }
 
+Section.prototype.platform = function(x, width, height){
+	var maxLength = length || this.maxLength;
+
+	// var randomTile
+	var otherTile = this.noise.nextBool();
+
+	var odds = {
+
+	}
+
+	for(var xo = x; xo < x + width; xo++){
+		var tileNumber = this.randomTile();
+		this.tilecreater.setTile(tileNumber, xo, height);
+	}
+};
+
 
 Section.prototype.randomTile = function(){
 	var odds = this.noise.nextInt(0, 7);
