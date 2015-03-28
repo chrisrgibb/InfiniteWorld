@@ -10,7 +10,10 @@ var files = [
 "levelGen/Settings/HeightMap.js",
 "leveleditor.js",
 "../game/GameObject.js",
-"levelGen/Section.js",
+"levelGen/Sections/Section.js",
+"levelGen/Sections/Box.js",
+"levelGen/Sections/Gap.js",
+
 ];
 
 var graphicsFiles = [

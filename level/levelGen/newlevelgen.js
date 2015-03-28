@@ -60,6 +60,7 @@ levelGen2.prototype.createSection = function(tilecreater){
 	}
 
 	sections[1].createChunks();
+	sections[2].createBox();
 	this.sections = sections;
 };
 
