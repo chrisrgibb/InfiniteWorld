@@ -40,6 +40,33 @@ levelGen2.prototype.buildMap = function(levelLength) {
 };
 
 
+levelGen2.prototype.createSection = function(tilecreater){
+
+
+	var index = 0;
+	var sections = [];
+	levelInfo = {};
+	levelInfo['sections'] = [];
+
+	while(index < this.length){
+		var newsize = this.noise.nextInt(5, 25);
+		
+		var section = new Section(index, newsize, this.noise, tilecreater, 6)
+		section.height = index == 10 ? 0 : this.noise.nextInt(5, 10);
+
+		levelInfo['sections'].push(section);
+
+		sections.push(section);
+
+		index += newsize;
+	}
+
+	sections[1].createChunks();
+	// sections[2].createBox();
+	sections[2].randomShape();
+	this.sections = sections;
+};
+
 levelGen2.prototype.applySections = function(){
 
 	this.sections.forEach(function(section){

@@ -65,42 +65,6 @@ Section.prototype.gap = function(x, maxLength) {
 };
 
 
-/**
-** {Map}
-*/
-Section.prototype.getOdds = function(odds){
-	/**
-	** Odds is a map of the probabilites of a number you want
-	{ probability : value}
-
-	*/
-	odds = odds || { 
-					 9  : 2,   // star (money)
-					 10  : 1,  // skulls ( jitters)
-					 11 : 10,  // breakable
-					 12  : 1   // unbreakable
-					  };
-	var calculatedOdds = {};
-
-  	var total = 0;
-  	// add up odds
-	for(var key in odds){
-		var val = odds[key]
-		total += val;
-		odds[key] = total;
-	}
-	var chance = this.noise.nextInt(1,14);
-	for(var key in odds){
-		var val = odds[key];
-		if(val >= chance){
-			// remove the choice from the array of odds
-			odds[key]--;
-			this.blocks.push(key);
-			return;
-		}
-	}
-}
-
 Section.prototype.randomTile = function(){
 	var odds = this.noise.nextInt(0, 7);
 	if(odds < 6){
