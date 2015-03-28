@@ -21,7 +21,6 @@ Section.prototype.createChunks = function(type){
 	} else if( type == "gap"){
 		this.gap(this.x, 5);
 	} 
-	
 };
 
 Section.prototype.createPlatforms = function(){
@@ -38,9 +37,11 @@ Section.prototype.createPlatforms = function(){
 	while(i < end){
 		var width = noise.nextInt(1, 4);
 		var gap = noise.nextInt(1, gapBetween);
-		this.platform(i, width, currentHeight);
+		// this.platform(i, width, currentHeight);
+		new Platform(i, currentHeight, width).create(this.tilecreater);
+
 		i = i + width + gap;
-		currentHeight -= 2;
+		currentHeight -= noise.nextInt(1, 2);
 	}
 }
 
@@ -58,11 +59,11 @@ Section.prototype.createBox = function(){
 	box.create(this.tilecreater);
 }
 
-
 Section.prototype.gap = function(x, maxLength) {
 	var gap = new Gap(x, 10, 4, 2);
 	gap.create(this.tilecreater);
 };
+
 
 /**
 ** {Map}
@@ -99,23 +100,6 @@ Section.prototype.getOdds = function(odds){
 		}
 	}
 }
-
-Section.prototype.platform = function(x, width, height){
-	var maxLength = length || this.maxLength;
-
-	// var randomTile
-	var otherTile = this.noise.nextBool();
-
-	var odds = {
-
-	}
-
-	for(var xo = x; xo < x + width; xo++){
-		var tileNumber = this.randomTile();
-		this.tilecreater.setTile(tileNumber, xo, height);
-	}
-};
-
 
 Section.prototype.randomTile = function(){
 	var odds = this.noise.nextInt(0, 7);

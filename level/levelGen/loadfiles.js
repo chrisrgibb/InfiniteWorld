@@ -8,12 +8,14 @@ var files = [
 "levelGen/CreateTiles.js",
 "levelGen/newlevelgen.js",
 "levelGen/Settings/HeightMap.js",
+"levelGen/Settings/Odds.js",
 "leveleditor.js",
 "../game/GameObject.js",
 "levelGen/Sections/Section.js",
 "levelGen/Sections/Box.js",
 "levelGen/Sections/Gap.js",
 "levelGen/Sections/RandomShape.js",
+"levelGen/Sections/Platform.js",
 
 ];
 
