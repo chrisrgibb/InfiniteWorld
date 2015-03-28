@@ -12,8 +12,6 @@ function Section(start, width, noise, tilecreater, height) {
 };
 
 
-
-
 Section.prototype.createChunks = function(type){
 	if(type==null){
 		this.createPlatforms();
@@ -23,6 +21,10 @@ Section.prototype.createChunks = function(type){
 	} 
 };
 
+
+
+
+
 Section.prototype.createPlatforms = function(){
 	// setup 
 	var i = this.x,
@@ -31,14 +33,15 @@ Section.prototype.createPlatforms = function(){
 		noise = this.noise,
 		gapBetween = 3;//noise.nextInt(0,3);
 
-	this.getOdds();
-
 	// this.platform(i, 4, currentHeight);
 	while(i < end){
 		var width = noise.nextInt(1, 4);
 		var gap = noise.nextInt(1, gapBetween);
 		// this.platform(i, width, currentHeight);
-		new Platform(i, currentHeight, width).create(this.tilecreater);
+		if(i + width < end){
+			new Platform(i, currentHeight, width).create(this.tilecreater);
+		}
+		
 
 		i = i + width + gap;
 		currentHeight -= noise.nextInt(1, 2);
@@ -59,9 +62,17 @@ Section.prototype.createBox = function(){
 	box.create(this.tilecreater);
 }
 
-Section.prototype.gap = function(x, maxLength) {
-	var gap = new Gap(x, 10, 4, 2);
+Section.prototype.gap = function() {
+	var y = 10; // ground level
+	var width = this.noise.nextInt(4, 10); 
+	var height = 2;
+
+	var gap = new Gap(this.x, y, width, height);
 	gap.create(this.tilecreater);
+	
+	if(width > 5){
+		gap.createPlatforms(this.tilecreater, this.noise);
+	}
 };
 
 

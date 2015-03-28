@@ -27,3 +27,21 @@ Gap.prototype.create = function(tiles) {
 	}
 
 };
+
+Gap.prototype.createPlatforms = function(tiles, noise){
+	var x = this.x,
+		width = this.x + this.width;
+	var height = noise.nextInt(8 , 9);
+	
+	while(x < width){
+		var placing = noise.nextInt(0, 4);
+		// place blocks
+		x += placing;
+		tiles.setTile(11, x, 8 );
+		
+
+	}
+
+
+
+}

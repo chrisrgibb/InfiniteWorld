@@ -61,16 +61,28 @@ levelGen2.prototype.createSection = function(tilecreater){
 		index += newsize;
 	}
 
-	sections[1].createChunks();
-	// sections[2].createBox();
-	sections[2].randomShape();
 	this.sections = sections;
+	this.applySections();
 };
 
 levelGen2.prototype.applySections = function(){
 
-	this.sections.forEach(function(section){
+	var odds = new Odds({
+		"createPlatforms" : 10,
+		"randomShape" :  10,
+		"gap" : 20,
+		"createBox" : 10
+	})
 
+
+	this.sections.forEach(function(section, index){
+		if(index > 0){
+			// get method
+			var func = odds.calc(); 
+			// call method
+			section[func]();
+		}
+		
 
 	});
 }
