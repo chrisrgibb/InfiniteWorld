@@ -13,6 +13,7 @@ var files = [
 "levelGen/Sections/Section.js",
 "levelGen/Sections/Box.js",
 "levelGen/Sections/Gap.js",
+"levelGen/Sections/RandomShape.js",
 
 ];
 

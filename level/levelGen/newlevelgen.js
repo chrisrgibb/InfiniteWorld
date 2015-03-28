@@ -60,7 +60,8 @@ levelGen2.prototype.createSection = function(tilecreater){
 	}
 
 	sections[1].createChunks();
-	sections[2].createBox();
+	// sections[2].createBox();
+	sections[2].randomShape();
 	this.sections = sections;
 };
 

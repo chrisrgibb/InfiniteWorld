@@ -44,6 +44,12 @@ Section.prototype.createPlatforms = function(){
 	}
 }
 
+Section.prototype.randomShape = function(){
+	var shape = new RandomShape(this.x, 6, 4, this.noise);
+	shape.create(this.tilecreater);
+
+}
+
 Section.prototype.createBox = function(){
 	var height = 4, width = 2;
 	var startY = this.groundLevel - height;
@@ -51,51 +57,6 @@ Section.prototype.createBox = function(){
 	var box = new Box(this.x, startY, width, height);
 	box.create(this.tilecreater);
 }
-
-
-
-
-Section.prototype.randomShape = function(x, maxLength, tilecreater){
-	var start = x;
-	var y = 6;
-	var point = {x : x, y : y};
-	var dx = 1;
-	var dy = 0;
-
-	tilecreater.setTile(11, point.x, point.y);
-
-	for(var i = 0; i < maxLength; i++){
-		var changeDir = this.noise.nextBool();
-		if(changeDir) {
-			dx = this.noise.nextInt(0, 1);
-			dy = this.noise.nextInt(-1, 1);
-		}
-
-		point.x += dx;
-		point.y += dy;
-
-		tilecreater.setTile(11, point.x, point.y);
-	}
-}
-
-
-
-
-Section.prototype.platform = function(x, width, height){
-	var maxLength = length || this.maxLength;
-
-	// var randomTile
-	var otherTile = this.noise.nextBool();
-
-	var odds = {
-
-	}
-
-	for(var xo = x; xo < x + width; xo++){
-		var tileNumber = this.randomTile();
-		this.tilecreater.setTile(tileNumber, xo, height);
-	}
-};
 
 
 Section.prototype.gap = function(x, maxLength) {
