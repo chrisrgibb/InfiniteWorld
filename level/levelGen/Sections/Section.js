@@ -45,7 +45,11 @@ Section.prototype.createPlatforms = function(){
 }
 
 Section.prototype.createBox = function(){
-	this.box(this.x, 2, 4);
+	var height = 4, width = 2;
+	var startY = this.groundLevel - height;
+
+	var box = new Box(this.x, startY, width, height);
+	box.create(this.tilecreater);
 }
 
 
@@ -94,40 +98,9 @@ Section.prototype.platform = function(x, width, height){
 };
 
 
-Section.prototype.box = function(x, length, height){
-	var startY = this.groundLevel - height;
-
-	var box = new Box(x, startY, 2, height);
-	box.create(this.tilecreater);
-
-};
-
-
 Section.prototype.gap = function(x, maxLength) {
-	// difficulty - how long and blocks
-	// does it have feelers coming out of gap
-	// 
-	var easy = true;
-	var noise = this.noise, tilecreater = this.tilecreater;
-
-	var length = easy ? noise.nextInt(1, 3) : noise.nextInt(4, 8);
-
-	var groundLevel = this.groundLevel; 
-	var levelHeight = 12;
-	var topTile = 28;
-	var bottomTile = 27;
-
-
-	for(var y = groundLevel; y < levelHeight; y++){
-		// do the top layer first
-		var hazardTile = groundLevel === y ? topTile : bottomTile;
-
-		for(var xx = x; xx < x +length; xx++){
-			tilecreater.setTile(hazardTile, xx, y);
-		}
-	}
-
-	// body...
+	var gap = new Gap(x, 10, 4, 2);
+	gap.create(this.tilecreater);
 };
 
 /**
