@@ -82,6 +82,9 @@ levelGen2.prototype.applySections = function(){
 			var func = odds.calc(); 
 			// call method
 			section[func]();
+
+			section.doBlocks();
+
 		}
 	});
 }

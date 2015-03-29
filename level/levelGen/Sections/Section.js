@@ -23,13 +23,12 @@ Section.prototype.createPlatforms = function(){
 
 	// create first gap
 
-
 	while(i < end){
 		var width = noise.nextInt(1, 4);
 		var gap = noise.nextInt(1, gapBetween);
 		// this.platform(i, width, currentHeight);
 		if(i + width < end){
-			new Platform(i, currentHeight, width).create(this.tilecreater);
+			this.blocks.push( new Platform(i, currentHeight, width) );
 		}
 		
 		i = i + width + gap;
@@ -45,17 +44,20 @@ Section.prototype.firstSection = function(){
 
 Section.prototype.randomShape = function(){
 	var shape = new RandomShape(this.x, 6, 4, this.noise);
-	shape.create(this.tilecreater);
 
-}
+	this.blocks.push(shape);
+};
+
 
 Section.prototype.createBox = function(){
 	var height = 4, width = 2;
 	var startY = this.groundLevel - height;
 
 	var box = new Box(this.x, startY, width, height);
-	box.create(this.tilecreater);
-}
+
+	this.blocks.push(box);
+};
+
 
 Section.prototype.gap = function() {
 	var y = 10, // ground level
@@ -75,8 +77,12 @@ Section.prototype.gap = function() {
 	}
 
 	this.blocks.push(gap);
-	
-	gap.create(this.tilecreater);
-	
+
 };
+
+Section.prototype.doBlocks = function(){
+	this.blocks.forEach(function(block){
+		block.create(this.tilecreater);
+	}, this);
+}
 
