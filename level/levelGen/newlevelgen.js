@@ -4,7 +4,7 @@ var levelGen2 = function() {
 	this.length = 50;
 	this.chunks = [];
 	this.tilecreater = new TilesCreater();
-	this.difficulty = 1;
+	this.difficulty = this.noise.nextInt(1, 3);
 };
 
 /**
@@ -49,9 +49,10 @@ levelGen2.prototype.createSection = function(tilecreater){
 	levelInfo['sections'] = [];
 
 	while(index < this.length){
-		var newsize = this.noise.nextInt(5, 25);
+		var newsize = this.noise.nextInt(5, 10);
 		
-		var section = new Section(index, newsize, this.noise, tilecreater, 6)
+		var section = new Section(index, newsize, this.noise, tilecreater, 6, this.difficulty)
+		
 		section.height = index == 10 ? 0 : this.noise.nextInt(5, 10);
 
 		levelInfo['sections'].push(section);
@@ -70,9 +71,9 @@ levelGen2.prototype.applySections = function(){
 	var odds = new Odds({
 		"createPlatforms" : 10,
 		"randomShape" :  10,
-		"gap" : 20,
+		"gap" : 10,
 		"createBox" : 10
-	})
+	});
 
 
 	this.sections.forEach(function(section, index){
@@ -82,27 +83,8 @@ levelGen2.prototype.applySections = function(){
 			// call method
 			section[func]();
 		}
-		
-
 	});
 }
-
-
-levelGen2.prototype.randomTile = function(){
-	var odds = this.noise.nextInt(0, 10);
-	if(odds < 6){
-		return 11;
-	}
-	if(odds < 7){
-		return 12;
-	} 
-	if(odds < 8) {
-		return 10;
-	}
-	return 9;
-}
-
-
 
 levelGen2.prototype.getHeights = function(){
 	this.sections.forEach(function(section){

@@ -1,4 +1,4 @@
-function Section(start, width, noise, tilecreater, height) {
+function Section(start, width, noise, tilecreater, height, difficulty) {
 	this.chunks = [];
 	this.x = start;
 	this.width = width;
@@ -8,21 +8,9 @@ function Section(start, width, noise, tilecreater, height) {
 	this.tilecreater = tilecreater;
 	this.blocks = [];
 	this.groundLevel = 10;
+	this.difficulty = difficulty;
 
 };
-
-
-Section.prototype.createChunks = function(type){
-	if(type==null){
-		this.createPlatforms();
-		this.gap(this.x, 10);
-	} else if( type == "gap"){
-		this.gap(this.x, 5);
-	} 
-};
-
-
-
 
 
 Section.prototype.createPlatforms = function(){
@@ -33,7 +21,9 @@ Section.prototype.createPlatforms = function(){
 		noise = this.noise,
 		gapBetween = 3;//noise.nextInt(0,3);
 
-	// this.platform(i, 4, currentHeight);
+	// create first gap
+
+
 	while(i < end){
 		var width = noise.nextInt(1, 4);
 		var gap = noise.nextInt(1, gapBetween);
@@ -42,10 +32,15 @@ Section.prototype.createPlatforms = function(){
 			new Platform(i, currentHeight, width).create(this.tilecreater);
 		}
 		
-
 		i = i + width + gap;
 		currentHeight -= noise.nextInt(1, 2);
 	}
+}
+
+
+Section.prototype.firstSection = function(){
+
+
 }
 
 Section.prototype.randomShape = function(){
@@ -63,25 +58,25 @@ Section.prototype.createBox = function(){
 }
 
 Section.prototype.gap = function() {
-	var y = 10; // ground level
-	var width = this.noise.nextInt(4, 10); 
-	var height = 2;
+	var y = 10, // ground level
+		height = 2,
+		width,
+		gap;
 
-	var gap = new Gap(this.x, y, width, height);
+	if(this.difficulty == 1){
+		width = 1;
+		gap = new Gap(this.x + 1, y, width, height);
+		gap.create(this.tilecreater);
+		gap = new Gap(this.x + 3, y, width, height);
+
+	} else {
+		width = this.noise.nextInt(1, this.width -1);
+		gap = new Gap(this.x + 1, y, width, height);
+	}
+
+	this.blocks.push(gap);
+	
 	gap.create(this.tilecreater);
 	
-	if(width > 5){
-		gap.createPlatforms(this.tilecreater, this.noise);
-	}
 };
 
-
-Section.prototype.randomTile = function(){
-	var odds = this.noise.nextInt(0, 7);
-	if(odds < 6){
-		return 11; // breakable
-	}
-	if(odds < 7){
-		return 9; // star
-	}
-}

@@ -110,7 +110,7 @@ function Renderer(levelGenerator, tileimage){
   }
 
   function renderLevelInfo(){
-    levelInfo['difficulty'] = 1;
+    levelInfo['difficulty'] = lg.difficulty;
     var text = "";
     for(var key in levelInfo){
 

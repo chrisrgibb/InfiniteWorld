@@ -1,4 +1,4 @@
-function Gap(x, y, width, height){
+function Gap(x, y, width, height, difficulty){
 	// difficulty - how long and blocks
 	// does it have feelers coming out of gap
 	// 	
@@ -6,6 +6,7 @@ function Gap(x, y, width, height){
 	this.y = y;
 	this.width = width;
 	this.height = height;
+	this.difficulty = difficulty || 1; 
 
 	var levelHeight = 12;
 	var topTile = 28;
@@ -14,7 +15,12 @@ function Gap(x, y, width, height){
 }
 
 Gap.prototype.create = function(tiles) {
-	// var topOfGap = 
+	this.createGap(tiles);
+
+};
+
+
+Gap.prototype.createGap = function(tiles){
 	var topTile = 28;
 	var bottomTile = 27;
 
@@ -26,22 +32,19 @@ Gap.prototype.create = function(tiles) {
 		}
 	}
 
-};
+}
 
 Gap.prototype.createPlatforms = function(tiles, noise){
 	var x = this.x,
 		width = this.x + this.width;
-	var height = noise.nextInt(8 , 9);
+	var height = noise.nextInt(10 - this.height , 9);
 	
 	while(x < width){
 		var placing = noise.nextInt(0, 4);
 		// place blocks
 		x += placing;
 		tiles.setTile(11, x, 8 );
-		
-
+	
 	}
-
-
 
 }
