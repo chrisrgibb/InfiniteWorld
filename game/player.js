@@ -325,8 +325,8 @@ Player.prototype.moveX = function(dX, dY){
 			return;
 		}
 
-		tileX2 = map.isBlocking(ax, yBotttom);
-		tileX1 = map.isBlocking(ax, yTop);
+		tileX2 = levelState.map.isBlocking(ax, yBotttom);
+		tileX1 = levelState.map.isBlocking(ax, yTop);
 
 		// For DEBUGGINS
 		if( tileX1 ) {
@@ -355,8 +355,8 @@ Player.prototype.moveX = function(dX, dY){
 		yBotttom = 	(-1 + this.y + this.height/2) / 16 | 0;
 
 
-		tileX2 = map.isBlocking(ax, yBotttom);
-		tileX1 = map.isBlocking(ax, yTop);
+		tileX2 = levelState.map.isBlocking(ax, yBotttom);
+		tileX1 = levelState.map.isBlocking(ax, yTop);
 
 		if(tileX1) {
 			levelRenderer.addToHighLights(ax, yTop, "#9BF0E9");

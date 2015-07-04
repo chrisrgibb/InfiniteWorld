@@ -6,7 +6,7 @@ function RandomShape(x, y, width, noise){
 	this.points = [{x : x, y: y}];
 	var dx = 0, dy = 0;
 
-	var maxLength = this.width + 2;
+	var maxLength = this.width;
 	var point = { x : x, y : y };
 
 	for(var i = 0; i < maxLength; i++){
@@ -18,12 +18,12 @@ function RandomShape(x, y, width, noise){
 			dy = this.noise.nextInt(-1, 1);
 		}
 
-
 		newPoint = { x : point.x + dx,
 					 y : point.y + dy };
+		if(newPoint.y > 9) {
+			newPoint.y = 9;
+		}
 
-		// point.x += dx;
-		// point.y += dy;
 		this.points.push(newPoint);
 		point = newPoint;
 	}
@@ -36,7 +36,7 @@ RandomShape.prototype.create = function(tiles) {
 
 	var tileNumber = 11;
 	for(var i = 0; i< this.points.length; i++){
-		tiles.setTile(11, this.points[i].x, this.points[i].y);
+		tiles.setTile(10, this.points[i].x, this.points[i].y);
 	}
 
 };

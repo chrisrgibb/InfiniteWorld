@@ -1,4 +1,4 @@
-function Odds(config){
+function Odds(config, noise){
 	/**
 	* config is a map of the probabilites of a number you want
 	* { probability : value}
@@ -8,6 +8,8 @@ function Odds(config){
 		"box" : 5,
 		"gap" : 10
 	};
+
+	this.noise = noise;
 };
 
 
@@ -23,7 +25,7 @@ Odds.prototype.calc = function() {
 	}
 	
 	// var chance = this.noise.nextInt(1,14);
-	var chance = Math.random() * total | 0;
+	var chance = this.noise.nextInt(0, total);
 	
 	for(var key in calculatedOdds){
 		var val = calculatedOdds[key];

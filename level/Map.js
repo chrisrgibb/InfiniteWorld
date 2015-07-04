@@ -155,9 +155,6 @@ var Map = function(level){
 	// create enemies
 
 
-
-
-
 };
 
 Map.prototype.createBlocks = function(){

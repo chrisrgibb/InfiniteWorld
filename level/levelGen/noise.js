@@ -3,6 +3,7 @@
 var Noise = function(seed){
 	//http://mrl.nyu.edu/~perlin/noise/
 	var _randomSeed = seed || 6;
+	console.log("New noise " + seed);
 	// _randomSeed = (_randomSeed * 9301 + 49297) % 233280;
 	// var rnd = _randomSeed / 233280;
 	return {
@@ -11,6 +12,7 @@ var Noise = function(seed){
 			var min = maxInt ? minInt : 0;
 			_randomSeed = (_randomSeed * 9301 + 49297) % 233280;
 			var rnd = _randomSeed / 233280;
+			var nummm = min + rnd * (max - min);
 			return Math.round(min + rnd * (max - min));
 		},
 		nextInt : function(minInt, maxInt){

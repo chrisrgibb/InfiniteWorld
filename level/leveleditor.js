@@ -67,21 +67,24 @@ function Renderer(levelGenerator, tileimage){
   this.drawHeights = function(map){
     var ctx = this.ctx;
     var tileSize = this.tileSize;
-    ctx.beginPath();
+
     ctx.strokeStyle = "#ff0000";
+    ctx.lineWidth = 2;
     ctx.beginPath();
     var oldY = this.canvas.height;
     var oldX = 0;
     
     // draw the height
+    // var lastHeight = null;
     map.nodes.forEach(function(n){
 
-      var x = n.x* tileSize;
+      var x = n.x * tileSize;
       var y = n.y * tileSize;
-      this.drawLine(oldX, oldY, x, y);
+      this.drawLine(oldX, oldY, x, oldY);
       oldX = x;
       oldY = y;
     }, this);
+     ctx.lineWidth = 1;
   };
 }
 

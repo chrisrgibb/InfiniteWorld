@@ -112,12 +112,11 @@ var LevelRenderer = function(player, camera, map, levelState) {
 		getMap : function(){
 			return map;
 		},
-		draw : draw,
-		addToHighLights : addToHighLights,
-		screenHeight : CONSTANTS.screenHeight,
-		screenWidth  : CONSTANTS.screenWidth,
-		camera : camera,
-		tileSheet : tileSheet
+			draw : draw,
+			addToHighLights : addToHighLights,
+			screenHeight : CONSTANTS.screenHeight,
+			screenWidth  : CONSTANTS.screenWidth,
+			camera : camera,
+			tileSheet : tileSheet
 		};
-
 };

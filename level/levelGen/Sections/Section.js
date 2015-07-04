@@ -17,7 +17,7 @@ Section.prototype.createPlatforms = function(){
 	// setup 
 	var i = this.x,
 		end = this.x + this.width,
-		currentHeight = 7,
+		currentHeight = this.height,
 		noise = this.noise,
 		gapBetween = 3;//noise.nextInt(0,3);
 
@@ -50,7 +50,21 @@ Section.prototype.randomShape = function(){
 
 
 Section.prototype.createBox = function(){
-	var height = 4, width = 2;
+	var sizes = [ { 
+		h : 4,
+		w  : 2
+	},{
+	 	h : 1,
+	 	w : 4
+	},{
+		h : 3,
+		w : 2
+	}];
+	var size = this.noise.nextInt(0, sizes.length - 1);
+
+	var width = sizes[size].w,
+		height = sizes[size].h;
+
 	var startY = this.groundLevel - height;
 
 	var box = new Box(this.x, startY, width, height);
@@ -69,7 +83,7 @@ Section.prototype.gap = function() {
 		width = 1;
 		gap = new Gap(this.x + 1, y, width, height);
 		gap.create(this.tilecreater);
-		gap = new Gap(this.x + 3, y, width, height);
+		gap = new Gap(this.x + 4, y, width, height);
 
 	} else {
 		width = this.noise.nextInt(1, this.width -1);
