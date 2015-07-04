@@ -3,13 +3,11 @@ var canvas,
 	ctx,
 	WIDTH,
 	HEIGHT,
-	player,
 	game,
 	camera,
 	levelRenderer,
 	objectRenderer,
 	map,
-	levelState,
 	debug,
 	scale = 2,
 	COUNTER = 0,
@@ -24,16 +22,21 @@ var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webki
 })();
 
 function init(){
+
+
 	camera = new Camera();
 	debug = new Debugger();
 
 	initCanvas();
 
-	player = new Player();
+	var player = Game.player = new Player();
+
 
 	// set up levelRenderers
 	var seedValue = rangeSlider.value;
-	levelState = new LevelState();
+
+
+	var levelState = Game.levelState = new LevelState();
 	levelState.init(seedValue);
 	map = levelState.map;
 	levelRenderer = new LevelRenderer(player, camera, levelState.map,  levelState);

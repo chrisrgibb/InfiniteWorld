@@ -37,7 +37,7 @@ LevelState.prototype.init = function(seedValue) {
 };
 
 // If player moves into the tile that the gameobject is in
-LevelState.prototype.gameObject = function(x, y){
+LevelState.prototype.checkForCollisions = function(x, y){
 
 	var levelState = this;
 

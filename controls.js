@@ -7,6 +7,7 @@ var keys = {
 var jumpKeyReleased = true;
 
 window.addEventListener('keydown', function(e){
+	var player = Game.player;
 	switch(e.keyCode){
 		case 37:	
 			keys["left"] = true;
@@ -33,6 +34,7 @@ window.addEventListener('keydown', function(e){
 
 
 window.addEventListener('keyup', function(e){
+	var player = Game.player;
 	switch(e.keyCode){
 		case 37:
 			keys["left"] = false;

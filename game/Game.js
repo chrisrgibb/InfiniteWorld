@@ -11,10 +11,12 @@ Game.then = Date.now(); // for fps
 Game.draw = function(){
 	levelRenderer.draw();
 	objectRenderer.draw();
-	player.draw(ctx, levelRenderer.camera);
+	this.player.draw(ctx, levelRenderer.camera);
 	debug.render(ctx);
 	Game.drawDebugGrid(ctx, levelRenderer.camera);
 };
+
+// Game.levelState =
 
 
 Game.update = function(){
@@ -22,14 +24,15 @@ Game.update = function(){
 	if(COUNTER>23){
 		COUNTER=0;
 	}
-	levelState.update();
-	player.move();
+	this.levelState.update();
+	this.player.move();
 };
 /*
  * Main game loop
  */
 
  var requestId ;
+
 Game.run = function(){
 	Game.update();
 	Game.draw();

@@ -79,7 +79,7 @@ Player.prototype.moveDir = function(dir){
 };
 
 Player.prototype.move = function(first_argument) {
-
+	var levelState = Game.levelState;
 	var dX = 0, dY = 0;
 
 
@@ -255,10 +255,11 @@ Player.prototype.move = function(first_argument) {
 
 	// check walk into object
 	// check hazard below eg spikes / lava or pink skull
+	var levelState = Game.levelState;
 
-	levelState.gameObject(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
+	levelState.checkForCollisions(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
 
-	levelState.gameObject( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 );  // head
+	levelState.checkForCollisions( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 );  // head
 	levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 );  //lava, spikes etc.
 
 	// check left of screen
@@ -278,9 +279,10 @@ Player.prototype.move = function(first_argument) {
 
 
 Player.prototype.punchDetection = function(){
+
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 
-	levelState.punchTile(punchX, this.y/ 16 | 0);
+	Game.levelState.punchTile(punchX, this.y/ 16 | 0);
 };
 
 Player.prototype.calcFriction = function(){
@@ -313,7 +315,8 @@ Player.prototype.moveX = function(dX, dY){
 			yTop,
 			yBottom,
 			nextX,
-			ax;
+			ax,
+			levelState = Game.levelState;
 	if( dX> 0){
 		//moving right
 		nextX = this.x + dX + (this.width/2); // the nextX

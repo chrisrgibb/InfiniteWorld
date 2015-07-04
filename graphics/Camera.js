@@ -6,6 +6,8 @@ function Camera(){
 
 Camera.prototype = {
 	update: function() {
+		var player = Game.player;
+
 		var newY = player.y - levelRenderer.screenHeight/2 | 0;
 		if(newY > this.y){
 			this.y = newY;

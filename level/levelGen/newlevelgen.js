@@ -24,8 +24,7 @@ levelGen2.prototype.createNewMap = function(isRandom, seedValue){
 * 
 */
 levelGen2.prototype.buildMap = function() {
-	debugger;
-	
+
 	var backgroundColor = "#005200";
 
 	this.heights = [];
