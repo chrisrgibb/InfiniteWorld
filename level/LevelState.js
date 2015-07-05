@@ -1,4 +1,6 @@
-var LevelState = function(){
+var LevelState = function(player){
+
+	this.player = player;
 
 	this.enemys = [];
 	this.map = null;
@@ -97,7 +99,7 @@ LevelState.prototype.punchTile = function(x, y){
 			manageQuestionTile();
 		} else if (punchedTile.image===10) { 
 			// jitters block
-			player.jittersTime = 15;
+			this.player.jittersTime = 15;
 
 		}
 		// create new empty space block
@@ -165,7 +167,7 @@ LevelState.prototype.updateShockwave = function(){
 		// if x is not off screen
 		if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 || !isOnScreen(levelRenderer.camera, this.shockWave) ) {
 			levelState.shockWave.dead = true;
-			player.shockwaveOnscreen = false;
+			this.player.shockwaveOnscreen = false;
 			return; 
 		}
 		var block = map.getBlock(x,y);
@@ -176,7 +178,7 @@ LevelState.prototype.updateShockwave = function(){
 		} else if(x < levelRenderer.camera.x + (levelRenderer.screenWidth / 16 | 0)  && map.getBlock(x, y).isSolid){
 			// hits a solidblock
 			levelState.shockWave.dead = true;
-			player.shockwaveOnscreen = false;
+			this.player.shockwaveOnscreen = false;
 		}
 
 	}

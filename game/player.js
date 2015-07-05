@@ -1,4 +1,4 @@
-function Player(){
+function Player(ctx){
 
 	/*
 		Need to fix players movement in the air
@@ -16,6 +16,8 @@ function Player(){
 	this.xspeedIncrease = 0.15625;
 	this.gravity = 0.25;
 	this.friction = 0.8;
+
+	this.ctx = ctx;
 
 	this.dir = 1;
 
@@ -256,6 +258,7 @@ Player.prototype.move = function(first_argument) {
 	// check walk into object
 	// check hazard below eg spikes / lava or pink skull
 	var levelState = Game.levelState;
+	var levelRenderer = Game.levelRenderer;
 
 	levelState.checkForCollisions(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
 
@@ -332,12 +335,12 @@ Player.prototype.moveX = function(dX, dY){
 		tileX1 = levelState.map.isBlocking(ax, yTop);
 
 		// For DEBUGGINS
-		if( tileX1 ) {
-			levelRenderer.addToHighLights(ax, yTop, "#FDB1B1");
-		}
-		if( tileX2 ) {
-			levelRenderer.addToHighLights(ax, yBotttom, "#FDB1B1");
-		}
+		// if( tileX1 ) {
+		// 	levelRenderer.addToHighLights(ax, yTop, "#FDB1B1");
+		// }
+		// if( tileX2 ) {
+		// 	levelRenderer.addToHighLights(ax, yBotttom, "#FDB1B1");
+		// }
 
 		if(tileX1 || tileX2){ // collision
 			tempX = (ax * 16) - (this.width/2);
@@ -361,12 +364,12 @@ Player.prototype.moveX = function(dX, dY){
 		tileX2 = levelState.map.isBlocking(ax, yBotttom);
 		tileX1 = levelState.map.isBlocking(ax, yTop);
 
-		if(tileX1) {
-			levelRenderer.addToHighLights(ax, yTop, "#9BF0E9");
-		}
-		if( tileX2) {
-			levelRenderer.addToHighLights(ax, yBotttom, "#9BF0E9");
-		}
+		// if(tileX1) {
+		// 	levelRenderer.addToHighLights(ax, yTop, "#9BF0E9");
+		// }
+		// if( tileX2) {
+		// 	levelRenderer.addToHighLights(ax, yBotttom, "#9BF0E9");
+		// }
 
 		if(tileX1 || tileX2 ){
 			tempX = ( (ax+1) * 16) + (this.width/2) ; //
@@ -386,6 +389,7 @@ Player.prototype.moveX = function(dX, dY){
 Player.prototype.moveY = function(dX, dY){
 	var tempY = this.y;
 	var ay, left, right, leftTile, rightTile;
+	var map = Game.levelState.map;
 
 	if(this.jumping && dY < 0 ){
 
@@ -398,12 +402,12 @@ Player.prototype.moveY = function(dX, dY){
 		rightTile = map.isBlocking(right, ay );
 
 
-		if(leftTile) {
-			levelRenderer.addToHighLights(left, ay, "#9BF0E9");
-		}
-		if( rightTile) {
-			levelRenderer.addToHighLights(right, ay, "#9BF0E9");
-		}
+		// if(leftTile) {
+		// 	levelRenderer.addToHighLights(left, ay, "#9BF0E9");
+		// }
+		// if( rightTile) {
+		// 	levelRenderer.addToHighLights(right, ay, "#9BF0E9");
+		// }
 
 		if(leftTile || rightTile){
 			tempY = ( (ay+1) * 16) + (this.height/2) + 1;
@@ -430,12 +434,12 @@ Player.prototype.moveY = function(dX, dY){
 		rightTile = map.isBlocking(right, ay ); // the minus for is
 
 
-		if(leftTile) {
-			levelRenderer.addToHighLights(left, ay, "#EDE5E2");
-		}
-		if( rightTile) {
-			levelRenderer.addToHighLights(right, ay, "#EDE5E2");
-		}
+		// if(leftTile) {
+		// 	levelRenderer.addToHighLights(left, ay, "#EDE5E2");
+		// }
+		// if( rightTile) {
+		// 	levelRenderer.addToHighLights(right, ay, "#EDE5E2");
+		// }
 
 		if((leftTile || rightTile )   ) {
 			// hit the ground

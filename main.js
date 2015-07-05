@@ -1,12 +1,10 @@
 // global variables whoop
 var canvas,
-	ctx,
+	// ctx,
 	WIDTH,
 	HEIGHT,
 	game,
 	camera,
-	levelRenderer,
-	objectRenderer,
 	map,
 	debug,
 	scale = 2,
@@ -26,24 +24,20 @@ function init(){
 
 	camera = new Camera();
 	debug = new Debugger();
+	var ctx;
 
 	initCanvas();
 
-	var player = Game.player = new Player();
+	var player = Game.player = new Player(ctx);
 
 
 	// set up levelRenderers
-	var seedValue = rangeSlider.value;
+	
 
+	Game.init(ctx);
 
-	var levelState = Game.levelState = new LevelState();
-	levelState.init(seedValue);
-	map = levelState.map;
-	levelRenderer = new LevelRenderer(player, camera, levelState.map,  levelState);
-	objectRenderer = new ObjectRenderer(camera, player, levelState);
 
 	if(!Game.running){
-	// game = Game();
 		Game.run();
 	}
 
@@ -51,8 +45,8 @@ function init(){
 		canvas = document.getElementById('canvas');
 		ctx = canvas.getContext('2d');
 		ctx.imageSmoothingEnabled = false;
-		WIDTH = canvas.width;
-		HEIGHT = canvas.height;
+		CONSTANTS.WIDTH = canvas.width;
+		CONSTANTS.HEIGHT = canvas.height;
 		// TODO use function below to scale
 		if(!haveScaled){
 			ctx.scale(scale, scale);

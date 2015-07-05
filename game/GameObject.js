@@ -12,8 +12,8 @@ var GameObject = function(x, y, type){
 };
 
 GameObject.prototype.draw = function(camera){
-	var drawX = ( (this.x) - camera.x ) ;
-	var drawY = ( (this.y) - camera.y ) ;
+	var drawX = ( this.x - camera.x ) ;
+	var drawY = ( this.y - camera.y ) ;
 	objectRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
 };
 

@@ -22,6 +22,8 @@ var ObjectRenderer = function(camera, player, levelState){
 
 	function drawIfOnScreen(obj, camera){
 		if(isOnScreen(camera, obj)){
+			
+
 			obj.draw(camera);
 		}
 	}

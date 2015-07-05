@@ -7,7 +7,7 @@ TileSheet.prototype.getImage = function(){
 
 }
 
-TileSheet.prototype.drawTile = function(tilenumber, x, y){
+TileSheet.prototype.drawTile = function(tilenumber, x, y, ctx){
 	var xtoDraw = tilenumber % 16	;
 	var ytoDraw = tilenumber / 16 | 0;
 

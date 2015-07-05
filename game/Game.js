@@ -9,12 +9,27 @@ Game.then = Date.now(); // for fps
 	Main draw function
 **/
 Game.draw = function(){
-	levelRenderer.draw();
-	objectRenderer.draw();
-	this.player.draw(ctx, levelRenderer.camera);
-	debug.render(ctx);
-	Game.drawDebugGrid(ctx, levelRenderer.camera);
+	this.levelRenderer.draw();
+	this.objectRenderer.draw();
+	this.player.draw(this.player.ctx, this.levelRenderer.camera);
+	// debug.render(ctx);
+	// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
 };
+
+Game.init = function(ctx){
+
+var seedValue = rangeSlider.value;
+
+	this.levelState = new LevelState(this.player);
+
+	this.levelState.init(seedValue);
+	this.levelRenderer = new LevelRenderer(this.player, camera, this.levelState, ctx);
+	this.objectRenderer = new ObjectRenderer(camera, this.player, this.levelState);
+
+	// this.levelRenderer = levelRenderer;
+
+
+}
 
 // Game.levelState =
 
