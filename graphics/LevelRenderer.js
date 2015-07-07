@@ -94,7 +94,7 @@ var LevelRenderer = function(player, camera, levelState, ctx) {
 			ctx.fillStyle = tilesToHighlight[i][2];
 
 			var y = ( row * tileSize ) - camera.y;
-			var x = (col * tileSize) - camera.x;
+			var x = ( col * tileSize ) - camera.x;
 
 			ctx.fillRect(x, y, tileSize, tileSize);
 		}

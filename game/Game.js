@@ -18,18 +18,16 @@ Game.draw = function(){
 
 Game.init = function(ctx){
 
-var seedValue = rangeSlider.value;
+	var seedValue = rangeSlider.value;
 
 	this.levelState = new LevelState(this.player);
 
 	this.levelState.init(seedValue);
 	this.levelRenderer = new LevelRenderer(this.player, camera, this.levelState, ctx);
-	this.objectRenderer = new ObjectRenderer(camera, this.player, this.levelState);
-
-	// this.levelRenderer = levelRenderer;
+	this.objectRenderer = new ObjectRenderer(camera, this.player, this.levelState, ctx);
 
 
-}
+};
 
 // Game.levelState =
 

@@ -10,24 +10,24 @@ window.addEventListener('keydown', function(e){
 	var player = Game.player;
 	switch(e.keyCode){
 		case 37:	
-			keys["left"] = true;
+			keys.left = true;
 			player.left = true;			
 			break;							
 		case 38:							
-			keys["up"] = true;
+			keys.up = true;
 			break;
 		case 39:		
-			keys["right"]= true;
+			keys.right = true;
 			player.right = true;
 			break;
 		case 40:
-			keys["down"] = true;
+			keys.down = true;
 			break;
 		case 65: // a
-			keys["jump"] = true;
+			keys.jump = true;
 			break;
 		case 83:
-			keys["punch"] = true;
+			keys.punch = true;
 			break;
 	}
 });
@@ -37,27 +37,27 @@ window.addEventListener('keyup', function(e){
 	var player = Game.player;
 	switch(e.keyCode){
 		case 37:
-			keys["left"] = false;
+			keys.left = false;
 			player.left = false;
 			
 			break;			
 		case 38:
-			keys["up"] = false;
+			keys.up = false;
 			jumpKeyReleased = true;
 			break;
 		case 39:
-			keys["right"] = false;
+			keys.right = false;
 			player.right = false;
 			break;
 		case 40:
 
-			keys["down"] = false;
+			keys.down = false;
 			break;
 		case 65: // a
-			keys["jump"] = false;
+			keys.jump = false;
 			break;
 		case 83:
-			keys["punch"] = false;
+			keys.punch = false;
 			break;
 	}
 });

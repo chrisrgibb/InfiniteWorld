@@ -1,6 +1,5 @@
 // global variables whoop
 var canvas,
-	// ctx,
 	WIDTH,
 	HEIGHT,
 	game,
@@ -29,10 +28,6 @@ function init(){
 	initCanvas();
 
 	var player = Game.player = new Player(ctx);
-
-
-	// set up levelRenderers
-	
 
 	Game.init(ctx);
 

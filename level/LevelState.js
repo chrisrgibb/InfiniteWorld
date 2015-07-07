@@ -47,7 +47,7 @@ LevelState.prototype.checkForCollisions = function(x, y){
 		var obx = element.x / 16 | 0;
 		var oby = element.y / 16 | 0;
 		if(x==obx && y==oby){
-			element.process(player);
+			element.process(levelState.player);
 			if(element.remove){
 				levelState.objectsToRemove.push(element);
 			}

@@ -134,13 +134,13 @@ Ghost.prototype.draw = function(camera){
 	var drawY = ( (this.y) - camera.y ) ;
 	ctx.fillStyle = this.color;
 	enemySheet.draw(0, drawX- this.width/2, drawY- this.width/2, this.width, this.height);
-}
+};
 
 Ghost.prototype.process = function(){
 	if(this.timer > 50){
 		this.playerDead = true;
 	}
-}
+};
 
 Ghost.prototype.move = function(){
 	if(this.timer < 50){
@@ -217,4 +217,4 @@ ShockWave.prototype.draw = function(camera){
 
 ShockWave.prototype.process = function(){
 	console.log("Shockwave process");
-}
+};

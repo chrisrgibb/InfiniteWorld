@@ -82,6 +82,7 @@ Player.prototype.moveDir = function(dir){
 
 Player.prototype.move = function(first_argument) {
 	var levelState = Game.levelState;
+		var levelRenderer = Game.levelRenderer;
 	var dX = 0, dY = 0;
 
 
@@ -257,8 +258,7 @@ Player.prototype.move = function(first_argument) {
 
 	// check walk into object
 	// check hazard below eg spikes / lava or pink skull
-	var levelState = Game.levelState;
-	var levelRenderer = Game.levelRenderer;
+
 
 	levelState.checkForCollisions(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
 

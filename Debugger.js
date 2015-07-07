@@ -12,7 +12,7 @@ Debugger.prototype.setText = function(text) {
 
 
 Debugger.prototype.render = function(ctx){
-	if(this.debugText != ""){
+	if(this.debugText !== ""){
 		ctx.fillStyle = "yellow";
 		ctx.font = "bold 18px sans-serif";
 		ctx.fillText(this.debugText, 20, 20);
