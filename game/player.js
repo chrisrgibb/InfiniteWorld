@@ -467,6 +467,15 @@ Player.prototype.coords = function(){
 	return str;
 };
 
+Player.prototype.getImage = function(ctx, camera) {
+	if(this.punchTime > 0) {
+
+
+
+	}
+
+}
+
 Player.prototype.draw = function(ctx, camera) {
 	var frame;
 	ctx.fillStyle = "red";
@@ -482,7 +491,6 @@ Player.prototype.draw = function(ctx, camera) {
 	 * Punchgin
 	 */
 	if(this.punchTime>0){
-		// ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - levelRenderer.camera.x, this.y - this.height/2 +4 - levelRenderer.camera.y, 8 * this.dir, 10 );
 		
 		if(this.dir==-1){
 			frame = 136;

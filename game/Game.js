@@ -29,8 +29,6 @@ Game.init = function(ctx){
 
 };
 
-// Game.levelState =
-
 
 Game.update = function(){
 	COUNTER++;

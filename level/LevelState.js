@@ -1,14 +1,13 @@
 var LevelState = function(player){
 
-	this.player = player;
-
-	this.enemys = [];
 	this.map = null;
+
+	this.player = player;
+	this.enemys = [];
 	this.objects = [];
 	
 	this.onScreenObjects = [];
 	this.onScreenEnemies = [];
-
 	this.objectsToRemove = [];
 
 	this.currentItem = 0;
@@ -18,8 +17,7 @@ var LevelState = function(player){
 
 	this.shockWave = new ShockWave();
 
-	this.playerOnGhost =true;
-
+	this.playerOnGhost = true;
 };
 
 LevelState.prototype.init = function(seedValue) {
@@ -28,14 +26,15 @@ LevelState.prototype.init = function(seedValue) {
 	// this.map = new Map("tiles");
 	// this.map = new Map();
 	// var lg = new levelGenerator();
-	var lg = new levelGen2();
+
+	var levelGenerator = new levelGen2();
 	var isRandom = true;
-	this.map = lg.createNewMap(isRandom, seedValue);
+	this.map = levelGenerator.createNewMap(isRandom, seedValue);
+	this.map = new MapCreater().createMap();
 
 	this.enemys = this.map.enemys;
 	this.objects = this.map.objects;
 	this.backgroundColor = this.map.backgroundColor;
-
 };
 
 // If player moves into the tile that the gameobject is in
@@ -192,6 +191,7 @@ LevelState.prototype.update = function(){
 	var enemys = this.enemys;
 	var removeEnemys = [];
 	var countage = 0;
+	var levelRenderer = Game.levelRenderer;
  	/* Move stuff 
  	 *
  	 */

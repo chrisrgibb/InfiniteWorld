@@ -13,8 +13,10 @@ var Enemy = function(x, y){
 };
 
 
-Enemy.prototype.move = function(first_argument) {
+Enemy.prototype.move = function() {
 	var dX = this.dir * this.speed;
+	// TODO fix
+	var map = Game.levelState.map;
 	if(dX < 0){
 		if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )){
 			this.dir *= -1;
@@ -71,7 +73,8 @@ function Scorpion(x, y){
 Scorpion.prototype = new Enemy();
 
 Scorpion.prototype.move = function(){
-	
+	// TODO fix
+	var map = Game.levelState.map;
 	var dX = this.dir * this.speed;
 	if(dX < 0){
 		if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )/* or if scorpion is about to fall off block */ ){
