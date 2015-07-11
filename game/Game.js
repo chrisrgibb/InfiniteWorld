@@ -40,6 +40,7 @@ var Game = {
 			CONSTANTS.HEIGHT = canvas.height;
 			// TODO use function below to scale
 			if(!haveScaled){
+				var scale = CONSTANTS.scale;
 				ctx.scale(scale, scale);
 				haveScaled =true;
 			}	

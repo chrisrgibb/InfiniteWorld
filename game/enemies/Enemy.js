@@ -12,34 +12,35 @@ var Enemy = function(x, y){
 	this.imageHeight = 16;
 };
 
-
-Enemy.prototype.move = function() {
-	var dX = this.dir * this.speed;
-	// TODO fix
-	var map = Game.levelState.map;
-	if(dX < 0){
-		if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )){
-			this.dir *= -1;
-			this.block = true; // ???
+Enemy.prototype = {
+	move : function() {
+		var dX = this.dir * this.speed;
+		// TODO fix
+		var map = Game.levelState.map;
+		if(dX < 0){
+			if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )){
+				this.dir *= -1;
+				this.block = true; // ???
+			}
+		} else if(dX > 0){
+			if(map.isBlocking( (this.x + this.width + dX ) / 16 | 0, this.y  / 16 | 0)){
+				this.dir *= -1;
+			}
 		}
-	} else if(dX > 0){
-		if(map.isBlocking( (this.x + this.width + dX ) / 16 | 0, this.y  / 16 | 0)){
+		this.x += dX;
+		if(this.x < 0 ){
 			this.dir *= -1;
+			this.x = 2;
 		}
-	}
-	this.x += dX;
-	if(this.x < 0 ){
-		this.dir *= -1;
-		this.x = 2;
-	}
-};
+	},
+	draw = function(camera, ctx){
+		
+		var drawX = (this.x) - camera.x;
+		var drawY = (this.y) - camera.y; 
 
-Enemy.prototype.draw = function(camera, ctx){
-	var drawX = (this.x) - camera.x;
-	var drawY = (this.y) - camera.y; 
-
-	ctx.fillStyle = this.color;
-	ctx.fillRect(drawX, drawY, this.width, this.height);		
+		ctx.fillStyle = this.color;
+		ctx.fillRect(drawX, drawY, this.width, this.height);		
+	}
 };
 
 function isOnScreen(camera, enemy){
@@ -55,8 +56,6 @@ function isOnScreen(camera, enemy){
 	}
 	return false;
 }
-
-
 
 
 function Scorpion(x, y){
