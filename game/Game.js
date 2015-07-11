@@ -1,104 +1,105 @@
 	// main game function
-var Game = function(argument) { };
+var Game = {
+	fps : 50, //50 is fps
+	then : Date.now(), // for fps
 
-Game.fps = 50; // 50 is fps
-Game.then = Date.now(); // for fps
 
-
-/**
-	Main draw function
-**/
-Game.draw = function(){
-	this.levelRenderer.draw();
-	this.objectRenderer.draw();
-	this.player.draw(this.player.ctx, this.levelRenderer.camera);
+	/**
+		Main draw function
+	**/
+	draw : function(){
+		this.levelRenderer.draw();
+		this.objectRenderer.draw();
+		this.player.draw(this.player.ctx, this.levelRenderer.camera);
 	// debug.render(ctx);
 	// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
-};
+	},
 
-Game.init = function(ctx){
+	init : function(ctx){
+		
+		initCanvas();
 
-	var ctx = ctx; 
+		this.camera = new Camera();
 
-	initCanvas();
+		this.player = new Player(ctx);
 
-	this.camera = new Camera();
+		var seedValue = rangeSlider.value;
 
-	this.player = new Player(ctx);
+		this.levelState = new LevelState(this.player);
 
-	var seedValue = rangeSlider.value;
-
-	this.levelState = new LevelState(this.player);
-
-	this.levelState.init(seedValue);
-	this.levelRenderer = new LevelRenderer(this.player, this.camera, this.levelState, ctx);
-	this.objectRenderer = new ObjectRenderer(this.camera, this.player, this.levelState, ctx);
+		this.levelState.init(seedValue);
+		this.levelRenderer = new LevelRenderer(this.player, this.camera, this.levelState, ctx);
+		this.objectRenderer = new ObjectRenderer(this.camera, this.player, this.levelState, ctx);
 
 
-	function initCanvas(){
-		var canvas = document.getElementById('canvas');
-		ctx = canvas.getContext('2d');
-		ctx.imageSmoothingEnabled = false;
-		CONSTANTS.WIDTH = canvas.width;
-		CONSTANTS.HEIGHT = canvas.height;
-		// TODO use function below to scale
-		if(!haveScaled){
-			ctx.scale(scale, scale);
-			haveScaled =true;
-		}	
-	}
+		function initCanvas(){
+			var canvas = document.getElementById('canvas');
+			ctx = canvas.getContext('2d');
+			ctx.imageSmoothingEnabled = false;
+			CONSTANTS.WIDTH = canvas.width;
+			CONSTANTS.HEIGHT = canvas.height;
+			// TODO use function below to scale
+			if(!haveScaled){
+				ctx.scale(scale, scale);
+				haveScaled =true;
+			}	
+		}
+	},
 
-};
 
+	update : function(){
+		COUNTER++;
+		if(COUNTER>23){
+			COUNTER=0;
+		}
+		this.levelState.update();
+		this.player.move();
+	},
 
-Game.update = function(){
-	COUNTER++;
-	if(COUNTER>23){
-		COUNTER=0;
-	}
-	this.levelState.update();
-	this.player.move();
-};
-/*
- * Main game loop
- */
+	/*
+	* Main game loop
+	*/
 
-Game.run = function(){
-	Game.update();
-	Game.draw();
-	requestAnimationFrame(Game.run);
-	Game.calcFPS();
-	Game.running = true;
-};
+	run : function(){
+		Game.update();
+		Game.draw();
+		requestAnimationFrame(Game.run);
+		Game.calcFPS();
+		Game.running = true;
+	},
 
-Game.calcFPS = function(){
-	var now = Date.now();
-	var elapsed = ( now - Game.then) / 1000;
-	var otherone = 1000 / (now - Game.then);
+	calcFPS : function(){
+		var now = Date.now();
+		var elapsed = ( now - Game.then) / 1000;
+		var otherone = 1000 / (now - Game.then);
 
-	Game.then = Date.now();
-	var fps = 1 / elapsed;
-	// Game.drawFPS(fps);
-};
+		Game.then = Date.now();
+		var fps = 1 / elapsed;
+		// Game.drawFPS(fps);
+	},
 
-Game.drawDebugGrid = function(ctx, camera){
-	if(debug.drawGrid){
-		var y , x, tilesize = CONSTANTS.tileSize;
-		for(y = 0; y < map.getHeight(); y++ ){
-			for(x = 0; x < map.getWidth(); x++ ){
-				if(x%5 === 0){
-					ctx.font = "bold 8px sans-serif";
-					ctx.fillText(x, 5 + x * tilesize, 10);
+	drawDebugGrid : function(ctx, camera){
+		if(debug.drawGrid){
+			var y , x, tilesize = CONSTANTS.tileSize;
+			for(y = 0; y < map.getHeight(); y++ ){
+				for(x = 0; x < map.getWidth(); x++ ){
+					if(x%5 === 0){
+						ctx.font = "bold 8px sans-serif";
+						ctx.fillText(x, 5 + x * tilesize, 10);
+					}
 				}
 			}
 		}
+	},
+	
+	drawFPS : function(text) {
+		ctx.fillStyle = "yellow";
+		ctx.font = "bold 18px sans-serif";
+		ctx.fillText(text, 20, 20);
 	}
 };
 
-Game.drawFPS = function(text) {
-	ctx.fillStyle = "yellow";
-	ctx.font = "bold 18px sans-serif";
-	ctx.fillText(text, 20, 20);
-};
+
+
 
 var debugStuff = [];

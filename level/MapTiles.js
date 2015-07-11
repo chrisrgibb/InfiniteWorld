@@ -1,10 +1,6 @@
 var MapCreater = function(){
 
 
-
-
-
-
 }
 
 MapCreater.prototype = {

@@ -2,7 +2,6 @@
 // var canvas,
 var WIDTH,
 	HEIGHT,
-	// game,
 	debug,
 	scale = 2,
 	COUNTER = 0,
