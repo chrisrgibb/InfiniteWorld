@@ -11,8 +11,8 @@ var Game = {
 		this.levelRenderer.draw();
 		this.objectRenderer.draw();
 		this.player.draw(this.player.ctx, this.levelRenderer.camera);
-	// debug.render(ctx);
-	// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
+		// debug.render(ctx);
+		// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
 	},
 
 	init : function(ctx){
