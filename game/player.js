@@ -1,4 +1,4 @@
-function Player(){
+function Player(ctx){
 
 	/*
 		Need to fix players movement in the air
@@ -16,6 +16,8 @@ function Player(){
 	this.xspeedIncrease = 0.15625;
 	this.gravity = 0.25;
 	this.friction = 0.8;
+
+	this.ctx = ctx;
 
 	this.dir = 1;
 
@@ -79,7 +81,8 @@ Player.prototype.moveDir = function(dir){
 };
 
 Player.prototype.move = function(first_argument) {
-
+	var levelState = Game.levelState;
+		var levelRenderer = Game.levelRenderer;
 	var dX = 0, dY = 0;
 
 
@@ -256,9 +259,10 @@ Player.prototype.move = function(first_argument) {
 	// check walk into object
 	// check hazard below eg spikes / lava or pink skull
 
-	levelState.gameObject(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
 
-	levelState.gameObject( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 );  // head
+	levelState.checkForCollisions(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
+
+	levelState.checkForCollisions( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 );  // head
 	levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 );  //lava, spikes etc.
 
 	// check left of screen
@@ -278,9 +282,10 @@ Player.prototype.move = function(first_argument) {
 
 
 Player.prototype.punchDetection = function(){
+
 	var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 
-	levelState.punchTile(punchX, this.y/ 16 | 0);
+	Game.levelState.punchTile(punchX, this.y/ 16 | 0);
 };
 
 Player.prototype.calcFriction = function(){
@@ -313,7 +318,8 @@ Player.prototype.moveX = function(dX, dY){
 			yTop,
 			yBottom,
 			nextX,
-			ax;
+			ax,
+			levelState = Game.levelState;
 	if( dX> 0){
 		//moving right
 		nextX = this.x + dX + (this.width/2); // the nextX
@@ -329,12 +335,12 @@ Player.prototype.moveX = function(dX, dY){
 		tileX1 = levelState.map.isBlocking(ax, yTop);
 
 		// For DEBUGGINS
-		if( tileX1 ) {
-			levelRenderer.addToHighLights(ax, yTop, "#FDB1B1");
-		}
-		if( tileX2 ) {
-			levelRenderer.addToHighLights(ax, yBotttom, "#FDB1B1");
-		}
+		// if( tileX1 ) {
+		// 	levelRenderer.addToHighLights(ax, yTop, "#FDB1B1");
+		// }
+		// if( tileX2 ) {
+		// 	levelRenderer.addToHighLights(ax, yBotttom, "#FDB1B1");
+		// }
 
 		if(tileX1 || tileX2){ // collision
 			tempX = (ax * 16) - (this.width/2);
@@ -358,12 +364,12 @@ Player.prototype.moveX = function(dX, dY){
 		tileX2 = levelState.map.isBlocking(ax, yBotttom);
 		tileX1 = levelState.map.isBlocking(ax, yTop);
 
-		if(tileX1) {
-			levelRenderer.addToHighLights(ax, yTop, "#9BF0E9");
-		}
-		if( tileX2) {
-			levelRenderer.addToHighLights(ax, yBotttom, "#9BF0E9");
-		}
+		// if(tileX1) {
+		// 	levelRenderer.addToHighLights(ax, yTop, "#9BF0E9");
+		// }
+		// if( tileX2) {
+		// 	levelRenderer.addToHighLights(ax, yBotttom, "#9BF0E9");
+		// }
 
 		if(tileX1 || tileX2 ){
 			tempX = ( (ax+1) * 16) + (this.width/2) ; //
@@ -383,6 +389,7 @@ Player.prototype.moveX = function(dX, dY){
 Player.prototype.moveY = function(dX, dY){
 	var tempY = this.y;
 	var ay, left, right, leftTile, rightTile;
+	var map = Game.levelState.map;
 
 	if(this.jumping && dY < 0 ){
 
@@ -395,12 +402,12 @@ Player.prototype.moveY = function(dX, dY){
 		rightTile = map.isBlocking(right, ay );
 
 
-		if(leftTile) {
-			levelRenderer.addToHighLights(left, ay, "#9BF0E9");
-		}
-		if( rightTile) {
-			levelRenderer.addToHighLights(right, ay, "#9BF0E9");
-		}
+		// if(leftTile) {
+		// 	levelRenderer.addToHighLights(left, ay, "#9BF0E9");
+		// }
+		// if( rightTile) {
+		// 	levelRenderer.addToHighLights(right, ay, "#9BF0E9");
+		// }
 
 		if(leftTile || rightTile){
 			tempY = ( (ay+1) * 16) + (this.height/2) + 1;
@@ -427,12 +434,12 @@ Player.prototype.moveY = function(dX, dY){
 		rightTile = map.isBlocking(right, ay ); // the minus for is
 
 
-		if(leftTile) {
-			levelRenderer.addToHighLights(left, ay, "#EDE5E2");
-		}
-		if( rightTile) {
-			levelRenderer.addToHighLights(right, ay, "#EDE5E2");
-		}
+		// if(leftTile) {
+		// 	levelRenderer.addToHighLights(left, ay, "#EDE5E2");
+		// }
+		// if( rightTile) {
+		// 	levelRenderer.addToHighLights(right, ay, "#EDE5E2");
+		// }
 
 		if((leftTile || rightTile )   ) {
 			// hit the ground
@@ -460,6 +467,14 @@ Player.prototype.coords = function(){
 	return str;
 };
 
+Player.prototype.getImage = function(ctx, camera) {
+	if(this.punchTime > 0) {
+
+
+
+	}
+}
+
 Player.prototype.draw = function(ctx, camera) {
 	var frame;
 	ctx.fillStyle = "red";
@@ -475,7 +490,6 @@ Player.prototype.draw = function(ctx, camera) {
 	 * Punchgin
 	 */
 	if(this.punchTime>0){
-		// ctx.fillRect(this.x + ( this.width/2 * this.dir  ) - levelRenderer.camera.x, this.y - this.height/2 +4 - levelRenderer.camera.y, 8 * this.dir, 10 );
 		
 		if(this.dir==-1){
 			frame = 136;

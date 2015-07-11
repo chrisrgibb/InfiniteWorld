@@ -17,6 +17,7 @@ var files = [
 "levelGen/Sections/RandomShape.js",
 "levelGen/Sections/Platform.js",
 "levelGen/Sections/Triangle.js",
+"MapTiles.js"
 ];
 
 var graphicsFiles = [

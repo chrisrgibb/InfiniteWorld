@@ -12,37 +12,41 @@ var Enemy = function(x, y){
 	this.imageHeight = 16;
 };
 
-
-Enemy.prototype.move = function(first_argument) {
-	var dX = this.dir * this.speed;
-	if(dX < 0){
-		if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )){
-			this.dir *= -1;
-			this.block = true; // ???
+Enemy.prototype = {
+	move : function() {
+		var dX = this.dir * this.speed;
+		// TODO fix
+		var map = Game.levelState.map;
+		if(dX < 0){
+			if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )){
+				this.dir *= -1;
+				this.block = true; // ???
+			}
+		} else if(dX > 0){
+			if(map.isBlocking( (this.x + this.width + dX ) / 16 | 0, this.y  / 16 | 0)){
+				this.dir *= -1;
+			}
 		}
-	} else if(dX > 0){
-		if(map.isBlocking( (this.x + this.width + dX ) / 16 | 0, this.y  / 16 | 0)){
+		this.x += dX;
+		if(this.x < 0 ){
 			this.dir *= -1;
+			this.x = 2;
 		}
-	}
-	this.x += dX;
-	if(this.x < 0 ){
-		this.dir *= -1;
-		this.x = 2;
-	}
-};
+	},
+	
+	draw : function(camera, ctx){
 
-Enemy.prototype.draw = function(camera){
-	var drawX = (this.x) - camera.x;
-	var drawY = (this.y) - camera.y; 
+		var drawX = (this.x) - camera.x;
+		var drawY = (this.y) - camera.y; 
 
-	ctx.fillStyle = this.color;
-	ctx.fillRect(drawX, drawY, this.width, this.height);		
+		ctx.fillStyle = this.color;
+		ctx.fillRect(drawX, drawY, this.width, this.height);		
+	}
 };
 
 function isOnScreen(camera, enemy){
-	var xWidth = (camera.x + levelRenderer.screenWidth);
-	var cameraHeight = (camera.y + levelRenderer.screenHeight);
+	var xWidth = (camera.x + CONSTANTS.screenWidth);
+	var cameraHeight = (camera.y + CONSTANTS.screenHeight);
 	var eX = enemy.x ;
 	var eY = enemy.y ;
 
@@ -53,8 +57,6 @@ function isOnScreen(camera, enemy){
 	}
 	return false;
 }
-
-
 
 
 function Scorpion(x, y){
@@ -68,10 +70,11 @@ function Scorpion(x, y){
 
 }
 
-Scorpion.prototype = new Enemy();
+Scorpion.prototype =  new Enemy();
 
 Scorpion.prototype.move = function(){
-	
+	// TODO fix
+	var map = Game.levelState.map;
 	var dX = this.dir * this.speed;
 	if(dX < 0){
 		if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )/* or if scorpion is about to fall off block */ ){

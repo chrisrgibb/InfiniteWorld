@@ -1,4 +1,4 @@
-var LevelRenderer = function(player, camera, map, levelState) {
+var LevelRenderer = function(player, camera, levelState, ctx) {
 
 	CONSTANTS.tileSize = 16;
 	CONSTANTS.screenWidth = screenWidth = CONSTANTS.tileSize * 16;
@@ -7,7 +7,8 @@ var LevelRenderer = function(player, camera, map, levelState) {
 	var tileSheet = new TileSheet(),
 		tilesToHighlight = [], // for debugging
 		tileSize = 16,
-		animationCounter = 0;
+		animationCounter = 0,
+		map = levelState.map;
 	
 
 	function draw(){
@@ -32,7 +33,7 @@ var LevelRenderer = function(player, camera, map, levelState) {
 
 
 		ctx.fillStyle = levelState.backgroundColor; //"#0000ff";
-		ctx.fillRect(0, 0 , WIDTH, HEIGHT);
+		ctx.fillRect(0, 0 , CONSTANTS.WIDTH, CONSTANTS.HEIGHT);
 
 		// DRAW TILES
 	
@@ -57,12 +58,12 @@ var LevelRenderer = function(player, camera, map, levelState) {
 						}
 			 		}
 			 		var val = tile.image;
-			 		tileSheet.drawTile(val + animationCounter , x , y);
+			 		tileSheet.drawTile(val + animationCounter , x , y, ctx);
 
 			 	}else {				
 					var val = tile.image;
 					if(val > 0){
-						tileSheet.drawTile(val, x, y);
+						tileSheet.drawTile(val, x, y, ctx);
 					}
 				}
 				if (debug.drawGrid) {
@@ -93,7 +94,7 @@ var LevelRenderer = function(player, camera, map, levelState) {
 			ctx.fillStyle = tilesToHighlight[i][2];
 
 			var y = ( row * tileSize ) - camera.y;
-			var x = (col * tileSize) - camera.x;
+			var x = ( col * tileSize ) - camera.x;
 
 			ctx.fillRect(x, y, tileSize, tileSize);
 		}
@@ -114,8 +115,8 @@ var LevelRenderer = function(player, camera, map, levelState) {
 		},
 			draw : draw,
 			addToHighLights : addToHighLights,
-			screenHeight : CONSTANTS.screenHeight,
-			screenWidth  : CONSTANTS.screenWidth,
+			// screenHeight : CONSTANTS.screenHeight,
+			// screenWidth  : CONSTANTS.screenWidth,
 			camera : camera,
 			tileSheet : tileSheet
 		};
