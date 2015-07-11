@@ -1,3 +1,7 @@
+// tile numbers
+// 12 = big money
+// 13 = small money
+
 var GameObject = function(x, y, type){
 	this.x = x;
 	this.y = y;
@@ -5,12 +9,13 @@ var GameObject = function(x, y, type){
 	this.timer = -1;
 	this.tilenumber = 0;
 	this.remove = false;
+	this.objectSheet = new ObjectSheet();
 };
 
-GameObject.prototype.draw = function(camera, ctx, objectSheet){
+GameObject.prototype.draw = function(camera, ctx){
 	var drawX = ( this.x - camera.x ) ;
 	var drawY = ( this.y - camera.y ) ;
-	objectSheet.drawTile(this.tilenumber, drawX , drawY, ctx);
+	this.objectSheet.drawTile(this.tilenumber, drawX , drawY, ctx);
 };
 
 GameObject.prototype.process = function(player){

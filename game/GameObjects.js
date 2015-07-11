@@ -1,32 +1,3 @@
-// tile numbers
-// 12 = big money
-// 13 = small money
-
-var GameObject = function(x, y, type){
-	this.x = x;
-	this.y = y;
-	this.type = type;
-	this.timer = -1;
-	this.tilenumber = 0;
-	this.remove = false;
-};
-
-GameObject.prototype.draw = function(camera, ctx, objectSheet){
-	var drawX = ( this.x - camera.x ) ;
-	var drawY = ( this.y - camera.y ) ;
-	objectSheet.drawTile(this.tilenumber, drawX , drawY, ctx);
-};
-
-GameObject.prototype.process = function(player){
-	// player.inventory.money += 10;
-};
-
-GameObject.prototype.update = function(){
-	this.timer++;
-	if(this.timer > 150){
-		this.remove = true;
-	}
-};
 
 function MoneyBag(x, y, tilenumber){
 	this.x = x*16;
@@ -101,73 +72,7 @@ Life.prototype.process = function(player){
 	this.remove = true;
 };
 
-	/*
-	 * GHOST!!
-	 *
-	 */
 
-function Ghost(x, y){
-	this.color = "#adadff";
-	this.x =  8+ x * 16;
-	this.y =  8 + y *16;
-	this.width = 16;
-	this.height = 16;
-	this.timer = 0;
-	this.speed = 0.5;
-	this.playerDead = false;
-
-}
-
-Ghost.prototype = new GameObject(); // could probably change to enemy if
-									// i renamed the enemy move function to update
-
-Ghost.prototype.update = function(){
-	this.timer++;
-	this.move();
-	if(!isOnScreen(Game.camera, this)){
-		this.remove = true;
-	}
-};
-
-Ghost.prototype.draw = function(camera, ctx){
-	var drawX = this.x - camera.x;
-	var drawY = this.y - camera.y;
-	ctx.fillStyle = this.color;
-	enemySheet.draw(0, drawX- this.width/2, drawY- this.width/2, this.width, this.height);
-};
-
-Ghost.prototype.process = function(){
-	if(this.timer > 50){
-		this.playerDead = true;
-	}
-};
-
-Ghost.prototype.move = function(){
-	if(this.timer < 50){
-		return;
-	}
-	var destX = Game.player.x;
-	var destY = Game.player.y;
-	if(this.playerDead){
-		this.y += this.speed;
-	} else {
-		if(destX > this.x){
-			this.x += this.speed;
-		}else if(destX < this.x){
-			this.x -= this.speed;
-		}
-		if(destY < this.y){
-			this.y -= this.speed;
-		}else if(destY > this.y){
-			this.y += this.speed;
-		}
-
-	}
-
-
-	// do nothing
-
-};
 
 
 //  Shockwave Protectile
