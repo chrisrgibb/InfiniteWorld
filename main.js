@@ -1,10 +1,8 @@
 // global variables whoop
-var canvas,
-	WIDTH,
+// var canvas,
+var WIDTH,
 	HEIGHT,
-	game,
-	camera,
-	map,
+	// game,
 	debug,
 	scale = 2,
 	COUNTER = 0,
@@ -23,29 +21,13 @@ function init(){
 
 	// camera = new Camera();
 	debug = new Debugger();
-	var ctx;
 
-	initCanvas();
-
-	Game.init(ctx);
-
+	Game.init();
 
 	if(!Game.running){
 		Game.run();
 	}
 
-	function initCanvas(){
-		canvas = document.getElementById('canvas');
-		ctx = canvas.getContext('2d');
-		ctx.imageSmoothingEnabled = false;
-		CONSTANTS.WIDTH = canvas.width;
-		CONSTANTS.HEIGHT = canvas.height;
-		// TODO use function below to scale
-		if(!haveScaled){
-			ctx.scale(scale, scale);
-			haveScaled =true;
-		}	
-	}
 }
 
 window.addEventListener("load", init);
@@ -66,7 +48,6 @@ document.getElementById('scale-button').addEventListener('click', function(){
 		ctx.scale(scale, scale);
 		this.innerHTML = "2x";
 	}
-
 });
 
 function scaleCtx(size){

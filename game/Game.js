@@ -18,6 +18,10 @@ Game.draw = function(){
 
 Game.init = function(ctx){
 
+	var ctx = ctx; 
+
+	initCanvas();
+
 	this.camera = new Camera();
 
 	this.player = new Player(ctx);
@@ -30,6 +34,19 @@ Game.init = function(ctx){
 	this.levelRenderer = new LevelRenderer(this.player, this.camera, this.levelState, ctx);
 	this.objectRenderer = new ObjectRenderer(this.camera, this.player, this.levelState, ctx);
 
+
+	function initCanvas(){
+		var canvas = document.getElementById('canvas');
+		ctx = canvas.getContext('2d');
+		ctx.imageSmoothingEnabled = false;
+		CONSTANTS.WIDTH = canvas.width;
+		CONSTANTS.HEIGHT = canvas.height;
+		// TODO use function below to scale
+		if(!haveScaled){
+			ctx.scale(scale, scale);
+			haveScaled =true;
+		}	
+	}
 
 };
 
