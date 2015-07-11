@@ -33,8 +33,9 @@ Enemy.prototype = {
 			this.x = 2;
 		}
 	},
-	draw = function(camera, ctx){
-		
+	
+	draw : function(camera, ctx){
+
 		var drawX = (this.x) - camera.x;
 		var drawY = (this.y) - camera.y; 
 
@@ -69,7 +70,7 @@ function Scorpion(x, y){
 
 }
 
-Scorpion.prototype = new Enemy();
+Scorpion.prototype =  new Enemy();
 
 Scorpion.prototype.move = function(){
 	// TODO fix
