@@ -156,7 +156,8 @@ LevelState.prototype.walkedOverBadStuff = function(x, y){
 
 
 LevelState.prototype.updateShockwave = function(){
-	var levelstate = this;
+	var levelstate = this,
+	camera = Game.camera;
 	if(!this.shockWave.dead){
 		this.shockWave.update();
 
@@ -164,17 +165,17 @@ LevelState.prototype.updateShockwave = function(){
 		var y = levelState.shockWave.y / 16 | 0;
 		
 		// if x is not off screen
-		if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 || !isOnScreen(levelRenderer.camera, this.shockWave) ) {
+		if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 || !isOnScreen(camera, this.shockWave) ) {
 			levelState.shockWave.dead = true;
 			this.player.shockwaveOnscreen = false;
 			return; 
 		}
 		var block = map.getBlock(x,y);
 
-		if(x < levelRenderer.camera.x + (levelRenderer.screenWidth / 16 | 0)  && map.getBlock(x, y).breakable){
+		if(x < camera.x + (levelRenderer.screenWidth / 16 | 0)  && map.getBlock(x, y).breakable){
 			// connects with breakable block
 			this.punchTile(x, y);
-		} else if(x < levelRenderer.camera.x + (levelRenderer.screenWidth / 16 | 0)  && map.getBlock(x, y).isSolid){
+		} else if(x < camera.x + (levelRenderer.screenWidth / 16 | 0)  && map.getBlock(x, y).isSolid){
 			// hits a solidblock
 			levelState.shockWave.dead = true;
 			this.player.shockwaveOnscreen = false;
@@ -192,15 +193,16 @@ LevelState.prototype.update = function(){
 	var removeEnemys = [];
 	var countage = 0;
 	var levelRenderer = Game.levelRenderer;
+	var camera = Game.camera;
  	/* Move stuff 
  	 *
  	 */
 	for(var i = 0; i< enemys.length; i++){
-		if( isOnScreen(levelRenderer.camera, enemys[i]) ){
+		if( isOnScreen(camera, enemys[i]) ){
 			enemys[i].move();
 			countage++;
 			debug.setText(countage);
-		}	else if(enemys[i].y < levelRenderer.camera.y + 16) {
+		}	else if(enemys[i].y < camera.y + 16) {
 			removeEnemys.push(enemys[i]);
 		}
 	}

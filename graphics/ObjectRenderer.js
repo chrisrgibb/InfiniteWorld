@@ -29,6 +29,7 @@ var ObjectRenderer = function(camera, player, levelState, ctx){
 			var drawY = ( obj.y - camera.y ) ;
 
 			objectSheet.drawTile(obj.tilenumber, drawX, drawY, ctx);
+			obj.draw(camera, ctx, objectSheet);
 		}
 	}
 

@@ -115,8 +115,8 @@ var LevelRenderer = function(player, camera, levelState, ctx) {
 		},
 			draw : draw,
 			addToHighLights : addToHighLights,
-			screenHeight : CONSTANTS.screenHeight,
-			screenWidth  : CONSTANTS.screenWidth,
+			// screenHeight : CONSTANTS.screenHeight,
+			// screenWidth  : CONSTANTS.screenWidth,
 			camera : camera,
 			tileSheet : tileSheet
 		};

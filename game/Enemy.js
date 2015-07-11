@@ -34,7 +34,7 @@ Enemy.prototype.move = function() {
 	}
 };
 
-Enemy.prototype.draw = function(camera){
+Enemy.prototype.draw = function(camera, ctx){
 	var drawX = (this.x) - camera.x;
 	var drawY = (this.y) - camera.y; 
 

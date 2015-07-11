@@ -9,9 +9,10 @@ var MapCreater = function(){
 
 MapCreater.prototype = {
 	createMap : function(){
-		var map = new Map();
+		var map = new Map({
+			tiles : this.getTiles()
+		});
 
-		map.tiles   = this.getTiles();
 		map.enemys  = this.getEnemies();
 		map.objects = this.getObjects();
 		return map;
@@ -32,7 +33,7 @@ MapCreater.prototype = {
 			[5,5,5,9,0,0,1,2,2,2,3,0,0,0,4,5],
 			[5,5,5,9,0,0,0,4,5,6,0,0,0,0,0,5],
 			[5,5,5,11,0,0,0,0,0,0,0,0,0,0,0,5],
-			[5,5,5,2,3,0,0,0,0, 0,0,0,0,11,8,5],
+			[5,5,5,2,3,0,0,0,0, 0,0,8,0,11,8,5],
 			[5,5,5,5,0,0,0,0,0, 1,2,2,2, 2,2,5],
 			[5,5,5,5,0,0,0,0,11,0,4,5,5,5,5,5],
 			[5,5,5,5,0,0,0,0,11,0,0,4,5,5,5,5],

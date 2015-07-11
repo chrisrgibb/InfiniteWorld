@@ -21,13 +21,11 @@ var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webki
 function init(){
 
 
-	camera = new Camera();
+	// camera = new Camera();
 	debug = new Debugger();
 	var ctx;
 
 	initCanvas();
-
-	var player = Game.player = new Player(ctx);
 
 	Game.init(ctx);
 

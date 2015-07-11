@@ -473,7 +473,6 @@ Player.prototype.getImage = function(ctx, camera) {
 
 
 	}
-
 }
 
 Player.prototype.draw = function(ctx, camera) {

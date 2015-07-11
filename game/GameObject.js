@@ -11,10 +11,10 @@ var GameObject = function(x, y, type){
 	this.remove = false;
 };
 
-GameObject.prototype.draw = function(camera){
+GameObject.prototype.draw = function(camera, ctx, objectSheet){
 	var drawX = ( this.x - camera.x ) ;
 	var drawY = ( this.y - camera.y ) ;
-	objectRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
+	objectSheet.drawTile(this.tilenumber, drawX , drawY, ctx);
 };
 
 GameObject.prototype.process = function(player){
@@ -124,12 +124,12 @@ Ghost.prototype = new GameObject(); // could probably change to enemy if
 Ghost.prototype.update = function(){
 	this.timer++;
 	this.move();
-	if(!isOnScreen(levelRenderer.camera, this)){
+	if(!isOnScreen(Game.camera, this)){
 		this.remove = true;
 	}
 };
 
-Ghost.prototype.draw = function(camera){
+Ghost.prototype.draw = function(camera, ctx){
 	var drawX = this.x - camera.x;
 	var drawY = this.y - camera.y;
 	ctx.fillStyle = this.color;
@@ -146,8 +146,8 @@ Ghost.prototype.move = function(){
 	if(this.timer < 50){
 		return;
 	}
-	var destX = player.x;
-	var destY = player.y;
+	var destX = Game.player.x;
+	var destY = Game.player.y;
 	if(this.playerDead){
 		this.y += this.speed;
 	} else {

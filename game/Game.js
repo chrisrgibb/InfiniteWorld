@@ -18,13 +18,17 @@ Game.draw = function(){
 
 Game.init = function(ctx){
 
+	this.camera = new Camera();
+
+	this.player = new Player(ctx);
+
 	var seedValue = rangeSlider.value;
 
 	this.levelState = new LevelState(this.player);
 
 	this.levelState.init(seedValue);
-	this.levelRenderer = new LevelRenderer(this.player, camera, this.levelState, ctx);
-	this.objectRenderer = new ObjectRenderer(camera, this.player, this.levelState, ctx);
+	this.levelRenderer = new LevelRenderer(this.player, this.camera, this.levelState, ctx);
+	this.objectRenderer = new ObjectRenderer(this.camera, this.player, this.levelState, ctx);
 
 
 };
@@ -41,8 +45,6 @@ Game.update = function(){
 /*
  * Main game loop
  */
-
- var requestId ;
 
 Game.run = function(){
 	Game.update();
