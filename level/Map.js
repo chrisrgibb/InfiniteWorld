@@ -1,27 +1,15 @@
 var Map = function(level){
 	level = level || {};
-	this.enemys = [];
-	this.objects = [];
-	if(level.nodes){
-		this.nodes = level.nodes;
-	}
-	if(level.backgroundColor){
-		this.backgroundColor = level.backgroundColor;
-	}
+
+	this.enemys = level.enemies || [];
+	this.objects = level.objects || [];
+	this.nodes = level.nodes || [];
+	this.backgroundColor = level.backgroundColor || "#000000";
+
+	this.tiles = level.tiles;
 	this.sections = level.sections;
 
-	if(!level.tiles){
-
-	} else {
-		this.tiles = level.tiles;
-
-	}
-
-
-	
 	this.blocks = this.createBlocks();
-
-	// create enemies
 
 };
 

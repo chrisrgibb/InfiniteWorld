@@ -6,11 +6,14 @@ var MapCreater = function(){
 MapCreater.prototype = {
 	createMap : function(){
 		var map = new Map({
-			tiles : this.getTiles()
+			tiles : this.getTiles(),
+			backgroundColor : "#0000ff",
+			enemies : this.getEnemies(),
+			objects : this.getObjects()
 		});
 
-		map.enemys  = this.getEnemies();
-		map.objects = this.getObjects();
+		// map.enemys  = this.getEnemies();
+		// map.objects = this.getObjects();
 		return map;
 	},
 

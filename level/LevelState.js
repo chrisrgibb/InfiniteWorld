@@ -23,14 +23,19 @@ var LevelState = function(player){
 LevelState.prototype.init = function(seedValue) {
 	this.enemys = [];
 	seedValue = seedValue || 6;
-	// this.map = new Map("tiles");
-	// this.map = new Map();
-	// var lg = new levelGenerator();
 
-	var levelGenerator = new levelGen2();
-	var isRandom = true;
-	this.map = levelGenerator.createNewMap(isRandom, seedValue);
-	this.map = new MapCreater().createMap();
+
+	var isRandom = false;
+	if(isRandom){
+		/* 
+			Create Random Levelt
+		*/
+		var levelGenerator = new levelGen2();
+		this.map = levelGenerator.createNewMap(isRandom, seedValue);
+	} else {
+
+		this.map = new MapCreater().createMap();
+	}
 
 	this.enemys = this.map.enemys;
 	this.objects = this.map.objects;
