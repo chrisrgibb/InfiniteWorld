@@ -1,5 +1,5 @@
 // global variables whoop
-// var canvas,
+
 var WIDTH,
 	HEIGHT,
 	debug,
@@ -16,24 +16,31 @@ var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webki
     window.requestAnimationFrame = requestAnimationFrame;
 })();
 
-function init(){
 
+define([ './game/Game','./extras/Debugger'] ,function(Game, Debugger){
+	function init(){
 
-	// camera = new Camera();
-	debug = new Debugger();
+		// camera = new Camera();
+		debug = new Debugger();
 
-	Game.init();
+		window.Game = Game;
 
-	if(!Game.running){
-		Game.run();
+		Game.init();
+
+		// if(!Game.running){
+		// 	Game.run();
+		// }
+
 	}
 
-}
+	// window.addEventListener("load", init);
 
-window.addEventListener("load", init);
+	init();
 
-var rangeSlider = document.getElementById('range');
-rangeSlider.addEventListener('change', function(){
-	init(rangeSlider.value);
-});
+	var rangeSlider = document.getElementById('range');
+	rangeSlider.addEventListener('change', function(){
+		init(rangeSlider.value);
+	});
+})
+
 
