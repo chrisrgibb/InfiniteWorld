@@ -1,7 +1,8 @@
-define(['./TileSheet'],function(TileSheet){
+define(['./TileSheet', './Camera', '../game/player', '../level/levelState'],function(TileSheet, camera, player, levelState){
 
-	var LevelRenderer = function(player, camera, levelState, ctx) {
+	var LevelRenderer = function() {
 
+var ctx = document.getElementById('canvas').getContext('2d');
 		CONSTANTS.tileSize = 16;
 		CONSTANTS.screenWidth = screenWidth = CONSTANTS.tileSize * 16;
 		CONSTANTS.screenHeight = screenHeight = CONSTANTS.tileSize * 12;
@@ -15,6 +16,7 @@ define(['./TileSheet'],function(TileSheet){
 
 		function draw(){
 			camera.update();
+			var map = levelState.map;
 			/**
 				main drawing function
 			*/
@@ -125,6 +127,6 @@ define(['./TileSheet'],function(TileSheet){
 	};
 
 
-	return LevelRenderer;
+	return new LevelRenderer();
 
 });

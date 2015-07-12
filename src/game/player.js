@@ -1,5 +1,5 @@
 
-define(function(){
+define(['../graphics/camera', '../level/levelState'],function(camera, levelState){
 
 
 	function Player(ctx){
@@ -270,16 +270,16 @@ define(function(){
 
 		// check left of screen
 
-		if(this.x-(this.width/2) < levelRenderer.camera.x){
-			this.x = levelRenderer.camera.x + (this.width/2);
+		if(this.x-(this.width/2) < camera.x){
+			this.x = camera.x + (this.width/2);
 		}
 		// check right of screen
-		if(this.x+(this.width/2) > levelRenderer.mapWidth()*16){
-			this.x = (levelRenderer.mapWidth()*16)- (this.width/2);
+		if(this.x+(this.width/2) > levelState.map.getWidth()*16){
+			this.x = (levelState.map.getWidth()*16)- (this.width/2);
 		}
 		// check bottom of screen
-		if(this.y + (this.height/2) > levelRenderer.mapHeight()*16){
-			this.y = (levelRenderer.mapHeight()*16)-(this.height/2);
+		if(this.y + (this.height/2) > levelState.map.getHeight() * 16){
+			this.y = (levelState.map.getHeight() * 16) - (this.height/2);
 		}
 	};
 

@@ -21,17 +21,18 @@ define(['./player', '../graphics/Camera', '../level/levelstate', '../graphics/le
 			
 			initCanvas();
 
-			this.camera = new Camera();
+			this.camera = Camera;
 
 			this.player = new Player(ctx);
 
 			var seedValue;// = rangeSlider.value;
 
-			this.levelState = new LevelState(this.player);
+			this.levelState = LevelState;
 
 			this.levelState.init(seedValue);
-			this.levelRenderer = new LevelRenderer(this.player, this.camera, this.levelState, ctx);
-			this.objectRenderer = new ObjectRenderer(this.camera, this.player, this.levelState, ctx);
+			// this.levelRenderer = new LevelRenderer(this.player, this.camera, this.levelState, ctx);
+			this.levelRenderer = LevelRenderer;
+			this.objectRenderer = ObjectRenderer;
 
 
 			function initCanvas(){

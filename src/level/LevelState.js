@@ -1,8 +1,6 @@
-define(['require', '../game/objects/shockWave', './MapCreater'], function(require, ShockWave, MapCreater){
+define(['require', '../game/objects/shockWave', './MapCreater', '../game/player'], function(require, ShockWave, MapCreater, player){
 
-
-
-	var LevelState = function(player){
+	var LevelState = function(){
 
 		this.map = null;
 
@@ -253,5 +251,5 @@ define(['require', '../game/objects/shockWave', './MapCreater'], function(requir
 		}
 	};
 
-	return LevelState;
+	return new LevelState();
 });

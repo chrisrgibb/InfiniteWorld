@@ -38,6 +38,6 @@ define(function(){
 	};
 
 
-	return Camera;
+	return new Camera();
 })
 

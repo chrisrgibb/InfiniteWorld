@@ -11,7 +11,7 @@ define(['../../graphics/objectSheet'],function(ObjectSheet){
 		this.timer = -1;
 		this.tilenumber = 0;
 		this.remove = false;
-		this.objectSheet = new ObjectSheet();
+		this.objectSheet = ObjectSheet;
 	};
 
 	GameObject.prototype.draw = function(camera, ctx){

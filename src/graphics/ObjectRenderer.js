@@ -1,11 +1,12 @@
 // requirejs(['./graphics/ObjectSheet']);
 
-define(['./ObjectSheet'],function(ObjectSheet){
-	var ObjectRenderer = function(camera, player, levelState, ctx){
+define(['./ObjectSheet', './camera', '../game/player', '../level/levelState'],function(objectSheet, camera, player, levelState){
+	var ObjectRenderer = function(){
 
+		var canvas = document.getElementById('canvas');
+			var ctx = canvas.getContext('2d');
 
-
-		var objectSheet = new ObjectSheet();
+		// var objectSheet = new ObjectSheet();
 		var obRenderer = this;
 
 		function draw(){
@@ -44,6 +45,6 @@ define(['./ObjectSheet'],function(ObjectSheet){
 
 	};
 
-	return ObjectRenderer;
+	return new ObjectRenderer();
 });
 

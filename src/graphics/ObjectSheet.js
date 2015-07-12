@@ -17,6 +17,6 @@ define(function(){
 		ctx.drawImage(this.image, xtoDraw*16 , ytoDraw*16, 16, 16, x, y, 16, 16);
 	};
 	
-	return ObjectSheet;
+	return new ObjectSheet();
 });
 
