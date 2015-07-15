@@ -1,8 +1,8 @@
 
-define(['../graphics/camera', '../level/levelState'],function(camera, levelState){
+define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 
 
-	function Player(ctx){
+	function Player(){
 
 		/*
 			Need to fix players movement in the air
@@ -21,7 +21,7 @@ define(['../graphics/camera', '../level/levelState'],function(camera, levelState
 		this.gravity = 0.25;
 		this.friction = 0.8;
 
-		this.ctx = ctx;
+		this.ctx = document.getElementById('canvas').getContext('2d');
 
 		this.dir = 1;
 
@@ -55,7 +55,7 @@ define(['../graphics/camera', '../level/levelState'],function(camera, levelState
 		this.counter =0;
 
 		this.money = 0;
-		// this.inventory = new Inventory();
+		this.inventory = new Inventory();
 		this.shockwaveOnscreen = false;
 		this.braceletActivated = false;
 		this.oldYvel =0;
@@ -528,7 +528,7 @@ define(['../graphics/camera', '../level/levelState'],function(camera, levelState
 		ctx.drawImage(this.image, drawFrame*16, 0, 16, 24, this.x - this.width - camera.x + 2, this.y - this.height/2  - camera.y - 4, 16, 24);
 	};
 
-	return Player;
+	return new Player();
 
 });
 

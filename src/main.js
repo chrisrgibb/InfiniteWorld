@@ -37,6 +37,7 @@ define([ './game/Game','./extras/Debugger'] ,function(Game, Debugger){
 		init(rangeSlider.value);
 	});
 
+
 	return "yolo";
 })
 

@@ -1,4 +1,4 @@
-define(['./player', '../graphics/Camera', '../level/levelState', '../graphics/levelRenderer', '../graphics/objectRenderer'],function(Player, Camera, LevelState, LevelRenderer, ObjectRenderer){
+define(['./player', '../graphics/camera', '../level/levelState', '../graphics/levelRenderer', '../graphics/objectRenderer'],function(Player, Camera, LevelState, LevelRenderer, ObjectRenderer){
 
 	// main game function
 	var Game = {
@@ -23,7 +23,7 @@ define(['./player', '../graphics/Camera', '../level/levelState', '../graphics/le
 
 			this.camera = Camera;
 
-			this.player = new Player(ctx);
+			this.player = Player;
 
 			var seedValue;// = rangeSlider.value;
 

@@ -1,10 +1,11 @@
-define(['require', '../game/objects/shockWave', './MapCreater', '../game/player'], function(require, ShockWave, MapCreater, player){
+define(['require', '../game/objects/shockWave', './MapCreater', '../game/player', '../game/objects/MoneyBag', './Block', '../game/objects/ring', '../game/enemies/ghost'], function(require, ShockWave, MapCreater, Player, MoneyBag, Block, Ring, Ghost){
 
 	var LevelState = function(){
 
 		this.map = null;
 
-		this.player = player;
+		this.player = Player;
+		this.player.levelState = this;
 		this.enemys = [];
 		this.objects = [];
 		

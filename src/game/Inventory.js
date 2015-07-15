@@ -1,7 +1,13 @@
-var Inventory = function(){
-	"use strict";
-	this.money = 0;
-	this.ring = false;
-	this.powder = false;
-	this.lives = 3;
-};
+define(function(){
+
+	var Inventory = function(){
+		"use strict";
+		this.money = 0;
+		this.ring = false;
+		this.powder = false;
+		this.lives = 3;
+	};
+
+	return Inventory;
+})
+

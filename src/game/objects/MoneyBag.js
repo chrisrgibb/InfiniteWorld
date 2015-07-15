@@ -1,4 +1,4 @@
-define(['./GameObject'],function(GameObject){
+define(['./gameobject'],function(GameObject){
 	function MoneyBag(x, y, tilenumber){
 		this.x = x*16;
 		this.y = y*16;

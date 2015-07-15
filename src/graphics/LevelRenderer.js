@@ -1,4 +1,4 @@
-define(['./TileSheet', './Camera', '../game/player', '../level/levelState'],function(TileSheet, camera, player, levelState){
+define(['./TileSheet', './camera', '../game/player', '../level/levelState'],function(TileSheet, camera, player, levelState){
 
 	var LevelRenderer = function() {
 

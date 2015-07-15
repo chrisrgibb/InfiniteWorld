@@ -3,3 +3,4 @@
 /libs
 app.js
 /extra-assets
+*.sql

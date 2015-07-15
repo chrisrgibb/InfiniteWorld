@@ -1,5 +1,8 @@
 define(function(){
-	 window.keys = {
+
+	var something = 12;
+
+	window.keys = {
 		"jump" : false,
 		"left" : false,
 		"right" : false
@@ -63,6 +66,7 @@ define(function(){
 		}
 	});
 
+	return something;
 		
 })
 
