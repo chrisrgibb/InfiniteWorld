@@ -1,4 +1,7 @@
-define(['require', '../game/objects/shockWave', './MapCreater', '../game/player', '../game/objects/MoneyBag', './Block', '../game/objects/ring', '../game/enemies/ghost'], function(require, ShockWave, MapCreater, Player, MoneyBag, Block, Ring, Ghost){
+define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/player', 
+		'../game/objects/MoneyBag', './Block', '../game/objects/ring', '../game/enemies/ghost', 
+		'../game/objects/life'], 
+		function(require, ShockWave, MapCreater, Player, MoneyBag, Block, Ring, Ghost, Life){
 
 	var LevelState = function(){
 
@@ -86,7 +89,7 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player'
 					levelstate.currentItem++;
 					break;
 				case 2 :
-					levelstate.onScreenObjects.push(new Life(x, y, true));
+ 					levelstate.onScreenObjects.push(new Life(x, y, true));
 					levelstate.currentItem = 0;
 					break;
 			}
@@ -94,8 +97,6 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player'
 				levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
 			}
 		}
-
-
 
 		if (punchedTile.breakable ){
 			if (punchedTile.image===9) { 
@@ -121,7 +122,6 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player'
 			}
 		}
 
-
 		if(this.map.tiles[y][x]===2){
 			this.map.tiles[y][x] =0;
 		}
@@ -142,7 +142,7 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player'
 		if(x > this.map.blocks[0].length-1 || y > this.map.blocks.length-1){
 			return;
 		}
-		if(this.map.blocks[y][x].image == 7 ){
+		if(this.map.blocks[y][x].image == 7 ){ // skullblock
 
 			if(!this.playerOnGhost){
 				this.onScreenObjects.push(new Ghost(x, y, true));
@@ -201,19 +201,25 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player'
 		var removeEnemys = [];
 		var countage = 0;
 		var Game = window.Game;
-		var levelRenderer = Game.levelRenderer;
+		// var levelRenderer = Game.levelRenderer;
 		var camera = Game.camera;
 	 	/* Move stuff 
 	 	 *
 	 	 */
 		for(var i = 0; i< enemys.length; i++){
 			if( isOnScreen(camera, enemys[i]) ){
-				enemys[i].move();
+				enemys[i].move(this);
 				countage++;
 				debug.setText(countage);
+				collideWithPlayer(enemys[i], this.player);
 			}	else if(enemys[i].y < camera.y + 16) {
+				// enemy is offscreen
 				removeEnemys.push(enemys[i]);
 			}
+		}
+
+		function collideWithPlayer(obj, player){
+			// TODO implement
 		}
 
 		// increment timer on all onscreen objects (ring, money, life)

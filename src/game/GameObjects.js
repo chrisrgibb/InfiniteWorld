@@ -1,3 +1,18 @@
+define(['./objects/gameobject'],function(GameObject){
+
+
+
+
+	return {
+		riceBall : function(x, y){
+			return new RiceBall(x, y);
+		},
+		life : function(x, y){
+			return new Life(x, y);
+		}
+	}
+
+});
 
 function RiceBall(x, y){
 	this.x = x*16;

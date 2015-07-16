@@ -14,9 +14,9 @@ define(['./Enemy'],function(Enemy){
 
 	Scorpion.prototype =  new Enemy();
 
-	Scorpion.prototype.move = function(){
+	Scorpion.prototype.move = function(levelState){
 		// TODO fix
-		var map = Game.levelState.map;
+		var map = levelState.map;
 		var dX = this.dir * this.speed;
 		if(dX < 0){
 			if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )/* or if scorpion is about to fall off block */ ){

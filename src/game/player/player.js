@@ -1,5 +1,5 @@
 
-define(['../graphics/camera', './Inventory'],function(camera, Inventory){
+define(['../../graphics/camera', './Inventory','./movecomponent'],function(camera, Inventory, movecomponent){
 
 
 	function Player(){
@@ -61,6 +61,8 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 		this.oldYvel =0;
 
 		this.maxJumpReached = false;
+
+		this.movecomponent = movecomponent;
 	}
 
 	Player.prototype.moveDir = function(dir){
@@ -83,8 +85,7 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 		return dir * absX;
 	};
 
-	Player.prototype.move = function(first_argument) {
-		var levelState = Game.levelState;
+	Player.prototype.move = function(levelState) {
 			var levelRenderer = Game.levelRenderer;
 		var dX = 0, dY = 0;
 
@@ -226,7 +227,7 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 		if(!keys.down && keys.punch && this.punchTime === 0 && this.canPunch){
 			// start of punch
 
-			this.punchDetection();
+			this.punchDetection(levelState);
 			this.punchTime = 8;
 			this.canPunch = false;
 			if(this.onGround){
@@ -256,8 +257,8 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 			}
 		}
 
-		this.x = this.moveX(dX, dY);
-		this.y = this.moveY(dX, dY);
+		this.x = this.moveX(dX, dY, levelState);
+		this.y = this.moveY(dX, dY, levelState);
 
 		// check walk into object
 		// check hazard below eg spikes / lava or pink skull
@@ -284,11 +285,11 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 	};
 
 
-	Player.prototype.punchDetection = function(){
+	Player.prototype.punchDetection = function(levelState){
 
 		var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
 
-		Game.levelState.punchTile(punchX, this.y/ 16 | 0);
+		levelState.punchTile(punchX, this.y/ 16 | 0);
 	};
 
 	Player.prototype.calcFriction = function(){
@@ -314,7 +315,7 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 	};
 
 
-	Player.prototype.moveX = function(dX, dY){
+	Player.prototype.moveX = function(dX, dY, levelState){
 		var tempX = this.x,
 				tileX1,
 				tileX2,
@@ -322,7 +323,8 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 				yBottom,
 				nextX,
 				ax,
-				levelState = Game.levelState;
+				map = levelState.map;
+
 		if( dX> 0){
 			//moving right
 			nextX = this.x + dX + (this.width/2); // the nextX
@@ -334,8 +336,8 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 				return;
 			}
 
-			tileX2 = levelState.map.isBlocking(ax, yBotttom);
-			tileX1 = levelState.map.isBlocking(ax, yTop);
+			tileX2 = map.isBlocking(ax, yBotttom);
+			tileX1 = map.isBlocking(ax, yTop);
 
 			// For DEBUGGINS
 			// if( tileX1 ) {
@@ -363,9 +365,8 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 			yTop = 	   	(1 + this.y - this.height/2) / 16 | 0;
 			yBotttom = 	(-1 + this.y + this.height/2) / 16 | 0;
 
-
-			tileX2 = levelState.map.isBlocking(ax, yBotttom);
-			tileX1 = levelState.map.isBlocking(ax, yTop);
+			tileX2 = map.isBlocking(ax, yBotttom);
+			tileX1 = map.isBlocking(ax, yTop);
 
 			// if(tileX1) {
 			// 	levelRenderer.addToHighLights(ax, yTop, "#9BF0E9");
@@ -389,10 +390,10 @@ define(['../graphics/camera', './Inventory'],function(camera, Inventory){
 	};
 
 
-	Player.prototype.moveY = function(dX, dY){
+	Player.prototype.moveY = function(dX, dY, levelState){
 		var tempY = this.y;
 		var ay, left, right, leftTile, rightTile;
-		var map = Game.levelState.map;
+		var map = levelState.map
 
 		if(this.jumping && dY < 0 ){
 

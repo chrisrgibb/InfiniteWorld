@@ -1,9 +1,9 @@
-define(['../objects/gameobject'] ,function(GameObject){
+define(['../objects/gameobject', '../../graphics/enemySheet'] ,function(GameObject, enemySheet){
 
 	function Ghost(x, y){
 		this.color = "#adadff";
 		this.x =  8 + x * 16;
-		this.y =  8 + y *16;
+		this.y =  8 + y * 16;
 		this.width = 16;
 		this.height = 16;
 		this.timer = 0;

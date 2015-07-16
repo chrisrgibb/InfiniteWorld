@@ -8,10 +8,8 @@ define(function(){
 	}
 
 	Camera.prototype = {
-		update: function() {
-			var levelRenderer = Game.levelRenderer;
+		update: function(map) {
 			var player = Game.player;
-			var map = Game.levelState.map;
 
 			var newY = player.y - CONSTANTS.screenHeight/2 | 0;
 			if(newY > this.y){

@@ -1,6 +1,6 @@
 // requirejs(['./graphics/ObjectSheet']);
 
-define(['./ObjectSheet', './camera', '../game/player', '../level/levelState'],function(objectSheet, camera, player, levelState){
+define(['./ObjectSheet', './camera', '../game/player/player', '../level/levelState'],function(objectSheet, camera, player, levelState){
 	var ObjectRenderer = function(){
 
 		var canvas = document.getElementById('canvas');

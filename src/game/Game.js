@@ -1,4 +1,4 @@
-define(['./player', '../graphics/camera', '../level/levelState', '../graphics/levelRenderer', '../graphics/objectRenderer'],function(Player, Camera, LevelState, LevelRenderer, ObjectRenderer){
+define(['./player/player', '../graphics/camera', '../level/levelState', '../graphics/levelRenderer', '../graphics/objectRenderer', './gamestate'],function(Player, Camera, LevelState, LevelRenderer, ObjectRenderer, gamestate){
 
 	// main game function
 	var Game = {
@@ -13,7 +13,7 @@ define(['./player', '../graphics/camera', '../level/levelState', '../graphics/le
 			this.levelRenderer.draw();
 			this.objectRenderer.draw();
 			this.player.draw(this.player.ctx, this.levelRenderer.camera);
-			// debug.render(ctx);
+			debug.render(this.player.ctx);
 			// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
 		},
 
@@ -27,10 +27,15 @@ define(['./player', '../graphics/camera', '../level/levelState', '../graphics/le
 
 			var seedValue;// = rangeSlider.value;
 
+			
+			// this.gamestate = gamestate;
+
+			// this.gamestate.init();
+
 			this.levelState = LevelState;
 
 			this.levelState.init(seedValue);
-			// this.levelRenderer = new LevelRenderer(this.player, this.camera, this.levelState, ctx);
+
 			this.levelRenderer = LevelRenderer;
 			this.objectRenderer = ObjectRenderer;
 
@@ -56,8 +61,9 @@ define(['./player', '../graphics/camera', '../level/levelState', '../graphics/le
 			if(COUNTER>23){
 				COUNTER=0;
 			}
+			// this.gamestate.update();
 			this.levelState.update();
-			this.player.move();
+			this.player.move(this.levelState);
 		},
 
 		/*

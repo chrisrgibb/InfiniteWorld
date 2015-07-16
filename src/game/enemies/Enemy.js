@@ -1,4 +1,4 @@
-define(function(){
+define(['../../graphics/enemySheet'],function(enemySheet){
 
 	var Enemy = function(x, y){
 		this.x = x * 16;
@@ -8,17 +8,21 @@ define(function(){
 		this.height = 16;
 		this.dir = -1;
 		this.speed = 0.3;
+		
 		this.block = false;
 		this.color = "#adad03";
+
 		this.imageWidth = 24;
 		this.imageHeight = 16;
+
+		this.tileNumber = 1;
 	};
 
 	Enemy.prototype = {
-		move : function() {
+		move : function(levelState) {
 			var dX = this.dir * this.speed;
 			// TODO fix
-			var map = Game.levelState.map;
+			var map = levelState.map;
 			if(dX < 0){
 				if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )){
 					this.dir *= -1;
@@ -42,7 +46,8 @@ define(function(){
 			var drawY = (this.y) - camera.y; 
 
 			ctx.fillStyle = this.color;
-			ctx.fillRect(drawX, drawY, this.width, this.height);		
+			ctx.fillRect(drawX, drawY, this.width, this.height);
+			enemySheet.draw(this.tileNumber, drawX - this.width/2, drawY - this.width/2, this.width, this.height);		
 		}
 	};
 	return Enemy;

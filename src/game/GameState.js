@@ -1,22 +1,30 @@
-var enemys = [];
+define(['../level/levelState'],function(levelstate){
+	
 
 
 
-var GameState = function(){
+	return {
+		draw : function(){
 
-	this.enemys = [];
-	// this.map = null;
+		},
 
-};
-
-
-
-GameState.prototype.draw = function(){
+		handlePunch : function(){
 
 
-};
+		},
 
-GameState.prototype.handlePunch = function(){
+		update : function(){
+			levelstate.update();
+
+		},
+		init : function(){
+			levelstate.init();
+
+		},
+		levelstate : levelstate
+	}
+
+});
 
 
-};
+
