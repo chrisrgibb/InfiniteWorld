@@ -4,7 +4,7 @@ define(function(){
 		this.debugText = "";
 		this.debugText2 = "";
 		this.debug = false;
-		this.drawGrid = false;
+		this.drawGrid = true;
 
 	};
 

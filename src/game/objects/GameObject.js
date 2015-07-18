@@ -1,4 +1,4 @@
-define(['../../graphics/objectSheet'],function(ObjectSheet){
+define(['../../graphics/ObjectSheet'],function(ObjectSheet){
 
 	// tile numbers
 	// 12 = big money

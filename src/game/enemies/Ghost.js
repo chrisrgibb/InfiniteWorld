@@ -1,11 +1,14 @@
 define(['../objects/gameobject', '../../graphics/enemySheet'] ,function(GameObject, enemySheet){
 
 	function Ghost(x, y){
-		this.color = "#adadff";
-		this.x =  8 + x * 16;
-		this.y =  8 + y * 16;
+
 		this.width = 16;
 		this.height = 16;
+
+		this.color = "#adadff";
+		this.x =  ( this.width  / 2 ) + x * this.width;
+		this.y =  ( this.height / 2 ) + y * this.height;
+
 		this.timer = 0;
 		this.speed = 0.5;
 		this.playerDead = false;
@@ -27,7 +30,12 @@ define(['../objects/gameobject', '../../graphics/enemySheet'] ,function(GameObje
 		var drawX = this.x - camera.x;
 		var drawY = this.y - camera.y;
 		ctx.fillStyle = this.color;
-		enemySheet.draw(0, drawX - this.width/2, drawY - this.width/2, this.width, this.height);
+
+		var imagesrc = {
+			x : 0,
+			y : 0
+		}
+		enemySheet.draw(imagesrc, drawX - this.width/2, drawY - this.width/2, this.width, this.height);
 	};
 
 	Ghost.prototype.process = function(){

@@ -1,11 +1,13 @@
 define(['../../graphics/enemySheet'],function(enemySheet){
 
 	var Enemy = function(x, y){
-		this.x = x * 16;
-		this.y = y * 16;
-		this.image = new Image();
 		this.width = 24;
 		this.height = 16;
+
+		this.x = (this.width / 2) + x * 16;
+		this.y = y * 16 + (this.height / 2);
+		this.image = new Image();
+		
 		this.dir = -1;
 		this.speed = 0.3;
 		
@@ -15,7 +17,10 @@ define(['../../graphics/enemySheet'],function(enemySheet){
 		this.imageWidth = 24;
 		this.imageHeight = 16;
 
-		this.tileNumber = 1;
+		this.imagesrc = {
+			x : 0,
+			y : 17
+		};
 	};
 
 	Enemy.prototype = {
@@ -24,12 +29,14 @@ define(['../../graphics/enemySheet'],function(enemySheet){
 			// TODO fix
 			var map = levelState.map;
 			if(dX < 0){
-				if(map.isBlocking((this.x + dX ) /16 | 0, this.y  /16 | 0 )){
+				// going left
+				if(map.isBlocking((this.x + dX - (this.width/2)) /16 | 0, this.y  /16 | 0 )){
 					this.dir *= -1;
 					this.block = true; // ???
 				}
 			} else if(dX > 0){
-				if(map.isBlocking( (this.x + this.width + dX ) / 16 | 0, this.y  / 16 | 0)){
+				// going right
+				if(map.isBlocking( (this.x + (this.width/2) + dX ) / 16 | 0, this.y  / 16 | 0)){
 					this.dir *= -1;
 				}
 			}
@@ -42,12 +49,10 @@ define(['../../graphics/enemySheet'],function(enemySheet){
 		
 		draw : function(camera, ctx){
 
-			var drawX = (this.x) - camera.x;
-			var drawY = (this.y) - camera.y; 
+			var drawX = (this.x) - camera.x - this.width/2;
+			var drawY = (this.y) - camera.y - this.height/2;
 
-			ctx.fillStyle = this.color;
-			ctx.fillRect(drawX, drawY, this.width, this.height);
-			enemySheet.draw(this.tileNumber, drawX - this.width/2, drawY - this.width/2, this.width, this.height);		
+			enemySheet.draw(this.imagesrc, drawX, drawY, this.width, this.height);		
 		}
 	};
 	return Enemy;

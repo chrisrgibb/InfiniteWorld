@@ -131,7 +131,7 @@ define(['./Map', '../game/enemies/Scorpion','../game/enemies/Enemy', '../game/ob
 
 		getEnemies : function(){
 			return [
-				new Enemy(4, 3),
+				new Enemy(1, 1),
 				new Enemy(4, 19),
 				new Enemy(8, 26),
 				new Enemy(4, 34),
