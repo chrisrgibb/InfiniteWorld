@@ -2,18 +2,23 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 	// main game function
 	var Game = {
-		fps : 50, //50 is fps
+		fps : 60, //50 is fps
 		then : Date.now(), // for fps
+		tick : 1,
+		dt : 0,
+		step : 1000/ 60,
+		throttle : false,
 
 
 		/**
 			Main draw function
 		**/
-		draw : function(){
+		draw : function(tick){
 			this.levelRenderer.draw();
-			this.objectRenderer.draw();
+			this.objectRenderer.draw(tick);
 			this.player.draw(this.player.ctx, this.levelRenderer.camera);
-			debug.render(this.player.ctx);
+			// debug.render(this.player.ctx);
+			Game.drawFPS(this.tick);
 			// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
 		},
 
@@ -71,21 +76,46 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 		*/
 
 		run : function(){
-			Game.update();
-			Game.draw();
-			requestAnimationFrame(Game.run);
-			Game.calcFPS();
+			requestAnimationFrame(Game.run);	
+			
+			var now = Date.now();
+			var delta = now - Game.then;
+			
+			if(Game.throttle){
+				if(delta > Game.step){
+
+					Game.then = now - (delta % Game.step);
+					Game.update();
+					Game.tick = COUNTER;
+			
+				}
+			} else {
+				Game.update();
+			}
+		
+			Game.draw(COUNTER);
+			
 			Game.running = true;
 		},
 
 		calcFPS : function(){
-			var now = Date.now();
-			var elapsed = ( now - Game.then) / 1000;
-			var otherone = 1000 / (now - Game.then);
+			// var now = Date.now();
+			// var elapsed = ( now - Game.then) / 1000;
+			// this.dt = this.dt + Math.min(1, elapsed);
+			// var count = 0;
+			// while(this.dt > this.step){
+			// 	this.dt = this.dt - this.step;
+			// 	count++;
+			// }
+			// // console.log(count);
 
-			Game.then = Date.now();
-			var fps = 1 / elapsed;
-			// Game.drawFPS(fps);
+		
+			// var otherone = 1000 / (now - Game.then);
+			// Game.then = Date.now();
+
+			// var fps = 1 / elapsed;
+			// this.tick = otherone;
+			// // this.tick = fps;
 		},
 
 		drawDebugGrid : function(ctx, camera){
@@ -103,6 +133,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 		},
 		
 		drawFPS : function(text) {
+			ctx = this.player.ctx;
 			ctx.fillStyle = "yellow";
 			ctx.font = "bold 18px sans-serif";
 			ctx.fillText(text, 20, 20);

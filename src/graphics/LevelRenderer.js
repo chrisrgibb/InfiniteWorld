@@ -56,6 +56,7 @@ var ctx = document.getElementById('canvas').getContext('2d');
 					
 				 	// ctx.fillRect(x, y, tileSize, tileSize);
 				 	if(tile.animated){
+				 		// this is dumb because it will do this for every tile
 				 		if(COUNTER % 23 ===0){
 				 			animationCounter++;
 				 			if(animationCounter > 3){

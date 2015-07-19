@@ -9,13 +9,16 @@ define(['../../graphics/enemySheet'],function(enemySheet){
 		this.image = new Image();
 		
 		this.dir = -1;
-		this.speed = 0.3;
+		this.speed = 0.4;
 		
 		this.block = false;
 		this.color = "#adad03";
 
 		this.imageWidth = 24;
 		this.imageHeight = 16;
+
+		this.frameCount = 0;
+		this.currentFrame = 0;
 
 		this.imagesrc = {
 			x : 0,
@@ -47,10 +50,22 @@ define(['../../graphics/enemySheet'],function(enemySheet){
 			}
 		},
 		
-		draw : function(camera, ctx){
+		draw : function(camera, ctx, tick){
 
-			var drawX = (this.x) - camera.x - this.width/2;
-			var drawY = (this.y) - camera.y - this.height/2;
+			var drawX = (this.x) - camera.x - this.width / 2;
+			var drawY = (this.y) - camera.y - this.height / 2;
+
+			// this.counter = 0;
+
+			if(tick % 12 === 0){
+				this.frameCount++;
+				if(this.frameCount > 1){
+					this.frameCount = 0;
+				}
+			}
+		
+
+			this.imagesrc.x = this.frameCount * this.width;
 
 			enemySheet.draw(this.imagesrc, drawX, drawY, this.width, this.height);		
 		}
