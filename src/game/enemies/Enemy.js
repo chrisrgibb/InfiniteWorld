@@ -64,8 +64,7 @@ define(['../../graphics/enemySheet'],function(enemySheet){
 				}
 			}
 		
-
-			this.imagesrc.x = this.frameCount * this.width;
+			this.imagesrc.x = this.frameCount * this.width + (this.dir > 0 ? (2 * this.width ) : 0) ;
 
 			enemySheet.draw(this.imagesrc, drawX, drawY, this.width, this.height);		
 		}
