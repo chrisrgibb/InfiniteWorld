@@ -99,13 +99,13 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 		}
 
 		if (punchedTile.breakable ){
-			if (punchedTile.image===9) { 
+			if (punchedTile.image===Block.star) { 
 				// star block
 				getNewOnScreenObject();
-			} else if (punchedTile.image===8){ 
+			} else if (punchedTile.image===Block.question){ 
 				// question block
 				manageQuestionTile();
-			} else if (punchedTile.image===10) { 
+			} else if (punchedTile.image===Block.yellowskull) { 
 				// jitters block
 				this.player.jittersTime = 15;
 
@@ -208,10 +208,12 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 	 	 */
 		for(var i = 0; i< enemys.length; i++){
 			if( isOnScreen(camera, enemys[i]) ){
+				
 				enemys[i].move(this);
 				countage++;
 				debug.setText(countage);
 				collideWithPlayer(enemys[i], this.player);
+
 			}	else if(enemys[i].y < camera.y + 16) {
 				// enemy is offscreen
 				removeEnemys.push(enemys[i]);
@@ -220,6 +222,23 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 
 		function collideWithPlayer(obj, player){
 			// TODO implement
+			var width = obj.width / 2;
+			var height = obj.height / 2;
+			var x1 = obj.x - width;
+			var	x2 = obj.x + width;
+
+			var y1 = obj.y - height;
+			var y2 = obj.y + height;
+
+			var playerx1 = player.x - player.width / 2;
+			var	playerx2 = player.x + player.width / 2;
+
+			if(player.x > x1 && player.x < x2 
+				&& player.y > y1 && player.y < y2){
+				debug.debugText2 = "Colideddd";
+			} else {
+				debug.debugText2 = "";
+			}
 		}
 
 		// increment timer on all onscreen objects (ring, money, life)

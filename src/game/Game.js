@@ -19,6 +19,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 			this.player.draw(this.player.ctx, this.levelRenderer.camera);
 			// debug.render(this.player.ctx);
 			Game.drawFPS(this.tick);
+			debug.render(this.player.ctx);
 			// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
 		},
 

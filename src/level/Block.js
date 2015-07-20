@@ -10,6 +10,10 @@ define(function(){
 		this.animated = false;
 	};
 
+	Block.star = 9;
+	Block.question = 8;
+	Block.yellowskull = 10;
+
 	return Block;
 });
 
