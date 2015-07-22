@@ -63,6 +63,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent'],function(camer
 		this.maxJumpReached = false;
 
 		this.movecomponent = movecomponent;
+		this.punchX = 0;
 	}
 
 	Player.prototype.moveDir = function(dir){
@@ -288,6 +289,8 @@ define(['../../graphics/camera', './Inventory','./movecomponent'],function(camer
 	Player.prototype.punchDetection = function(levelState){
 
 		var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
+
+		this.punchX = punchX * 16;
 
 		levelState.punchTile(punchX, this.y/ 16 | 0);
 	};

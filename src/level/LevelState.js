@@ -77,7 +77,7 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 		var punchedTile = this.map.blocks[y][x],
 			levelstate = this;
 
-		function manageQuestionTile(){
+		function handleQuestionTile(){
 			switch(levelstate.currentItem){
 				case 0 : 
 					levelstate.onScreenObjects.push(new Ring(x, y, true));
@@ -99,16 +99,15 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 		}
 
 		if (punchedTile.breakable ){
-			if (punchedTile.image===Block.star) { 
+			if (punchedTile.image === Block.star) { 
 				// star block
 				getNewOnScreenObject();
-			} else if (punchedTile.image===Block.question){ 
+			} else if (punchedTile.image === Block.question){ 
 				// question block
-				manageQuestionTile();
-			} else if (punchedTile.image===Block.yellowskull) { 
+				handleQuestionTile();
+			} else if (punchedTile.image === Block.yellowskull) { 
 				// jitters block
 				this.player.jittersTime = 15;
-
 			}
 			// create new empty space block
 			this.map.blocks[y][x] = new Block(x, y, false, 0, 0 );	 
@@ -208,7 +207,7 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 	 	 */
 		for(var i = 0; i< enemys.length; i++){
 			if( isOnScreen(camera, enemys[i]) ){
-				
+
 				enemys[i].move(this);
 				countage++;
 				debug.setText(countage);
@@ -238,6 +237,16 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 				debug.debugText2 = "Colideddd";
 			} else {
 				debug.debugText2 = "";
+			}
+
+			if (player.punchTime > 0 && 
+				(player.punchX > x1 && player.punchX < x2))  {
+				debugger;
+				if(player.y > y1 && player.y < y2){
+					removeEnemys.push(obj);
+				}
+				
+					
 			}
 		}
 
