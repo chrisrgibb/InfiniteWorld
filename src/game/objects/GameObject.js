@@ -32,5 +32,4 @@ define(['../../graphics/ObjectSheet'],function(ObjectSheet){
 	};
 
 	return GameObject;
-
 });

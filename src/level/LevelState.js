@@ -1,7 +1,7 @@
-define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/player', 
+define(['../game/objects/shockWave', './MapCreater', '../game/player/player', 
 		'../game/objects/MoneyBag', './Block', '../game/objects/ring', '../game/enemies/ghost', 
-		'../game/objects/life'], 
-		function(require, ShockWave, MapCreater, Player, MoneyBag, Block, Ring, Ghost, Life){
+		'../game/objects/life', '../graphics/animation'], 
+		function( ShockWave, MapCreater, Player, MoneyBag, Block, Ring, Ghost, Life, Animation){
 
 	var LevelState = function(){
 
@@ -16,6 +16,8 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 		this.onScreenEnemies = [];
 		this.objectsToRemove = [];
 
+		this.animations = [];
+
 		this.currentItem = 0;
 
 		// this.backgroundColor = "#0000ff";
@@ -29,6 +31,8 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 	LevelState.prototype.init = function(seedValue) {
 		this.enemys = [];
 		seedValue = seedValue || 6;
+		var g = Animation;
+		debugger;
 
 
 		var isRandom = false;
@@ -77,7 +81,7 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 		var punchedTile = this.map.blocks[y][x],
 			levelstate = this;
 
-		function handleQuestionTile(){
+		var handleQuestionTile = function (){
 			switch(levelstate.currentItem){
 				case 0 : 
 					levelstate.onScreenObjects.push(new Ring(x, y, true));
@@ -96,7 +100,14 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 			if(levelstate.onScreenObjects.length > 2){
 				levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
 			}
-		}
+		};
+
+		var getNewOnScreenObject = function (){
+			levelstate.onScreenObjects.push(new MoneyBag(x, y, true));
+			if(levelstate.onScreenObjects.length > 2){
+				levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
+			}
+		};
 
 		if (punchedTile.breakable ){
 			if (punchedTile.image === Block.star) { 
@@ -112,14 +123,12 @@ define(['require', '../game/objects/shockWave', './MapCreater', '../game/player/
 			// create new empty space block
 			this.map.blocks[y][x] = new Block(x, y, false, 0, 0 );	 
 			this.map.tiles[y][x] =0;	
+			// add explosion animation to levelstate
+			var animation = new Animation();
+
 		}
 
-		function getNewOnScreenObject(){
-			levelstate.onScreenObjects.push(new MoneyBag(x, y, true));
-			if(levelstate.onScreenObjects.length > 2){
-				levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
-			}
-		}
+
 
 		if(this.map.tiles[y][x]===2){
 			this.map.tiles[y][x] =0;

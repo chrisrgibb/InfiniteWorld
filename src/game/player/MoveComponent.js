@@ -21,122 +21,120 @@ define(['./player'],function(player){
 		},
 
 		calculateMovement : function(player){
-				if ( keys.jump ){
+			if ( keys.jump ){
 
-			if(!this.jumping && this.canJump){
-				if(this.onGround){
-					this.startXvel = this.xVel;
-					this.maxJumpReached  = false;
-					this.jumpStart = this.y;
+				if(!player.jumping && player.canJump){
+					if(player.onGround){
+						player.startXvel = player.xVel;
+						player.maxJumpReached  = false;
+						player.jumpStart = player.y;
 
-					this.canJump = false;
+						player.canJump = false;
 
-					if(keys.left || keys.right ){
-						// if moving give an extra little boost
-						this.yVel = -2.25;
-						this.startYvel = -2.750; //
-						this.jumpTime =  21 + Math.abs(this.xVel)/2;// magic numbers
-						this.jumpingXSpeed = this.xVel;
-					}else{
-						this.jumpTime = 22;
-						this.yVel = -2.25;
-						this.startYvel = -2.25;
+						if(keys.left || keys.right ){
+							// if moving give an extra little boost
+							player.yVel = -2.25;
+							player.startYvel = -2.750; //
+							player.jumpTime =  21 + Math.abs(player.xVel)/2;// magic numbers
+							player.jumpingXSpeed = player.xVel;
+						}else{
+							player.jumpTime = 22;
+							player.yVel = -2.25;
+							player.startYvel = -2.25;
+						}
+						player.jumping = true;
+						player.onGround = false;
+
 					}
-					this.jumping = true;
-					this.onGround = false;
-
-				}
-			} else {
-				// now player is in mid air
-				if(this.jumpTime > 0){
-					this.yVel = this.startYvel;
-				} else{
-					this.yVel += 0.105;
-				}
-				this.jumpTime--;
-
-			}
-		}else{
-			this.yVel += 0.105;
-			this.jumpTime = 0;
-		}
-
-		debug.setText(this.xVel);
-		if(this.left){
-			//if player is on ground
-			if(this.onGround){
-				// stop moving
-				if(this.xVel > 0){
-					this.xVel = 0;
-				}
-				// move left
-				if(this.xVel > -this.xSpeed){
-					this.xVel-=this.xspeedIncrease;
-				}
-			} else {
-				// in air
-				if(this.startXvel<0){
-					if(this.xVel > -this.xSpeed){
-						this.xVel-=this.xspeedIncrease;
+				} else {
+					// now player is in mid air
+					if(player.jumpTime > 0){
+						player.yVel = player.startYvel;
+					} else{
+						player.yVel += 0.105;
 					}
+					player.jumpTime--;
+
 				}
-				// changin direction
-				if(this.startXvel >= 0){
-					if(this.xVel > -this.xSpeed){
-						this.xVel -= 0.0825;
-					}
-					// was going right
-				}
+			}else{
+				player.yVel += 0.105;
+				player.jumpTime = 0;
 			}
 
-			this.dir = -1;
-
-		}
-		else if( this.right) {
-
-			if(this.onGround){
-				if(this.xVel< 0){
-					this.xVel = 0;
-				}
-				// move left
-				if(this.xVel < this.xSpeed){
-					this.xVel+=this.xspeedIncrease;
-				}
-			} else {
-				// in air
-				if(this.startXvel>0){
-					if(this.xVel < this.xSpeed){
-						this.xVel+=this.xspeedIncrease;
+			debug.setText(player.xVel);
+			if(player.left){
+				//if player is on ground
+				if(player.onGround){
+					// stop moving
+					if(player.xVel > 0){
+						player.xVel = 0;
 					}
-				}
-				// changin direction
-				if(this.startXvel <= 0){
-					if(this.xVel < this.xSpeed){
-						this.xVel += 0.0825;
+					// move left
+					if(player.xVel > -player.xSpeed){
+						player.xVel-=player.xspeedIncrease;
+					}
+				} else {
+					// in air
+					if(player.startXvel<0){
+						if(player.xVel > -player.xSpeed){
+							player.xVel-=player.xspeedIncrease;
+						}
+					}
+					// changin direction
+					if(player.startXvel >= 0){
+						if(player.xVel > -player.xSpeed){
+							player.xVel -= 0.0825;
+						}
 						// was going right
 					}
 				}
-			}
-			this.dir = 1;
-		} else {
-			// nothing is pressed so slow down
 
-			if(this.xVel > 0){
-				if(this.onGround){
-					this.xVel -= this.xspeedIncrease;
+				player.dir = -1;
+
+			} else if( player.right) {
+
+				if(player.onGround){
+					if(player.xVel< 0){
+						player.xVel = 0;
+					}
+					// move left
+					if(player.xVel < player.xSpeed){
+						player.xVel+=player.xspeedIncrease;
+					}
+				} else {
+					// in air
+					if(player.startXvel>0){
+						if(player.xVel < player.xSpeed){
+							player.xVel+=player.xspeedIncrease;
+						}
+					}
+					// changin direction
+					if(player.startXvel <= 0){
+						if(player.xVel < player.xSpeed){
+							player.xVel += 0.0825;
+							// was going right
+						}
+					}
 				}
+				player.dir = 1;
+			} else {
+				// nothing is pressed so slow down
 
-			}
-			if(this.xVel < 0){
-				if (this.onGround)
-					this.xVel += this.xspeedIncrease;
-				if(this.xVel > 0){
-					this.xVel = 0;
+				if(player.xVel > 0){
+					if(player.onGround){
+						player.xVel -= player.xspeedIncrease;
+					}
+
 				}
+				if(player.xVel < 0){
+					if (player.onGround)
+						player.xVel += player.xspeedIncrease;
+					if(player.xVel > 0){
+						player.xVel = 0;
+					}
 
+				}
 			}
-		}
-
 		}
 	};
 });

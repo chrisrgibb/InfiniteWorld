@@ -19,7 +19,6 @@ function RiceBall(x, y){
 	this.y = y*16;
 	this.timer = -1;
 	this.tilenumber = 4;
-
 }
 
 RiceBall.prototype = new GameObject();
