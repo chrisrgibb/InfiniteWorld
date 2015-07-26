@@ -3,6 +3,19 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		'../game/objects/life', '../graphics/animation'], 
 		function( ShockWave, MapCreater, Player, MoneyBag, Block, Ring, Ghost, Life, Animation){
 
+
+		/*
+		*	
+		*/
+
+		function removeObject(fromArray, obj, toArray, i){
+			var index = fromArray.indexOf(obj);
+			if(index!=-1){
+				fromArray.splice(index, 1);
+				toArray.splice(i, 1);
+			}
+		}
+
 	var LevelState = function(){
 
 		this.map = null;
@@ -31,9 +44,6 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 	LevelState.prototype.init = function(seedValue) {
 		this.enemys = [];
 		seedValue = seedValue || 6;
-		var g = Animation;
-		debugger;
-
 
 		var isRandom = false;
 		if(isRandom){
@@ -124,8 +134,8 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 			this.map.blocks[y][x] = new Block(x, y, false, 0, 0 );	 
 			this.map.tiles[y][x] =0;	
 			// add explosion animation to levelstate
-			var animation = new Animation();
-
+			var animation = new Animation(x, y);
+			this.animations.push (animation);
 		}
 
 
@@ -201,7 +211,11 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 	};
 
 
+	LevelState.prototype.updateEnemies = function(){
 
+
+
+	};
 
 	LevelState.prototype.update = function(){
 		// remove everything
@@ -214,6 +228,8 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 	 	/* Move stuff 
 	 	 *
 	 	 */
+
+
 		for(var i = 0; i< enemys.length; i++){
 			if( isOnScreen(camera, enemys[i]) ){
 
@@ -240,22 +256,19 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 
 			var playerx1 = player.x - player.width / 2;
 			var	playerx2 = player.x + player.width / 2;
-
+			// Check for collision with enemys;
 			if(player.x > x1 && player.x < x2 
 				&& player.y > y1 && player.y < y2){
 				debug.debugText2 = "Colideddd";
 			} else {
 				debug.debugText2 = "";
 			}
-
+			// check if player has punched enemy
 			if (player.punchTime > 0 && 
 				(player.punchX > x1 && player.punchX < x2))  {
-				debugger;
 				if(player.y > y1 && player.y < y2){
 					removeEnemys.push(obj);
 				}
-				
-					
 			}
 		}
 
@@ -267,6 +280,16 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 				this.objectsToRemove.push(this.onScreenObjects[i]);	// tag for removal
 			}
 		}
+
+
+		for(i = 0; i < this.animations.length; i++){
+			this.animations[i].move();
+			if(this.animations[i].remove){
+				this.objectsToRemove.push(this.animations[i]);
+			}
+
+		}
+
 		this.updateShockwave();
 		/* rEMove stuff 
 	 	 *
@@ -274,26 +297,19 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 
 		// remove static objects
 		for(i = 0, len = this.objectsToRemove.length; i < len; i++){
+			// TODO this might be a bit silly
 			removeObject(this.onScreenObjects, this.objectsToRemove[i], this.objectsToRemove, i);
 			removeObject(this.objects, this.objectsToRemove[i], this.objectsToRemove, i);
+			removeObject(this.animations, this.objectsToRemove[i], this.objectsToRemove, i);
 		}
 		// remove enemies
 		for(i = 0, len = removeEnemys.length; i < len; i++){
 			removeObject(enemys, removeEnemys[i], removeEnemys, i);
 		}
 		
-		/*
-		*	
-		*/
-
-		function removeObject(fromArray, obj, toArray, i){
-			var index = fromArray.indexOf(obj);
-			if(index!=-1){
-				fromArray.splice(index, 1);
-				toArray.splice(i, 1);
-			}
-		}
 	};
+
+	var ls
 
 	return new LevelState();
 });
