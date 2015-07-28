@@ -1,13 +1,10 @@
-// requirejs(['./graphics/ObjectSheet']);
 
-define(['./ObjectSheet', './camera', '../game/player/player', '../level/levelState'],function(objectSheet, camera, player, levelState){
-	var ObjectRenderer = function(){
+define(
+	['./ObjectSheet', './camera', '../game/player/player', '../level/levelState'], 
+	function(objectSheet, camera, player, levelState){
+	
 
-		var canvas = document.getElementById('canvas');
-			var ctx = canvas.getContext('2d');
-
-		// var objectSheet = new ObjectSheet();
-		var obRenderer = this;
+		var ctx = canvas.getContext('2d');
 
 		function draw(tick){
 			levelState.objects.forEach(function(element){
@@ -38,14 +35,9 @@ define(['./ObjectSheet', './camera', '../game/player/player', '../level/levelSta
 			}
 		}
 
-
 		return {
 			draw : draw,
 			objectSheet : objectSheet
 		}
-
-	};
-
-	return new ObjectRenderer();
 });
 
