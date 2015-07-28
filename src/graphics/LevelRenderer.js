@@ -2,7 +2,7 @@ define(['./TileSheet', './camera', '../game/player/player', '../level/levelState
 
 	var LevelRenderer = function() {
 
-var ctx = document.getElementById('canvas').getContext('2d');
+		var ctx = document.getElementById('canvas').getContext('2d');
 		CONSTANTS.tileSize = 16;
 		CONSTANTS.screenWidth = screenWidth = CONSTANTS.tileSize * 16;
 		CONSTANTS.screenHeight = screenHeight = CONSTANTS.tileSize * 12;

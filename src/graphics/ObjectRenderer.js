@@ -34,9 +34,6 @@ define(['./ObjectSheet', './camera', '../game/player/player', '../level/levelSta
 		function drawIfOnScreen(obj, camera, tick){
 
 			if(isOnScreen(camera, obj)){
-				var drawX = ( obj.x - camera.x ) ;
-				var drawY = ( obj.y - camera.y ) ;
-				
 				obj.draw(camera, ctx, tick);
 			}
 		}

@@ -1,7 +1,7 @@
 define(['../game/objects/shockWave', './MapCreater', '../game/player/player', 
 		'../game/objects/MoneyBag', './Block', '../game/objects/ring', '../game/enemies/ghost', 
-		'../game/objects/life', '../graphics/animation'], 
-		function( ShockWave, MapCreater, Player, MoneyBag, Block, Ring, Ghost, Life, Animation){
+		'../game/objects/life',  '../graphics/animationgenerator'], 
+		function( ShockWave, MapCreater, Player, MoneyBag, Block, Ring, Ghost, Life, animationgen){
 
 
 		/*
@@ -30,6 +30,8 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.objectsToRemove = [];
 
 		this.animations = [];
+
+		this.animationgen = animationgen;
 
 		this.currentItem = 0;
 
@@ -92,21 +94,24 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 			levelstate = this;
 
 		var handleQuestionTile = function (){
-			switch(levelstate.currentItem){
-				case 0 : 
+
+			var options = {
+				0 : function(){
 					levelstate.onScreenObjects.push(new Ring(x, y, true));
 					levelstate.currentItem++;
-					break;
-				case 1 : 
-					// this.enemys.push(new Ghost(x , y));
+				},
+				1 : function(){
 					levelstate.onScreenObjects.push(new Ghost(x, y, true));
 					levelstate.currentItem++;
-					break;
-				case 2 :
- 					levelstate.onScreenObjects.push(new Life(x, y, true));
+				},
+				2 : function(){
+					levelstate.onScreenObjects.push(new Life(x, y, true));
 					levelstate.currentItem = 0;
-					break;
+				}
 			}
+
+			options[levelstate.currentItem]();
+
 			if(levelstate.onScreenObjects.length > 2){
 				levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
 			}
@@ -132,16 +137,14 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 			}
 			// create new empty space block
 			this.map.blocks[y][x] = new Block(x, y, false, 0, 0 );	 
-			this.map.tiles[y][x] =0;	
+			this.map.tiles[y][x] = 0;	
+
 			// add explosion animation to levelstate
-			var animation = new Animation(x, y);
-			this.animations.push (animation);
+			this.animations.push(animationgen.getAnimation(x * 16, y * 16));
 		}
 
-
-
 		if(this.map.tiles[y][x]===2){
-			this.map.tiles[y][x] =0;
+			this.map.tiles[y][x] = 0;
 		}
 	};
 
@@ -225,6 +228,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		var Game = window.Game;
 		// var levelRenderer = Game.levelRenderer;
 		var camera = Game.camera;
+		var levelState = this;
 	 	/* Move stuff 
 	 	 *
 	 	 */
@@ -268,6 +272,8 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 				(player.punchX > x1 && player.punchX < x2))  {
 				if(player.y > y1 && player.y < y2){
 					removeEnemys.push(obj);
+					var cloud = animationgen.getCloud(obj.x, obj.y);
+					levelState.animations.push(cloud);
 				}
 			}
 		}
@@ -309,7 +315,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		
 	};
 
-	var ls
+	var ls = new LevelState();
 
-	return new LevelState();
+	return ls;
 });

@@ -1,5 +1,18 @@
 define(['./objects/gameobject'],function(GameObject){
 
+	function RiceBall(x, y){
+		this.x = x*16;
+		this.y = y*16;
+		this.timer = -1;
+		this.tilenumber = 4;
+	}
+
+	RiceBall.prototype = new GameObject();
+
+	RiceBall.prototype.process = function(){
+		alert("End levelRenderer!!!");
+		this.remove = true;
+	};
 
 
 
@@ -14,19 +27,7 @@ define(['./objects/gameobject'],function(GameObject){
 
 });
 
-function RiceBall(x, y){
-	this.x = x*16;
-	this.y = y*16;
-	this.timer = -1;
-	this.tilenumber = 4;
-}
 
-RiceBall.prototype = new GameObject();
-
-RiceBall.prototype.process = function(){
-	alert("End levelRenderer!!!");
-	this.remove = true;
-};
 
 
 
