@@ -18,17 +18,14 @@ var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webki
 
 
 define([ './game/Game','./extras/Debugger'] ,function(Game, Debugger){
+	
 	function init(){
 
 		// camera = new Camera();
 		debug = new Debugger();
-
 		window.Game = Game;
 
-
 	}
-
-	// window.addEventListener("load", init);
 
 	init();
 

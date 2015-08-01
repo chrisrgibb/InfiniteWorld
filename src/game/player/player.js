@@ -1,5 +1,6 @@
 
-define(['../../graphics/camera', './Inventory','./movecomponent'],function(camera, Inventory, movecomponent){
+define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysics'], 
+	function(camera, Inventory, movecomponent, playerphysics){
 
 
 	function Player(){
@@ -33,6 +34,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent'],function(camer
 		this.onGround = false;
 		this.canJump = true;
 		this.blocked = false;
+		this.deadTime = 0;
 
 		this.image = new Image();
 		this.image.src = "images/sprite3.png";
@@ -67,89 +69,75 @@ define(['../../graphics/camera', './Inventory','./movecomponent'],function(camer
 	}
 
 	Player.prototype.move = function(levelState) {
-			var levelRenderer = Game.levelRenderer;
-		var dX = 0, dY = 0;
+		var levelRenderer = Game.levelRenderer,
+			dX = 0, 
+			dY = 0;
 
-		this.movecomponent.calculateMovement(this);
+		if(this.deadTime === 0){
+			this.movecomponent.calculateMovement(this);
 	
-		// round down to zero
-		if( Math.abs(this.xVel) < 0.01){
-			this.xVel = 0;
-		}
-
-
-		if(COUNTER % 6 ===0){
-			this.counter++;
-			if(this.counter > 3){
-				this.counter =0 ;
-			}
-		}
-
-		this.calcGravity();
-		this.calcFriction();
-		dX = this.xVel;
-		dY = this.yVel;
-
-		if(!keys.down && keys.punch && this.punchTime === 0 && this.canPunch){
-			// start of punch
-
-			this.punchDetection(levelState);
-			this.punchTime = 8;
-			this.canPunch = false;
-			if(this.onGround){
-				dX = 0;
+			// round down to zero
+			if( Math.abs(this.xVel) < 0.01){
 				this.xVel = 0;
 			}
-		}else{
-			if(this.punchTime > 0){
 
-				this.punchTime--;
-				if(this.onGround){
-					dX = 0;
-					this.xVel = 0;
+			if(COUNTER % 6 ===0){
+				this.counter++;
+				if(this.counter > 3){
+					this.counter =0 ;
 				}
-				if (this.braceletActivated ) {
-					if (!this.shockwaveOnscreen){
-						levelState.fireShockwave(this); // creates a new shockwave thing onscreen
-		 				this.shockwaveOnscreen = true; // true while on screen
-
-	 				}
-	 				// if (this.onGround && this.xVel==0){
-		 			// 		this.punchTime+= 1;
-		 			// }
-				}
-			}else if(!keys.punch){
-				this.canPunch = true;
 			}
-		}
 
-		this.x = this.moveX(dX, dY, levelState);
-		this.y = this.moveY(dX, dY, levelState);
+			playerphysics.calculate(this);
 
-		// check walk into object
-		// check hazard below eg spikes / lava or pink skull
+			dX = this.xVel;
+			dY = this.yVel;
 
+			this.doPunch(levelState);
 
-		levelState.checkForCollisions(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
+			this.x = this.moveX(dX, dY, levelState);
+			this.y = this.moveY(dX, dY, levelState);
 
-		levelState.checkForCollisions( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 );  // head
-		levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 );  //lava, spikes etc.
+			// check walk into object
+			// check hazard below eg spikes / lava or pink skull
 
-		// check left of screen
+			levelState.checkForCollisions(this.x/16 |0, this.y / 16 | 0 ) ; // middle of body
 
-		if(this.x-(this.width/2) < camera.x){
-			this.x = camera.x + (this.width/2);
-		}
-		// check right of screen
-		if(this.x+(this.width/2) > levelState.map.getWidth()*16){
-			this.x = (levelState.map.getWidth()*16)- (this.width/2);
-		}
-		// check bottom of screen
-		if(this.y + (this.height/2) > levelState.map.getHeight() * 16){
-			this.y = (levelState.map.getHeight() * 16) - (this.height/2);
+			levelState.checkForCollisions( this.x /16 | 0 , (this.y - this.height/2) / 16 | 0 );  // head
+			levelState.walkedOverBadStuff(this.x /16 | 0 , (this.y + this.height/2) / 16 | 0 );  //lava, spikes etc.
+
+			// check left of screen
+
+			if(this.x-(this.width/2) < camera.x){
+				this.x = camera.x + (this.width/2);
+			}
+			// check right of screen
+			if(this.x+(this.width/2) > levelState.map.getWidth()*16){
+				this.x = (levelState.map.getWidth()*16)- (this.width/2);
+			}
+			// check bottom of screen
+			if(this.y + (this.height/2) > levelState.map.getHeight() * 16){
+				this.y = (levelState.map.getHeight() * 16) - (this.height/2);
+			}
+
+		} else {
+			if(this.deadTime < 5){
+				// respawn 
+
+			} else {
+				//debug.debugText2 = "Colideddd";
+				this.y -= 1;
+			}
+			debug.debugText2 = "Dead";
+
+			this.deadTime--;
 		}
 	};
 
+	Player.prototype.setDead = function(){
+		this.deadTime = 20;
+
+	};
 
 	Player.prototype.punchDetection = function(levelState){
 
@@ -158,28 +146,6 @@ define(['../../graphics/camera', './Inventory','./movecomponent'],function(camer
 		this.punchX = punchX * 16;
 
 		levelState.punchTile(punchX, this.y/ 16 | 0);
-	};
-
-	Player.prototype.calcFriction = function(){
-		if(!this.onGround) {
-			if (!this.left && !this.right){
-				if(this.xVel > 0 ){
-					this.xVel -= 0.0425;
-				}
-				if(this.xVel < 0){
-					 this.xVel += 0.0425;
-				}
-			}
-		}
-	};
-
-	Player.prototype.calcGravity = function(){
-		if(!this.onGround){
-			this.yVel += 0.25;
-		}
-		if(this.yVel > 3.5){
-			this.yVel = 3.5;
-		}
 	};
 
 
@@ -331,6 +297,41 @@ define(['../../graphics/camera', './Inventory','./movecomponent'],function(camer
 			}
 		}
 		return tempY;
+	};
+
+	Player.prototype.doPunch = function(levelState) {
+		if(!keys.down && keys.punch && this.punchTime === 0 && this.canPunch){
+			// start of punch
+
+			this.punchDetection(levelState);
+			this.punchTime = 8;
+			this.canPunch = false;
+			if(this.onGround){
+				dX = 0;
+				this.xVel = 0;
+			}
+		} else {
+			if(this.punchTime > 0){
+
+				this.punchTime--;
+				if(this.onGround){
+					dX = 0;
+					this.xVel = 0;
+				}
+				if (this.braceletActivated ) {
+					if (!this.shockwaveOnscreen){
+						levelState.fireShockwave(this); // creates a new shockwave thing onscreen
+		 				this.shockwaveOnscreen = true; // true while on screen
+
+	 				}
+	 				// if (this.onGround && this.xVel==0){
+		 			// 		this.punchTime+= 1;
+		 			// }
+				}
+			} else if(!keys.punch) {
+				this.canPunch = true;
+			}
+		}
 	};
 
 	Player.prototype.coords = function(){

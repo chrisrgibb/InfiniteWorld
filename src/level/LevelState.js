@@ -50,12 +50,11 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		var isRandom = false;
 		if(isRandom){
 			/* 
-				Create Random Levelt
+				Create Random Level
 			*/
 			var levelGenerator = new levelGen2();
 			this.map = levelGenerator.createNewMap(isRandom, seedValue);
 		} else {
-
 			this.map = new MapCreater().createMap();
 		}
 
@@ -266,6 +265,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 			if(player.x > x1 && player.x < x2 
 				&& player.y > y1 && player.y < y2){
 				debug.debugText2 = "Colideddd";
+				player.setDead();
 			} else {
 				debug.debugText2 = "";
 			}
