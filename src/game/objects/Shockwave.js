@@ -1,4 +1,4 @@
-define(function(){
+define(['../../graphics/ObjectSheet'], function(ObjectSheet){
 
 	function ShockWave(){
 		this.x = 0;
@@ -13,6 +13,7 @@ define(function(){
 			this.tilenumber = 13 ;
 		}
 		this.dead = true;
+		this.objectSheet = ObjectSheet;
 	}
 
 	ShockWave.prototype.launch = function(x, y, dir){
@@ -32,15 +33,16 @@ define(function(){
 		if(!this.dead){
 			this.x += this.dir * this.speed;
 		}
-		if(!isOnScreen(levelRenderer.camera, this)){
+		if(!isOnScreen(Game.camera, this)){
 			this.dead = true;
 		}
 	};
 
 	ShockWave.prototype.draw = function(camera){
+		var ctx = document.getElementById('canvas').getContext('2d');
 		var drawX = ( (this.x) - camera.x ) - 8 ;
 		var drawY = ( (this.y) - camera.y ) -7 ;
-		levelRenderer.objectSheet.drawTile(this.tilenumber, drawX , drawY);
+		this.objectSheet.drawTile(this.tilenumber, drawX , drawY, ctx);
 	};
 
 	ShockWave.prototype.process = function(){

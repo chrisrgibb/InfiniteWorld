@@ -186,8 +186,9 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 
 
 	LevelState.prototype.updateShockwave = function(){
-		var levelstate = this,
-		camera = Game.camera;
+		var levelState = this,
+		camera = Game.camera,
+		map = levelState.map;
 		if(!this.shockWave.dead){
 			this.shockWave.update();
 
@@ -202,10 +203,10 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 			}
 			var block = map.getBlock(x,y);
 
-			if(x < camera.x + (levelRenderer.screenWidth / 16 | 0)  && map.getBlock(x, y).breakable){
+			if(x < camera.x + (CONSTANTS.screenWidth / 16 | 0)  && map.getBlock(x, y).breakable){
 				// connects with breakable block
 				this.punchTile(x, y);
-			} else if(x < camera.x + (levelRenderer.screenWidth / 16 | 0)  && map.getBlock(x, y).isSolid){
+			} else if(x < camera.x + (CONSTANTS.screenWidth / 16 | 0)  && map.getBlock(x, y).isSolid){
 				// hits a solidblock
 				levelState.shockWave.dead = true;
 				this.player.shockwaveOnscreen = false;

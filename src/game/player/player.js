@@ -310,28 +310,22 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 				dX = 0;
 				this.xVel = 0;
 			}
-		} else {
-			if(this.punchTime > 0){
+		} else if(this.punchTime > 0){
 
-				this.punchTime--;
-				if(this.onGround){
-					dX = 0;
-					this.xVel = 0;
-				}
-				if (this.braceletActivated ) {
-					if (!this.shockwaveOnscreen){
-						levelState.fireShockwave(this); // creates a new shockwave thing onscreen
-		 				this.shockwaveOnscreen = true; // true while on screen
-
-	 				}
-	 				// if (this.onGround && this.xVel==0){
-		 			// 		this.punchTime+= 1;
-		 			// }
-				}
-			} else if(!keys.punch) {
-				this.canPunch = true;
+			this.punchTime--;
+			if(this.onGround){
+				dX = 0;
+				this.xVel = 0;
 			}
+			if (this.braceletActivated && !this.shockwaveOnscreen ) {
+				
+				levelState.fireShockwave(this); // creates a new shockwave thing onscreen
+ 				this.shockwaveOnscreen = true; // true while on screen		
+			}
+		} else if(!keys.punch) {
+			this.canPunch = true;
 		}
+	
 	};
 
 	Player.prototype.coords = function(){
