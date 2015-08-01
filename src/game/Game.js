@@ -33,10 +33,6 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 			var seedValue;// = rangeSlider.value;
 
-			
-			// this.gamestate = gamestate;
-
-			// this.gamestate.init();
 
 			this.levelState = LevelState;
 
@@ -67,7 +63,6 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 			if(COUNTER>23){
 				COUNTER=0;
 			}
-			// this.gamestate.update();
 			this.levelState.update();
 			this.player.move(this.levelState);
 		},

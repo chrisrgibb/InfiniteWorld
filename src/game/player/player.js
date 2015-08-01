@@ -66,26 +66,6 @@ define(['../../graphics/camera', './Inventory','./movecomponent'],function(camer
 		this.punchX = 0;
 	}
 
-	Player.prototype.moveDir = function(dir){
-		var absX = Math.abs(this.xVel);
-		if(this.onGround){
-			if(absX > this.xSpeed){
-				absX += this.xspeedIncrease;
-			}
-		} else {
-			if(Math.abs(this.startXvel)>0){
-				if(absX > this.xSpeed){
-					absX += this.xspeedIncrease;
-				}
-			} else {
-				if(absX < this.xSpeed){
-					absX+=0.0825;
-				}
-			}
-		}
-		return dir * absX;
-	};
-
 	Player.prototype.move = function(levelState) {
 			var levelRenderer = Game.levelRenderer;
 		var dX = 0, dY = 0;
@@ -213,7 +193,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent'],function(camer
 				ax,
 				map = levelState.map;
 
-		if( dX> 0){
+		if( dX > 0){
 			//moving right
 			nextX = this.x + dX + (this.width/2); // the nextX
 			ax =  nextX / 16 | 0; // the index of the next tile

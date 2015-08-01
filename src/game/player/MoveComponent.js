@@ -12,6 +12,26 @@ define(['./player'],function(player){
 		
 	}
 
+	function notJumping(player){
+		return !player.jumping && player.canJump && player.onGround;
+	}
+
+	function slowDown(player){
+		if(player.xVel > 0){
+			if(player.onGround){
+				player.xVel -= player.xspeedIncrease;
+			}
+		}
+		if(player.xVel < 0){
+			if (player.onGround){
+				player.xVel += player.xspeedIncrease;
+			}
+			if(player.xVel > 0){
+				player.xVel = 0;
+			}
+		}
+	}
+
 	// return 5;
 
 	return {
@@ -23,8 +43,8 @@ define(['./player'],function(player){
 		calculateMovement : function(player){
 			if ( keys.jump ){
 
-				if(!player.jumping && player.canJump){
-					if(player.onGround){
+				if(notJumping(player)){
+					// if(player.onGround){
 						player.startXvel = player.xVel;
 						player.maxJumpReached  = false;
 						player.jumpStart = player.y;
@@ -45,7 +65,9 @@ define(['./player'],function(player){
 						player.jumping = true;
 						player.onGround = false;
 
-					}
+					// }
+					// console.log("dasdsa");
+					// debugger;
 				} else {
 					// now player is in mid air
 					if(player.jumpTime > 0){
@@ -56,12 +78,13 @@ define(['./player'],function(player){
 					player.jumpTime--;
 
 				}
-			}else{
+			} else {
 				player.yVel += 0.105;
 				player.jumpTime = 0;
 			}
 
 			debug.setText(player.xVel);
+
 			if(player.left){
 				//if player is on ground
 				if(player.onGround){
@@ -119,21 +142,7 @@ define(['./player'],function(player){
 				player.dir = 1;
 			} else {
 				// nothing is pressed so slow down
-
-				if(player.xVel > 0){
-					if(player.onGround){
-						player.xVel -= player.xspeedIncrease;
-					}
-
-				}
-				if(player.xVel < 0){
-					if (player.onGround)
-						player.xVel += player.xspeedIncrease;
-					if(player.xVel > 0){
-						player.xVel = 0;
-					}
-
-				}
+				slowDown(player);
 			}
 		}
 	};

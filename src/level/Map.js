@@ -1,9 +1,5 @@
 
-
-
 define(['./Block'],function(Block){
-
-	// requirejs(['./level/Block']);
 
 	var Map = function(level){
 		level = level || {};

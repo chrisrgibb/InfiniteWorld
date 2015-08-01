@@ -1,4 +1,5 @@
-define(['./objects/gameobject', './objects/life', './objects/moneybag', './objects/ring'],function(GameObject, Life, MoneyBag, Ring){
+define(['./objects/gameobject', './objects/life', './objects/moneybag', './objects/ring'], 
+	function(GameObject, Life, MoneyBag, Ring){
 
 	function RiceBall(x, y){
 		this.x = x*16;
