@@ -1,4 +1,4 @@
-define(['./objects/gameobject'],function(GameObject){
+define(['./objects/gameobject', './objects/life', './objects/moneybag', './objects/ring'],function(GameObject, Life, MoneyBag, Ring){
 
 	function RiceBall(x, y){
 		this.x = x*16;
@@ -22,6 +22,9 @@ define(['./objects/gameobject'],function(GameObject){
 		},
 		life : function(x, y){
 			return new Life(x, y);
+		},
+		moneybag : function(x, y, issomething){
+			return new MoneyBag(x, y, issomething);
 		}
 	}
 
