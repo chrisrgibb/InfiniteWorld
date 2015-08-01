@@ -25,6 +25,9 @@ define(['./objects/gameobject', './objects/life', './objects/moneybag', './objec
 		},
 		moneybag : function(x, y, issomething){
 			return new MoneyBag(x, y, issomething);
+		},
+		ring : function(x, y){
+			return new Ring(x, y);
 		}
 	}
 
