@@ -1,7 +1,7 @@
 define(['../game/objects/shockWave', './MapCreater', '../game/player/player', 
-		'../game/objects/MoneyBag', './Block', '../game/objects/ring', '../game/enemies/ghost', 
-		'../game/objects/life',  '../graphics/animationgenerator'], 
-		function( ShockWave, MapCreater, Player, MoneyBag, Block, Ring, Ghost, Life, animationgen){
+		 './Block', '../game/enemies/ghost', 
+		  '../graphics/animationgenerator', '../game/gameobjects'], 
+		function( ShockWave, MapCreater, Player,  Block, Ghost, animationgen, GameObjects){
 
 
 		/*
@@ -97,7 +97,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 
 			var options = {
 				0 : function(){
-					levelstate.onScreenObjects.push(new Ring(x, y, true));
+					levelstate.onScreenObjects.push(GameObjects.ring(x, y, true));
 					levelstate.currentItem++;
 				},
 				1 : function(){
@@ -105,7 +105,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 					levelstate.currentItem++;
 				},
 				2 : function(){
-					levelstate.onScreenObjects.push(new Life(x, y, true));
+					levelstate.onScreenObjects.push(GameObjects.life(x, y, true));
 					levelstate.currentItem = 0;
 				}
 			}
@@ -118,7 +118,9 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		};
 
 		var getNewOnScreenObject = function (){
-			levelstate.onScreenObjects.push(new MoneyBag(x, y, true));
+
+			levelstate.onScreenObjects.push(GameObjects.moneybag(x, y, true));
+
 			if(levelstate.onScreenObjects.length > 2){
 				levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
 			}
