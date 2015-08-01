@@ -37,7 +37,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 		this.deadTime = 0;
 
 		this.image = new Image();
-		this.image.src = "images/sprite3.png";
+		this.image.src = "images/playersprite.png";
 
 		this.jumpTime = 0;
 		this.xjumpSpeed = 0;
@@ -60,7 +60,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 		this.inventory = new Inventory();
 		this.shockwaveOnscreen = false;
 		this.braceletActivated = false;
-		this.oldYvel =0;
+		this.oldYvel = 0;
 
 		this.maxJumpReached = false;
 
@@ -121,11 +121,13 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 			}
 
 		} else {
-			if(this.deadTime < 5){
+
+			if(this.deadTime < 20){
 				// respawn 
 
 			} else {
 				//debug.debugText2 = "Colideddd";
+
 				this.y -= 1;
 			}
 			debug.debugText2 = "Dead";
@@ -135,7 +137,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 	};
 
 	Player.prototype.setDead = function(){
-		this.deadTime = 20;
+		this.deadTime = 50;
 
 	};
 
@@ -328,35 +330,38 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 	
 	};
 
-	Player.prototype.coords = function(){
+	Player.prototype.coords = function() {
 		var str = "x :" + (this.x /16 | 0);
 		str += " y : " + (this.y / 16 | 0);
 		return str;
 	};
 
-	Player.prototype.getImage = function(ctx, camera) {
-		if(this.punchTime > 0) {
-
-
-
-		}
-	}
 
 	Player.prototype.draw = function(ctx, camera) {
 		var frame;
 		ctx.fillStyle = "red";
+
 		if(keys.down){
 			ctx.fillRect(this.x - this.width/2 - camera.x, this.y - camera.y, this.width, this.height/2);
-		}else{
-		// 	ctx.fillRect(this.x - this.width/2- levelRenderer.camera.x, this.y - this.height/2 - (levelRenderer.camera.y  ) , this.width, this.height);
 		}
-		// draw rectangle shape of fist of doom
 
+		if(this.deadTime > 0 ) {
+			var originX = 0,
+				originY = 24,
+				originW = 16,
+				originH = 24,
+				destX = this.x - this.width - camera.x,
+				destY = this.y - (this.height / 2) - camera.y,
+				destW = 16,
+				destH = 24;
 
+			ctx.drawImage(this.image, originX, originY, originW, originH, destX, destY, destW, destH);
+		}  
+		
 		/**
 		 * Punchgin
 		 */
-		if(this.punchTime>0){
+		else if(this.punchTime > 0) {
 			
 			if(this.dir==-1){
 				frame = 136;
@@ -369,7 +374,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 		/**
 		 * Jumping
 		 */
-		else if(this.jumping || this.yVel > 0){
+		else if(this.jumping || this.yVel > 0) {
 			frame = 16 * (this.dir== 1 ? 6 : 14 );
 			ctx.drawImage(this.image, frame, 0, 16, 24, this.x - this.width - camera.x + 2, this.y - this.height/2  - camera.y - 4, 16, 24);
 		}
