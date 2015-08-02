@@ -98,7 +98,7 @@ define(['./player'],function(player){
 					}
 				} else {
 					// in air
-					if(player.startXvel<0){
+					if(player.startXvel < 0){
 						if(player.xVel > -player.xSpeed){
 							player.xVel-=player.xspeedIncrease;
 						}
@@ -126,7 +126,7 @@ define(['./player'],function(player){
 					}
 				} else {
 					// in air
-					if(player.startXvel>0){
+					if(player.startXvel > 0){
 						if(player.xVel < player.xSpeed){
 							player.xVel+=player.xspeedIncrease;
 						}

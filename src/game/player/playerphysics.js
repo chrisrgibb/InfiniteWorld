@@ -1,6 +1,7 @@
 define(function(){
 
-	var friction = 0.0425;
+	var friction = 0.0425,
+		gravity = 0.25;
 
 	var calcFriction = function(player) {
 		if(!player.onGround) {
@@ -17,7 +18,7 @@ define(function(){
 
 	var calcGravity = function(player) {
 		if(!player.onGround){
-			player.yVel += 0.25;
+			player.yVel += gravity;
 		}
 		if(player.yVel > 3.5){
 			player.yVel = 3.5;

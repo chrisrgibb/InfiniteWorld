@@ -19,35 +19,32 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 		this.xVel = 0;
 		this.xSpeed = 2;
 		this.xspeedIncrease = 0.15625;
-		this.gravity = 0.25;
-		this.friction = 0.8;
-
+		
 		this.ctx = document.getElementById('canvas').getContext('2d');
 
 		this.dir = 1;
 
 		this.jiitersTime = 0;
 
-		this.jumping = false;
+		
 		this.left = false;
 		this.right = false;
 		this.onGround = false;
-		this.canJump = true;
+		
 		this.blocked = false;
 		this.deadTime = 0;
 
 		this.image = new Image();
 		this.image.src = "images/playersprite.png";
-
+		
+		this.jumping = false;
+		this.canJump = true;
 		this.jumpTime = 0;
-		this.xjumpSpeed = 0;
-		this.yjumpSpeed= 0;
 		this.startYvel = 0;
-		this.startXvel = 0;
-
+		this.jumpStartXvel = 0;
 		this.jumpingXSpeed = 0;
+		this.maxJumpReached = false;
 
-		this.jumpStart = -1;
 
 		this.punchTime = 0;
 		this.canPunch = true;
@@ -60,12 +57,10 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 		this.inventory = new Inventory();
 		this.shockwaveOnscreen = false;
 		this.braceletActivated = false;
-		this.oldYvel = 0;
-
-		this.maxJumpReached = false;
+		this.punchX = 0;
 
 		this.movecomponent = movecomponent;
-		this.punchX = 0;
+		
 	}
 
 	Player.prototype.move = function(levelState) {
@@ -130,9 +125,26 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 
 				this.y -= 1;
 			}
-			debug.debugText2 = "Dead";
 
-			this.deadTime--;
+			if(!isOnScreen(Game.camera, this)){
+				var respawnPoint = levelState.respawn();
+				this.deadTime = 0;
+				this.x = respawnPoint.x * 16 + 8;
+				this.y = respawnPoint.y * 16;
+
+				// reset
+				this.jumping = false;
+				this.canJump = true;
+				this.jumpTime = 0;
+				this.startYvel = 0;
+				this.jumpStartXvel = 0;
+				this.jumpingXSpeed = 0;
+				this.maxJumpReached = false;
+				this.xVel = 0;
+				this.yVel = 0;
+			}
+
+			debug.debugText2 = "Dead";
 		}
 	};
 
