@@ -1,5 +1,6 @@
 function jumpingState(){
-	this.startXvel;
+
+
 	this.startYvel;
 
 	this.yVel;

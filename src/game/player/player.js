@@ -117,14 +117,8 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 
 		} else {
 
-			if(this.deadTime < 20){
-				// respawn 
-
-			} else {
-				//debug.debugText2 = "Colideddd";
-
-				this.y -= 1;
-			}
+			// player is dead
+			this.y -= 1;
 
 			if(!isOnScreen(Game.camera, this)){
 				var respawnPoint = levelState.respawn();
@@ -143,8 +137,6 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 				this.xVel = 0;
 				this.yVel = 0;
 			}
-
-			debug.debugText2 = "Dead";
 		}
 	};
 
@@ -164,7 +156,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 
 
 	Player.prototype.moveX = function(dX, dY, levelState){
-		var tempX = this.x,
+		var newXpos = this.x,
 				tileX1,
 				tileX2,
 				yTop,
@@ -180,7 +172,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 			yTop = (1 + this.y - this.height/2) / 16 | 0;
 			yBotttom = (-1 + this.y + this.height/2) / 16 | 0;
 
-			if(nextX===tempX){
+			if(nextX===newXpos){
 				return;
 			}
 
@@ -196,16 +188,16 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 			// }
 
 			if(tileX1 || tileX2){ // collision
-				tempX = (ax * 16) - (this.width/2);
+				newXpos = (ax * 16) - (this.width/2);
 
 				if(!this.onGround){
 					this.xVel = 0;
 				}
 
 			}else{
-				tempX =this.x +dX;
+				newXpos = this.x +dX;
 			}
-		}else if( dX <0){
+		} else if( dX <0) 	{
 			//moving left
 			nextX = this.x + dX - (this.width/2) ;
 			ax = nextX / 16 | 0; // index of the tile to the left
@@ -224,17 +216,16 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 			// }
 
 			if(tileX1 || tileX2 ){
-				tempX = ( (ax+1) * 16) + (this.width/2) ; //
+				newXpos = ( (ax+1) * 16) + (this.width/2) ; //
 
 				if(!this.onGround){
 					this.xVel = 0;
 				}
 			}else {
-				tempX = this.x + dX;
+				newXpos = this.x + dX;
 			}
 		}
-
-		return tempX;
+		return newXpos;
 	};
 
 
