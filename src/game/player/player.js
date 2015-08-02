@@ -130,7 +130,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 				var respawnPoint = levelState.respawn();
 				this.deadTime = 0;
 				this.x = respawnPoint.x * 16 + 8;
-				this.y = respawnPoint.y * 16;
+				this.y = respawnPoint.y * 16 - 8;
 
 				// reset
 				this.jumping = false;

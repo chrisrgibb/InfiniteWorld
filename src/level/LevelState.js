@@ -71,26 +71,22 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		var middleOfScreen = CONSTANTS.screenHeight / 2;
 		var width = CONSTANTS.screenWidth / tileSize;
 		var height = CONSTANTS.screenHeight / tileSize;
-		var startY = Math.floor(Game.camera.y / tileSize)  ,
+		var startY = Math.floor(Game.camera.y / tileSize) + 3,
 			startX = Math.floor(Game.camera.x / tileSize);
 
 		for(var y = startY; y < startY + height; y++){
 			for ( var x = startX; x < startX + width; x++){
 				var tile = this.map.blocks[y][x];
-				if(!tile){
-					debugger;
-				}
 				if(tile.isSolid===1){
 					var block1 = this.map.blocks[y-1][x];
 					var block2 = this.map.blocks[y-2][x];
-					debugger;
-					return { x : x, y : y};
-
-					// if(this.map.blocks[y-1][x])
+					if(block1.isSolid!==1 && block2.isSolid!==1){
+						return { x : x, y : y};
+					}
 				}
 			}
 		}
-
+		alert("should have restarted by now...");
 	};
 
 	// If player moves into the tile that the gameobject is in
