@@ -63,26 +63,16 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 		
 	}
 
-	Player.prototype.move = function(levelState) {
+	Player.prototype.update = function(levelState) {
 		var levelRenderer = Game.levelRenderer,
 			dX = 0, 
 			dY = 0;
 
+		this.updateCounter();
+
 		if(this.deadTime === 0){
 			this.movecomponent.calculateMovement(this);
 	
-			// round down to zero
-			if( Math.abs(this.xVel) < 0.01){
-				this.xVel = 0;
-			}
-
-			if(COUNTER % 6 ===0){
-				this.counter++;
-				if(this.counter > 3){
-					this.counter =0 ;
-				}
-			}
-
 			playerphysics.calculate(this);
 
 			dX = this.xVel;
@@ -142,7 +132,6 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 
 	Player.prototype.setDead = function(){
 		this.deadTime = 50;
-
 	};
 
 	Player.prototype.punchDetection = function(levelState){
@@ -337,6 +326,15 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 		var str = "x :" + (this.x /16 | 0);
 		str += " y : " + (this.y / 16 | 0);
 		return str;
+	};
+
+	Player.prototype.updateCounter = function(){
+		if(COUNTER % 6 ===0){
+				this.counter++;
+			if(this.counter > 3){
+				this.counter =0 ;
+			}
+		}
 	};
 
 

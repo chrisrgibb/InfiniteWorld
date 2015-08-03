@@ -1,3 +1,10 @@
+define(function(){
+
+
+
+
+
+});
 var LevelSettings = function(){
 	var stuff = "stuff",
 

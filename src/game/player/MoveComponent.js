@@ -144,6 +144,8 @@ define(['./player'],function(player){
 				// nothing is pressed so slow down
 				slowDown(player);
 			}
+			// finally 
+			this.xVel = Math.abs(this.xVel) > 0.01 ? this.xVel : 0;
 		}
 	};
 });

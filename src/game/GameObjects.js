@@ -15,8 +15,6 @@ define(['./objects/gameobject', './objects/life', './objects/moneybag', './objec
 		this.remove = true;
 	};
 
-
-
 	return {
 		riceBall : function(x, y){
 			return new RiceBall(x, y);

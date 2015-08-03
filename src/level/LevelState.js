@@ -1,7 +1,7 @@
 define(['../game/objects/shockWave', './MapCreater', '../game/player/player', 
 		 './Block', '../game/enemies/ghost', 
-		  '../graphics/animationgenerator', '../game/gameobjects'], 
-		function( ShockWave, MapCreater, Player,  Block, Ghost, animationgen, GameObjects){
+		  '../graphics/animationgenerator', '../game/gameobjects', './levelGen/newlevelgen'], 
+		function( ShockWave, MapCreater, Player,  Block, Ghost, animationgen, GameObjects, LevelGen){
 
 
 		/*
@@ -47,12 +47,12 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.enemys = [];
 		seedValue = seedValue || 6;
 
-		var isRandom = false;
+		var isRandom = true;
 		if(isRandom){
 			/* 
 				Create Random Level
 			*/
-			var levelGenerator = new levelGen2();
+			var levelGenerator = new LevelGen();
 			this.map = levelGenerator.createNewMap(isRandom, seedValue);
 		} else {
 			this.map = new MapCreater().createMap();
@@ -62,6 +62,11 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.objects = this.map.objects;
 		this.backgroundColor = this.map.backgroundColor;
 	};
+
+	// LevelState.prototype.newLevel = function(){
+
+
+	// };
 
 	LevelState.prototype.respawn = function(){
 		// debugger;/

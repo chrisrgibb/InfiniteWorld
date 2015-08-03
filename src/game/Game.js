@@ -64,7 +64,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 				COUNTER=0;
 			}
 			this.levelState.update();
-			this.player.move(this.levelState);
+			this.player.update(this.levelState);
 		},
 
 		/*

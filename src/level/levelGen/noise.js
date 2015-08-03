@@ -1,6 +1,5 @@
-
-
-var Noise = function(seed){
+define(function(){
+	var Noise = function(seed){
 	//http://mrl.nyu.edu/~perlin/noise/
 	var _randomSeed = seed || 6;
 	console.log("New noise " + seed);
@@ -25,16 +24,21 @@ var Noise = function(seed){
 };
 
 
-Noise.seed = 6;
+	Noise.seed = 6;
 
-function RandomNess(max, min){
-	max = max || 1;
-	min = min || 0;
+	function RandomNess(max, min){
+		max = max || 1;
+		min = min || 0;
 
-	Noise.seed = (Noise.seed * 9301 + 49297) % 233280;
-	var rnd = Noise.seed / 233280;
-	return min + rnd * (max - min);
-}
+		Noise.seed = (Noise.seed * 9301 + 49297) % 233280;
+		var rnd = Noise.seed / 233280;
+		return min + rnd * (max - min);
+	}
+	return Noise;
+
+});
+
+
 
 function PerlinNoise(){
 	this.lerp = function(a, b, w){

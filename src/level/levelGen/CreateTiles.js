@@ -1,3 +1,7 @@
+define(['./noise'],function(Noise){
+
+
+	
 function TilesCreater(height, tiles){
 	this.height = height || 12 ;
 	this.length = 50;
@@ -89,4 +93,7 @@ TilesCreater.prototype.checkBounds = function(x, y){
 		isOut : outOfBounds
 	};
 }
+
+	return TilesCreater;
+});
 

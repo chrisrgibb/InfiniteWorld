@@ -1,3 +1,6 @@
+define(['./createtiles', './noise', '../Map'],function(TilesCreater,Noise, Map){
+
+
 var levelGen2 = function() {
 	this.height = 12; // how many tiles there are high
 	// this.noise = new Noise(5);
@@ -16,7 +19,7 @@ levelGen2.prototype.createNewMap = function(isRandom, seedValue){
 	var levelData = this.buildMap();
 	var map = new Map(levelData);
 	
-	map.objects.push(new RiceBall(levelData.length-3, 8));
+	// map.objects.push(new RiceBall(levelData.length-3, 8));
 	return map;
 };
 
@@ -28,10 +31,10 @@ levelGen2.prototype.buildMap = function() {
 	var backgroundColor = "#005200";
 
 	this.heights = [];
-	this.createSection(this.tilecreater);
-	this.getHeights();
+	// this.createSection(this.tilecreater);
+	// this.getHeights();
 	var tiles = this.tilecreater.getBlankMap(this.length, this.height);
-	this.applySections();
+	// this.applySections();
 
 	return  {
 		tiles : tiles,
@@ -105,15 +108,18 @@ levelGen2.prototype.applySections = function(){
 	});
 }
 
-levelGen2.prototype.getHeights = function(){
-	this.sections.forEach(function(section){
-		this.heights.push({
-			x : section.x,
-			y : section.height
-		});
-	}, this);
-}
+	levelGen2.prototype.getHeights = function(){
+		this.sections.forEach(function(section){
+			this.heights.push({
+				x : section.x,
+				y : section.height
+			});
+		}, this);
+	}
 
+	return levelGen2;
+
+});
 
 
 
