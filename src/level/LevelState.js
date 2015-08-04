@@ -1,6 +1,6 @@
 define(['../game/objects/shockWave', './MapCreater', '../game/player/player', 
 		 './Block', '../game/enemies/ghost', 
-		  '../graphics/animationgenerator', '../game/gameobjects', './levelGen/newlevelgen'], 
+		  '../graphics/animationgenerator', '../game/gameobjects', './levelGen/levelGenerator'], 
 		function( ShockWave, MapCreater, Player,  Block, Ghost, animationgen, GameObjects, LevelGen){
 
 
@@ -47,7 +47,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.enemys = [];
 		seedValue = seedValue || 6;
 
-		var isRandom = false;
+		var isRandom = true;
 		if(isRandom){
 			/* 
 				Create Random Level
