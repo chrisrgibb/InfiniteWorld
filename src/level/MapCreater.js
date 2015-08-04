@@ -136,7 +136,7 @@ define(['./Map', '../game/enemies/Scorpion','../game/enemies/Enemy', '../game/ob
 				new Enemy(8, 26),
 				new Enemy(4, 34),
 				new Enemy(8, 37),
-				new Enemy(8, 46),
+				new Enemy(6, 46),
 				new Enemy(8, 50),
 				new Scorpion( 4,6)
 			];

@@ -47,7 +47,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.enemys = [];
 		seedValue = seedValue || 6;
 
-		var isRandom = true;
+		var isRandom = false;
 		if(isRandom){
 			/* 
 				Create Random Level

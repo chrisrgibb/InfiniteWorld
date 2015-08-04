@@ -18,6 +18,8 @@ levelGen2.prototype.createNewMap = function(isRandom, seedValue){
 	this.difficulty = this.noise.nextInt(1, 3);
 	var levelData = this.buildMap();
 	var map = new Map(levelData);
+
+	// map.enemies
 	
 	// map.objects.push(new RiceBall(levelData.length-3, 8));
 	return map;
