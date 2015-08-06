@@ -33,9 +33,6 @@ define([ './game/Game','./extras/Debugger'] ,function(Game, Debugger){
 	rangeSlider.addEventListener('change', function(){
 		init(rangeSlider.value);
 	});
-
-
-	return "yolo";
 })
 
 

@@ -5,7 +5,7 @@ define(function(){
 	    this.ctx = canvas.getContext('2d');
 	    this.tileSize = 8;
 	    this.tileimage = new Image();
-	    this.tileimage.src = "../../images/tiles8px.png";
+	    this.tileimage.src = "../../../images/tiles8px.png";
 
 	    this.drawMap = function(tiles){
 	      this.clearCanvas();

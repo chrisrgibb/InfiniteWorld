@@ -1,4 +1,5 @@
-define(['./levelgen/levelgenerator', './Renderer'],function(levelGenerator, Renderer){
+define(['./levelgenerator', './Renderer'],function(levelGenerator, Renderer){
+
 
 
     /**
