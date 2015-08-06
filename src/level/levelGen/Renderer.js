@@ -7,8 +7,9 @@ define(function(){
 	    this.tileimage = new Image();
 	    this.tileimage.src = "../../../images/tiles8px.png";
 
-	    this.drawMap = function(tiles){
-	      this.clearCanvas();
+	    this.drawMap = function(map){
+	      var tiles = map.tiles;
+	      this.clearCanvas(map.backgroundColor);
 	      for(var row = 0; row < tiles.length; row++ ){
 	        for(var col = 0; col < tiles[0].length; col++){
 	          var num = tiles[row][col];
@@ -33,8 +34,8 @@ define(function(){
 	      ctx.stroke();
 	    }
 
-	    this.clearCanvas = function(){
-	      this.ctx.fillStyle = "#005200";
+	    this.clearCanvas = function(color){
+	      this.ctx.fillStyle = color;
 	      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 	    }
 

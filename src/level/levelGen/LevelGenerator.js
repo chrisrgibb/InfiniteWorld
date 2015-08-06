@@ -1,10 +1,28 @@
 define(['./createtiles', './noise', '../Map'],function(TilesCreater,Noise, Map){
 
+	var theme = {
+		groundTile : 18,
+		hazard1 : 28,
+		hazard2 : 27,
+		breakable : 11,
+		unbreakable : 20,
+		background: "#0000ff"
+	};
+
+	// var theme =	 {
+	// 		"groundTile" : 13,
+	// 		"hazard1" : 23,
+	// 		"hazard2" : 22,
+	// 		"breakable" : 21,
+	// 		"unbreakable" : 20,
+	// 		background: "#0000ff"
+	// 	};
+
+
 	var height = 12,
 		length = 50,
 		chunks = [],
-		tilecreater = new TilesCreater();
-
+		tilecreater = new TilesCreater(0, 0, theme);
 
 	/**
 	* calls all the functions to create a new map and returns it
@@ -14,7 +32,7 @@ define(['./createtiles', './noise', '../Map'],function(TilesCreater,Noise, Map){
 		var seedValue = 4;
 		var noise = new Noise(seedValue),
 			difficulty = noise.nextInt(1, 3),
-			levelData = buildMap(),
+			levelData = buildMap(theme),
 			map = new Map(levelData);
 		// create enemies
 		// create objects
@@ -23,16 +41,14 @@ define(['./createtiles', './noise', '../Map'],function(TilesCreater,Noise, Map){
 	}
 	
 
-	function buildMap(){
-		var backgroundColor = "#005200";
+	function buildMap(theme){
 		var heights = [];
 
-		var tiles = tilecreater.getBlankMap(length, height);
-
+		var tiles = tilecreater.getBlankMap(length, height, theme);
 
 		return  {
 			tiles : tiles,
-			backgroundColor : backgroundColor,
+			backgroundColor : theme.background,
 			nodes : this.heights,
 			length : this.length,
 			sections : this.sections

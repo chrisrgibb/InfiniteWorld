@@ -1,11 +1,14 @@
 define(['./noise'],function(Noise){
 
 
-	
-function TilesCreater(height, tiles){
+var theme;
+
+
+function TilesCreater(height, tiles, leveltheme){
 	this.height = height || 12 ;
 	this.length = 50;
 	this.tiles = tiles;
+	theme = leveltheme;
 }
 
 	/*
@@ -29,7 +32,7 @@ TilesCreater.prototype.blankArray = function (width, height){
 	*/
 TilesCreater.prototype.createGround = function(start, length){
 	var height = 12;
-	var groundTile = 13;
+	var groundTile = theme.groundTile;
 	var tiles = this.tiles;
 	for(var i = height -2; i < height; i++ ){
 		for(var j =start; j< length; j++){

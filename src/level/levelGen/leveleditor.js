@@ -6,14 +6,13 @@ define(['./levelgenerator', './Renderer'],function(levelGenerator, Renderer){
     *
     *
     */
-    function updateLevel(renderer){
+    function updateLevel(){
       var seedValue = rangeSlider.value || 1231231;
       map = levelGenerator.createNewMap(true, seedValue);
       tiles = map.tiles;
+ 
 
-      // renderer
-      // var renderer = new Renderer();
-      Renderer.drawMap(tiles);
+      Renderer.drawMap(map);
       Renderer.drawHeights(map);
       Renderer.drawSections(map);
     }
