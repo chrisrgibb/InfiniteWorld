@@ -1,3 +1,9 @@
+define(function(){
+
+
+
+});
+
 function Odds(config, noise){
 	/**
 	* config is a map of the probabilites of a number you want

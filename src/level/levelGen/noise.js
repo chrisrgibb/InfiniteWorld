@@ -13,13 +13,13 @@ define(function(){
 			_randomSeed = (_randomSeed * 9301 + 49297) % 233280;
 			var rnd = _randomSeed / 233280;
 
-			return Math.round(min + rnd * (max - min));
+			return min + rnd * (max - min);
 		},
 		nextInt : function(minInt, maxInt){
-			return Math.round(this.nextNumber(minInt, maxInt));
+			return Math.floor(this.nextNumber(minInt, maxInt+1));
 		},
 		nextBool : function(){
-			return Math.round(this.nextNumber(0,1))===1;
+			return Math.floor(this.nextNumber(0,1))===1;
 		}
 	};
 };

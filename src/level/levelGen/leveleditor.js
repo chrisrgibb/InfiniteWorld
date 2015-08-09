@@ -10,7 +10,7 @@ define(['./levelgenerator', './Renderer'],function(levelGenerator, Renderer){
       var seedValue = rangeSlider.value || 1231231;
       map = levelGenerator.createNewMap(true, seedValue);
       tiles = map.tiles;
- 
+
 
       Renderer.drawMap(map);
       Renderer.drawHeights(map);

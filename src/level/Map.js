@@ -39,6 +39,21 @@ define(['./Block'],function(Block){
 						case 0:
 						case 16:
 						case 17:
+						case 48:
+						case 49:
+						case 50:
+						case 51:
+						case 64:
+						case 65:
+						case 66:
+						case 67:
+						case 80:
+						case 81:
+						case 82:
+						case 83:
+							if(type ==48){
+								debugger;
+							}
 							rowArray.push( new Block(x, y, false, type, 0 ));
 							break;
 						// animated tiles
@@ -48,6 +63,7 @@ define(['./Block'],function(Block){
 							block.animated = true;
 							rowArray.push(block);
 							break;
+
 						
 						default:
 							// blocks that are solid but can't be broken
