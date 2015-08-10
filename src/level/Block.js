@@ -9,7 +9,8 @@ define(function(){
 		this.isSolid = solid;
 		this.animated = false;
 	};
-
+	
+	Block.pinkSkull = 7;
 	Block.star = 9;
 	Block.question = 8;
 	Block.yellowskull = 10;

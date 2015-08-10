@@ -47,7 +47,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.enemys = [];
 		seedValue = seedValue || 6;
 
-		var isRandom = true;
+		var isRandom = false;
 		if(isRandom){
 			/* 
 				Create Random Level
@@ -80,10 +80,10 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 
 		for(var y = startY; y < startY + height; y++){
 			for ( var x = startX; x < startX + width; x++){
-				var tile = this.map.blocks[y][x];
-				if(tile.isSolid===1){
-					var block1 = this.map.blocks[y-1][x];
-					var block2 = this.map.blocks[y-2][x];
+				var tile = this.map.getBlock(x ,y);
+				if(tile.isSolid){
+					var block1 = this.map.getBlock(x ,y - 1);
+					var block2 = this.map.getBlock(x ,y - 2);
 					if(block1.isSolid!==1 && block2.isSolid!==1){
 						return { x : x, y : y};
 					}
@@ -116,10 +116,10 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 
 	LevelState.prototype.punchTile = function(x, y){
 
-		if(x > this.map.blocks[0].length-1){
+		if(x > this.map.getWidth()-1){
 			return;
 		}
-		var punchedTile = this.map.blocks[y][x],
+		var punchedTile = this.map.getBlock(x, y),
 			levelstate = this;
 
 		var handleQuestionTile = function (){
@@ -191,10 +191,10 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 	/**
 	*/
 	LevelState.prototype.walkedOverBadStuff = function(x, y){
-		if(x > this.map.blocks[0].length-1 || y > this.map.blocks.length-1){
+		if(x > this.map.getWidth()-1 || y > this.map.getHeight()-1){
 			return;
 		}
-		if(this.map.blocks[y][x].image == 7 ){ // skullblock
+		if(this.map.getTile(x, y) == Block.pinkSkull ){ // skullblock
 
 			if(!this.playerOnGhost){
 				this.onScreenObjects.push(new Ghost(x, y, true));

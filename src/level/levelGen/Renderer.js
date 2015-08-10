@@ -58,11 +58,11 @@ define(function(){
 	      tileSize = this.tileSize;
 	      ctx.strokeStyle = "yellow";
 
-	      var groundHeight = 8;
+	      var groundHeight = 12;
 
 	      var x = chunk.x * tileSize; 
-	      var y = chunk.height * tileSize;
-	      var width = chunk.width * tileSize;
+	      var y = 0;
+	      var width = chunk.length * tileSize;
 	      var height = groundHeight * tileSize; 
 	      ctx.strokeRect(x, y, width, height);
 	    }

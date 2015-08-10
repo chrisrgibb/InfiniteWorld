@@ -1,5 +1,5 @@
 
-define(['./Block'],function(Block){
+define(['./Block', './TileDefinitions'],function(Block, TileDefinitions){
 
 	var Map = function(level){
 		level = level || {};
@@ -15,6 +15,10 @@ define(['./Block'],function(Block){
 		this.blocks = this.createBlocks();
 
 	};
+
+	var breakableBlocks = [8, 9, 10, 11, 21, 35, 40];
+
+
 
 	Map.prototype = {
 		createBlocks : function(){
@@ -51,9 +55,6 @@ define(['./Block'],function(Block){
 						case 81:
 						case 82:
 						case 83:
-							if(type ==48){
-								debugger;
-							}
 							rowArray.push( new Block(x, y, false, type, 0 ));
 							break;
 						// animated tiles
@@ -81,6 +82,9 @@ define(['./Block'],function(Block){
 		},
 		
 		getBlock : function(x, y){
+			var tile = this.tiles[y][x];
+			// return TileDefinitions[tile];
+
 			return this.blocks[y][x];
 		},
 
@@ -94,12 +98,14 @@ define(['./Block'],function(Block){
 			if(y > this.getHeight()-1){
 				return 1;
 			}
+			var tile = TileDefinitions[this.tiles[y][x]];
 
-			if(this.blocks[y][x].image === 0 || this.blocks[y][x].image == 16 || this.blocks[y][x].image ==17){
-				return 0;
-			}else {
-				return 1;
+			// debugger;
+			if(tile){
+				return tile.solid ? 1 : 0; 
 			}
+
+			return this.blocks[y][x].isSolid;
 		},
 
 		getWidth : function(){
@@ -110,6 +116,8 @@ define(['./Block'],function(Block){
 			return this.tiles.length;
 		}
 	};
+
+	
 
 	return Map;
 });

@@ -64,11 +64,11 @@ function(TileSheet,     camera,     player,                  levelState){
 								animationCounter = 0 ;
 							}
 				 		}
-				 		var val = tile.image;
+				 		var val = map.getTile(col, row);
 				 		tileSheet.drawTile(val + animationCounter , x , y, ctx);
 
 				 	}else {				
-						var val = tile.image;
+						var val = map.getTile(col, row);
 						if(val > 0){
 							tileSheet.drawTile(val, x, y, ctx);
 						}

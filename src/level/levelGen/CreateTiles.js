@@ -27,6 +27,7 @@ TilesCreater.prototype  = {
 		this.tiles = array;
 		return this;
 	},
+	
 	createGround : function(start, length){
 		var height = 12;
 		var groundTile = theme.groundTile;
