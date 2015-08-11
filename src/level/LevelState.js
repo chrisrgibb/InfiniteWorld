@@ -64,13 +64,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.backgroundColor = this.map.backgroundColor;
 	};
 
-	// LevelState.prototype.newLevel = function(){
-
-
-	// };
-
 	LevelState.prototype.respawn = function(){
-		// debugger;/
 		var tileSize = 16;
 		var leftX = Game.camera.x;
 		var col = leftX / tileSize;

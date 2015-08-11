@@ -37,6 +37,13 @@ function(TileSheet,     camera,     player,                  levelState){
 				endTileY = map.getHeight();
 			} 
 
+			if(COUNTER % 23 === 0){
+				animationCounter++;
+				if(animationCounter > 3){
+					animationCounter = 0 ;
+				}
+			}
+
 
 			ctx.fillStyle = levelState.backgroundColor; //"#0000ff";
 			ctx.fillRect(0, 0 , CONSTANTS.WIDTH, CONSTANTS.HEIGHT);
@@ -52,15 +59,7 @@ function(TileSheet,     camera,     player,                  levelState){
 					var imageIndex = map.getTile(col, row);
 
 					if(tile.animated){
-						// this is dumb because it will do this for every tile
-						if(COUNTER % 23 === 0){
-							animationCounter++;
-							if(animationCounter > 3){
-								animationCounter = 0 ;
-							}
-						}
 						tileSheet.drawTile(imageIndex + animationCounter , x , y, ctx);
-
 					} else {
 						if(imageIndex > 0){
 							tileSheet.drawTile(imageIndex, x, y, ctx);
