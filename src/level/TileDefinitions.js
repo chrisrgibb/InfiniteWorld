@@ -1,25 +1,25 @@
 define(function() {
 	
 	var backgroundTiles = {
-		solid : false,
+		isSolid : false,
 		breakable : false,
 		animated : false
 	};
 
 	var unbreakableTile = {
-		solid : true,
+		isSolid : true,
 		breakable : false,
 		animated : false
 	};
 
 	var breakableTile = {
-		solid : true,
+		isSolid : true,
 		breakable : true,
 		animated : false
 	};
 
 	var animatedTile = {
-		solid : true,
+		isSolid : true,
 		breakable : true,
 		animated : true
 	}

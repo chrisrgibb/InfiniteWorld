@@ -43,6 +43,8 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.playerOnGhost = true;
 	};
 
+
+
 	LevelState.prototype.init = function(seedValue) {
 		this.enemys = [];
 		seedValue = seedValue || 6;
@@ -84,7 +86,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 				if(tile.isSolid){
 					var block1 = this.map.getBlock(x ,y - 1);
 					var block2 = this.map.getBlock(x ,y - 2);
-					if(block1.isSolid!==1 && block2.isSolid!==1){
+					if(!block1.isSolid && !block2.isSolid){
 						return { x : x, y : y};
 					}
 				}
@@ -156,25 +158,23 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		};
 
 		if (punchedTile.breakable ){
-			if (punchedTile.image === Block.star) { 
-				// star block
+			var tileType = this.map.getTile(x, y);
+			if (tileType === Block.star) {
 				getNewOnScreenObject();
-			} else if (punchedTile.image === Block.question){ 
-				// question block
+			} else if (tileType === Block.question){
 				handleQuestionTile();
-			} else if (punchedTile.image === Block.yellowskull) { 
-				// jitters block
+			} else if (tileType === Block.yellowskull) {
+
 				this.player.jittersTime = 15;
 			}
-			// create new empty space block
-			this.map.blocks[y][x] = new Block(x, y, false, 0, 0 );	 
+			// create new empty space block 
 			this.map.tiles[y][x] = 0;	
 
 			// add explosion animation to levelstate
 			this.animations.push(animationgen.getAnimation(x * 16, y * 16));
 		}
 
-		if(this.map.tiles[y][x]===2){
+		if(this.map.getTile(x, y)===2){
 			this.map.tiles[y][x] = 0;
 		}
 	};
@@ -241,7 +241,6 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 				levelState.shockWave.dead = true;
 				this.player.shockwaveOnscreen = false;
 			}
-
 		}
 	};
 

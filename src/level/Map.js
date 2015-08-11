@@ -78,14 +78,13 @@ define(['./Block', './TileDefinitions'],function(Block, TileDefinitions){
 		},
 
 		getTile : function(x, y){
-			return this.blocks[y][x].image;
+			return this.tiles[y][x];
 		},
 		
 		getBlock : function(x, y){
 			var tile = this.tiles[y][x];
-			// return TileDefinitions[tile];
-
-			return this.blocks[y][x];
+			var tiledef = TileDefinitions[tile];
+			return tiledef;
 		},
 
 		isBlocking : function(x, y){
@@ -100,12 +99,7 @@ define(['./Block', './TileDefinitions'],function(Block, TileDefinitions){
 			}
 			var tile = TileDefinitions[this.tiles[y][x]];
 
-			// debugger;
-			if(tile){
-				return tile.solid ? 1 : 0; 
-			}
-
-			return this.blocks[y][x].isSolid;
+			return tile.isSolid;
 		},
 
 		getWidth : function(){
@@ -116,8 +110,6 @@ define(['./Block', './TileDefinitions'],function(Block, TileDefinitions){
 			return this.tiles.length;
 		}
 	};
-
-	
 
 	return Map;
 });

@@ -24,8 +24,8 @@ function(TileSheet,     camera,     player,                  levelState){
 			*/
 			var startTileX = Math.floor(camera.x / 16);
 			var startTileY = Math.floor(camera.y / 16);
-			var endTileX = map.getWidth()==16 ? 16 : (startTileX + 18);
-			var endTileY = map.getHeight()==12 ? 12 : (startTileY + 13);
+			var endTileX = map.getWidth() === 16 ? 16 : (startTileX + 18);
+			var endTileY = map.getHeight() === 12 ? 12 : (startTileY + 13);
 
 			if(startTileY < 0 ){
 				startTileY = 0;
@@ -46,31 +46,24 @@ function(TileSheet,     camera,     player,                  levelState){
 			for(var row = startTileY; row < endTileY; row++ ){
 				for(var col = startTileX; col < endTileX; col++){
 					var y = ( row * tileSize ) - camera.y ; ///16 |0;
-					var x = (col * tileSize) - camera.x;
+					var x = ( col * tileSize ) - camera.x;
 
 					var tile = map.getBlock(col, row);
+					var imageIndex = map.getTile(col, row);
 
-					if(!tile){
-						alert("bugger");
-						debugger;
-					}
-					
-				 	// ctx.fillRect(x, y, tileSize, tileSize);
-				 	if(tile.animated){
-				 		// this is dumb because it will do this for every tile
-				 		if(COUNTER % 23 ===0){
-				 			animationCounter++;
-				 			if(animationCounter > 3){
+					if(tile.animated){
+						// this is dumb because it will do this for every tile
+						if(COUNTER % 23 === 0){
+							animationCounter++;
+							if(animationCounter > 3){
 								animationCounter = 0 ;
 							}
-				 		}
-				 		var val = map.getTile(col, row);
-				 		tileSheet.drawTile(val + animationCounter , x , y, ctx);
+						}
+						tileSheet.drawTile(imageIndex + animationCounter , x , y, ctx);
 
-				 	}else {				
-						var val = map.getTile(col, row);
-						if(val > 0){
-							tileSheet.drawTile(val, x, y, ctx);
+					} else {
+						if(imageIndex > 0){
+							tileSheet.drawTile(imageIndex, x, y, ctx);
 						}
 					}
 					if (debug.drawGrid) {
@@ -122,8 +115,6 @@ function(TileSheet,     camera,     player,                  levelState){
 			},
 				draw : draw,
 				addToHighLights : addToHighLights,
-				// screenHeight : CONSTANTS.screenHeight,
-				// screenWidth  : CONSTANTS.screenWidth,
 				camera : camera,
 				tileSheet : tileSheet
 			};
