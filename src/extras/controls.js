@@ -1,7 +1,5 @@
 define(function(){
 
-	var something = 12;
-
 	window.keys = {
 		"jump" : false,
 		"left" : false,
@@ -66,7 +64,6 @@ define(function(){
 		}
 	});
 
-	return something;
-		
-})
+	// return something;	
+});
 

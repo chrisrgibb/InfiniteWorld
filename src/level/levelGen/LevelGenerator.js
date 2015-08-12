@@ -1,12 +1,12 @@
-define(['./createtiles', './noise', '../Map', './settings/levelsettings'],
-	function(TilesCreater,Random, Map, themes){
+define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../../game/enemies/enemyfactory'],
+	function(TilesCreater,Random, Map, themes, Enemyfactory){
 
 
 	var rand = new Random(3);
 
 	var themeoption = rand.nextInt(0, 4);
 
-	var theme = themes[0];
+	var theme = themes[1];
 
 
 	var height = 12,
@@ -107,9 +107,12 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings'],
 					}
 				}
 			}
-		
-		
 		}
+	}
+
+	function addEnemy(section, enemies) {
+		var groundLevel = 9;
+		enemies.push(Enemyfactory.getScorpion(section.x+2, groundLevel));
 	}
 	
 
@@ -133,7 +136,8 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings'],
 					// flat
 					console.log("not gap");
 					decorate(section, tilecreater);
-					section.type = "notgap";
+					addEnemy(section, enemies);
+					section.type = "notgap";	
 					break;	
 				case 1:
 					// gap
@@ -144,6 +148,7 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings'],
 					// 
 					console.log("also not");
 					addBlobs(section, tilecreater);
+					addEnemy(section, enemies);
 					section.type = "blobs";
 					break;
 			}
@@ -155,7 +160,8 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings'],
 			backgroundColor : theme.background,
 			nodes : this.heights,
 			length : this.length,
-			sections : sections
+			sections : sections,
+			enemies : enemies
 		};
 
 		return mapData;

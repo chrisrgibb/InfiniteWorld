@@ -33,6 +33,14 @@ define([ './game/Game','./extras/Debugger'] ,function(Game, Debugger){
 	rangeSlider.addEventListener('change', function(){
 		init(rangeSlider.value);
 	});
+
+	var checkbox = document.getElementById('checkbox-isRandom');
+	checkbox.checked = localStorage['infinite.alexkidd.generateRandomLevel'] === "true";
+
+	checkbox.addEventListener('change', function(){
+		var generateRandom = this.checked;
+		localStorage['infinite.alexkidd.generateRandomLevel'] = generateRandom;
+	});
 })
 
 

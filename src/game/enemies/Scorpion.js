@@ -38,7 +38,7 @@ define(['./Enemy'],function(Enemy){
 				this.dir *= -1;
 			}
 				// stop the scorpion from going off edge of block
-			if(!map.isBlocking((this.x + dX + (this.width/2)) / 16 | 0,   (this.y / 16 | 0 )+1 )){
+			if(!map.isBlocking((this.x + dX + (this.width/2)) / 16 | 0,   (this.y / 16 | 0 ) + 1 )){
 				this.dir = -1;
 			}
 		}

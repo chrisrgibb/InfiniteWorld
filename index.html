@@ -10,8 +10,7 @@
               padding-right: 0;
               margin-left: auto;
               margin-right: auto;
-              display: block;
-              /*width: 800px;*/
+              display: inline-block;
 	        	}
             h1#title{
              text-align: center;
@@ -21,9 +20,23 @@
               display: block;
               float: right;
               border: 1px solid black;
-
+            }
+            .control-panel{
+              display: inline-block;
+              width: 300px;
+              margin: 0;
+              height: 100px;
+              position: relative;
+              bottom: 300px;
 
             }
+            #randomSeed{
+              display: block;;
+            }
+            .main-content{
+              display: inline;
+            }
+
 	    </style>
 	    <noscript>
   <!-- anchor linking to external file -->
@@ -40,10 +53,18 @@
     <body>
       <div><a href="./src/level/levelGen/level.html">level</a></div>
       <h1 id="title">Shapeless Red Block in Collision Detection Land </h1>
-      <canvas id="canvas" width="512" height ="384">
-      </canvas>
-      <div id='inventory'>somthin</div>
-      <input type="range" id="range" name="points" min="1" max="100">
+      <div class="main-content">
+        <div class='control-panel'>
+          <input type="checkbox" id="checkbox-isRandom">Generate Random Level <br>
+          <input type="range" id="range" name="points" min="1" max="100">
+          <input type="number" id="randomSeed" min="0" max = "1000000">
+        </div>
+        <canvas id="canvas" width="512" height ="384">
+        </canvas>
+      </div>
+
+
+
       <div id="sidebar">
         <button id = "start-button">Start</button>
         <p>use arrow keys to move.

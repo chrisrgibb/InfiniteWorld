@@ -43,13 +43,11 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.playerOnGhost = true;
 	};
 
-
-
 	LevelState.prototype.init = function(seedValue) {
 		this.enemys = [];
 		seedValue = seedValue || 6;
 
-		var isRandom = false;
+		var isRandom = localStorage['infinite.alexkidd.generateRandomLevel'] === "true";
 		if(isRandom){
 			/* 
 				Create Random Level
@@ -338,7 +336,6 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		for(i = 0, len = removeEnemys.length; i < len; i++){
 			removeObject(enemys, removeEnemys[i], removeEnemys, i);
 		}
-		
 	};
 
 	var ls = new LevelState();
