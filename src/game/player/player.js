@@ -134,15 +134,6 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 		this.deadTime = 50;
 	};
 
-	Player.prototype.punchDetection = function(levelState){
-
-		var punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) ) / 16 | 0;
-
-		this.punchX = punchX * 16;
-
-		levelState.punchTile(punchX, this.y/ 16 | 0);
-	};
-
 
 	Player.prototype.moveX = function(dX, dY, levelState){
 		var newXpos = this.x,
@@ -319,7 +310,15 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 		} else if(!keys.punch) {
 			this.canPunch = true;
 		}
-	
+	};
+
+	Player.prototype.punchDetection = function(levelState){
+
+		this.punchX = (this.x + (this.width/2 * this.dir) + (8 * this.dir) );
+
+		var punchX = Math.floor(this.punchX / 16);
+
+		levelState.punchTile(punchX, this.y/ 16 | 0);
 	};
 
 	Player.prototype.coords = function() {
