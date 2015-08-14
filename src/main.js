@@ -41,6 +41,12 @@ define([ './game/Game','./extras/Debugger'] ,function(Game, Debugger){
 		var generateRandom = this.checked;
 		localStorage['infinite.alexkidd.generateRandomLevel'] = generateRandom;
 	});
+
+	var randomSeedValueBox = document.getElementById('randomSeed');
+	randomSeedValueBox.value = parseInt(localStorage['infinite.alexkidd.randomSeed'] || 0);
+	randomSeedValueBox.addEventListener('change', function(){
+		localStorage['infinite.alexkidd.randomSeed'] = value;
+	})
 })
 
 

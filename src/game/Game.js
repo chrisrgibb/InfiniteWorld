@@ -31,12 +31,9 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 			this.player = Player;
 
-			var seedValue;// = rangeSlider.value;
-
-
 			this.levelState = LevelState;
 
-			this.levelState.init(seedValue);
+			this.levelState.init();
 
 			this.levelRenderer = LevelRenderer;
 			this.objectRenderer = ObjectRenderer;

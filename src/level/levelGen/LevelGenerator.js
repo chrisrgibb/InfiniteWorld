@@ -68,38 +68,6 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 		return lengths;
 	}
 
-	function decorate(section, tilecreater){
-		var decorDeets = theme.decorationRules();
-		console.log(section.length);
-
-		var number = Math.floor(section.length / decorDeets.width);
-
-		if(section.length > 4){
-			var startHeight = height + decorDeets.heightOffset,
-				groundLevel = height - 2,
-				width = 4; // 4 tiles
-
-			for(var i = 0; i < number; i++){
-				var x = i * width + section.x;
-				drawDecoration(x);
-			}
-
-			function drawDecoration(startX){
-				for(var y = 0; y < decorDeets.height; y++){
-					for(var x = 0; x < decorDeets.width; x++){
-
-						var yy = y + startHeight, 
-							xx = x + startX;
-
-						// var tile = (decorDeets.tileNumber + y) * 16 + x;
-						var tile = decorDeets.tileIndex + (y * 16) + x;
-						// console.log(tile)
-						tilecreater.setTile(tile, xx, yy);
-					}
-				}
-			}
-		}
-	}
 
 	function addEnemy(section, enemies, height) {
 		var groundLevel = 9;
