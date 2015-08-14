@@ -60,6 +60,8 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 		this.enemys = this.map.enemys;
 		this.objects = this.map.objects;
 		this.backgroundColor = this.map.backgroundColor;
+		this.player.x = 40;
+		this.player.y = 100;
 	};
 
 	LevelState.prototype.respawn = function(){

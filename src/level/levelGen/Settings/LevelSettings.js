@@ -11,6 +11,7 @@ define(function(){
 		background: "#0000ff",
 		decorationRules: function(){
 			return {
+				tileIndex : 48,
 				heightOffset : -5,
 				width : 4,
 				height : 3,
@@ -28,8 +29,9 @@ define(function(){
 		background: "#0000ff",
 		decorationRules: function(){
 			return {
+				tileIndex : 52,
 				heightOffset : -5,
-				width : 4,
+				width : 1,
 				height : 3,
 				tileNumber : 3
 			}

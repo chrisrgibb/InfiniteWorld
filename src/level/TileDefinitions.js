@@ -48,17 +48,24 @@ define(function() {
 		19 : unbreakableTile,
 		20 : unbreakableTile,
 		21 : breakableTile,
-
+		// lava
 		22 : unbreakableTile,
 		23 : animatedTile,
 		24 : animatedTile,
 		25 : animatedTile,
 		26 : animatedTile,
+		//slime
 		27 : unbreakableTile,
 		28 : animatedTile,
 		29 : animatedTile,
 		30 : animatedTile,
 		31 : animatedTile,
+		//black wooods
+		39 : unbreakableTile,
+		40 : breakableTile,
+		41 : unbreakableTile,
+		42 : unbreakableTile,
+
 		// mt?
 		48: backgroundTiles,
 		49: backgroundTiles,
@@ -72,7 +79,10 @@ define(function() {
 		81: backgroundTiles,
 		82: backgroundTiles,
 		83: backgroundTiles,
-		// 
+		//
+		52 : backgroundTiles,
+		68 : backgroundTiles,
+		84 : backgroundTiles, 
 
 	};
 	

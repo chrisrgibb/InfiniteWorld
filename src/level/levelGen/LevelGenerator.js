@@ -1,5 +1,5 @@
-define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../../game/enemies/enemyfactory'],
-	function(TilesCreater,Random, Map, themes, Enemyfactory){
+define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../../game/enemies/enemyfactory', './createsections'],
+	function(TilesCreater, Random, Map, themes, Enemyfactory, CreateSections){
 
 
 	var rand = new Random(3);
@@ -13,7 +13,7 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 		length = 50,
 		chunks = [],
 		tilecreater = new TilesCreater(0, 0, theme);
-
+		var secto = CreateSections;
 		var tiles;
 
 	/**
@@ -46,16 +46,6 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 
 	}
 
-	function createGap(section, tiles){
-
-		for(var y = height -2; y < height; y++){
-			var tile = y === height -2 ? theme.hazard1 : theme.hazard2;
-			for(var x = section.x; x < section.x + section.length; x++){
-
-				tiles.setTile(tile, x, y);
-			}
-		}
-	}
 
 	function getSections(){
 		var lengths = [];
@@ -101,7 +91,8 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 						var yy = y + startHeight, 
 							xx = x + startX;
 
-						var tile = (decorDeets.tileNumber + y) * 16 + x;
+						// var tile = (decorDeets.tileNumber + y) * 16 + x;
+						var tile = decorDeets.tileIndex + (y * 16) + x;
 						// console.log(tile)
 						tilecreater.setTile(tile, xx, yy);
 					}
@@ -110,9 +101,10 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 		}
 	}
 
-	function addEnemy(section, enemies) {
+	function addEnemy(section, enemies, height) {
 		var groundLevel = 9;
-		enemies.push(Enemyfactory.getScorpion(section.x+2, groundLevel));
+		var y = height || groundLevel;
+		enemies.push(Enemyfactory.getScorpion(section.x+2, y));
 	}
 	
 
@@ -120,8 +112,12 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 		var heights = [];
 
 		tiles = tilecreater.getBlankMap(length, height, theme);
+		CreateSections.setTileCreater(tilecreater);
+		CreateSections.setTheme(theme);
+
 
 		var enemies = [];
+		// splits level up into sections
 		var sections = getSections();
 
 		var len = sections.length;
@@ -135,13 +131,15 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 				case 0:
 					// flat
 					console.log("not gap");
-					decorate(section, tilecreater);
+					// decorate(section, tilecreater);
+					CreateSections.decorate(section.x, 12, section.length);
 					addEnemy(section, enemies);
 					section.type = "notgap";	
 					break;	
 				case 1:
 					// gap
-					createGap(section, tilecreater);
+					// createGap(section, tilecreater);
+					CreateSections.createGap(section.x, 12, section.length);
 					section.type = "gap";
 					break;
 				case 2:
@@ -151,6 +149,9 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 					addEnemy(section, enemies);
 					section.type = "blobs";
 					break;
+				case 3:
+					CreateSections.createPlatform(section.x , 8, section.length);
+					addEnemy(section, enemies, 8 -1);
 			}
 
 		}

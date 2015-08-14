@@ -1,4 +1,5 @@
-define(['./Map', '../game/enemies/Scorpion','../game/enemies/Enemy', '../game/objects/MoneyBag'],function(Map, Scorpion, Enemy, MoneyBag){
+define(['./Map', '../game/objects/MoneyBag', '../game/enemies/enemyfactory'],
+function(Map, MoneyBag, EnemyFactory){
 
 	var MapCreater = function(){
 	};
@@ -131,14 +132,14 @@ define(['./Map', '../game/enemies/Scorpion','../game/enemies/Enemy', '../game/ob
 
 		getEnemies : function(){
 			return [
-				new Enemy(1, 1),
-				new Enemy(4, 19),
-				new Enemy(8, 26),
-				new Enemy(4, 34),
-				new Enemy(8, 37),
-				new Enemy(6, 46),
-				new Enemy(8, 50),
-				new Scorpion( 4,6)
+				EnemyFactory.getBird(1, 1),
+				EnemyFactory.getBird(4, 19),
+				EnemyFactory.getBird(8, 26),
+				EnemyFactory.getBird(4, 34),
+				EnemyFactory.getBird(8, 37),
+				EnemyFactory.getBird(6, 46),
+				EnemyFactory.getBird(8, 50),
+				EnemyFactory.getScorpion(4,6)
 			];
 		},
 
