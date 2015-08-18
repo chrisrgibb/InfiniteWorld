@@ -44,51 +44,52 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 	};
 
 
+	LevelState.prototype = {
+		init : function() {
+			this.enemys = [];
+			var seedValue = parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6;
 
-	LevelState.prototype.init = function() {
-		this.enemys = [];
-		var seedValue = parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6;
+			var isRandom = localStorage['infinite.alexkidd.generateRandomLevel'] === "true";
+			if(isRandom){
+				/* 
+					Create Random Level
+				*/
+				this.map = LevelGen.createNewMap(isRandom, seedValue);
+			} else {
+				this.map = new MapCreater().createMap();
+			}
 
-		var isRandom = localStorage['infinite.alexkidd.generateRandomLevel'] === "true";
-		if(isRandom){
-			/* 
-				Create Random Level
-			*/
-			this.map = LevelGen.createNewMap(isRandom, seedValue);
-		} else {
-			this.map = new MapCreater().createMap();
-		}
+			this.enemys = this.map.enemys;
+			this.objects = this.map.objects;
+			this.backgroundColor = this.map.backgroundColor;
+			this.player.x = 40;
+			this.player.y = 100;
+		},
 
-		this.enemys = this.map.enemys;
-		this.objects = this.map.objects;
-		this.backgroundColor = this.map.backgroundColor;
-		this.player.x = 40;
-		this.player.y = 100;
-	};
+		respawn : function(){
+			var tileSize = 16;
+			var leftX = Game.camera.x;
+			var col = leftX / tileSize;
+			var middleOfScreen = CONSTANTS.screenHeight / 2;
+			var width = CONSTANTS.screenWidth / tileSize;
+			var height = CONSTANTS.screenHeight / tileSize;
+			var startY = Math.floor(Game.camera.y / tileSize) + 3,
+				startX = Math.floor(Game.camera.x / tileSize);
 
-	LevelState.prototype.respawn = function(){
-		var tileSize = 16;
-		var leftX = Game.camera.x;
-		var col = leftX / tileSize;
-		var middleOfScreen = CONSTANTS.screenHeight / 2;
-		var width = CONSTANTS.screenWidth / tileSize;
-		var height = CONSTANTS.screenHeight / tileSize;
-		var startY = Math.floor(Game.camera.y / tileSize) + 3,
-			startX = Math.floor(Game.camera.x / tileSize);
-
-		for(var y = startY; y < startY + height; y++){
-			for ( var x = startX; x < startX + width; x++){
-				var tile = this.map.getBlock(x ,y);
-				if(tile.isSolid){
-					var block1 = this.map.getBlock(x ,y - 1);
-					var block2 = this.map.getBlock(x ,y - 2);
-					if(!block1.isSolid && !block2.isSolid){
-						return { x : x, y : y};
+			for(var y = startY; y < startY + height; y++){
+				for ( var x = startX; x < startX + width; x++){
+					var tile = this.map.getBlock(x ,y);
+					if(tile.isSolid){
+						var block1 = this.map.getBlock(x ,y - 1);
+						var block2 = this.map.getBlock(x ,y - 2);
+						if(!block1.isSolid && !block2.isSolid){
+							return { x : x, y : y};
+						}
 					}
 				}
 			}
+			alert("should have restarted by now...");
 		}
-		alert("should have restarted by now...");
 	};
 
 	// If player moves into the tile that the gameobject is in

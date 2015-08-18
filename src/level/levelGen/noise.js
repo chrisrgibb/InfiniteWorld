@@ -20,6 +20,13 @@ define(function(){
 		},
 		nextBool : function(){
 			return Math.floor(this.nextNumber(0,1))===1;
+		},
+		noiseArray : function(length){
+			var noiseArray = [];
+			for(var i = 0; i < length; i++){
+				noiseArray.push(this.nextNumber(0,1));
+			}
+			return noiseArray;
 		}
 	};
 };

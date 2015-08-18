@@ -4,9 +4,9 @@ define(['./noise'],function(Noise){
 var theme;
 
 
-function TilesCreater(height, tiles, leveltheme){
+function TilesCreater(height, length, tiles, leveltheme){
 	this.height = height || 12 ;
-	this.length = 50;
+	this.length = length;
 	this.tiles = tiles;
 	theme = leveltheme;
 }

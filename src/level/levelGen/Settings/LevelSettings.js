@@ -29,6 +29,7 @@ define(function(){
 		background: "#0000ff",
 		decorationRules: function(){
 			return {
+				// different sizes of trees
 				tileIndex : 52,
 				heightOffset : -5,
 				width : 1,

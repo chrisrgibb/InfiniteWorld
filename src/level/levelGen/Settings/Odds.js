@@ -1,50 +1,53 @@
-define(function(){
+define(['./noise'],function(Noise){
 
+	function Odds(config, noise){
+		/**
+		* config is a map of the probabilites of a number you want
+		* { probability : value}
+		*
+		*/
+		this.config = config || {
+			"box" : 5,
+			"gap" : 10
+		};
 
+		this.noise = noise;
+	}
 
-});
+	Odds.prototype.calc = function() {
+		var odds = this.config;
+		var calculatedOdds = {};
+		var total = 0;
+		// compute total odds
+		for(var key in odds){
+			var val = odds[key]
+			total += val;
+			calculatedOdds[key] = total;
+		}
+		
+		// var chance = this.noise.nextInt(1,14);
+		var chance = this.noise.nextInt(0, total);
+		
+		for(var key in calculatedOdds){
+			var val = calculatedOdds[key];
+			if(val >= chance){
+				// remove the choice from the array of odds
+				this.config[key]--;
 
-function Odds(config, noise){
-	/**
-	* config is a map of the probabilites of a number you want
-	* { probability : value}
-	*
-	*/
-	this.config = config || {
-		"box" : 5,
-		"gap" : 10
+				return key;
+			}
+		}
+		return null;
+
 	};
 
-	this.noise = noise;
-};
+	return Odds;
+});
 
 
-Odds.prototype.calc = function() {
-	var odds = this.config;
-	var calculatedOdds = {};
-	var total = 0;
-	// compute total odds
-	for(var key in odds){
-		var val = odds[key]
-		total += val;
-		calculatedOdds[key] = total;
-	}
-	
-	// var chance = this.noise.nextInt(1,14);
-	var chance = this.noise.nextInt(0, total);
-	
-	for(var key in calculatedOdds){
-		var val = calculatedOdds[key];
-		if(val >= chance){
-			// remove the choice from the array of odds
-			this.config[key]--;
 
-			return key;
-		}
-	}
-	return null;
 
-};
+
 
 
 // var Odds = function(){

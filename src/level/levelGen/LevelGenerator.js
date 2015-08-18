@@ -4,23 +4,36 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 
 	var rand = new Random(3);
 
-	var themeoption = rand.nextInt(0, 4);
 
-	var theme = themes[1];
+
+	var themeoption = rand.nextInt(0, 4);
+	var theme = themes[0];
+
+	// options
+	var difficulty = {
+			EASY : 0, 
+			HARD : 2
+		};
+	var heightVariance = 1;
 
 
 	var height = 12,
-		length = 50,
-		chunks = [],
-		tilecreater = new TilesCreater(0, 0, theme);
-		var secto = CreateSections;
+		length = rand.nextInt(40, 80);
+
+
+	// set up of level
+	var	chunks = [],
+		tilecreater = new TilesCreater(0,length, 0, theme);
 		var tiles;
+		
+
 
 	/**
 	* calls all the functions to create a new map and returns it
 	*/
 
 	function createNewMap(isRandom, seedval){
+		CreateSections.reset();
 		var seedValue = parseInt(seedval);
 			rand = new Random(seedValue);
 		var difficulty = rand.nextInt(1, 3),
@@ -49,8 +62,8 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 
 	function getSections(){
 		var lengths = [];
-		var gapAtStartOfLevel = 16;
-		var index = gapAtStartOfLevel + 0;
+		var gapAtStartOfLevel = 4;
+		var index = gapAtStartOfLevel + rand.nextInt(0, 4);
 
 		while(index < length){
 			var oneLength = rand.nextInt(4, 9);
@@ -93,11 +106,14 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 
 		for(var i = 0; i < len; i++){
 			var section = sections[i];
-			var option = rand.nextInt(0, 3);
+			var option = rand.nextInt(0, 6);
 			// debugger;
+			
 			switch(option){
 				case 0:
 					// flat
+					// max length 
+
 					console.log("not gap");
 					// decorate(section, tilecreater);
 					CreateSections.decorate(section.x, 12, section.length);
@@ -118,17 +134,29 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 					section.type = "blobs";
 					break;
 				case 3:
+					// max lenght : 
 					CreateSections.createPlatform(section.x , 8, section.length);
 					addEnemy(section, enemies, 8 -1);
+					break;
+				case 4:
+					CreateSections.createRandomIsh(section.x, 8, section.length);
+					break;
+				case 5:
+					// simple sections
+					CreateSections.createSimple(section.x, 8, section.length);
+					break;
+				case 6:
+					CreateSections.funkyShape(section.x, 12, section.length)
+					// square shape
+					break;	
 			}
-
 		}
 				
 		var mapData =  {
 			tiles : tiles,
 			backgroundColor : theme.background,
 			nodes : this.heights,
-			length : this.length,
+			length : length,
 			sections : sections,
 			enemies : enemies
 		};
