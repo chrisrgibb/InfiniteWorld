@@ -3,6 +3,10 @@ define(['./noise'],function(Noise){
 
 var theme;
 
+function isFloat(num){
+	return num % 1 !== 0;
+}
+
 
 function TilesCreater(height, length, tiles, leveltheme){
 	this.height = height || 12 ;
@@ -51,6 +55,11 @@ TilesCreater.prototype  = {
 
 	setTile : function(tilenumber, x, y){
 		if(isNaN(tilenumber)){
+			console.warn("tile was undefined");
+			tilenumber = 0;
+		}
+		if(isFloat(tilenumber)){
+			console.warn("tile ",tilenumber, "was not an int");
 			tilenumber = 0;
 		}
 		var bounds = this.checkBounds(x, y);

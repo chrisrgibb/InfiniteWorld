@@ -1,4 +1,4 @@
-define(['./noise'],function(Noise){
+define(['../noise'],function(Noise){
 
 	function Odds(config, noise){
 		/**
@@ -14,7 +14,7 @@ define(['./noise'],function(Noise){
 		this.noise = noise;
 	}
 
-	Odds.prototype.calc = function() {
+	Odds.prototype.next = function() {
 		var odds = this.config;
 		var calculatedOdds = {};
 		var total = 0;

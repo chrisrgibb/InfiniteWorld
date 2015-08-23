@@ -37,7 +37,7 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 		var seedValue = parseInt(seedval);
 			rand = new Random(seedValue);
 		var difficulty = rand.nextInt(1, 3),
-			levelData = buildMap(theme),
+			levelData = buildMap(theme, rand.nextInt(0, 500000)),
 			map = new Map(levelData);
 		// create enemies
 		// create objects
@@ -89,13 +89,13 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 	}
 	
 
-	function buildMap(theme){
+	function buildMap(theme, seed){
 		var heights = [];
 
 		tiles = tilecreater.getBlankMap(length, height, theme);
 		CreateSections.setTileCreater(tilecreater);
 		CreateSections.setTheme(theme);
-
+		CreateSections.setSeed(seed)
 
 		var enemies = [];
 		// splits level up into sections
@@ -106,8 +106,9 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 
 		for(var i = 0; i < len; i++){
 			var section = sections[i];
-			var option = rand.nextInt(0, 6);
+			var option = rand.nextInt(0, 8);
 			// debugger;
+			var option = 8;
 			
 			switch(option){
 				case 0:
@@ -149,6 +150,13 @@ define(['./createtiles', './noise', '../Map', './settings/levelsettings', '../..
 					CreateSections.funkyShape(section.x, 12, section.length)
 					// square shape
 					break;	
+
+				case 7:
+					CreateSections.apply2dNoise(section.x, 7, section.length);
+					break;
+				case 8:
+					CreateSections.heightMap(section.x, 8, section.length);
+					break;
 			}
 		}
 				

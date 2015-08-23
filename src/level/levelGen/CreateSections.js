@@ -1,5 +1,5 @@
-define(['./createtiles', './noise', '../Block'], 
-	function(createtiles, Noise, Block){
+define(['./createtiles', './noise', '../Block', './settings/odds'], 
+	function(createtiles, Noise, Block, Odds){
 
 
 	var theme,
@@ -10,6 +10,45 @@ define(['./createtiles', './noise', '../Block'],
 	function smoothArray (val, index, array) {
 		var smoothValue = (array[index] + array[(index+1) % array.length]) * 0.5;
 		return smoothValue;
+	}
+
+	function noiseArray2d(size, smooth){
+		var array = [];
+		for(var i = 0; i < size; i++){
+			if(smooth){
+				array.push(rand.noiseArray(size).map(smoothArray));
+			} else{
+				array.push(rand.noiseArray(size));
+			}
+		}
+		return array;
+	}
+
+	function calculateOdds(config){
+		var total = 0;
+		var calculatedOdds = {};
+		for (var key in config){
+			total += config[key];
+		}
+		var lastValue = 0;
+		for(var key in config){
+			var value = config[key] / total;
+			value += lastValue;
+			calculatedOdds[key] = [lastValue, value];
+			lastValue = value;
+		}
+		return calculatedOdds;
+	}
+
+	function getValueFromOdds(value, odds){
+		for(var key in odds){
+			var min = odds[key][0],
+				max = odds[key][1];
+			if(value >= min	&& value < max){
+				return key;
+			}
+		}
+		return null;
 	}
 
 
@@ -64,11 +103,8 @@ define(['./createtiles', './noise', '../Block'],
 
 			var width = rand.nextInt(2, 5);
 			var solid = rand.nextBool();
-			var x1 = rand.nextInt(0, 2)
-			var y1 = rand.nextInt(3, 5);
-			var x2 = rand.nextInt(0, 4);
-			var y2 = rand.nextInt(5, 8);
 
+			var arra2d = noiseArray2d(10);
 
 			var noiseArray1 = rand.noiseArray(length);
 			var smoothedArray2 = rand.noiseArray(length)//.map(smoothArray);
@@ -87,8 +123,60 @@ define(['./createtiles', './noise', '../Block'],
 					tiles.setTile(theme.breakable,  x, y2);
 				// }
 			}
-			// tiles.setTile(theme.breakable, startX+x1, y1);
-			// tiles.setTile(theme.breakable, startX+x2, y2);
+		},
+
+		heightMap : function(startX, y, length){
+			var noiseArray1 = rand.noiseArray(length);
+
+			var array2d = noiseArray2d(10, true);
+
+			var odds = this.createOdds();
+
+
+			for (var x = startX; x < startX + length; x++){
+				var y1 =  9 - Math.floor(noiseArray1[x-startX] * 5);
+				var val = array2d[y1][x-startX];
+				var tile = parseInt(getValueFromOdds(val, odds));
+				tiles.setTile(tile, x, y1);
+			}
+		},
+
+
+		createOdds : function(){
+			var config = {};
+
+			config[Block.star] = 5;
+			config[theme.breakable] = 20;
+			config[theme.unbreakable] = 10;
+			config[Block.question] = 1;
+		
+			var odds = calculateOdds(config);
+
+			return odds;
+		},
+
+		apply2dNoise : function(startX, y, length){
+			var config = {};
+
+			config[Block.star] = 5;
+			config[theme.breakable] = 20;
+			config[theme.unbreakable] = 10;
+			config[Block.question] = 1;
+		
+			var odds = calculateOdds(config);
+
+			var vall = getValueFromOdds(0.23, odds);
+
+			var array2d = noiseArray2d(10, true);
+			// array2d = rand.noiseArray(10, false);
+			for(var x = startX; x < startX + length; x++){
+				for(var y = 0; y < 10; y++){
+					var val = array2d[y][x-startX];
+					var tile = parseInt(getValueFromOdds(val, odds));
+					
+					tiles.setTile(tile,  x, y);
+				}
+			}
 		},
 
 		decorate :function(startX, gy, length) {
@@ -128,6 +216,9 @@ define(['./createtiles', './noise', '../Block'],
 		},
 		setTileCreater : function(tileCreater){
 			tiles = tileCreater
+		},
+		setSeed : function(seed){
+			rand = new Noise(seed);
 		}
 	};
 
