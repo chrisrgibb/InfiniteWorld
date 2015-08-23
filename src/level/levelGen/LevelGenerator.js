@@ -1,13 +1,11 @@
-define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './createsections'],
-	function(TilesCreater, Random, Map, themes, Enemyfactory, CreateSections){
+define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './createsections', './settings/options'],
+	function(TilesCreater, Random, Map, themes, Enemyfactory, CreateSections, Options){
 
 
 	var rand = new Random(3);
 
 
-
-	var themeoption = rand.nextInt(0, 4);
-	var theme = themes[3];
+	var theme = Options.theme;
 
 	// options
 	var difficulty = {
