@@ -13,6 +13,7 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 			HARD : 2
 		};
 	var heightVariance = 1;
+	var gapAtStartOfLevel = 4; 
 
 
 	var height = 12,
@@ -39,6 +40,7 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 			map = new Map(levelData);
 		// create enemies
 		// create objects
+		map.nodes = calcHeights();
 
 		return map;
 	}
@@ -46,6 +48,44 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 	function addBlobs(section, tiles){
 		tiles.setTile(theme.unbreakable, section.x, height - 3);
 		tiles.setTile(theme.breakable, section.x, height - 4);
+	}
+
+	function calcHeights(){
+		var min = 3;
+		var max = 4;
+		var nodes = []
+		var index = gapAtStartOfLevel;
+		// the height is worked out from the ground up
+		var maxHeight = 10 - 6;
+		var minHeight = 10;
+
+		var stepsHeight = 3;
+
+		var lastNode = {
+			x : index,
+			y : 10
+		};
+
+		while(index < length){
+
+			var newheight = rand.nextInt(0, 2) - 1;
+
+			var nextHeight = lastNode.y + (2 * newheight); 
+			if(nextHeight > minHeight){
+				nextHeight = minHeight;
+			}
+			
+
+			var node = {
+				x : index,
+				y : nextHeight
+			};
+			lastNode = node;
+
+			nodes.push(node);
+			index += rand.nextInt(min, max);
+		}
+		return nodes;
 	}
 
 	function mainLoop(){
@@ -60,7 +100,6 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 
 	function getSections(){
 		var lengths = [];
-		var gapAtStartOfLevel = 4;
 		var index = gapAtStartOfLevel + rand.nextInt(0, 4);
 
 		while(index < length){
@@ -106,7 +145,7 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 			var section = sections[i];
 			var option = rand.nextInt(0, 8);
 			// debugger;
-			var option = 8;
+			// var option = 8;
 			
 			switch(option){
 				case 0:
