@@ -1,6 +1,5 @@
-define(['./Enemy', './Ghost', './Scorpion'],
-function(Enemy, Ghost, Scorpion){
-
+define(['./Enemy', './Ghost', './Scorpion', './Frog'],
+function(Enemy, Ghost, Scorpion, Frog){
 
 
 	return {
@@ -9,7 +8,10 @@ function(Enemy, Ghost, Scorpion){
 		},
 		getBird : function(x, y) {
 			return new Enemy(x, y);
+		},
+		getFrog : function(x, y) {
+
 		}
 	}
 
-})
+});

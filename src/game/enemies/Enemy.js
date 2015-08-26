@@ -64,14 +64,17 @@ define(['../../graphics/enemySheet'],function(enemySheet){
 				}
 			}
 		
-			this.imagesrc.x = this.frameCount * this.width + (this.dir > 0 ? (2 * this.width ) : 0) ;
+			this.imagesrc.x = this.getSpriteOffset();//this.frameCount * this.width + (this.dir > 0 ? (2 * this.width ) : 0) ;
 
 			enemySheet.draw(this.imagesrc, drawX, drawY, this.width, this.height);		
+		},
+
+		getSpriteOffset : function(){
+			return this.frameCount * this.width + (this.dir > 0 ? (2 * this.width ) : 0) ;
 		}
+
 	};
 	return Enemy;
-
-
 });
 
 function isOnScreen(camera, enemy){
