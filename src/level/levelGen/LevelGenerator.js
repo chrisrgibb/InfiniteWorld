@@ -161,7 +161,9 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 	function addEnemy(section, enemies, height) {
 		var groundLevel = 9;
 		var y = height || groundLevel;
-		enemies.push(Enemyfactory.getScorpion(section.x+2, y));
+		
+		// enemies.push(Enemyfactory.getScorpion(section.x+2, y));
+		enemies.push(Enemyfactory.getFrog(section.x+2, y));
 	}
 	
 

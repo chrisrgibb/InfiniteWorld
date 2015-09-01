@@ -10,7 +10,7 @@ function(Enemy, Ghost, Scorpion, Frog){
 			return new Enemy(x, y);
 		},
 		getFrog : function(x, y) {
-
+			return new Frog(x, y);
 		}
 	}
 
