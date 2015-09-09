@@ -1,5 +1,5 @@
-define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './createsections', './settings/options'],
-	function(TilesCreater, Random, Map, themes, Enemyfactory, CreateSections, Options){
+define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './createsections', './settings/options', './heightcalculator'],
+	function(TilesCreater, Random, Map, themes, Enemyfactory, CreateSections, Options, HeightCalculator){
 
 
 	var rand = new Random(3);
@@ -30,7 +30,10 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 
 
 	/**
-	* calls all the functions to create a new map and returns it
+	*	MAIN LOOP
+	*   calls all the functions to create a new map and returns it
+	*
+	* 
 	*/
 
 	function createNewMap(isRandom, seedval){
@@ -48,7 +51,7 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 		// create enemies
 		// create objects
 		if(!map.nodes){
-			map.nodes = calcHeights();
+			map.nodes = calcHeights(rand);
 		}
 
 
@@ -59,67 +62,6 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 		tiles.setTile(theme.unbreakable, section.x, height - 3);
 		tiles.setTile(theme.breakable, section.x, height - 4);
 	}
-
-	function calcHeights(){
-
-		var min = 3;
-		var max = 4;
-		var nodes = []
-		var index = gapAtStartOfLevel;
-		// the height is worked out from the ground up
-		var maxHeight = 10 - 6;
-		var minHeight = 10;
-
-		var stepsHeight = 3;
-
-		var lastNode = {
-			x : index,
-			y : 10
-		};
-
-		while(index < length){
-
-			var newheight = rand.nextInt(0, 2) - 1;
-
-			var nextHeight = lastNode.y + (2 * newheight); 
-			if(nextHeight > minHeight){
-				nextHeight = minHeight;
-			}
-			
-
-			var node = {
-				x : index,
-				y : nextHeight
-			};
-			lastNode = node;
-
-			nodes.push(node);
-			index += rand.nextInt(min, max);
-		}
-		return nodes;
-	}
-
-	function getNewHeight(size){
-		var len = heights.length,
-			maxHeight = groundLevel - 6,
-			minHeight = groundLevel;
-
-		var delta = rand.nextInt(0, 2) - 1;
-
-		var lastHeight = heights[len -1] 
-		var nextHeight = lastHeight.y + (2 * delta);
-		if(nextHeight > minHeight){
-			nextHeight = minHeight;
-		}
-		var node = {
-			x : size + lastHeight.x,
-			y : nextHeight
-		};
-		heights.push(node);
-
-		return node;
-	}
-
 
 	function mainLoop(){
 		// get blank map
@@ -138,7 +80,7 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 		while(index < length){
 			var oneLength = rand.nextInt(4, 9);
 
-			var height = getNewHeight(oneLength);
+			var height = HeightCalculator.getNewHeight(heights, oneLength, rand);
 			heights.push(height);
 
 			lengths.push({

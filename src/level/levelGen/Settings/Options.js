@@ -1,7 +1,7 @@
 define(['./themes'],function(themes){
 
 
-	var themeOption = 1;
+	var themeOption = 0;
 
 	return {
 		difficulty : {
@@ -11,6 +11,5 @@ define(['./themes'],function(themes){
 		height : 12,
 		heightVariance : 1,
 		theme : themes[themeOption]
-
 	}
 });
