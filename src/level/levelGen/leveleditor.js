@@ -2,72 +2,72 @@ define(['./levelgenerator', './Renderer'],function(levelGenerator, Renderer){
 
 
 
-    /**
-    *
-    *
-    */
-    function updateLevel(){
-      var seedValue = rangeSlider.value || 1231231;
-      map = levelGenerator.createNewMap(true, seedValue);
-      tiles = map.tiles;
+		/**
+		*
+		*
+		*/
+		function updateLevel(){
+			var seedValue = rangeSlider.value || 1231231;
+			map = levelGenerator.createNewMap(true, seedValue);
+			tiles = map.tiles;
 
 
-      Renderer.drawMap(map);
-      Renderer.drawHeights(map);
-      Renderer.drawSections(map);
-    }
+			Renderer.drawMap(map);
+			Renderer.drawHeights(map);
+			Renderer.drawSections(map);
+		}
 
-    function renderLevelInfo(){
-      levelInfo['difficulty'] = lg.difficulty;
-      var text = "";
-      for(var key in levelInfo){
+		function renderLevelInfo(){
+			levelInfo['difficulty'] = lg.difficulty;
+			var text = "";
+			for(var key in levelInfo){
 
-        if(levelInfo[key].constructor == Array){
-        
-          var array = levelInfo[key];
-          text += turnIntoText(array);
-        
-        } else{
-          text += "<li> " + key + " : " + levelInfo[key] + "</li>";
-        }
-      }
-      document.getElementById('text').innerHTML = text;
-    }
+				if(levelInfo[key].constructor == Array){
+				
+					var array = levelInfo[key];
+					text += turnIntoText(array);
+				
+				} else{
+					text += "<li> " + key + " : " + levelInfo[key] + "</li>";
+				}
+			}
+			document.getElementById('text').innerHTML = text;
+		}
 
-    function turnIntoText(arr){
-      var text = ""
-      for(var i = 0; i < arr.length; i++){
-        var item = arr[i];
-        text += "<li>height : " + item.height + ", length : " + item.length + "</li>";
-      }
-      return text;
-    }
+		function turnIntoText(arr){
+			var text = ""
+			for(var i = 0; i < arr.length; i++){
+				var item = arr[i];
+				text += "<li>height : " + item.height + ", length : " + item.length + "</li>";
+			}
+			return text;
+		}
 
-    /**
-    *
-    *
-    */
-
-
-  var tiles;
-  var map;
-  var rangeSlider = document.getElementById('range');
-  var levelInfo = {};
+		/**
+		*
+		*
+		*/
 
 
-  var rangeSlider = document.getElementById('range');
+	var tiles;
+	var map;
+	var rangeSlider = document.getElementById('range');
+	var levelInfo = {};
 
 
-  rangeSlider.addEventListener('change', function(){
-    updateLevel();
-    levelInfo['seed'] = rangeSlider.value;
-    // renderLevelInfo();
-    
-  });
+	var rangeSlider = document.getElementById('range');
 
-    return {
-      updateLevel : updateLevel
 
-    }
-   
+	rangeSlider.addEventListener('change', function(){
+		updateLevel();
+		levelInfo['seed'] = rangeSlider.value;
+		// renderLevelInfo();
+		
+	});
+
+		return {
+			updateLevel : updateLevel
+
+		}
+	 
 });

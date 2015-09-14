@@ -1,6 +1,4 @@
-
-define(
-	['./ObjectSheet', './camera', '../game/player/player', '../level/levelState'], 
+define(['./ObjectSheet', './camera', '../game/player/player', '../level/levelState'], 
 	function(objectSheet, camera, player, levelState){
 	
 

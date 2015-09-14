@@ -79,9 +79,9 @@ define(function(){
 	      
 	      // draw the height
 	      // var lastHeight = null;
-	      map.nodes = [];
+	      var nodes = map.nodes || [];
 
-	      map.nodes.forEach(function(n){
+	      nodes.forEach(function(n){
 
 	        var x = n.x * tileSize;
 	        var y = n.y * tileSize;

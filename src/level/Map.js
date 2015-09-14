@@ -11,6 +11,7 @@ define(['./Block', './TileDefinitions'],function(Block, TileDefinitions){
 
 		this.tiles = level.tiles;
 		this.sections = level.sections;
+		this.levelData = level;
 
 	};
 
