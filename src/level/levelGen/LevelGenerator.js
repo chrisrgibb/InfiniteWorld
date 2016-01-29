@@ -45,8 +45,6 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 			levelData = buildMap(Options.theme, rand.nextInt(0, 500000)),
 			map = new Map(levelData);
 		
-		
-
 
 		// create enemies
 		// create objects
@@ -167,9 +165,8 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 	function buildMap(theme, seed){
 	
 		tiles = tilecreater.getBlankMap(length, height, theme);
-		CreateSections.setTileCreater(tilecreater);
-		CreateSections.setTheme(theme);
-		CreateSections.setSeed(seed)
+
+		CreateSections.setDefaults(theme, tilecreater, seed);
 
 		var enemies = [];
 		// splits level up into sections

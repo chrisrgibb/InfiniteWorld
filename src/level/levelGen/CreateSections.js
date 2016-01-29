@@ -211,16 +211,10 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 				}
 			}
 		},
-		setTheme : function(newtheme){
+		setDefaults : function(newtheme, tileCreater, seed){
 			theme = newtheme;
-		},
-		setTileCreater : function(tileCreater){
-			tiles = tileCreater
-		},
-		setSeed : function(seed){
+			tiles = tileCreater;
 			rand = new Noise(seed);
 		}
 	};
-
-
 });
