@@ -1,4 +1,4 @@
-define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './createsections', './settings/options', './heightcalculator'],
+define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './createsections', './settings/options', './heightcalculator'],
 	function(TilesCreater, Random, Map, themes, Enemyfactory, CreateSections, Options, HeightCalculator){
 
 

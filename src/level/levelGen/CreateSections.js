@@ -1,5 +1,5 @@
-define(['./createtiles', './noise', '../Block', './settings/odds'], 
-	function(createtiles, Noise, Block, Odds){
+define(['./noise', '../Block', './settings/odds'], 
+	function(Noise, Block, Odds){
 
 
 	var theme,
@@ -179,7 +179,7 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 			}
 		},
 
-		decorate :function(startX, gy, length) {
+		decorate : function(startX, gy, length) {
 			var decorDeets = theme.decorationRules();
 			console.log("section length : ", length);
 
@@ -211,6 +211,7 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 				}
 			}
 		},
+
 		setDefaults : function(newtheme, tileCreater, seed){
 			theme = newtheme;
 			tiles = tileCreater;
