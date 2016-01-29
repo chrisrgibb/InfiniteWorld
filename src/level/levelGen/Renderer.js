@@ -8,6 +8,13 @@ define(function(){
 	    this.tileimage.src = "../../../images/tiles8px.png";
 
 	    this.drawMap = function(map){
+	      // debugger;
+	      if(map.direction === 1 && canvas.width > map.getWidth() * this.tileSize){
+	      	// top down level so change canvas width
+	      	canvas.width = map.getWidth() * this.tileSize;
+	      	canvas.height = map.getHeight() * this.tileSize;	
+	      }
+
 	      var tiles = map.tiles;
 	      this.clearCanvas(map.backgroundColor);
 	      for(var row = 0; row < tiles.length; row++ ){
@@ -45,6 +52,9 @@ define(function(){
 	    }
 
 	    this.drawSections = function(map){
+	      if ( !map.sections){
+	      	return;
+	      }
 	      map.sections.forEach(function(section){
 	        this.drawChunk(section);
 

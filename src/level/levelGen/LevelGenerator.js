@@ -1,5 +1,5 @@
-define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './createsections', './settings/options', './heightcalculator', './sidewayslevel'],
-	function(TilesCreater, Random, Map, themes, Enemyfactory, CreateSections, Options, HeightCalculator, Sidewayslevel){
+define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './createsections', './settings/options', './heightcalculator', './sidewayslevel', './topdownlevel'],
+	function(TilesCreater, Random, Map, themes, Enemyfactory, CreateSections, Options, HeightCalculator, Sidewayslevel, TopDownLevel){
 
 
 	var rand = new Random(3);
@@ -58,6 +58,7 @@ define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/e
 	*/
 	function buildMap(theme, seed){
 		var ma = Sidewayslevel.buildMap(theme, seed, Options, rand);
+		// var ma = TopDownLevel.buildMap(theme, seed, Options, rand);
 		return ma;
 	}
 

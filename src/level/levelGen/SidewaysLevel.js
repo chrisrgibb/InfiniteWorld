@@ -1,5 +1,5 @@
 define(['./createsections', './tilecreater', './settings/options', './heightcalculator', '../../game/enemies/enemyfactory'],
-function sidewayslevel(SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory){
+function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory){
 
 	var rand,
 	heights;
@@ -34,7 +34,7 @@ function sidewayslevel(SectionCreator, TileCreater, Options, HeightCalculator, E
 
 		return lengths;
 	}
-	
+
 	/* takes in a object literal with a list of key and the ratios of those keys
 	* examples   {
 					"oil" : 20
@@ -89,10 +89,10 @@ function sidewayslevel(SectionCreator, TileCreater, Options, HeightCalculator, E
 		buildMap : function(theme, seed, options, randomgenerator){
 			rand = randomgenerator;
 			var height = Options.height,
-				length = rand.nextInt(40, 80);
-				tilecreater = new TileCreater(0,length,0, theme);
-
-			tiles = tilecreater.getBlankMap(length, height, theme);
+				length = rand.nextInt(40, 80),
+				tilecreater = new TileCreater(0,length,0, theme),
+				withGround = true,
+				tiles = tilecreater.getBlankMap(length, height, withGround);
 
 			SectionCreator.setDefaults(theme, tilecreater, seed);
 
@@ -175,7 +175,8 @@ function sidewayslevel(SectionCreator, TileCreater, Options, HeightCalculator, E
 				nodes : heights,
 				length : length,
 				sections : sections,
-				enemies : enemies
+				enemies : enemies,
+				direction : 0 // 0 for LR, 1 for topdown, 2 for RL, 3 for anything
 			};
 
 			return mapData;
