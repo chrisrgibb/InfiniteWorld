@@ -4,20 +4,13 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 
 	var rand = new Random(3);
 
-
 	var theme = Options.theme;
-
 	// options
-	var difficulty = {
-			EASY : 0, 
-			HARD : 2
-		};
-	var heightVariance = 1;
-	var gapAtStartOfLevel = 4; 
+	var difficulty = Options.difficulty;
 	var groundLevel = 10;
 
 
-	var height = 12,
+	var height = Options.height,
 		length = rand.nextInt(40, 80);
 	var heights = [];
 
@@ -38,22 +31,25 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 
 	function createNewMap(isRandom, seedval){
 		heights = [{
-			x : gapAtStartOfLevel,
+			x : Options.gapAtStartOfLevel,
 			y : groundLevel
 		}];
 
 		CreateSections.reset();
-		var seedValue = parseInt(seedval);
-			rand = new Random(seedValue);
-		var difficulty = rand.nextInt(1, 3),
-			levelData = buildMap(theme, rand.nextInt(0, 500000)),
+
+		// random seed used to calculate everything from
+		var seedValue = parseInt(seedval),
+			rand = new Random(seedValue),
+			difficulty = rand.nextInt(1, 3),
+			// this is where we create the level
+			levelData = buildMap(Options.theme, rand.nextInt(0, 500000)),
 			map = new Map(levelData);
+		
+		
+
+
 		// create enemies
 		// create objects
-		if(!map.nodes){
-			map.nodes = calcHeights(rand);
-		}
-
 
 		return map;
 	}
@@ -75,7 +71,7 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 
 	function getSections(){
 		var lengths = [];
-		var index = gapAtStartOfLevel + rand.nextInt(0, 4);
+		var index = Options.gapAtStartOfLevel + rand.nextInt(0, 4);
 
 		while(index < length){
 			var oneLength = rand.nextInt(4, 9);
@@ -107,8 +103,67 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 		// enemies.push(Enemyfactory.getScorpion(section.x+2, y));
 		enemies.push(Enemyfactory.getFrog(section.x+2, y));
 	}
-	
 
+	function myOptions(){
+		// odds 
+		var myOdds = {
+			0 : 10, // flat
+			1 : 2, // gap
+			2 : 3, // blob
+			3 : 1  // platform
+		}
+
+		var odds = calculateOdds(myOdds);
+		var vallls = parseInt(getValueFromOdds(Math.random(), odds));
+	}
+	/* takes in a object literal with a list of key and the ratios of those keys
+	* examples   {
+					"oil" : 20
+					"water" : 10
+				}
+
+	  returns an object with random odds that looks like this
+		{
+			"oil"   : [0,   0.33333],
+			"water" : [0.3333333, 1]
+		}
+	*
+	*/ 
+	function calculateOdds(config){
+		var total = 0;
+		var calculatedOdds = {};
+		for (var key in config){
+			total += config[key];
+		}
+		var lastValue = 0;
+		for(var key in config){
+			var value = config[key] / total;
+			value += lastValue;
+			calculatedOdds[key] = [lastValue, value];
+			lastValue = value;
+		}
+		return calculatedOdds;
+	}
+	
+	/*
+	*	
+	*
+	*/
+	function getValueFromOdds(value, odds){
+		for(var key in odds){
+			var min = odds[key][0],
+				max = odds[key][1];
+			if(value >= min	&& value < max){
+				return key;
+			}
+		}
+		return null;
+	}
+
+	/**
+	*
+	*
+	*/
 	function buildMap(theme, seed){
 	
 		tiles = tilecreater.getBlankMap(length, height, theme);
@@ -122,10 +177,23 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 
 		var len = sections.length;
 
+		var myOdds = {
+			0 : 10, // flat
+			1 : 2, // gap
+			2 : 3 // blob
+		}
+
 
 		for(var i = 0; i < len; i++){
 			var section = sections[i];
-			var option = rand.nextInt(0, 8);
+			//debugger;
+			var odds = calculateOdds(myOdds);
+			var vallls = parseInt(getValueFromOdds(rand.nextNumber(0, 1), odds));
+
+			// var option = rand.nextInt(0, 8);
+			var option = vallls;
+
+			myOptions();
 			// debugger;
 			// var option = 8;
 			// var gheight = getNewHeight(section.length);
@@ -194,7 +262,7 @@ define(['./createtiles', './noise', '../Map', './settings/themes', '../../game/e
 
 		return mapData;
 	}
-
+	debugger;
 	return {
 		createNewMap : createNewMap
 	}

@@ -4,6 +4,7 @@ define(function(){
 	var groundLevel = 10;
 
 	return {
+		// could delete this? not used
 		calcHeights : function(rand){
 			var min = 3;
 			var max = 4;
