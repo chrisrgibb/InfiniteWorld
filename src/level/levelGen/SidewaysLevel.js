@@ -1,14 +1,22 @@
-define(['./createsections', './tilecreater', './settings/options', './heightcalculator', '../../game/enemies/enemyfactory'],
-function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory){
+define(['./createsections', './tilecreater', './settings/options', './heightcalculator', '../../game/enemies/enemyfactory', './helpers/helpers'],
+function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, Helpers){
 
 	var rand,
 	heights;
-
+	/****
+	*
+	*
+	*/
 	function getSections(length){
 		heights = [{
 			x : Options.gapAtStartOfLevel,
 			y : Options.groundLevel
 		}];
+
+		// var SectionHelper = new Helpers.SectionHelper
+
+		// var sections = SectionHelper.createIndexs()
+
 
 		var lengths = [];
 		var index = Options.gapAtStartOfLevel + rand.nextInt(0, 4);

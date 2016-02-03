@@ -1,4 +1,4 @@
-define(['../noise'],function(Noise){
+define(function(){
 
 	function Odds(config, noise){
 		/**

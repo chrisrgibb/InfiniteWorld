@@ -54,7 +54,10 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 				/* 
 					Create Random Level
 				*/
-				this.map = LevelGen.createNewMap(isRandom, seedValue);
+				this.map = LevelGen.createNewMap({				
+					isRandom : isRandom, 
+					seedvalue : seedValue 
+				});
 			} else {
 				this.map = new MapCreater().createMap();
 			}

@@ -44,6 +44,10 @@ define(function(){
 
 		},
 
+		/*
+		*	
+		*
+		*/
 		getNewHeight : function(heights, size, rand){
 			// am getting heights passed in, will change this later
 			var len = heights.length,

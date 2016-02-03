@@ -16,9 +16,7 @@ define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/e
 
 
 	// set up of level
-	var	chunks = [],
-		tilecreater = new TilesCreater(height,length, 0, theme);
-		var tiles;
+	var	tilecreater = new TilesCreater(height,length, 0, theme);
 		
 
 
@@ -29,7 +27,8 @@ define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/e
 	* 
 	*/
 
-	function createNewMap(isRandom, seedval){
+	function createNewMap(mapOptions){
+
 		heights = [{
 			x : Options.gapAtStartOfLevel,
 			y : groundLevel
@@ -38,11 +37,10 @@ define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/e
 		CreateSections.reset();
 
 		// random seed used to calculate everything from
-		var seedValue = parseInt(seedval),
+		var seedValue = parseInt(mapOptions.seedvalue),
 			rand = new Random(seedValue),
-			difficulty = rand.nextInt(1, 3),
 			// this is where we create the level
-			levelData = buildMap(Options.theme, rand.nextInt(0, 500000)),
+			levelData = buildMap(Options.theme, rand.nextInt(0, 500000), mapOptions.direction || 1),
 			map = new Map(levelData);
 		
 
@@ -56,10 +54,11 @@ define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/e
 	*
 	*
 	*/
-	function buildMap(theme, seed){
-		var ma = Sidewayslevel.buildMap(theme, seed, Options, rand);
-		// var ma = TopDownLevel.buildMap(theme, seed, Options, rand);
-		return ma;
+	function buildMap(theme, seed, direction){
+		if(direction === Options.direction.vertical){
+			return TopDownLevel.buildMap(theme, seed, Options, rand);
+		}
+		return Sidewayslevel.buildMap(theme, seed, Options, rand);
 	}
 
 	return {
