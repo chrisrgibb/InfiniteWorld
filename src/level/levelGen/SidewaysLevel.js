@@ -1,4 +1,4 @@
-define(['./createsections', './tilecreater', './settings/options', './heightcalculator', '../../game/enemies/enemyfactory', './helpers/helpers'],
+define(['./helpers/createsections', './tilecreater', './settings/options', './helpers/heightcalculator', '../../game/enemies/enemyfactory', './helpers/helpers'],
 function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, Helpers){
 
 	var rand,
@@ -17,6 +17,10 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 
 		// var sections = SectionHelper.createIndexs()
 
+		var halp = new Helpers.SectionHelper(rand);
+
+
+		var sizes = halp.createIndexs(length, 4, 9, Options.gapAtStartOfLevel);
 
 		var lengths = [];
 		var index = Options.gapAtStartOfLevel + rand.nextInt(0, 4);

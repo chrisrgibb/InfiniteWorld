@@ -11,17 +11,6 @@ define(['./tilecreater', './helpers/helpers', './settings/odds'],
 
 	}
 
-	/*
-	* abstract idea - take a length and cut it up into pieces,
-	* pieces size can be specified - a minimum and maximum size
-	* 
-	*/
-	function splitIntoSections(array, minSize, maxSize){
-
-
-
-	}
-
 	function Ledge(config){
 		return {
 			x : config.x,
@@ -30,6 +19,16 @@ define(['./tilecreater', './helpers/helpers', './settings/odds'],
 			height :config.height,
 			side : config.side
 		}
+	}
+
+	function CreateSides(tiles, start){
+		// var 
+		// debugger;
+		for(var i = start+1; i< tiles.length; i++){
+				tiles[i][0] = 5;
+				tiles[i][tiles[0].length -1] = 5;
+		}
+
 	}
 
 	return {
@@ -45,7 +44,7 @@ define(['./tilecreater', './helpers/helpers', './settings/odds'],
 				"right" : 4,
 				"middle" : 2
 			}, rand);
-			debugger;
+			
 
 			var tiles = tilecreator.getBlankMap(width, height).tiles;
 
@@ -62,16 +61,30 @@ define(['./tilecreater', './helpers/helpers', './settings/odds'],
 			var halp = new Helper.SectionHelper(rand);
 
 
-			var sizes = halp.createIndexs(tiles.length, 4, 9);
+			var sizes = halp.createIndexs(tiles.length, 4, 9, 7);
 			var ledges = sizes.map(function(size){
-				var x = rand.nextBool() % 2 == 0 ? 0 : 8;
+				var x = rand.nextBool() % 2 == 0 ? 0 : 8;	
+				var side = odds.next();
 
-				return {
+				var ledge = {
 					x : x,
-					y : size,
+					y : size.x,
 					width : rand.nextInt(5, 8),
 					height : 1
 				};
+
+				var mapWidth = width;
+				if(side === "left"){
+					ledge.x = 0;
+				}
+				if( side === "right"){
+					ledge.x = mapWidth - ledge.width;
+				}
+				if(side === "middle"){
+					ledge.x = Math.floor(width / 2) - (Math.floor(ledge.width / 2)); 
+				}
+
+				return ledge;
 			});
 
 			ledges.forEach(function(l){
@@ -79,6 +92,8 @@ define(['./tilecreater', './helpers/helpers', './settings/odds'],
 					tiles[l.y][l.x + i] = 2;
 				}
 			});
+
+			CreateSides(tiles, ledges[0].y);
 
 			return {
 				tiles : tiles,

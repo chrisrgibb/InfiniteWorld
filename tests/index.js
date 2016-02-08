@@ -5,7 +5,7 @@ requirejs.config({
 	nodeRequire: require
 });
 
-requirejs(['../src/level/levelgen/noise.js'],
+requirejs(['../src/level/levelgen/utils/noise.js'],
 function   (Random) {
     //foo and bar are loaded according to requirejs
     //config, but if not found, then node's require

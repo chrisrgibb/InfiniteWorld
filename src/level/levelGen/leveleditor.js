@@ -45,6 +45,7 @@ define(['./levelgenerator', './Renderer', './settings/options'],function(levelGe
 
 	document.getElementById('select-direction').addEventListener('change', function(){
 		options.direction = this.value === "vertical" ? 1 : 0;
+		localStorage['infinite.alexkidd.direction'] = options.direction;
 	});
 
 	return {

@@ -1,4 +1,4 @@
-define(['./noise', '../Block', './settings/odds'], 
+define(['../utils/noise', '../../Block', '../settings/odds'], 
 	function(Noise, Block, Odds){
 
 

@@ -6,13 +6,20 @@ define(function(){
 	    this.tileSize = 8;
 	    this.tileimage = new Image();
 	    this.tileimage.src = "../../../images/tiles8px.png";
+	    this.canvasDirection = "horizontal";
 
 	    this.drawMap = function(map){
 	      // debugger;
-	      if(map.direction === 1 && canvas.width > map.getWidth() * this.tileSize){
+	      if(map.direction === 1 && this.canvasDirection === "horizontal"){
 	      	// top down level so change canvas width
 	      	canvas.width = map.getWidth() * this.tileSize;
 	      	canvas.height = map.getHeight() * this.tileSize;	
+	      	this.canvasDirection = "vertical";
+	      }
+	      if(map.direction === 0 && this.canvasDirection === "vertical"){
+	      	canvas.width = map.getWidth() * this.tileSize;
+	      	canvas.height = map.getHeight() * this.tileSize;	
+	      	this.canvasDirection = "horizontal";
 	      }
 
 	      var tiles = map.tiles;

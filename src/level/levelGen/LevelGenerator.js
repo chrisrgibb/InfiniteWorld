@@ -1,4 +1,4 @@
-define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './createsections', './settings/options', './heightcalculator', './sidewayslevel', './topdownlevel'],
+define(['./tilecreater', './utils/noise', '../Map', './settings/themes', '../../game/enemies/enemyfactory', './helpers/createsections', './settings/options', './helpers/heightcalculator', './sidewayslevel', './topdownlevel'],
 	function(TilesCreater, Random, Map, themes, Enemyfactory, CreateSections, Options, HeightCalculator, Sidewayslevel, TopDownLevel){
 
 
@@ -40,7 +40,7 @@ define(['./tilecreater', './noise', '../Map', './settings/themes', '../../game/e
 		var seedValue = parseInt(mapOptions.seedvalue),
 			rand = new Random(seedValue),
 			// this is where we create the level
-			levelData = buildMap(Options.theme, rand.nextInt(0, 500000), mapOptions.direction || 1),
+			levelData = buildMap(Options.theme, rand.nextInt(0, 500000), parseInt(localStorage['infinite.alexkidd.direction']) || 0),
 			map = new Map(levelData);
 		
 

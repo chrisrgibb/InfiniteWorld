@@ -1,4 +1,4 @@
-define(['./noise'],function(Noise){
+define(['./utils/noise'],function(Noise){
 
 
 var theme;

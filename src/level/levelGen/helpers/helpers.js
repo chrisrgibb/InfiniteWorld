@@ -2,8 +2,8 @@ define(function(argument) {
 	// body...
 
 	this.sectionHelper = function(rand){
-		this.createIndexs = function(length, minSize, maxSize){
-			var index = 0;
+		this.createIndexs = function(length, minSize, maxSize, startAt){
+			var index = startAt || 0;;
 			var sizes = [];
 			while(index < length){
 				var lastestSize = rand.nextInt(minSize, maxSize);
@@ -11,9 +11,15 @@ define(function(argument) {
 				if(lastestSize + index > length){
 					lastestSize = length - index;
 				}
+				// x = index 
+				// length = latestSize
+				sizes.push({
+					x : index,
+					length : lastestSize
+				})
 				
 				index += lastestSize;
-				sizes.push(index-1);
+				// sizes.push(index-1);
 			}
 
 			return sizes;

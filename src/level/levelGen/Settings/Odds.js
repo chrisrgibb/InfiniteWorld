@@ -32,7 +32,7 @@ define(function(){
 			var val = calculatedOdds[key];
 			if(val >= chance){
 				// remove the choice from the array of odds
-				this.config[key]--;
+				// this.config[key]--;
 
 				return key;
 			}
