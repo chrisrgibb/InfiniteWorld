@@ -1,23 +1,30 @@
 define(function(){
-	// whatever has been saved from the UI from last session
-	var localStoragePrefix = 'infinite.alexkidd.';
-
+	
+	var state = {
+		difficulty : {
+			EASY : 0, 
+			HARD : 2
+		},
+		groundLevel : 10,
+		height : 12,
+		heightVariance : 1,
+		theme : themes[themeOption],
+		gapAtStartOfLevel : 10,
+		direction : {
+			leftRight : 0,
+			vertical : 1,
+			rightLeft : 2
+		},
+		themeOption : themeOption
+	};
 
 
 	return {
 		update : function(key, value){
-			var localStorageKey = localStoragePrefix + key;
-			// var item = 
-			localStorage[localStorageKey] = value;
+			state[key] = value;
 		},
 		get : function(key){
-			var localStorageKey = localStoragePrefix + key;
-			var item = localStorage[localStorageKey];
-			if(item != null){
-				return item;
-			} else {
-				return "error could not find thingy";
-			}
+			return state[key];
 		}
 	}
 

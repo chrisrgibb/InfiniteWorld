@@ -1,4 +1,10 @@
-define(['./levelgenerator', './Renderer', './settings/options'],function(levelGenerator, Renderer, LevelOptions){
+define(['./levelgenerator', './Renderer', './settings/options', './localstorageadapter'],function(levelGenerator, Renderer, LevelOptions, LocalStorageAdapter){
+
+
+
+	var map;
+	var levelInfo = {};
+	var options = {};
 
 
 
@@ -23,22 +29,20 @@ define(['./levelgenerator', './Renderer', './settings/options'],function(levelGe
 		Renderer.drawSections(map);
 	}
 
-	/**
-	*
-	*
-	*/
 
-	var map;
+	function addDirectionToggleListeners () {
+		var directionToggle = document.getElementById('select-direction');
+		directionToggle.value = LocalStorageAdapter.get('direction') === "1" ? "vertical" : "horizontal";
+		
+		directionToggle.addEventListener('change', function(){
+			options.direction = this.value === "vertical" ? 1 : 0;
+			LocalStorageAdapter.update('direction', options.direction);
+		});
+	}
+
+	addDirectionToggleListeners();
+	
 	var rangeSlider = document.getElementById('range');
-	var levelInfo = {};
-	var options = {};
-
-
-	var rangeSlider = document.getElementById('range');
-	var directionToggle = document.getElementById('select-direction');
-
-	var direction = localStorage['infinite.alexkidd.direction'] === "1" ? "vertical" : "horizontal";
-	directionToggle.value = direction;
 
 	rangeSlider.addEventListener('change', function(){
 		updateLevel();
@@ -47,11 +51,6 @@ define(['./levelgenerator', './Renderer', './settings/options'],function(levelGe
 	});
 
 
-
-	directionToggle.addEventListener('change', function(){
-		options.direction = this.value === "vertical" ? 1 : 0;
-		localStorage['infinite.alexkidd.direction'] = options.direction;
-	});
 
 	return {
 		updateLevel : updateLevel

@@ -17,11 +17,3 @@ define(function(){
 
 	return Block;
 });
-
-
-function softBlock(x, y, breakable, image){
-	this.x = x;
-	this.y = y;
-	this.breakable = breakable;
-	this.image = image;
-}
