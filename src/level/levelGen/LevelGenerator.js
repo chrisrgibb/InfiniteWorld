@@ -6,17 +6,14 @@ define(['./tilecreater', './utils/noise', '../Map', './settings/themes', '../../
 
 	var theme = Options.theme;
 	// options
-	var difficulty = Options.difficulty;
 	var groundLevel = 10;
 
-
-	var height = Options.height,
-		length = rand.nextInt(40, 80);
+	var length = rand.nextInt(40, 80);
 	var heights = [];
 
 
 	// set up of level
-	var	tilecreater = new TilesCreater(height,length, 0, theme);
+	var	tilecreater = new TilesCreater(Options.height,length, 0, theme);
 		
 
 

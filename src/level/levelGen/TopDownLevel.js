@@ -1,5 +1,5 @@
-define(['./tilecreater', './helpers/helpers', './settings/odds'], 
-	function (TileCreator, Helper, OddsHelper){
+define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge'], 
+	function (TileCreator, Helper, OddsHelper, LedgePeice){
 
 	// main loop
 	// travel down map creating platforms
@@ -7,6 +7,11 @@ define(['./tilecreater', './helpers/helpers', './settings/odds'],
 	function mainLoop(){
 		var sections =  splitIntoSections();
 
+
+
+	}
+
+	function createLedges(size){
 
 
 	}
@@ -38,15 +43,8 @@ define(['./tilecreater', './helpers/helpers', './settings/odds'],
 			var width = 16;
 			var height = rand.nextInt(80, 100);
 			var tilecreator = new TileCreator(height, width, 0, theme);
-
-			var odds = new OddsHelper({
-				"left" : 4,
-				"right" : 4,
-				"middle" : 2
-			}, rand);
-			
-
 			var tiles = tilecreator.getBlankMap(width, height).tiles;
+
 
 			// create a random tiles for testing
 			var n = 10;
@@ -62,29 +60,18 @@ define(['./tilecreater', './helpers/helpers', './settings/odds'],
 
 
 			var sizes = halp.createIndexs(tiles.length, 4, 9, 7);
-			var ledges = sizes.map(function(size){
-				var x = rand.nextBool() % 2 == 0 ? 0 : 8;	
-				var side = odds.next();
+			
 
-				var ledge = {
-					x : x,
-					y : size.x,
-					width : rand.nextInt(5, 8),
-					height : 1
-				};
 
-				var mapWidth = width;
-				if(side === "left"){
-					ledge.x = 0;
-				}
-				if( side === "right"){
-					ledge.x = mapWidth - ledge.width;
-				}
-				if(side === "middle"){
-					ledge.x = Math.floor(width / 2) - (Math.floor(ledge.width / 2)); 
-				}
-
-				return ledge;
+			var ledges = halp
+				.createIndexs(tiles.length, 4, 9, 7)
+				.map(function(size){
+					var lego = LedgePeice.create({
+						rand : rand,
+						mapWidth : width
+					});
+					lego.y = size.x;
+					return lego;
 			});
 
 			ledges.forEach(function(l){

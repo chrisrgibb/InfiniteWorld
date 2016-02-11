@@ -35,7 +35,10 @@ define(['./levelgenerator', './Renderer', './settings/options'],function(levelGe
 
 
 	var rangeSlider = document.getElementById('range');
+	var directionToggle = document.getElementById('select-direction');
 
+	var direction = localStorage['infinite.alexkidd.direction'] === "1" ? "vertical" : "horizontal";
+	directionToggle.value = direction;
 
 	rangeSlider.addEventListener('change', function(){
 		updateLevel();
@@ -43,7 +46,9 @@ define(['./levelgenerator', './Renderer', './settings/options'],function(levelGe
 		options.seedValue = parseInt(rangeSlider.value);
 	});
 
-	document.getElementById('select-direction').addEventListener('change', function(){
+
+
+	directionToggle.addEventListener('change', function(){
 		options.direction = this.value === "vertical" ? 1 : 0;
 		localStorage['infinite.alexkidd.direction'] = options.direction;
 	});

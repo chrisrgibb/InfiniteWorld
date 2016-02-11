@@ -117,7 +117,9 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 			var myOdds = {
 				0 : 10, // flat
 				1 : 2, // gap
-				2 : 3 // blob
+				2 : 3, // blob,
+				3 : 2, //platform
+				// 4 : 10 // random shit
 			}
 
 
