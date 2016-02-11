@@ -75,9 +75,17 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 			});
 
 			ledges.forEach(function(l){
-				for(var i = 0; i < l.width; i++){
-					tiles[l.y][l.x + i] = 2;
+				if(l.side === "right"){
+					for(var i = 0; i < l.width; i++){
+						tiles[l.y][l.x + i] = 2;// assign 
+					}
+				} else {
+					// debugger;
+					for(var i = 0; i < l.width; i++){
+						tiles[l.y][l.x+i] = l.array[0][i];
+					}
 				}
+	
 			});
 
 			CreateSides(tiles, ledges[0].y);

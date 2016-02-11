@@ -1,5 +1,27 @@
 define(['../settings/odds'],function(OddsHelper){
 
+	function createArrayRepresentation(ledge){
+		var array = [];
+		if(ledge.side === "middle"){
+			var top = [];
+			top.push(1); //left peice
+			for(var i = ledge.x+1; i < ledge.x + ledge.width-1; i++){
+				top.push(2);
+			}
+			top.push(3);
+			array.push(top);
+		}
+		if(ledge.side === "left"){
+			var top = [];
+			for(var i = ledge.x; i < ledge.x + ledge.width-1; i++){
+				top.push(2);
+			}
+			top.push(3);
+			array.push(top);
+		}
+		
+		return array;
+	}
 			
 
 	return {
@@ -23,14 +45,18 @@ define(['../settings/odds'],function(OddsHelper){
 			}, context.rand);
 
 			var x = context.rand.nextBool() % 2 == 0 ? 0 : 8;	
+			var y = (config && config.y != null) ? config.y : -1;
+
 			var ledge = {
 				x : x,
-				y : -1,
+				y : y,
 				width : context.rand.nextInt(5, 8),
-				height : 1
+				height : 1,
+				array : [],
+				side : odds.next()
 			};
 
-			var side = odds.next();	
+			var side = ledge.side;
 
 			var mapWidth = context.mapWidth;
 			if(side === "left"){
@@ -42,6 +68,9 @@ define(['../settings/odds'],function(OddsHelper){
 			if(side === "middle"){
 				ledge.x = Math.floor(mapWidth / 2) - (Math.floor(ledge.width / 2)); 
 			}
+
+			ledge.array = createArrayRepresentation(ledge);
+
 
 			return ledge;
 		}
