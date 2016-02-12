@@ -1,6 +1,6 @@
 define(function(){
 	
-	var state = {
+	var defaultState = {
 		difficulty : {
 			EASY : 0, 
 			HARD : 2

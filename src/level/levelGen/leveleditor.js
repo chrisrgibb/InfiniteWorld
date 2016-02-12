@@ -3,7 +3,6 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 
 
 	var map;
-	var levelInfo = {};
 	var options = {};
 
 
@@ -46,10 +45,8 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 
 	rangeSlider.addEventListener('change', function(){
 		updateLevel();
-		levelInfo['seed'] = rangeSlider.value;
 		options.seedValue = parseInt(rangeSlider.value);
 	});
-
 
 
 	return {
