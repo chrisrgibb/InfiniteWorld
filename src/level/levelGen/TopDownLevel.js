@@ -33,11 +33,24 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 				tiles[i][0] = 5;
 				tiles[i][tiles[0].length -1] = 5;
 		}
-
 	}
 
+
+
 	return {
-		buildMap : function(theme, seed, options, randomgenerator){
+		buildMap : function(theme, options, randomgenerator){
+
+			function createRandomTilesForTesting (rand, tiles) {
+				// create a random tiles for testing
+				var n = 10;
+				for(var i = 0 ; i < n; i++){
+					var x = rand.nextInt(0, width-1);
+					var y = rand.nextInt(0, height-1);
+					tiles[y][x] = 18; 
+				}
+				// create tile to land on
+				tiles[10][2] = 18;
+			}
 
 			var rand = randomgenerator;
 			var width = 16;
@@ -46,19 +59,11 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 			var tiles = tilecreator.getBlankMap(width, height).tiles;
 
 
-			// create a random tiles for testing
-			var n = 10;
-			for(var i = 0 ; i < n; i++){
-				var x = rand.nextInt(0, width-1);
-				var y = rand.nextInt(0, height-1);
-				tiles[y][x] = 18; 
-			}
-			// create tile to land on
-			tiles[10][2] = 18;
+			createRandomTilesForTesting(rand, tiles);
 
 			var halp = new Helper.SectionHelper(rand);
 
-
+			
 			var sizes = halp.createIndexs(tiles.length, 4, 9, 7);
 			
 
@@ -80,7 +85,7 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 						tiles[l.y][l.x + i] = 2;// assign 
 					}
 				} else {
-					// debugger;
+					// this is the new way applying anythign
 					for(var i = 0; i < l.width; i++){
 						tiles[l.y][l.x+i] = l.array[0][i];
 					}

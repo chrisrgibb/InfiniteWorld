@@ -30,7 +30,7 @@ define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections
 	*/
 	function buildMap(theme, seed, direction){
 		if(direction === Options.direction.vertical){
-			return TopDownLevel.buildMap(theme, seed, Options, rand);
+			return TopDownLevel.buildMap(theme, Options, rand);
 		}
 		return Sidewayslevel.buildMap(theme, seed, Options, rand);
 	}

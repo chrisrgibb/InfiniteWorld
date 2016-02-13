@@ -92,13 +92,6 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 			}
 		},
 
-		createSimple : function(startX, y, length){
-
-			tiles.setTile(Block.question, startX + 4, 8);
-			tiles.setTile(theme.breakable, startX + 5, 8);
-
-		},
-
 		funkyShape : function(startX, y, length){
 
 			var width = rand.nextInt(2, 5);

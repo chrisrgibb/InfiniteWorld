@@ -119,6 +119,7 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 				1 : 2, // gap
 				2 : 3, // blob,
 				3 : 2, //platform
+				6 : 2
 				// 4 : 10 // random shit
 			}
 
@@ -163,11 +164,6 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 						break;
 					case 4:
 						SectionCreator.createRandomIsh(section.x, 8, section.length);
-						break;
-					case 5:
-						// simple sections
-						// var height = heights[i];
-						SectionCreator.createSimple(section.x, heights[i], section.length);
 						break;
 					case 6:
 						SectionCreator.funkyShape(section.x, 12, section.length)

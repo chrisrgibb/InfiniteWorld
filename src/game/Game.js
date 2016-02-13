@@ -1,4 +1,5 @@
-define(['./player/player', '../graphics/camera', '../level/levelState', '../graphics/levelRenderer', '../graphics/objectRenderer', './gamestate'],function(Player, Camera, LevelState, LevelRenderer, ObjectRenderer, gamestate){
+define(['./player/player', '../graphics/camera', '../level/levelState', '../graphics/levelRenderer', '../graphics/objectRenderer', './gamestate'],
+	function(Player, Camera, LevelState, LevelRenderer, ObjectRenderer, gamestate){
 
 	// main game function
 	var Game = {
