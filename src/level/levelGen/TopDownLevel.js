@@ -62,12 +62,9 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 			createRandomTilesForTesting(rand, tiles);
 
 			var halp = new Helper.SectionHelper(rand);
-
 			
-			var sizes = halp.createIndexs(tiles.length, 4, 9, 7);
+			// creates random Intervals
 			
-
-
 			var ledges = halp
 				.createIndexs(tiles.length, 4, 9, 7)
 				.map(function(size){

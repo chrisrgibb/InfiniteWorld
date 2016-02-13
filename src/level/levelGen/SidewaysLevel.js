@@ -119,7 +119,9 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 				1 : 2, // gap
 				2 : 3, // blob,
 				3 : 2, //platform
-				6 : 2
+				6 : 2,
+				7 : 5,
+				8 : 4
 				// 4 : 10 // random shit
 			}
 
@@ -137,7 +139,6 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 						// flat
 						// max length 
 
-						console.log("not gap");
 						// decorate(section, tilecreater);
 						SectionCreator.decorate(section.x, 12, section.length);
 						addEnemy(section, enemies);
@@ -152,7 +153,6 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 						break;
 					case 2:
 						// 
-						console.log("also not");
 						// addBlobs(section, tilecreater);
 						addEnemy(section, enemies);
 						section.type = "blobs";
@@ -161,20 +161,25 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 						// max lenght : 
 						SectionCreator.createPlatform(section.x , 8, section.length);
 						addEnemy(section, enemies, 8 -1);
+						section.type = "platform with enemy";
 						break;
 					case 4:
 						SectionCreator.createRandomIsh(section.x, 8, section.length);
+						section.type = "random ish";
 						break;
 					case 6:
 						SectionCreator.funkyShape(section.x, 12, section.length)
 						// square shape
+						section.type = "funky shape";
 						break;	
 
 					case 7:
-						// CreateSections.apply2dNoise(section.x, 7, section.length);
+						SectionCreator.apply2dNoise(section.x, 7, section.length);
+						section.type = "2d noise";
 						break;
 					case 8:
 						SectionCreator.heightMap(section.x, 8, section.length);
+						section.type = "height map";
 						break;
 				}
 			}
