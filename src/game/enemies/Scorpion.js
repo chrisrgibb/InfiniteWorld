@@ -51,4 +51,4 @@ define(['./Enemy'],function(Enemy){
 	};
 
 	return Scorpion;
-})
+});

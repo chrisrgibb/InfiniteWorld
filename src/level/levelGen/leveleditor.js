@@ -44,8 +44,18 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 		options.seedValue = parseInt(rangeSlider.value);
 	});
 
+	Renderer.canvas.addEventListener('click', function(e){
+		
+		var x = e.offsetX / Renderer.tileSize;
+		var y = e.offsetY / Renderer.tileSize;
+		
+		var toHighlight = map.getSection(x, y);
+		Renderer.highlightSection(toHighlight);
+		Renderer.drawSections(map);
+	});
+
 
 	return {
 		updateLevel : updateLevel
-	}
+	};
 });

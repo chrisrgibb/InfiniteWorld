@@ -133,12 +133,5 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 			ctx.fillText(text, 20, 20);
 		}
 	};
-
 	return Game;
-	var debugStuff = [];
-
-
-
 });
-
-

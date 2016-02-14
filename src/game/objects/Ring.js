@@ -17,7 +17,5 @@ define(['./gameobject'] ,function(GameObject){
 		player.inventory.ring = true;
 		this.remove = true;
 	};
-
 	return Ring;
-
-})
+});

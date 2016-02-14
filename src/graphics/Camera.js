@@ -1,6 +1,5 @@
 define(function(){
 
-
 	function Camera(){
 		this.x = 0;
 		this.y = 0;
@@ -35,7 +34,6 @@ define(function(){
 		}
 	};
 
-
 	return new Camera();
-})
+});
 

@@ -1,19 +1,20 @@
 define(['../settings/odds'],function(OddsHelper){
 
 	function createArrayRepresentation(ledge){
-		var array = [];
+		var array = [],
+			i, top;
 		if(ledge.side === "middle"){
-			var top = [];
+			top = [];
 			top.push(1); //left peice
-			for(var i = ledge.x+1; i < ledge.x + ledge.width-1; i++){
+			for(i = ledge.x+1; i < ledge.x + ledge.width-1; i++){
 				top.push(2);
 			}
 			top.push(3);
 			array.push(top);
 		}
 		if(ledge.side === "left"){
-			var top = [];
-			for(var i = ledge.x; i < ledge.x + ledge.width-1; i++){
+			top = [];
+			for(i = ledge.x; i < ledge.x + ledge.width-1; i++){
 				top.push(2);
 			}
 			top.push(3);
@@ -44,7 +45,7 @@ define(['../settings/odds'],function(OddsHelper){
 				"middle" : 2
 			}, context.rand);
 
-			var x = context.rand.nextBool() % 2 == 0 ? 0 : 8;	
+			var x = context.rand.nextBool() % 2 === 0 ? 0 : 8;	
 			var y = (config && config.y != null) ? config.y : -1;
 
 			var ledge = {
@@ -74,7 +75,6 @@ define(['../settings/odds'],function(OddsHelper){
 
 			return ledge;
 		}
-	}
-
+	};
 
 });

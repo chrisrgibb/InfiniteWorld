@@ -212,7 +212,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 	Player.prototype.moveY = function(dX, dY, levelState){
 		var tempY = this.y;
 		var ay, left, right, leftTile, rightTile;
-		var map = levelState.map
+		var map = levelState.map;
 
 		if(this.jumping && dY < 0 ){
 

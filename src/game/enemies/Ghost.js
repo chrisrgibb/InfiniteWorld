@@ -34,7 +34,7 @@ define(['../objects/gameobject', '../../graphics/enemySheet'] ,function(GameObje
 		var imagesrc = {
 			x : 0,
 			y : 0
-		}
+		};
 		enemySheet.draw(imagesrc, drawX - this.width/2, drawY - this.width/2, this.width, this.height);
 	};
 

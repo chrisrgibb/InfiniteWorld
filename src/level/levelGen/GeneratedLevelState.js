@@ -26,6 +26,6 @@ define(function(){
 		get : function(key){
 			return state[key];
 		}
-	}
+	};
 
 });

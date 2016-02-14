@@ -23,14 +23,12 @@ define(function(){
 		if(player.yVel > 3.5){
 			player.yVel = 3.5;
 		}
-	}
-
+	};
 
 	return {
 		calculate : function(player){
 			calcFriction(player);
 			calcGravity(player);
 		}
-	}
-
+	};
 });

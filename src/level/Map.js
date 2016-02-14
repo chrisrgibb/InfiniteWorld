@@ -49,6 +49,15 @@ define(['./Block', './TileDefinitions'],function(Block, TileDefinitions){
 
 		getHeight : function(){
 			return this.tiles.length;
+		},
+
+		getSection : function(x, y){
+			return this.sections.filter(function(section){
+				if(section.x < x){
+					return true;
+				}
+				return false;
+			});
 		}
 	};
 

@@ -39,7 +39,7 @@ define(['./animation'],function(Animation){
 		this.anim2.draw(camera, ctx);
 		this.anim3.draw(camera, ctx);
 		this.anim4.draw(camera, ctx);
-	}
+	};
 
 	return FallingBrick;
 

@@ -139,7 +139,7 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 					levelstate.onScreenObjects.push(GameObjects.life(x, y, true));
 					levelstate.currentItem = 0;
 				}
-			}
+			};
 
 			options[levelstate.currentItem]();
 
@@ -292,8 +292,8 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 			var playerx1 = player.x - player.width / 2;
 			var	playerx2 = player.x + player.width / 2;
 			// Check for collision with enemys;
-			if(player.x > x1 && player.x < x2 
-				&& player.y > y1 && player.y < y2){
+			if(player.x > x1 && player.x < x2 && 
+				player.y > y1 && player.y < y2){
 				debug.debugText2 = "Colideddd";
 				player.setDead();
 			} else {

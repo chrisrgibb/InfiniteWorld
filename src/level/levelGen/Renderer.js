@@ -7,6 +7,7 @@ define(function(){
 	    this.tileimage = new Image();
 	    this.tileimage.src = "../../../images/tiles8px.png";
 	    this.canvasDirection = "horizontal";
+	    this.highlightedSections = [];
 
 	    this.drawMap = function(map){
 	      // debugger;
@@ -67,13 +68,25 @@ define(function(){
 
 	      }, this);
 
-	    }
+	    };
+
+	    this.highlightSection = function(section){
+	      this.highlightedSections = [section];
+	    };
+
 
 	    this.drawChunk = function(chunk){
 	      // chunk.children.forEach(this.drawChunk, this)
-	      var ctx = this.ctx,
+
+       	  var ctx = this.ctx,
 	      tileSize = this.tileSize;
 	      ctx.strokeStyle = "yellow";
+	      if(this.highlightedSections.indexOf(chunk) > -1){
+	      	ctx.strokeStyle = "green";
+	      }
+
+	    
+	      
 
 	      var groundHeight = 12;
 

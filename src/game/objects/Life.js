@@ -15,4 +15,4 @@ define(['./gameobject'],function(GameObject){
 	};
 
 	return Life;
-})
+});
