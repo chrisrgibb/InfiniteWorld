@@ -18,7 +18,7 @@ define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections
 		var seedValue = parseInt(mapOptions.seedvalue),
 			rand = new Random(seedValue),
 			// this is where we create the level
-			levelData = buildMap(Options.theme, rand.nextInt(0, 500000), parseInt(localStorage['infinite.alexkidd.direction']) || 0),
+			levelData = buildMap(Options.theme, seedValue, parseInt(localStorage['infinite.alexkidd.direction']) || 0),
 			map = new Map(levelData);
 		
 		return map;

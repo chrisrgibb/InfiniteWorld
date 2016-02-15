@@ -56,7 +56,7 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 	return {
 		reset : function(){
 			console.log("resetting");
-			rand = new Noise(123);
+			this.rand = new Noise(123);
 		},
 		createGap : function(startX, y, length){
 
@@ -81,9 +81,9 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 		},
 
 		createRandomIsh : function(startX, y, length){
-			var randomY = rand.nextInt(3, y);
+			var randomY = this.rand.nextInt(3, y);
 			for(var x = startX; x < startX + length; x++){
-				randomY = rand.nextInt(3, y);
+				randomY = this.rand.nextInt(3, y);
 				if(Math.random()> 0.5){
 					tiles.setTile(theme.unbreakable, x, randomY);
 				} else {
@@ -94,9 +94,9 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 		},
 
 		funkyShape : function(startX, y, length){
-
-			var width = rand.nextInt(2, 5);
-			var solid = rand.nextBool();
+			var rand = this.rand;
+			var width = this.rand.nextInt(2, 5);
+			var solid = this.rand.nextBool();
 
 			var arra2d = noiseArray2d(10);
 
@@ -119,10 +119,23 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 			}
 		},
 
-		heightMap : function(startX, y, length){
-			var noiseArray1 = rand.noiseArray(length);
+		noiseArray2d : function (size, smooth){
+			var array = [];
+			for(var i = 0; i < size; i++){
+				if(smooth){
+					array.push(this.rand.noiseArray(size).map(smoothArray));
+				} else{
+					array.push(this.rand.noiseArray(size));
+				}
+			}
+			return array;
+		},
 
-			var array2d = noiseArray2d(10, true);
+
+		heightMap : function(startX, y, length){
+			var noiseArray1 = this.rand.noiseArray(length);
+
+			var array2d = this.noiseArray2d(10, true);
 
 			var odds = this.createOdds();
 
@@ -210,7 +223,7 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 		setDefaults : function(newtheme, tileCreater, seed){
 			theme = newtheme;
 			tiles = tileCreater;
-			rand = new Noise(seed);
+			this.rand = new Noise(seed);
 		}
 	};
 });

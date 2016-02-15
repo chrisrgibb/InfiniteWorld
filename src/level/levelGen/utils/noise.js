@@ -4,6 +4,7 @@ define(function(){
 	 * http://mrl.nyu.edu/~perlin/noise/
 	 */
 	var _randomSeed = seed || 6;
+	var originalSeed = seed;
 
 	return {
 		nextNumber : function(minInt, maxInt){
@@ -27,7 +28,8 @@ define(function(){
 				noiseArray.push(this.nextNumber(0,1));
 			}
 			return noiseArray;
-		}
+		},
+		seed : originalSeed
 	};
 };
 
