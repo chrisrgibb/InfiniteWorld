@@ -21,8 +21,9 @@
               display: block;
               float: right;
               border: 1px solid black;
-
-
+            }
+            #sidebarleft {
+              display: inline;; 
             }
 	    </style>
 	    <noscript>
@@ -40,6 +41,15 @@
     <body>
       <div><a href="../../../index.html">index</a></div>
       <h1 id="title">levelRenderer Generator in Collision Detection Land </h1>
+      <div id = "sidebarleft">
+        <input type="range" id="range" name="points" min="1" max="100">
+        <select id="select-direction" style="display:block">
+          <option>horizontal</option>
+          <option>vertical</option>
+        </select>
+        <div id="text"></div>
+
+      </div>
       <canvas id="canvas" width="800" height ="96">
 
       </canvas>
@@ -50,8 +60,7 @@
         <label for="scale">scale: </label><button id="scale-button" value=1> 1x </button>
 
       </div>
-      <input type="range" id="range" name="points" min="1" max="100">
-      <div id="text"></div>
+
 
     </body>
     <script data-main="./loadfiles.js" src="../../require.js"></script>

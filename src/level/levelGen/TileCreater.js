@@ -1,4 +1,4 @@
-define(['./noise'],function(Noise){
+define(['./utils/noise'],function(Noise){
 
 
 var theme;
@@ -44,10 +44,12 @@ TilesCreater.prototype  = {
 		return this;
 	},
 
-	getBlankMap : function(length, height){
+	getBlankMap : function(length, height, withGround){
 		this.length = length;
 		this.height = height;
-		return this.blankArray(length, height).createGround(0, length).tiles;
+		var array = this.blankArray(length, height);
+		return withGround ? array.createGround(0, length).tiles : array;
+		//return this.blankArray(length, height).createGround(0, length).tiles;
 	},
 	/*
 	 * checks the coordinates make sense and then sets the tile to be what you want

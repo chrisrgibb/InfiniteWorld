@@ -1,73 +1,61 @@
-define(['./levelgenerator', './Renderer'],function(levelGenerator, Renderer){
+define(['./levelgenerator', './Renderer', './settings/options', './localstorageadapter'],
+	function(levelGenerator, Renderer, LevelOptions, LocalStorageAdapter){
 
-
-
-		/**
-		*
-		*
-		*/
-		function updateLevel(){
-			var seedValue = rangeSlider.value || 1231231;
-			map = levelGenerator.createNewMap(true, seedValue);
-			tiles = map.tiles;
-
-
-			Renderer.drawMap(map);
-			Renderer.drawHeights(map);
-			Renderer.drawSections(map);
-		}
-
-		function renderLevelInfo(){
-			levelInfo['difficulty'] = lg.difficulty;
-			var text = "";
-			for(var key in levelInfo){
-
-				if(levelInfo[key].constructor == Array){
-				
-					var array = levelInfo[key];
-					text += turnIntoText(array);
-				
-				} else{
-					text += "<li> " + key + " : " + levelInfo[key] + "</li>";
-				}
-			}
-			document.getElementById('text').innerHTML = text;
-		}
-
-		function turnIntoText(arr){
-			var text = ""
-			for(var i = 0; i < arr.length; i++){
-				var item = arr[i];
-				text += "<li>height : " + item.height + ", length : " + item.length + "</li>";
-			}
-			return text;
-		}
-
-		/**
-		*
-		*
-		*/
-
-
-	var tiles;
 	var map;
+	var options = {};
+	/**
+	*
+	*
+	*/
+	function updateLevel(){
+
+		var seedValue = rangeSlider.value || 1231231;
+		// var direction = 
+		map = levelGenerator.createNewMap({ 
+			isRandom : true, 
+			seedvalue : options.seedvalue,
+			direction : options.direction
+		});
+
+		tiles = map.tiles;
+
+		Renderer.drawMap(map);
+		Renderer.drawHeights(map);
+		Renderer.drawSections(map);
+	}
+
+
+	function addDirectionToggleListeners () {
+		var directionToggle = document.getElementById('select-direction');
+		directionToggle.value = LocalStorageAdapter.get('direction') === "1" ? "vertical" : "horizontal";
+		
+		directionToggle.addEventListener('change', function(){
+			options.direction = this.value === "vertical" ? 1 : 0;
+			LocalStorageAdapter.update('direction', options.direction);
+		});
+	}
+
+	addDirectionToggleListeners();
+	
 	var rangeSlider = document.getElementById('range');
-	var levelInfo = {};
-
-
-	var rangeSlider = document.getElementById('range');
-
 
 	rangeSlider.addEventListener('change', function(){
 		updateLevel();
-		levelInfo['seed'] = rangeSlider.value;
-		// renderLevelInfo();
-		
+		options.seedValue = parseInt(rangeSlider.value);
 	});
 
-		return {
-			updateLevel : updateLevel
+	Renderer.canvas.addEventListener('click', function(e){
+		
+		var x = e.offsetX / Renderer.tileSize;
+		var y = e.offsetY / Renderer.tileSize;
+		
+		var toHighlight = map.getSection(x, y);
+		Renderer.highlightSection(toHighlight);
+		Renderer.drawSections(map);
+	});
 
-		}
-	 
+
+	return {
+		updateLevel : updateLevel
+	};
 });

@@ -6,8 +6,23 @@ define(function(){
 	    this.tileSize = 8;
 	    this.tileimage = new Image();
 	    this.tileimage.src = "../../../images/tiles8px.png";
+	    this.canvasDirection = "horizontal";
+	    this.highlightedSections = [];
 
 	    this.drawMap = function(map){
+	      // debugger;
+	      if(map.direction === 1 && this.canvasDirection === "horizontal"){
+	      	// top down level so change canvas width
+	      	canvas.width = map.getWidth() * this.tileSize;
+	      	canvas.height = map.getHeight() * this.tileSize;	
+	      	this.canvasDirection = "vertical";
+	      }
+	      if(map.direction === 0 && this.canvasDirection === "vertical"){
+	      	canvas.width = map.getWidth() * this.tileSize;
+	      	canvas.height = map.getHeight() * this.tileSize;	
+	      	this.canvasDirection = "horizontal";
+	      }
+
 	      var tiles = map.tiles;
 	      this.clearCanvas(map.backgroundColor);
 	      for(var row = 0; row < tiles.length; row++ ){
@@ -32,31 +47,46 @@ define(function(){
 	      ctx.moveTo(x, y);
 	      ctx.lineTo(dx, dy);
 	      ctx.stroke();
-	    }
+	    };
 
 	    this.clearCanvas = function(color){
 	      this.ctx.fillStyle = color;
 	      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-	    }
+	    };
 
 	    this.resizeCanvas = function(){
 	      this.canvas.width = tiles[0].length * this.tileSize;
 	      this.canvas.height = tiles.length * this.tileSize;
-	    }
+	    };
 
 	    this.drawSections = function(map){
+	      if ( !map.sections){
+	      	return;
+	      }
 	      map.sections.forEach(function(section){
 	        this.drawChunk(section);
 
 	      }, this);
 
-	    }
+	    };
+
+	    this.highlightSection = function(section){
+	      this.highlightedSections = [section];
+	    };
+
 
 	    this.drawChunk = function(chunk){
 	      // chunk.children.forEach(this.drawChunk, this)
-	      var ctx = this.ctx,
+
+       	  var ctx = this.ctx,
 	      tileSize = this.tileSize;
 	      ctx.strokeStyle = "yellow";
+	      if(this.highlightedSections.indexOf(chunk) > -1){
+	      	ctx.strokeStyle = "green";
+	      }
+
+	    
+	      
 
 	      var groundHeight = 12;
 
@@ -65,7 +95,7 @@ define(function(){
 	      var width = chunk.length * tileSize;
 	      var height = groundHeight * tileSize; 
 	      ctx.strokeRect(x, y, width, height);
-	    }
+	    };
 
 	    this.drawHeights = function(map){
 	      var ctx = this.ctx;

@@ -1,8 +1,5 @@
 define(['../level/levelState'],function(levelstate){
 	
-
-
-
 	return {
 		draw : function(){
 
@@ -22,8 +19,7 @@ define(['../level/levelState'],function(levelstate){
 
 		},
 		levelstate : levelstate
-	}
-
+	};
 });
 
 

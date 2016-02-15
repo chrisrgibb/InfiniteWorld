@@ -1,5 +1,5 @@
-define(['./createtiles', './noise', '../Block', './settings/odds'], 
-	function(createtiles, Noise, Block, Odds){
+define(['../utils/noise', '../../Block', '../settings/odds'], 
+	function(Noise, Block, Odds){
 
 
 	var theme,
@@ -27,11 +27,12 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 	function calculateOdds(config){
 		var total = 0;
 		var calculatedOdds = {};
-		for (var key in config){
+		var key;
+		for (key in config){
 			total += config[key];
 		}
 		var lastValue = 0;
-		for(var key in config){
+		for(key in config){
 			var value = config[key] / total;
 			value += lastValue;
 			calculatedOdds[key] = [lastValue, value];
@@ -59,7 +60,7 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 		},
 		createGap : function(startX, y, length){
 
-			for(var y = height -2; y < height; y++){
+			for(y = height -2; y < height; y++){
 				var tile = y === height -2 ? theme.hazard1 : theme.hazard2;
 				for(var x = startX; x < startX + length; x++){
 					tiles.setTile(tile, x, y);
@@ -82,7 +83,7 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 		createRandomIsh : function(startX, y, length){
 			var randomY = rand.nextInt(3, y);
 			for(var x = startX; x < startX + length; x++){
-				var randomY = rand.nextInt(3, y);
+				randomY = rand.nextInt(3, y);
 				if(Math.random()> 0.5){
 					tiles.setTile(theme.unbreakable, x, randomY);
 				} else {
@@ -90,13 +91,6 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 				}
 				
 			}
-		},
-
-		createSimple : function(startX, y, length){
-
-			tiles.setTile(Block.question, startX + 4, 8);
-			tiles.setTile(theme.breakable, startX + 5, 8);
-
 		},
 
 		funkyShape : function(startX, y, length){
@@ -107,7 +101,7 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 			var arra2d = noiseArray2d(10);
 
 			var noiseArray1 = rand.noiseArray(length);
-			var smoothedArray2 = rand.noiseArray(length)//.map(smoothArray);
+			var smoothedArray2 = rand.noiseArray(length);//.map(smoothArray);
 			var smoothedArray1 = noiseArray1.map(smoothArray);
 
 			var w1 = rand.nextInt(0, 6);
@@ -116,7 +110,7 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 			for(var x = startX; x < startX + length; x++){
 				// if(x % 3 !==0 ){
 					var y1 = Math.round(rand.nextInt(3, 9));
-					var y1 = 9 - Math.floor(smoothedArray1[x-startX ] * w1);
+					y1 = 9 - Math.floor(smoothedArray1[x-startX ] * w1);
 					var y2 =  y1 - 1;//10 - Math.floor(smoothedArray2[x-startX ] * 6);
 					var themetile = rand.nextInt(0, 1) === 0 ? Block.star : theme.unbreakable;
 					tiles.setTile(themetile, x, y1);
@@ -170,7 +164,7 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 			var array2d = noiseArray2d(10, true);
 			// array2d = rand.noiseArray(10, false);
 			for(var x = startX; x < startX + length; x++){
-				for(var y = 0; y < 10; y++){
+				for(y = 0; y < 10; y++){
 					var val = array2d[y][x-startX];
 					var tile = parseInt(getValueFromOdds(val, odds));
 					
@@ -179,7 +173,7 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 			}
 		},
 
-		decorate :function(startX, gy, length) {
+		decorate : function(startX, gy, length) {
 			var decorDeets = theme.decorationRules();
 			console.log("section length : ", length);
 
@@ -195,7 +189,7 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 					drawDecoration(x);
 				}
 
-				 function drawDecoration(startX){
+				var drawDecoration = function(startX){
 					for(var y = 0; y < decorDeets.height; y++){
 						for(var x = 0; x < decorDeets.width; x++){
 
@@ -208,19 +202,14 @@ define(['./createtiles', './noise', '../Block', './settings/odds'],
 							tiles.setTile(tile, xx, yy);
 						}
 					}
-				}
+				};
 			}
 		},
-		setTheme : function(newtheme){
+
+		setDefaults : function(newtheme, tileCreater, seed){
 			theme = newtheme;
-		},
-		setTileCreater : function(tileCreater){
-			tiles = tileCreater
-		},
-		setSeed : function(seed){
+			tiles = tileCreater;
 			rand = new Noise(seed);
 		}
 	};
-
-
 });

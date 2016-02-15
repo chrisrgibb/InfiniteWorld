@@ -17,7 +17,7 @@ define(['./Enemy'],function(Enemy){
 		this.imagesrc = {
 			x : 0,
 			y : 64
-		}
+		};
 	}
 
 	Frog.prototype = new Enemy();
@@ -54,7 +54,7 @@ define(['./Enemy'],function(Enemy){
 
 
 
-	}
+	};
 
 	return Frog;
 });

@@ -14,7 +14,7 @@ define(['./ObjectSheet', './camera', '../game/player/player', '../level/levelSta
 
 			levelState.animations.forEach(function(element){
 				drawIfOnScreen(element, camera, tick);
-			})
+			});
 
 			// draw enemies
 			levelState.enemys.forEach(function(element){
@@ -36,6 +36,6 @@ define(['./ObjectSheet', './camera', '../game/player/player', '../level/levelSta
 		return {
 			draw : draw,
 			objectSheet : objectSheet
-		}
+		};
 });
 

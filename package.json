@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
   	"requirejs" : "2.1.18"
+  },
+  "jshintConfig" : {
+    "eqnull" : true
   }
 }

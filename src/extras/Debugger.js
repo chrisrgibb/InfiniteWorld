@@ -15,7 +15,7 @@ define(function(){
 
 	Debugger.prototype.setText2 = function(text) {
 		this.debugText2 = text;
-	}
+	};
 
 	Debugger.prototype.render = function(ctx){
 		if(this.debugText !== ""){

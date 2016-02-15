@@ -16,7 +16,7 @@ define(function(){
 				width : 4,
 				height : 3,
 				tileNumber : 3
-			}
+			};
 		}
 	},
 	{
@@ -35,7 +35,7 @@ define(function(){
 				width : 1,
 				height : 3,
 				tileNumber : 3
-			}
+			};
 				
 		}
 	},
@@ -53,7 +53,7 @@ define(function(){
 				width : 4,
 				height : 3,
 				tileNumber : 3
-			}
+			};
 				
 		}
 	},
@@ -71,7 +71,7 @@ define(function(){
 				width : 4,
 				height : 3,
 				tileNumber : 3
-			}
+			};
 		}
 	}];
 

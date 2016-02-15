@@ -32,7 +32,7 @@ define(['./animation'],function(Animation){
 
 			ctx.drawImage(this.image, x, y, size, size, drawX, drawY, size, size);
 		}
-	}
+	};
 
 	return Cloud;
 });

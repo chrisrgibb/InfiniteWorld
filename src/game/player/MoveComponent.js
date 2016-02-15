@@ -3,9 +3,7 @@ define(['./player'],function(player){
 	var MoveComponent = function(){
 
 
-		debugger;
-
-	}
+	};
 
 	function calculateJump(player){
 

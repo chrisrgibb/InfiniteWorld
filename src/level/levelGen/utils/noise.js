@@ -19,7 +19,7 @@ define(function(){
 			return Math.floor(this.nextNumber(minInt, maxInt+1));
 		},
 		nextBool : function(){
-			return Math.floor(this.nextNumber(0,1))===1;
+			return Math.round(this.nextNumber(0,1))===1;
 		},
 		noiseArray : function(length){
 			var noiseArray = [];
@@ -42,7 +42,7 @@ define(function(){
 function PerlinNoise(){
 	this.lerp = function(a, b, w){
 		return (1 - w) * a + w * b;
-	}
+	};
 
 	this.perlin = function(x, y, z){
 		var X = Math.floor(x) & 255;
@@ -58,15 +58,15 @@ function PerlinNoise(){
 
 
 		// var A = 
-	}
+	};
 
 	this.fade = function(t){
 		return t * t * t * (t * (t * 6 - 15) + 10);
-	}
+	};
 
 	this.grad = function(hash, x, y, z){
 		
-	}
+	};
 }
 
 
@@ -79,7 +79,6 @@ function markov(sequence, order){
 		for(var j = i; j < i +order; j++){
 			word.push(sequence[j]);
 		}
-		debugger;
 	}
 }
 

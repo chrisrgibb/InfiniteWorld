@@ -22,7 +22,7 @@ define(function() {
 		isSolid : true,
 		breakable : true,
 		animated : true
-	}
+	};
 
 
 	return {
@@ -86,4 +86,4 @@ define(function() {
 
 	};
 	
-})
+});

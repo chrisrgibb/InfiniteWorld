@@ -28,18 +28,5 @@ define(['./objects/gameobject', './objects/life', './objects/moneybag', './objec
 		ring : function(x, y){
 			return new Ring(x, y);
 		}
-	}
-
+	};
 });
-
-
-
-
-
-
-
-
-
-//  Shockwave Protectile
-
-

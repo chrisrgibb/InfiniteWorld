@@ -1,7 +1,6 @@
 define(['./Enemy', './Ghost', './Scorpion', './Frog'],
 function(Enemy, Ghost, Scorpion, Frog){
 
-
 	return {
 		getScorpion : function (x, y) {
 			return new Scorpion(x, y);
@@ -12,6 +11,5 @@ function(Enemy, Ghost, Scorpion, Frog){
 		getFrog : function(x, y) {
 			return new Frog(x, y);
 		}
-	}
-
+	};
 });

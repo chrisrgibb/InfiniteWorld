@@ -1,9 +1,6 @@
-define(['./themes'],function(themes){
-
-
-	var themeOption = 0;
-
-	return {
+define(function(){
+	
+	var defaultState = {
 		difficulty : {
 			EASY : 0, 
 			HARD : 2
@@ -20,4 +17,15 @@ define(['./themes'],function(themes){
 		},
 		themeOption : themeOption
 	};
+
+
+	return {
+		update : function(key, value){
+			state[key] = value;
+		},
+		get : function(key){
+			return state[key];
+		}
+	};
+
 });

@@ -6,7 +6,6 @@ requirejs.config({
 	}
 });
 
-
 var levelEditor = require(['./levelEditor']);
 
 
