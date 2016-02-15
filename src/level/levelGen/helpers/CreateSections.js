@@ -175,7 +175,21 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 
 		decorate : function(startX, gy, length) {
 			var decorDeets = theme.decorationRules();
-			console.log("section length : ", length);
+			
+			var drawDecoration = function(startX){
+				for(var y = 0; y < decorDeets.height; y++){
+					for(var x = 0; x < decorDeets.width; x++){
+
+						var yy = y + startHeight, 
+							xx = x + startX;
+
+						// var tile = (decorDeets.tileNumber + y) * 16 + x;
+						var tile = decorDeets.tileIndex + (y * 16) + x;
+						// console.log(tile)
+						tiles.setTile(tile, xx, yy);
+					}
+				}
+			};
 
 			var number = Math.floor(length / decorDeets.width);
 
@@ -189,20 +203,7 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 					drawDecoration(x);
 				}
 
-				var drawDecoration = function(startX){
-					for(var y = 0; y < decorDeets.height; y++){
-						for(var x = 0; x < decorDeets.width; x++){
-
-							var yy = y + startHeight, 
-								xx = x + startX;
-
-							// var tile = (decorDeets.tileNumber + y) * 16 + x;
-							var tile = decorDeets.tileIndex + (y * 16) + x;
-							// console.log(tile)
-							tiles.setTile(tile, xx, yy);
-						}
-					}
-				};
+				
 			}
 		},
 
