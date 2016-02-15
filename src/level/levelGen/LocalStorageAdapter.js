@@ -19,6 +19,6 @@ define(function(){
 				return "error could not find thingy";
 			}
 		}
-	}
+	};
 
 });

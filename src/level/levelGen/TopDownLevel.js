@@ -23,7 +23,7 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 			width : config.width,
 			height :config.height,
 			side : config.side
-		}
+		};
 	}
 
 	function CreateSides(tiles, start){
@@ -77,13 +77,14 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 			});
 
 			ledges.forEach(function(l){
+				var i;
 				if(l.side === "right"){
-					for(var i = 0; i < l.width; i++){
+					for(i = 0; i < l.width; i++){
 						tiles[l.y][l.x + i] = 2;// assign 
 					}
 				} else {
 					// this is the new way applying anythign
-					for(var i = 0; i < l.width; i++){
+					for( i = 0; i < l.width; i++){
 						tiles[l.y][l.x+i] = l.array[0][i];
 					}
 				}
@@ -97,8 +98,6 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 				backgroundColor : theme.background,
 				direction : 1 // 0 for LR, 1 for topdown, 2 for RL, 3 for anything
 			};
-		}
-		
-	}
-
-})
+		}	
+	};
+});

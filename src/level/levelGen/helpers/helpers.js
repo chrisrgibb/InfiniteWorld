@@ -3,7 +3,7 @@ define(function(argument) {
 
 	this.sectionHelper = function(rand){
 		this.createIndexs = function(length, minSize, maxSize, startAt){
-			var index = startAt || 0;;
+			var index = startAt || 0;
 			var sizes = [];
 			while(index < length){
 				var lastestSize = rand.nextInt(minSize, maxSize);
@@ -16,15 +16,15 @@ define(function(argument) {
 				sizes.push({
 					x : index,
 					length : lastestSize
-				})
+				});
 				
 				index += lastestSize;
 				// sizes.push(index-1);
 			}
 
 			return sizes;
-		}
-	}
+		};
+	};
 
 
 	return {
@@ -34,6 +34,6 @@ define(function(argument) {
 		**/
 		SectionHelper : this.sectionHelper
 
-	}
+	};
 
-})
+});

@@ -8,7 +8,7 @@ define(function(){
 		calcHeights : function(rand){
 			var min = 3;
 			var max = 4;
-			var nodes = []
+			var nodes = [];
 			var index = gapAtStartOfLevel;
 			// the height is worked out from the ground up
 			var maxHeight = 10 - 6;
@@ -56,7 +56,7 @@ define(function(){
 
 			var delta = rand.nextInt(0, 2) - 1;
 
-			var lastHeight = heights[len -1] 
+			var lastHeight = heights[len -1];
 			var nextHeight = lastHeight.y + (2 * delta);
 			if(nextHeight > minHeight){
 				nextHeight = minHeight;
@@ -69,6 +69,5 @@ define(function(){
 
 			return node;
 		}
-	} 
-
+	};
 });

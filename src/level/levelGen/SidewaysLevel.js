@@ -68,7 +68,7 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 			total += config[key];
 		}
 		var lastValue = 0;
-		for(var key in config){
+		for(key in config){
 			var value = config[key] / total;
 			value += lastValue;
 			calculatedOdds[key] = [lastValue, value];
@@ -123,7 +123,7 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 				7 : 5,
 				8 : 4
 				// 4 : 10 // random shit
-			}
+			};
 
 
 			for(var i = 0; i < len; i++){
@@ -168,7 +168,7 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 						section.type = "random ish";
 						break;
 					case 6:
-						SectionCreator.funkyShape(section.x, 12, section.length)
+						SectionCreator.funkyShape(section.x, 12, section.length);
 						// square shape
 						section.type = "funky shape";
 						break;	
@@ -196,5 +196,5 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 
 			return mapData;
 		}
-	}
-})
+	};
+});

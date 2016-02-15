@@ -47,17 +47,17 @@ define(function(){
 	      ctx.moveTo(x, y);
 	      ctx.lineTo(dx, dy);
 	      ctx.stroke();
-	    }
+	    };
 
 	    this.clearCanvas = function(color){
 	      this.ctx.fillStyle = color;
 	      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-	    }
+	    };
 
 	    this.resizeCanvas = function(){
 	      this.canvas.width = tiles[0].length * this.tileSize;
 	      this.canvas.height = tiles.length * this.tileSize;
-	    }
+	    };
 
 	    this.drawSections = function(map){
 	      if ( !map.sections){
@@ -95,7 +95,7 @@ define(function(){
 	      var width = chunk.length * tileSize;
 	      var height = groundHeight * tileSize; 
 	      ctx.strokeRect(x, y, width, height);
-	    }
+	    };
 
 	    this.drawHeights = function(map){
 	      var ctx = this.ctx;

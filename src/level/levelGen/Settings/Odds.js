@@ -18,9 +18,10 @@ define(function(){
 		var odds = this.config;
 		var calculatedOdds = {};
 		var total = 0;
+		var val;
 		// compute total odds
 		for(var key in odds){
-			var val = odds[key]
+			val = odds[key];
 			total += val;
 			calculatedOdds[key] = total;
 		}
@@ -28,8 +29,8 @@ define(function(){
 		// var chance = this.noise.nextInt(1,14);
 		var chance = this.noise.nextInt(0, total);
 		
-		for(var key in calculatedOdds){
-			var val = calculatedOdds[key];
+		for(key in calculatedOdds){
+			val = calculatedOdds[key];
 			if(val >= chance){
 				// remove the choice from the array of odds
 				// this.config[key]--;

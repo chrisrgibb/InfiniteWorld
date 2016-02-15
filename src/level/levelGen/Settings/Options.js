@@ -19,5 +19,5 @@ define(['./themes'],function(themes){
 			rightLeft : 2
 		},
 		themeOption : themeOption
-	}
+	};
 });

@@ -37,7 +37,7 @@ define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections
 
 	return {
 		createNewMap : createNewMap
-	}
+	};
 });
 
 
