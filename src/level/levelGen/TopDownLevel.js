@@ -1,5 +1,10 @@
-define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge'], 
-	function (TileCreator, Helper, OddsHelper, LedgePeice){
+define(function(require) {	
+
+		var TileCreator = require('./tilecreater');
+		var Helper = require('./helpers/helpers');
+		var OddsHelper = require('./settings/odds');
+		var LedgePeice = require('./peices/ledge');
+		var SectionCreator = require('./helpers/sectioncreator2');
 
 	// main loop
 	// travel down map creating platforms
@@ -57,7 +62,7 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 			var height = rand.nextInt(80, 100);
 			var tilecreator = new TileCreator(height, width, 0, theme);
 			var tiles = tilecreator.getBlankMap(width, height).tiles;
-
+			var sectioncreator = new SectionCreator(tiles);
 
 			createRandomTilesForTesting(rand, tiles);
 
@@ -70,26 +75,15 @@ define(['./tilecreater', './helpers/helpers', './settings/odds', './peices/ledge
 				.map(function(size){
 					var lego = LedgePeice.create({
 						rand : rand,
-						mapWidth : width
+						mapWidth : width,
+						y : size.x
 					});
-					lego.y = size.x;
+					// lego.y = size.x;
 					return lego;
 			});
+			
 
-			ledges.forEach(function(l){
-				var i;
-				if(l.side === "right"){
-					for(i = 0; i < l.width; i++){
-						tiles[l.y][l.x + i] = 2;// assign 
-					}
-				} else {
-					// this is the new way applying anythign
-					for( i = 0; i < l.width; i++){
-						tiles[l.y][l.x+i] = l.array[0][i];
-					}
-				}
-	
-			});
+			ledges.forEach(sectioncreator.apply, sectioncreator);
 
 			CreateSides(tiles, ledges[0].y);
 

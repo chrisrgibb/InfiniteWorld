@@ -20,7 +20,13 @@ define(['../settings/odds'],function(OddsHelper){
 			top.push(3);
 			array.push(top);
 		}
-		
+		if(ledge.side ==="right"){
+			top = [1];
+			for(i = ledge.x+1; i < ledge.x + ledge.width; i++){
+				top.push(2);
+			}
+			array.push(top);
+		}
 		return array;
 	}
 			
@@ -46,7 +52,8 @@ define(['../settings/odds'],function(OddsHelper){
 			}, context.rand);
 
 			var x = context.rand.nextBool() % 2 === 0 ? 0 : 8;	
-			var y = (config && config.y != null) ? config.y : -1;
+			// var y = (config && config.y != null) ? config.y : -1;
+			var y = context.y;
 
 			var ledge = {
 				x : x,
