@@ -13,16 +13,20 @@ define(function(){
 		*/
 		applyArray : function(array, destX, destY){
 			// var num = array.length;
-			for(var i = 0; i < array.length; i++){
-				var a = array[i];
-				this.tiles[destY][destX + i] = a;
+			for(var i = 0; i < array.row.length; i++){
+				if(array.y >= this.tiles.length){
+					return;
+				}
+				var a = array.row[i];
+
+				this.tiles[array.y][array.x + i] = a;
 			}	
 		},
 		apply : function(piece){
 			var destX = piece.x;
 			var destY = piece.y;
-			var arrays = piece.array;
-			arrays.forEach(function(array){
+			var arrays = piece.rows;
+			arrays.forEach(function(array, i, arrays){
 				this.applyArray(array, destX, destY);
 
 			}, this);

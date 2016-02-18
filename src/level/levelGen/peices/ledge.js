@@ -9,25 +9,73 @@ define(['../settings/odds'],function(OddsHelper){
 	}
 
 
+	// function createArrayRep(ledge){
+	// 	var height = ledge.width;
+
+	// 	var array = [];
+	// 	for(var y = 0; y < ledge.width; y++){
+	// 		var row = 
+	// 		for(var x = 0; x < ledge.width-y; x++){
+	// 			if(y === 0){
+	// 				top.push(2);
+	// 			} else {
+	// 				top.push(5);
+	// 			}
+	// 		}
+	// 	}
+
+
+	// }
+
+
+
 	function createArrayRepresentation(ledge){
+		var height = ledge.width;
+
 		var array = [],
 			i, top =[];
-		for(var i = ledge.x; i < ledge.x + ledge.width; i++){
-			top.push(2);
+		function startRowAt(currentY, ledge){
+			if(ledge.side==="left"){
+				return 0;
+			}
+			return currentY+ledge.x;
 		}
 
+
+		for(var y = 0; y < ledge.width; y++){
+			top = [];
+			for(var x = 0; x < ledge.width-y; x++){
+				if(y === 0){
+					top.push(2);
+				} else {
+					top.push(5);
+				}
+			}
+			if(ledge.side === "right"){
+				top[0] = y === 0 ? 1 : 4; 
+			}
+			if(ledge.side === "left"){
+				top[top.length-1] = y === 0 ? 3 : 6;
+			}
+
+			array.push({
+				row : top,
+				y : ledge.y + y,
+				x : startRowAt(y, ledge)
+			});
+		}
 
 		if(ledge.side === "middle"){
-			top[0] = 1;
-			top[ledge.width-1] = 3;
+			array[0][0] = 1;
+			array[0][ledge.width-1] = 3;
 		}
 		if(ledge.side === "left"){
-			top[ledge.width-1] = 3;
+			array[0][ledge.width-1] = 3;
 		}
 		if(ledge.side ==="right"){
-			top[0] = 1;
+			array[0][0] = 1;
 		}
-		array.push(top);
+		// array.push(top);
 		return array;
 	}
 			
@@ -61,7 +109,7 @@ define(['../settings/odds'],function(OddsHelper){
 				y : y,
 				width : context.rand.nextInt(5, 8),
 				height : 1,
-				array : [],
+				rows : [],
 				side : odds.next()
 			};
 
@@ -78,8 +126,7 @@ define(['../settings/odds'],function(OddsHelper){
 				ledge.x = Math.floor(mapWidth / 2) - (Math.floor(ledge.width / 2)); 
 			}
 
-			ledge.array = createArrayRepresentation(ledge);
-
+			ledge.rows = createArrayRepresentation(ledge);
 
 			return ledge;
 		}

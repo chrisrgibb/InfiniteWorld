@@ -67,6 +67,10 @@ define(function(require) {
 
 			ledges.forEach(sectioncreator.apply, sectioncreator);
 
+			ledges.forEach(function(l){
+				
+			})
+
 			CreateSides(tiles, ledges[0].y);
 
 			return {
