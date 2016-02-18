@@ -1,32 +1,33 @@
 define(['../settings/odds'],function(OddsHelper){
 
+
+
+	var iterate = function(array, start, end, fn){
+		for(var i = start; i < end; i++){
+			fn(array[i], i, array);
+		}
+	}
+
+
 	function createArrayRepresentation(ledge){
 		var array = [],
-			i, top;
+			i, top =[];
+		for(var i = ledge.x; i < ledge.x + ledge.width; i++){
+			top.push(2);
+		}
+
+
 		if(ledge.side === "middle"){
-			top = [];
-			top.push(1); //left peice
-			for(i = ledge.x+1; i < ledge.x + ledge.width-1; i++){
-				top.push(2);
-			}
-			top.push(3);
-			array.push(top);
+			top[0] = 1;
+			top[ledge.width-1] = 3;
 		}
 		if(ledge.side === "left"){
-			top = [];
-			for(i = ledge.x; i < ledge.x + ledge.width-1; i++){
-				top.push(2);
-			}
-			top.push(3);
-			array.push(top);
+			top[ledge.width-1] = 3;
 		}
 		if(ledge.side ==="right"){
-			top = [1];
-			for(i = ledge.x+1; i < ledge.x + ledge.width; i++){
-				top.push(2);
-			}
-			array.push(top);
+			top[0] = 1;
 		}
+		array.push(top);
 		return array;
 	}
 			

@@ -19,13 +19,11 @@ define(function(){
 	};
 
 
-	return {
-		update : function(key, value){
-			state[key] = value;
-		},
-		get : function(key){
-			return state[key];
-		}
+	var Context = function(){
+		this.defaultState = defaultState;
 	};
+
+
+	return Context;
 
 });

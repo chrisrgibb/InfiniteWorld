@@ -16,11 +16,6 @@ define(function(require) {
 
 	}
 
-	function createLedges(size){
-
-
-	}
-
 	function Ledge(config){
 		return {
 			x : config.x,
@@ -45,18 +40,6 @@ define(function(require) {
 	return {
 		buildMap : function(theme, options, randomgenerator){
 
-			function createRandomTilesForTesting (rand, tiles) {
-				// create a random tiles for testing
-				var n = 10;
-				for(var i = 0 ; i < n; i++){
-					var x = rand.nextInt(0, width-1);
-					var y = rand.nextInt(0, height-1);
-					tiles[y][x] = 18; 
-				}
-				// create tile to land on
-				tiles[10][2] = 18;
-			}
-
 			var rand = randomgenerator;
 			var width = 16;
 			var height = rand.nextInt(80, 100);
@@ -64,7 +47,6 @@ define(function(require) {
 			var tiles = tilecreator.getBlankMap(width, height).tiles;
 			var sectioncreator = new SectionCreator(tiles);
 
-			createRandomTilesForTesting(rand, tiles);
 
 			var halp = new Helper.SectionHelper(rand);
 			
