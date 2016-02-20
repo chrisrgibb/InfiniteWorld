@@ -63,7 +63,6 @@ define(function(require) {
 					// lego.y = size.x;
 					return lego;
 			});
-			
 
 			ledges.forEach(sectioncreator.apply, sectioncreator);
 

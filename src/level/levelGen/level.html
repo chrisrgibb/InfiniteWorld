@@ -25,6 +25,9 @@
             #sidebarleft {
               display: inline;; 
             }
+            #randomSeed {
+              display: block;
+            }
 	    </style>
 	    <noscript>
   <!-- anchor linking to external file -->
@@ -43,6 +46,7 @@
       <h1 id="title">levelRenderer Generator in Collision Detection Land </h1>
       <div id = "sidebarleft">
         <input type="range" id="range" name="points" min="1" max="100">
+        <input type="number" id="randomSeed" min="0" max = "1000000">
         <select id="select-direction" style="display:block">
           <option>horizontal</option>
           <option>vertical</option>
