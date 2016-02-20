@@ -23,12 +23,14 @@ define(['../settings/odds'],function(OddsHelper){
  			//   2 3 4   1
 			//          
 		var h = ledge.width -2;
-		// force the ledge to a certain width so it doesn't look weird
-
+		// force the ledge to a certain height so it doesn't look weird
 		if(h > 4){
 			h = 3;
 		} else{
 			h = 2;
+		}
+		if(ledge.width <= 3){
+			h = 1;
 		}
 
 		for(var y = 0; y < h ;y++){
@@ -36,24 +38,18 @@ define(['../settings/odds'],function(OddsHelper){
 
 			for(var x = y; x < ledge.width - y; x++){
 				// is it the top green tile or the brown one?
-				var numberToPush = y === 0 ? 2 : 5;
-				row.push(numberToPush);
+				var tileToPush = y === 0 ? 2 : 5;
+				row.push(tileToPush);
 			}
 			// fix the sides
-			if(y===0){
-				row[0] = 1
-				row[ledge.width-1] = 3;
-			} else {
-				row[0] = 4;
-				row[row.length-1] = 6;
-			}
+			row[0] = y === 0 ? 1 : 4; 
+			row[row.length-1] = y === 0 ? 3 : 6
 
 			array.push({
 				row : row,
 				y : ledge.y + y,
 				x : y + ledge.x
 			});
-
 		}
 		return array;
 	}
@@ -77,25 +73,27 @@ define(['../settings/odds'],function(OddsHelper){
 			return currentY + ledge.x;
 		}
 
-		for(var y = 0; y < ledge.width; y++){
-			top = [];
+		if(height > 5) {
+			height = 4;
+		}
+
+		for(var y = 0; y < height; y++){
+			row = [];
+			var isTopRow = y === 0;
 			for(var x = 0; x < ledge.width-y; x++){
 				// is it the top green tile or the brown one?
-				if(y === 0){
-					top.push(2);
-				} else {
-					top.push(5);
-				}
+				var tileToPush = isTopRow ? 2 : 5;
+				row.push(tileToPush);
 			}
 			if(ledge.side === "right"){
-				top[0] = y === 0 ? 1 : 4; 
+				row[0] = isTopRow ? 1 : 4; 
 			}
 			if(ledge.side === "left"){
-				top[top.length-1] = y === 0 ? 3 : 6;
+				row[row.length-1] = isTopRow? 3 : 6;
 			}
 
 			array.push({
-				row : top,
+				row : row,
 				y : ledge.y + y,
 				x : startRowAt(y, ledge)
 			});
@@ -107,7 +105,6 @@ define(['../settings/odds'],function(OddsHelper){
 		if(ledge.side ==="right"){
 			array[0][0] = 1;
 		}
-		// array.push(top);
 		return array;
 	}
 			
@@ -129,7 +126,7 @@ define(['../settings/odds'],function(OddsHelper){
 			var odds = new OddsHelper({
 				"left" : 12,
 				"right" : 13,
-				"middle" : 11
+				"middle" : 18
 			}, context.rand);
 
 
@@ -141,7 +138,7 @@ define(['../settings/odds'],function(OddsHelper){
 			var ledge = {
 				x : x,
 				y : y,
-				width : context.rand.nextInt(5, 8),
+				width : context.rand.nextInt(2, 8),
 				height : 1,
 				rows : [],
 				side : config && config.side ? config.side : odds.next()
