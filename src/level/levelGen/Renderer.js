@@ -10,18 +10,9 @@ define(function(){
 	    this.highlightedSections = [];
 
 	    this.drawMap = function(map){
-	      // debugger;
-	      if(map.direction === 1 && this.canvasDirection === "horizontal"){
-	      	// top down level so change canvas width
-	      	canvas.width = map.getWidth() * this.tileSize;
-	      	canvas.height = map.getHeight() * this.tileSize;	
-	      	this.canvasDirection = "vertical";
-	      }
-	      if(map.direction === 0 && this.canvasDirection === "vertical"){
-	      	canvas.width = map.getWidth() * this.tileSize;
-	      	canvas.height = map.getHeight() * this.tileSize;	
-	      	this.canvasDirection = "horizontal";
-	      }
+	
+      	canvas.width = map.getWidth() * this.tileSize;
+      	canvas.height = map.getHeight() * this.tileSize;	
 
 	      var tiles = map.tiles;
 	      this.clearCanvas(map.backgroundColor);
