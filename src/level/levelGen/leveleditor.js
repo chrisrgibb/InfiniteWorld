@@ -8,12 +8,11 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 	*
 	*/
 	function updateLevel(){
-
-		var seedValue = rangeSlider.value || 1231231;
 		// var direction = 
+
 		map = levelGenerator.createNewMap({ 
 			isRandom : true, 
-			seedvalue : options.seedvalue,
+			seedvalue : options.seedValue,
 			direction : options.direction
 		});
 
@@ -40,8 +39,10 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 	var rangeSlider = document.getElementById('range');
 
 	rangeSlider.addEventListener('change', function(){
-		updateLevel();
 		options.seedValue = parseInt(rangeSlider.value);
+		var rs = document.getElementById('randomSeed');
+		rs.value = options.seedValue;
+		updateLevel(options);
 	});
 
 	Renderer.canvas.addEventListener('click', function(e){

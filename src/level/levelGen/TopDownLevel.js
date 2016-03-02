@@ -1,5 +1,55 @@
 define(function(require) {	
 
+
+	var ledgeGrammar = {
+		1 : {
+			side : "left",
+			width : 12,
+			next : [
+				2, 3, 4
+			]
+		},
+		2 : {
+			side : "right",
+			width : 12,
+			next : [
+				1, 4, 6
+			]
+		},
+
+		3 : {
+			side : "right",
+			width : 6 ,
+			next : [
+				4, 6 , 1
+			]
+		},
+
+		4 : {
+			side : "middle",
+			width : 4,
+			next : [
+				6, 4
+			]
+		},
+		5 : {
+			side : "middle",
+			width : 5,
+			next : [
+				4, 5
+			]
+		},
+
+		6 : {
+			side : "left",
+			width : 6,
+			next : [
+				3 , 5, 2
+			]
+		}
+	};
+
+
 		var TileCreator = require('./tilecreater');
 		var Helper = require('./helpers/helpers');
 		var OddsHelper = require('./settings/odds');
@@ -9,12 +59,97 @@ define(function(require) {
 	// main loop
 	// travel down map creating platforms
 
-	function mainLoop(){
-		var sections =  splitIntoSections();
+	function createRandomLedges(rand, tiles, width){
 
 
+		var halp = new Helper.SectionHelper(rand);
+			
 
+		var ledges = halp
+				.createIndexs(tiles.length, 4, 9, 7)
+				.map(function(size){
+					var lego = LedgePeice.create({
+						rand : rand,
+						mapWidth : width,
+						y : size.x,
+						width : null,
+						isRandom : true
+					});
+					// lego.y = size.x;
+					return lego;
+		});
+
+		
+		return ledges;
 	}
+
+	function CreateLedges2(rand, tiles, width){
+		var number = 10;
+		var ledges = [];
+		// for(var i =0; i < number; i++){
+
+
+		// }
+		var interval = 10;
+		
+		ledges.push(LedgePeice.create({
+			x : 0,
+			y : 10,
+			side : "left",
+			width : rand.nextInt(4, 8)
+		}));
+
+		var currentPiece = 4;
+		var possibleIndex;
+
+		for (var i = 0; i < number; i++) {
+			current = ledgeGrammar[currentPiece];
+			var nextInterval = interval + rand.nextInt(3, 10);
+			possibleIndex = rand.nextInt(0 , current.next.length-1);
+			var nextX;
+			if (current.side === "middle") {
+				nextX = rand.nextInt(4, 7);
+			} 
+			else if( current.side === "left") {
+				nextX = 0
+			} else {
+				nextX = width - current.width;
+			}
+
+			ledges.push(LedgePeice.create({
+				x : nextX,
+				y : nextInterval,
+				side : current.side,
+				width : current.width
+			}));
+
+			currentPiece = current.next[possibleIndex];
+			if(currentPiece == null ) {
+				debugger;
+			}
+
+			interval = nextInterval;
+
+		}
+		// sup
+		// debugger;
+		// ledges.push(LedgePeice.create({
+		// 	y : 10,
+		// 	x : 0,
+		// 	side : "left",
+		// 	width : 12
+		// 	// specify a size here
+		// }));
+		return ledges;
+	}
+
+	/**
+		Loop down from top
+		create path
+
+		1 option : create a bunch of random ledges and then try to fit them into the space
+
+	*/
 
 	function Ledge(config){
 		return {
@@ -36,7 +171,6 @@ define(function(require) {
 	}
 
 
-
 	return {
 		buildMap : function(theme, options, randomgenerator){
 
@@ -47,28 +181,9 @@ define(function(require) {
 			var tiles = tilecreator.getBlankMap(width, height).tiles;
 			var sectioncreator = new SectionCreator(tiles);
 
-
-			var halp = new Helper.SectionHelper(rand);
-			
-			// creates random Intervals
-			
-			var ledges = halp
-				.createIndexs(tiles.length, 4, 9, 7)
-				.map(function(size){
-					var lego = LedgePeice.create({
-						rand : rand,
-						mapWidth : width,
-						y : size.x
-					});
-					// lego.y = size.x;
-					return lego;
-			});
-
+			var ledges = createRandomLedges(rand, tiles, width);
+			var ledges = CreateLedges2(rand, tiles, width);
 			ledges.forEach(sectioncreator.apply, sectioncreator);
-
-			ledges.forEach(function(l){
-				
-			})
 
 			CreateSides(tiles, ledges[0].y);
 

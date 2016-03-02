@@ -107,41 +107,25 @@ define(['../settings/odds'],function(OddsHelper){
 		}
 		return array;
 	}
-			
 
-	return {
-		/*
-		* Creates a ledge with 
-		* @param context the generated level context
-		* context has these propertys : 
-			randomNumber generator
-			minimum height 
-			minimum length?
-
-
-			possible generated ledge sizes  :  4 * 2, 5 * 2, 5 * 1, 2 * 1, 3 * 1, 4 * 1
-			
-		*/
-		create : function(context, config){
-			var odds = new OddsHelper({
+	function createRandomLedge(context){
+		var odds = new OddsHelper({
 				"left" : 12,
 				"right" : 13,
 				"middle" : 18
 			}, context.rand);
 
 
-
 			var x = context.rand.nextBool() % 2 === 0 ? 0 : 8;	
-			// var y = (config && config.y != null) ? config.y : -1;
 			var y = context.y;
 
 			var ledge = {
 				x : x,
 				y : y,
-				width : context.rand.nextInt(2, 8),
+				width : context.rand.nextInt(3, 8),
 				height : 1,
 				rows : [],
-				side : config && config.side ? config.side : odds.next()
+				side : context && context.side ? context.side : odds.next()
 			};
 
 			var side = ledge.side;
@@ -160,6 +144,42 @@ define(['../settings/odds'],function(OddsHelper){
 			ledge.rows = createArrayRepresentation(ledge);
 
 			return ledge;
+	}
+			
+
+	return {	
+		/*
+		* Creates a ledge with 
+		* @param context the generated level context
+		* context has these propertys : 
+			randomNumber generator
+			minimum height 
+			minimum length?
+
+
+			possible generated ledge sizes  :  4 * 2, 5 * 2, 5 * 1, 2 * 1, 3 * 1, 4 * 1
+			
+		*/
+		create : function(context){
+			if(context.isRandom){
+				var l = createRandomLedge(context);
+				return l;
+			} 
+			var ledge = {
+				x : context.x,
+				y : context.y,
+				width : context.width,
+				height : 4,
+				rows : [],
+				side : context.side
+			}
+
+			//context : side
+
+			ledge.rows = createArrayRepresentation(ledge);
+
+			return ledge;
+		
 		}
 	};
 

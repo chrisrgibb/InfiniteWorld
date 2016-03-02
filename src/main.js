@@ -47,4 +47,6 @@ define([ './game/Game','./extras/Debugger'] ,function(Game, Debugger){
 	randomSeedValueBox.addEventListener('change', function(){
 		localStorage['infinite.alexkidd.randomSeed'] = this.value;
 	});
+
+	
 });

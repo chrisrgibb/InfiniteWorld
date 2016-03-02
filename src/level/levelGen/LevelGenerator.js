@@ -16,9 +16,9 @@ define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections
 
 		// random seed used to calculate everything from
 		var seedValue = parseInt(mapOptions.seedvalue),
-			rand = new Random(seedValue),
+			rand = new Random(seedValue);
 			// this is where we create the level
-			levelData = buildMap(Options.theme, seedValue, parseInt(localStorage['infinite.alexkidd.direction']) || 0),
+		var levelData = buildMap(Options.theme, seedValue, parseInt(localStorage['infinite.alexkidd.direction']) || 0, rand),
 			map = new Map(levelData);
 		
 		return map;
@@ -28,7 +28,7 @@ define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections
 	*
 	*
 	*/
-	function buildMap(theme, seed, direction){
+	function buildMap(theme, seed, direction, rand){
 		if(direction === Options.direction.vertical){
 			return TopDownLevel.buildMap(theme, Options, rand);
 		}
