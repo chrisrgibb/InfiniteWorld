@@ -20,7 +20,7 @@ define(function(){
 			return Math.floor(this.nextNumber(minInt, maxInt+1));
 		},
 		nextBool : function(){
-			return Math.round(this.nextNumber(0,1))===1;
+			return Math.round(this.nextNumber(0,1)) === 1;
 		},
 		noiseArray : function(length){
 			var noiseArray = [];
@@ -28,6 +28,10 @@ define(function(){
 				noiseArray.push(this.nextNumber(0,1));
 			}
 			return noiseArray;
+		},
+		randomArgs : function(){
+			var index = this.nextInt(0, arguments.length-1);
+			return arguments[index];
 		},
 		seed : originalSeed
 	};

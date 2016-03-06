@@ -171,7 +171,8 @@ define(['../settings/odds'],function(OddsHelper){
 				width : context.width,
 				height : 4,
 				rows : [],
-				side : context.side
+				side : context.side,
+				previous : context.previous
 			}
 
 			//context : side
