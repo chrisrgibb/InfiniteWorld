@@ -9,19 +9,20 @@ define(function(){
 	    this.canvasDirection = "horizontal";
 	    this.highlightedSections = [];
 
-	    this.drawMap = function(map){
+	    this.drawMap = function(map) {
 	
-      	canvas.width = map.getWidth() * this.tileSize;
-      	canvas.height = map.getHeight() * this.tileSize;	
+	      	canvas.width = map.getWidth() * this.tileSize;
+	      	canvas.height = map.getHeight() * this.tileSize;	
 
-	      var tiles = map.tiles;
-	      this.clearCanvas(map.backgroundColor);
-	      for(var row = 0; row < tiles.length; row++ ){
-	        for(var col = 0; col < tiles[0].length; col++){
-	          var num = tiles[row][col];
-	          this.drawTile(num, row, col);
-	        }
-	      }
+			var tiles = map.tiles;
+			this.clearCanvas(map.backgroundColor);
+
+			for(var row = 0; row < tiles.length; row++) {
+				for(var col = 0; col < tiles[0].length; col++) {
+					var num = tiles[row][col];
+					this.drawTile(num, row, col);
+				}
+			}
 	    };
 
 	    this.drawTile = function(num, row, col){
@@ -61,9 +62,14 @@ define(function(){
 
 	    };
 
-	    this.highlightSection = function(section){
+	    this.highlightSection = function(section) {
 	      this.highlightedSections = [section];
 	    };
+
+	    this.highlightLedge = function(ledge) {
+	    	this.ctx.strokeStyle = "yellow";
+	    	this.ctx.strokeRect(ledge.x, ledge.y, ledge.width, ledge.height);
+	    }
 
 
 	    this.drawChunk = function(chunk){

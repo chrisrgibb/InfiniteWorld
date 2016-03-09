@@ -54,9 +54,6 @@ define(['../settings/odds'],function(OddsHelper){
 		return array;
 	}
 
-
-
-
 	function createArrayRepresentation(ledge){
 		if(ledge.side=="middle"){
 			return createMiddleLedge(ledge);
@@ -108,45 +105,6 @@ define(['../settings/odds'],function(OddsHelper){
 		return array;
 	}
 
-	function createRandomLedge(context){
-		var odds = new OddsHelper({
-				"left" : 12,
-				"right" : 13,
-				"middle" : 18
-			}, context.rand);
-
-
-			var x = context.rand.nextBool() % 2 === 0 ? 0 : 8;	
-			var y = context.y;
-
-			var ledge = {
-				x : x,
-				y : y,
-				width : context.rand.nextInt(3, 8),
-				height : 1,
-				rows : [],
-				side : context && context.side ? context.side : odds.next()
-			};
-
-			var side = ledge.side;
-
-			var mapWidth = context.mapWidth;
-			if(side === "left"){
-				ledge.x = 0;
-			}
-			if( side === "right"){
-				ledge.x = mapWidth - ledge.width;
-			}
-			if(side === "middle"){
-				ledge.x = Math.floor(mapWidth / 2) - (Math.floor(ledge.width / 2)); 
-			}
-
-			ledge.rows = createArrayRepresentation(ledge);
-
-			return ledge;
-	}
-			
-
 	return {	
 		/*
 		* Creates a ledge with 
@@ -160,22 +118,17 @@ define(['../settings/odds'],function(OddsHelper){
 			possible generated ledge sizes  :  4 * 2, 5 * 2, 5 * 1, 2 * 1, 3 * 1, 4 * 1
 			
 		*/
-		create : function(context){
-			if(context.isRandom){
-				var l = createRandomLedge(context);
-				return l;
-			} 
+		create : function(x, y, width, side, context){
+
 			var ledge = {
-				x : context.x,
-				y : context.y,
-				width : context.width,
+				x : x , // probably won't be defined
+				y : y,
+				width : width,
 				height : 4,
 				rows : [],
-				side : context.side,
-				previous : context.previous
+				side : side,
+				connectingPlatform : null
 			}
-
-			//context : side
 
 			ledge.rows = createArrayRepresentation(ledge);
 
