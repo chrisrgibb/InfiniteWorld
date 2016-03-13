@@ -10,6 +10,53 @@ define(function(require) {
 	// main loop
 	// travel down map creating platforms
 
+	function sortFunc(a, b){
+		if (a.y < b.y) {
+			return -1;
+
+		} 
+		if(a.y > b.y) {
+			return 1;
+		}
+		if (a.x < b.x ) {
+			return -1;
+		}
+		return 1;
+	}
+
+	function calculateEmptyness(tiles){
+		var emptyCount = 0;
+		var fullCount = 0;
+		var total = 0;
+
+		for (var i = 0; i < tiles.length; i++) {
+			for (var j = 0; j < tiles[0].length; j++) {
+				if (tiles[i][j] === 0) {
+					emptyCount ++;
+				}
+				total++;
+			}
+		}
+		return emptyCount / total;
+	}
+
+	function distanceBetween(ledge1, ledge2) {
+		var xDist = getXDistance(ledge1, ledge2);
+		var yDist = getYDistance(ledge1, ledge2);
+		return Math.sqrt( Math.pow(xDist, 2) + Math.pow(yDist, 2) );
+	}
+
+	function getXDistance(ledge1, ledge2) {
+		var x1 = ledge1.side === "left" ? ledge1.width : ledge1.x;
+		var x2 = ledge2.side === "left" ? ledge2.width : ledge2.x;
+		return x1 - x2;
+	}
+
+	function getYDistance(ledge1, ledge2) {
+		return ledge1.y - ledge2.y;
+	}
+
+
 	function CreateLedges(rand, tiles, mapDetails){
 		
 		var count = 0;
@@ -46,33 +93,46 @@ define(function(require) {
 
  		// create middle Ledges 
 
+ 		ledges.sort(sortFunc);
+
  		
 		ledges.forEach(function(ledge, i, ledges){
 			// get nextClosestLedge
 			var closest = 100000000;
-			var closestIndex = -1;
+			var closestIndex = -1;	
+			
 			for(var j = 0; j < ledges.length; j++){
-				if (ledges[j] !== ledge && ledges[j].y > ledge.y) {
-					var distanceX = Math.abs(ledge.x - ledges[j].x);
-					var distanceY = Math.abs(ledge.y - ledges[j].y);
-					var manhatten = distanceX + distanceY;
-					if(manhatten < closest){
-						closest = manhatten;
+				var otherLedge = ledges[j];
+
+				if (ledges[j] !== ledge && otherLedge.y > ledge.y) {
+					var dist = distanceBetween(ledge, otherLedge);
+
+					if(dist < closest){
+						closest = dist;
 						closestIndex = j;
 					}
 				}
 			}
-			var closestLedge = ledges[closestIndex];
-			var y = ledge.y + Math.floor((closestLedge.y / 2));
-			var x = ledge.x + Math.floor(closestLedge.x / 2);
-			var stump =  LedgePeice.create(x, y, 3, "middle");
-			ledges.push(stump);
-			ledge.connectingPlatform = stump;
-			// debugger;
+			if (closestIndex > -1) {
 
+				var closestLedge = ledges[closestIndex];
+				var distanceX = Math.abs(getXDistance(ledge, closestLedge));
+				var distanceY = Math.abs(ledge.y - closestLedge.y);
+				if (distanceY > 5) { 
+					var y = ledge.y + Math.floor((distanceY / 2));
+					var x = ledge.side === "left" ? (ledge.width + Math.floor(distanceX / 2))  : (ledge.x  - Math.floor(distanceX / 2) - Math.floor(ledge.width / 2));
+					// var x = Math.floor(distanceX / 2);
+					var stump =  LedgePeice.create(x, y, rand.nextInt(3, 5), "middle");
+				
+					ledges.push(stump);
+					ledge.connectingPlatform = stump;
+					ledge.partnerLedge = closestLedge;
+
+				}
+			}
 		});
 
-		mofos = ledges;
+		mofos = ledges; // global var for testin
 
 		return {
 			ledges : ledges
@@ -90,8 +150,8 @@ define(function(require) {
 
 	function CreateSides(tiles, start){
 		for(var i = start+1; i< tiles.length; i++){
-				tiles[i][0] = 5;
-				tiles[i][tiles[0].length - 1] = 5;
+			tiles[i][0] = 5;
+			tiles[i][tiles[0].length - 1] = 5;
 		}
 	}
 
@@ -115,7 +175,6 @@ define(function(require) {
 			var ledges = CreateLedges(rand, tiles, mapDetails);
 			ledges.ledges.forEach(sectioncreator.apply, sectioncreator);
 			
-
 			CreateSides(tiles, mapDetails.startAt);
 
 			return {

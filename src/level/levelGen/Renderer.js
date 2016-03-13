@@ -58,7 +58,6 @@ define(function(){
 			map.sections.forEach(function(section){
 				this.drawChunk(section);
 			}, this);
-
 		};
 
 		this.highlightSection = function(section) {
@@ -67,7 +66,8 @@ define(function(){
 
 		this.highlightLedge = function(ledge) {
 			this.ctx.strokeStyle = "yellow";
-			this.ctx.strokeRect(ledge.x, ledge.y, ledge.width, ledge.height);
+			var ts = this.tileSize
+			this.ctx.strokeRect(ledge.x * ts, ledge.y * ts, ledge.width * ts, ledge.height * ts);
 		}
 
 

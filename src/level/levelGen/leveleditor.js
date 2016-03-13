@@ -45,14 +45,37 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 		updateLevel(options);
 	});
 
+	document.getElementById('go').addEventListener('click', function(e){
+		options.seedValue = parseInt(rangeSlider.value);
+		var rs = document.getElementById('randomSeed');
+		rs.value = options.seedValue;
+		updateLevel(options);
+	});
+
+	document.getElementById('randomSeed').addEventListener('change',function(){
+		// debugger;
+		options.seedValue = parseInt(this.value);
+		updateLevel(options);
+	});
+
 	Renderer.canvas.addEventListener('click', function(e){
 		
 		var x = e.offsetX / Renderer.tileSize;
 		var y = e.offsetY / Renderer.tileSize;
 		
-		var toHighlight = map.getSection(x, y);
-		Renderer.highlightSection(toHighlight);
-		Renderer.drawSections(map);
+		var ledgos = mofos.filter(function(mofo){
+			if (x > mofo.x && x < mofo.x + mofo.width){
+				if (mofo.y < y && y < mofo.y + mofo.height){
+					return mofo;
+				}	
+			}
+		});
+		
+		Renderer.highlightLedge(ledgos[0].connectingPlatform);
+		Renderer.highlightLedge(ledgos[0].partnerLedge);
+
+		// ledgos.forEach(Renderer.highlightLedge, Renderer);
+
 	});
 
 
