@@ -162,30 +162,6 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 			return odds;
 		},
 
-		apply2dNoise : function(startX, y, length){
-			var config = {};
-
-			config[Block.star] = 5;
-			config[theme.breakable] = 20;
-			config[theme.unbreakable] = 10;
-			config[Block.question] = 1;
-		
-			var odds = calculateOdds(config);
-
-			var vall = getValueFromOdds(0.23, odds);
-
-			var array2d = noiseArray2d(10, true);
-			// array2d = rand.noiseArray(10, false);
-			for(var x = startX; x < startX + length; x++){
-				for(y = 0; y < 10; y++){
-					var val = array2d[y][x-startX];
-					var tile = parseInt(getValueFromOdds(val, odds));
-					
-					tiles.setTile(tile,  x, y);
-				}
-			}
-		},
-
 		decorate : function(startX, gy, length) {
 			var decorDeets = theme.decorationRules();
 			

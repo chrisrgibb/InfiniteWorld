@@ -1,5 +1,11 @@
-define(['./helpers/createsections', './tilecreater', './settings/options', './helpers/heightcalculator', '../../game/enemies/enemyfactory', './helpers/helpers'],
-function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, Helpers){
+define(function(require) {	
+
+	var SectionCreator = require('./helpers/createsections');
+	var TileCreater = require('./tilecreater');
+	var Options = require('./settings/options');
+	var HeightCalculator = require('./helpers/heightcalculator');
+	var Enemyfactory = require('../../game/enemies/enemyfactory');
+	var Helpers = require('./helpers/helpers');
 
 	var rand,
 	heights;
@@ -120,7 +126,7 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 				2 : 3, // blob,
 				3 : 2, //platform
 				6 : 2,
-				7 : 5,
+				//7 : 5,// s2 noise 
 				8 : 4
 				// 4 : 10 // random shit
 			};
@@ -173,10 +179,6 @@ function (SectionCreator, TileCreater, Options, HeightCalculator, Enemyfactory, 
 						section.type = "funky shape";
 						break;	
 
-					case 7:
-						SectionCreator.apply2dNoise(section.x, 7, section.length);
-						section.type = "2d noise";
-						break;
 					case 8:
 						SectionCreator.heightMap(section.x, 8, section.length);
 						section.type = "height map";

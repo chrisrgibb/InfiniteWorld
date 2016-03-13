@@ -121,7 +121,7 @@ define(function(require) {
 				if (distanceY > 5) { 
 					var y = ledge.y + Math.floor((distanceY / 2));
 					var x = ledge.side === "left" ? (ledge.width + Math.floor(distanceX / 2))  : (ledge.x  - Math.floor(distanceX / 2) - Math.floor(ledge.width / 2));
-					// var x = Math.floor(distanceX / 2);
+
 					var stump =  LedgePeice.create(x, y, rand.nextInt(3, 5), "middle");
 				
 					ledges.push(stump);
