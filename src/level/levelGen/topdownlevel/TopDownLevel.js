@@ -1,11 +1,8 @@
 define(function(require) {	
 
-
-	var TileCreator = require('./helpers/tilecreater');
-	var Helper = require('./helpers/helpers');
-	var OddsHelper = require('./settings/odds');
-	var LedgePeice = require('./peices/ledge');
-	var SectionCreator = require('./helpers/sectioncreator2');
+	var TileCreator = require('../helpers/tilecreater');
+	var SectionCreator = require('../helpers/sectioncreator2');
+	var LedgePeice = require('./ledge');
 
 	// main loop
 	// travel down map creating platforms
@@ -56,8 +53,25 @@ define(function(require) {
 		return ledge1.y - ledge2.y;
 	}
 
+	/*
+	*
+	*/
+	function findLedgesAtPoint(point){
 
-	function CreateLedges(rand, tiles, mapDetails){
+
+	}
+
+	/*
+	* checks the area around the ledge if the ledge is valid to be placed there
+	*/
+	function canPlaceLedge(ledge, ledges) {
+		ledges.forEach(function(l){
+			// check bounding box of ledge and compare it to subject ledge
+			// if 
+		});
+	}
+
+	function CreateLedges(rand, tiles, mapDetails) {
 		
 		var count = 0;
 		var ledges = [];
@@ -118,6 +132,7 @@ define(function(require) {
 				var closestLedge = ledges[closestIndex];
 				var distanceX = Math.abs(getXDistance(ledge, closestLedge));
 				var distanceY = Math.abs(ledge.y - closestLedge.y);
+				
 				if (distanceY > 5) { 
 					var y = ledge.y + Math.floor((distanceY / 2));
 					var x = ledge.side === "left" ? (ledge.width + Math.floor(distanceX / 2))  : (ledge.x  - Math.floor(distanceX / 2) - Math.floor(ledge.width / 2));

@@ -1,4 +1,4 @@
-define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections', './settings/options', './helpers/heightcalculator', './sidewayslevel', './topdownlevel'],
+define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections', './settings/options', './helpers/heightcalculator', './sidewayslevel', './topdownlevel/topdownlevel'],
 	function(Random, Map, themes , CreateSections, Options, HeightCalculator, Sidewayslevel, TopDownLevel){
 
 	/**
