@@ -190,9 +190,7 @@ define(['../utils/noise', '../../Block', '../settings/odds'],
 				for(var i = 0; i < number; i++){
 					var x = i * width + startX;
 					drawDecoration(x);
-				}
-
-				
+				}	
 			}
 		},
 

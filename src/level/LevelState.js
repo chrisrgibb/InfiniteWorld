@@ -92,92 +92,93 @@ define(['../game/objects/shockWave', './MapCreater', '../game/player/player',
 				}
 			}
 			alert("should have restarted by now...");
-		}
-	};
+		},
 
-	// If player moves into the tile that the gameobject is in
-	LevelState.prototype.checkForCollisions = function(x, y){
+		// If player moves into the tile that the gameobject is in
+		checkForCollisions : function(x, y){
+			var levelState = this;
 
-		var levelState = this;
-
-		var searchObjects = function(element, index){
-			var obx = element.x / 16 | 0;
-			var oby = element.y / 16 | 0;
-			if(x==obx && y==oby){
-				element.process(levelState.player);
-				if(element.remove){
-					levelState.objectsToRemove.push(element);
-				}
-			}
-		};
-
-		this.onScreenObjects.forEach(searchObjects);
-		this.objects.forEach(searchObjects);
-	};
-
-
-	LevelState.prototype.punchTile = function(x, y){
-
-		if(x > this.map.getWidth()-1){
-			return;
-		}
-		var punchedTile = this.map.getBlock(x, y),
-			levelstate = this;
-
-		var handleQuestionTile = function (){
-
-			var options = {
-				0 : function(){
-					levelstate.onScreenObjects.push(GameObjects.ring(x, y, true));
-					levelstate.currentItem++;
-				},
-				1 : function(){
-					levelstate.onScreenObjects.push(new Ghost(x, y, true));
-					levelstate.currentItem++;
-				},
-				2 : function(){
-					levelstate.onScreenObjects.push(GameObjects.life(x, y, true));
-					levelstate.currentItem = 0;
+			var searchObjects = function(element, index) {
+				var obx = element.x / 16 | 0;
+				var oby = element.y / 16 | 0;
+				if (x == obx && y == oby) {
+					element.process(levelState.player);
+					if (element.remove) {
+						levelState.objectsToRemove.push(element);
+					}
 				}
 			};
 
-			options[levelstate.currentItem]();
+			levelState.onScreenObjects.forEach(searchObjects);
+			levelState.objects.forEach(searchObjects);
 
-			if(levelstate.onScreenObjects.length > 2){
-				levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
+
+		},
+
+		punchTile : function(x, y) {
+
+			if(x > this.map.getWidth()-1){
+				return;
 			}
-		};
+			var punchedTile = this.map.getBlock(x, y),
+				levelstate = this;
 
-		var getNewOnScreenObject = function (){
+			var handleQuestionTile = function (){
 
-			levelstate.onScreenObjects.push(GameObjects.moneybag(x, y, true));
+				var options = {
+					0 : function(){
+						levelstate.onScreenObjects.push(GameObjects.ring(x, y, true));
+						levelstate.currentItem++;
+					},
+					1 : function(){
+						levelstate.onScreenObjects.push(new Ghost(x, y, true));
+						levelstate.currentItem++;
+					},
+					2 : function(){
+						levelstate.onScreenObjects.push(GameObjects.life(x, y, true));
+						levelstate.currentItem = 0;
+					}
+				};
 
-			if(levelstate.onScreenObjects.length > 2){
-				levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
+				options[levelstate.currentItem]();
+
+				if(levelstate.onScreenObjects.length > 2){
+					levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
+				}
+			};
+
+			var getNewOnScreenObject = function (){
+
+				levelstate.onScreenObjects.push(GameObjects.moneybag(x, y, true));
+
+				if(levelstate.onScreenObjects.length > 2){
+					levelstate.objectsToRemove.push(levelstate.onScreenObjects[0]);
+				}
+			};
+
+			if (punchedTile.breakable ){
+				var tileType = this.map.getTile(x, y);
+				if (tileType === Block.star) {
+					getNewOnScreenObject();
+				} else if (tileType === Block.question){
+					handleQuestionTile();
+				} else if (tileType === Block.yellowskull) {
+
+					this.player.jittersTime = 15;
+				}
+				// create new empty space block 
+				this.map.tiles[y][x] = 0;	
+
+				// add explosion animation to levelstate
+				this.animations.push(animationgen.getAnimation(x * 16, y * 16));
 			}
-		};
 
-		if (punchedTile.breakable ){
-			var tileType = this.map.getTile(x, y);
-			if (tileType === Block.star) {
-				getNewOnScreenObject();
-			} else if (tileType === Block.question){
-				handleQuestionTile();
-			} else if (tileType === Block.yellowskull) {
-
-				this.player.jittersTime = 15;
+			if (this.map.getTile(x, y) === 2) {
+				this.map.tiles[y][x] = 0;
 			}
-			// create new empty space block 
-			this.map.tiles[y][x] = 0;	
-
-			// add explosion animation to levelstate
-			this.animations.push(animationgen.getAnimation(x * 16, y * 16));
-		}
-
-		if(this.map.getTile(x, y)===2){
-			this.map.tiles[y][x] = 0;
 		}
 	};
+
 
 	LevelState.prototype.fireShockwave = function(player){
 		if(player.dir==1 ){

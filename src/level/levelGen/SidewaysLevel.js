@@ -1,7 +1,7 @@
 define(function(require) {	
 
 	var SectionCreator = require('./helpers/createsections');
-	var TileCreater = require('./tilecreater');
+	var TileCreater = require('./helpers/tilecreater');
 	var Options = require('./settings/options');
 	var HeightCalculator = require('./helpers/heightcalculator');
 	var Enemyfactory = require('../../game/enemies/enemyfactory');
