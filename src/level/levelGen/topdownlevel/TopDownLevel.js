@@ -22,19 +22,7 @@ define(function(require) {
 	}
 
 	function calculateEmptyness(tiles){
-		var emptyCount = 0;
-		var fullCount = 0;
-		var total = 0;
 
-		for (var i = 0; i < tiles.length; i++) {
-			for (var j = 0; j < tiles[0].length; j++) {
-				if (tiles[i][j] === 0) {
-					emptyCount ++;
-				}
-				total++;
-			}
-		}
-		return emptyCount / total;
 	}
 
 	function distanceBetween(ledge1, ledge2) {
@@ -57,7 +45,9 @@ define(function(require) {
 	*
 	*/
 	function findLedgesAtPoint(point){
+		1, 1, 1, 1
 
+		2, 1, 1, 1
 
 	}
 
@@ -65,10 +55,37 @@ define(function(require) {
 	* checks the area around the ledge if the ledge is valid to be placed there
 	*/
 	function canPlaceLedge(ledge, ledges) {
+		var centerOfLedge = {
+			x : ledge.x + Math.floor(ledge.width / 2),
+			y : ledge.y + Math.floor(ledge.height / 2)
+		};
+
 		ledges.forEach(function(l){
 			// check bounding box of ledge and compare it to subject ledge
 			// if 
+			//if(ledge.x )
+			var a = compareTwo(ledge, l);
+			var b = ledgeIntersection(ledge, l);
+
+
 		});
+	}
+
+	// b is the ledge we are trying to place
+	function compareTwo(a, b, c) {
+		var buffer = c;
+
+		if (a.width + a.x < b.x - buffer) return false;
+		if (a.x > b.width + b.x + buffer ) return false;
+		if (a.y + a.height + buffer < b.y - buffer) return false;
+		if (a.y > b.height + b.y + buffer) return false; 
+		return true; // boxes overlap
+	}
+	//compareTwo(a, b, 0);
+
+	function ledgeIntersection(a, b) {
+	  return (Math.abs(a.x - b.x) * 2 < (a.width + b.width)) &&
+         (Math.abs(a.y - b.y) * 2 < (a.height + b.height));
 	}
 
 	function CreateLedges(rand, tiles, mapDetails) {
@@ -134,10 +151,13 @@ define(function(require) {
 				var distanceY = Math.abs(ledge.y - closestLedge.y);
 				
 				if (distanceY > 5) { 
+					// debugger;
 					var y = ledge.y + Math.floor((distanceY / 2));
 					var x = ledge.side === "left" ? (ledge.width + Math.floor(distanceX / 2))  : (ledge.x  - Math.floor(distanceX / 2) - Math.floor(ledge.width / 2));
 
 					var stump =  LedgePeice.create(x, y, rand.nextInt(3, 5), "middle");
+
+					canPlaceLedge(stump, ledges);
 				
 					ledges.push(stump);
 					ledge.connectingPlatform = stump;

@@ -152,7 +152,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 			yTop = (1 + this.y - this.height/2) / 16 | 0;
 			yBotttom = (-1 + this.y + this.height/2) / 16 | 0;
 
-			if(nextX===newXpos){
+			if(nextX === newXpos){
 				return;
 			}
 

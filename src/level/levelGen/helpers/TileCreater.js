@@ -77,7 +77,7 @@ TilesCreater.prototype  = {
 	 * sets them to be inside the bounds
 	 */
 
-	checkBounds : function(x, y){
+	checkBounds : function(x, y) {
 		var outOfBounds = false;
 		if(x < 0){
 			outOfBounds = true;
@@ -100,6 +100,23 @@ TilesCreater.prototype  = {
 			y : y,
 			isOut : outOfBounds
 		};
+	},
+
+	calculateEmptyness : function(){
+		var emptyCount = 0;
+		var fullCount = 0;
+		var total = 0;
+		var tiles = this.tiles;
+
+		for (var i = 0; i < tiles.length; i++) {
+			for (var j = 0; j < tiles[0].length; j++) {
+				if (tiles[i][j] === 0) {
+					emptyCount ++;
+				}
+				total++;
+			}
+		}
+		return emptyCount / total;
 	}
 
 };
