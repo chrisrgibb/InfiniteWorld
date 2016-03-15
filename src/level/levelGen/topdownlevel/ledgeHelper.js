@@ -1,8 +1,7 @@
 define(function(){
+	
 	var SectionCreator = function (tiles) {
 		this.tiles = tiles;
-
-
 	};
 
 	SectionCreator.prototype = {
@@ -50,8 +49,7 @@ define(function(){
 		createRow : function(){
 
 		}
-
-
 	};
 	return SectionCreator;
+
 });

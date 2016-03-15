@@ -1,7 +1,7 @@
 define(function(require) {	
 
 	var TileCreator = require('../helpers/tilecreater');
-	var SectionCreator = require('../helpers/sectioncreator2');
+	var SectionCreator = require('./ledgehelper');
 	var LedgePeice = require('./ledge');
 
 	// main loop
