@@ -6,7 +6,7 @@ define(['../settings/odds'],function(OddsHelper){
 		for(var i = start; i < end; i++){
 			fn(array[i], i, array);
 		}
-	}
+	};
 
 	function createMiddleLedge(ledge){
 		var array = [],
@@ -43,7 +43,7 @@ define(['../settings/odds'],function(OddsHelper){
 			}
 			// fix the sides
 			row[0] = y === 0 ? 1 : 4; 
-			row[row.length-1] = y === 0 ? 3 : 6
+			row[row.length-1] = y === 0 ? 3 : 6;
 
 			array.push({
 				row : row,
@@ -128,7 +128,7 @@ define(['../settings/odds'],function(OddsHelper){
 				rows : [],
 				side : side,
 				connectingPlatform : null
-			}
+			};
 
 			ledge.rows = createArrayRepresentation(ledge);
 

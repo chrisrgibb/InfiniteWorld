@@ -8,7 +8,6 @@ define(function(){
 		rows : [],
 		side : side,
 		connectingPlatform : null
-	}	
-
+	};	
 
 });

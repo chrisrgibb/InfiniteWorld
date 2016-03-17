@@ -66,9 +66,9 @@ define(function(){
 
 		this.highlightLedge = function(ledge) {
 			this.ctx.strokeStyle = "yellow";
-			var ts = this.tileSize
+			var ts = this.tileSize;
 			this.ctx.strokeRect(ledge.x * ts, ledge.y * ts, ledge.width * ts, ledge.height * ts);
-		}
+		};
 
 
 		this.drawChunk = function(chunk){

@@ -12,13 +12,8 @@ define(function (require) {
 				if(y < tiles.length) {
 					tiles[y][x] = 9;
 				}
-				
 				// place box on it
-
 			});
-
 		}
-	}
-
-
+	};
 });

@@ -25,7 +25,7 @@ define(function(require) {
 				startAt : 7,
 				width : 16,
 				height :rand.nextInt(80, 100)
-			}
+			};
 
 			var tilecreator = new TileCreator(mapDetails.height, mapDetails.width, 0, theme);
 			var tiles = tilecreator.getBlankMap(mapDetails.width, mapDetails.height).tiles;
