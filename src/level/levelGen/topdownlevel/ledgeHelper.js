@@ -1,21 +1,8 @@
 define(function(require){
 	
 	var LedgePeice = require('./ledge');
+	var GeneratedLevel = require('./generatedlevel');
 
-	function sortFunc(a, b){
-		// var indexA = a.y * mapDetails.width  
-
-		if (a.y < b.y) {
-			return -1;
-		} 
-		if(a.y > b.y) {
-			return 1;
-		}
-		if (a.x < b.x ) {
-			return -1;
-		}
-		return 1;
-	}
 	
 	/*
 	* checks the area around the ledge if the ledge is valid to be placed there
@@ -26,7 +13,7 @@ define(function(require){
 			y : ledge.y + Math.floor(ledge.height / 2)
 		};
 
-		ledges.forEach(function(l){
+		ledges.forEach(function(l) {
 			// check bounding box of ledge and compare it to subject ledge
 			// if 
 			//if(ledge.x )
@@ -71,6 +58,102 @@ define(function(require){
 	function getYDistance(ledge1, ledge2) {
 		return ledge1.y - ledge2.y;
 	}
+
+
+	/*
+	*  Loop through the level and add ledges to left hand side
+	*/
+	function addLeftLedges(y, mapDetails, rand, level) {
+		var interval = y;
+			// create left hand side ledges
+		while (interval < mapDetails.height) {
+			var distance = interval + rand.nextInt(8, 16);  // y pos for next ledge
+			level.add(LedgePeice.create(0, distance, rand.nextInt(5, 8), "left"));
+			interval = distance;
+		}
+	}
+
+	function findClosestIndex(ledge, ledges) {
+		var closest = 100000000;
+		var closestIndex = -1;	
+				
+		for(var j = 0; j < ledges.length; j++){
+			var otherLedge = ledges[j];
+
+			if (ledges[j] !== ledge && otherLedge.y > ledge.y) {
+				var dist = distanceBetween(ledge, otherLedge);
+
+				if(dist < closest){
+					closest = dist;
+					closestIndex = j;
+				}
+			}
+		}
+		return closestIndex;
+	}
+
+	/*
+	* loops through all the ledges a orders them relative to the 
+	* given ledge.
+	* Haven't tested this yet
+	**/
+	function findNearestLedges(ledge, allLedges) {
+
+		var distances = [];
+		
+		for(var j = 0; j < ledges.length; j++){
+
+			var otherLedge = ledges[j];
+			if (otherLedge !== ledge) {
+				var dist = distanceBetween(ledge, otherLedge);
+				distances.push({
+					index : j,
+					distance : dist
+				});
+			} 
+		}
+		distances.sort(function(a, b){
+			if ( a.distance < b.distance ) {
+				return -1;
+			}
+			if( a.distance > b.distance) {
+				return 1;
+			}
+			return 0;
+		});
+		return distances;
+	}
+
+
+	/*
+	*  Loop through the level and add ledges to right hand side
+	*/
+	function addRightLedges(y, mapDetails, rand, level) {
+
+		function random(a, b){
+			return rand.nextInt(a, b);
+		}
+
+		var sizes = [5, 6, 6, 7, 5, 12];
+
+
+ 		var interval = y;
+ 		var rightLedges = [];
+ 		while (interval < mapDetails.height) {
+
+ 			var width = rand.nextInt(5, 8);
+ 			// var width = sizes[rand.nextInt(0, sizes.length-1)];
+ 			var x = mapDetails.width - width;
+
+ 			var distance = interval + random(8, 16);  // y pos for next ledge
+ 			var ledge = LedgePeice.create(x, distance, width, "right");
+
+			level.add(ledge);
+			interval = distance;
+ 		}
+	}
+
+
 
 	var SectionCreator = function (tiles) {
 		this.tiles = tiles;
@@ -124,60 +207,30 @@ define(function(require){
 		*
 		*/
 		makeHeaps : function(rand, tiles, mapDetails) {
+			var level = new GeneratedLevel();
+
+
 			var count = 0;
 			var ledges = [];
 			// create start ledge
 			var x = 0, y = mapDetails.startAt, width = rand.nextInt(4, 8), side = 'left';
 
 			var firstLedge = LedgePeice.create(0, mapDetails.startAt, width, side);
-			ledges.push(firstLedge);
+			level.add(firstLedge);
 
-			var interval = y;
-			// create left hand side ledges
-			while (interval < mapDetails.height) {
-				var distance = interval + rand.nextInt(8, 16);  // y pos for next ledge
-				ledges.push(LedgePeice.create(0, distance, rand.nextInt(5, 8), "left"));
-				interval = distance;
-	 		}
+	 		addLeftLedges(y, mapDetails, rand, level);
 
-	 		// create right hand side ledges
-	 		interval = 0;
-	 		var rightLedges = [];
-	 		while (interval < mapDetails.height) {
-
-	 			var width = rand.nextInt(5, 8);
-	 			var x = mapDetails.width - width;
-
-	 			var distance = interval + rand.nextInt(8, 16);  // y pos for next ledge
-	 			var ledge = LedgePeice.create(x, distance, width, "right");
-
-	 			rightLedges.push(ledge)
-				ledges.push(ledge);
-				interval = distance;
-	 		}
-
+	 		addRightLedges(0, mapDetails, rand, level);
+	
 	 		// create middle Ledges 
 
-	 		ledges.sort(sortFunc);
+	 		level.sort();
 
-	 		
-			ledges.forEach(function(ledge, i, ledges){
-				// get nextClosestLedge
-				var closest = 100000000;
-				var closestIndex = -1;	
-				
-				for(var j = 0; j < ledges.length; j++){
-					var otherLedge = ledges[j];
+	 		// add a bridging ledge in between two ledges
+			level.ledges.forEach(function(ledge, i, ledges){
+	
+				var closestIndex = findClosestIndex(ledge, ledges);
 
-					if (ledges[j] !== ledge && otherLedge.y > ledge.y) {
-						var dist = distanceBetween(ledge, otherLedge);
-
-						if(dist < closest){
-							closest = dist;
-							closestIndex = j;
-						}
-					}
-				}
 				if (closestIndex > -1) {
 
 					var closestLedge = ledges[closestIndex];
@@ -187,7 +240,7 @@ define(function(require){
 					if (distanceY > 5) { 
 						// debugger;
 						var y = ledge.y + Math.floor((distanceY / 2));
-						var x = ledge.side === "left" ? (ledge.width + Math.floor(distanceX / 2))  : (ledge.x  - Math.floor(distanceX / 2) - Math.floor(ledge.width / 2));
+						var x = ledge.side === "left" ? (ledge.width + Math.floor(distanceX / 2) )  : (ledge.x  - Math.floor(distanceX / 2) - Math.floor(ledge.width / 2));
 
 						var stump =  LedgePeice.create(x, y, rand.nextInt(3, 5), "middle");
 
@@ -196,17 +249,15 @@ define(function(require){
 						ledges.push(stump);
 						ledge.connectingPlatform = stump;
 						ledge.partnerLedge = closestLedge;
-
 					}
 				}
 			});
+			level.sort();
 
-			ledges.sort(sortFunc);
-
-			mofos = ledges; // global var for testin
+			mofos = level.ledges; // global var for testin
 
 			return {
-				ledges : ledges
+				ledges : level.ledges
 			};
 		}
 	};
