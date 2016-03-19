@@ -1,6 +1,10 @@
 define(['./levelgenerator', './Renderer', './settings/options', './localstorageadapter'],
 	function(levelGenerator, Renderer, LevelOptions, LocalStorageAdapter){
 
+
+
+
+
 	var map;
 	var options = {};
 	/**

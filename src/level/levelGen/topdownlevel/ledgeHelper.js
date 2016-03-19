@@ -11,21 +11,18 @@ define(function(require){
 		var centerOfLedge = {
 			x : ledge.x + Math.floor(ledge.width / 2),
 			y : ledge.y + Math.floor(ledge.height / 2)
-		};
+		};	
 
-		ledges.forEach(function(l) {
-			// check bounding box of ledge and compare it to subject ledge
-			// if 
-			//if(ledge.x )
-			var a = compareTwo(ledge, l);
-			var b = ledgeIntersection(ledge, l);
-
-
+		return !ledges.some(function(l) {
+			return compareTwo(ledge, l);
 		});
 	}
 
 	// b is the ledge we are trying to place
 	function compareTwo(a, b, c) {
+		if (c == null) {
+			c = 0;
+		}
 		var buffer = c;
 
 		if (a.width + a.x < b.x - buffer) return false;
@@ -34,9 +31,6 @@ define(function(require){
 		if (a.y > b.height + b.y + buffer) return false; 
 		return true; // boxes overlap
 	}
-	//compareTwo(a, b, 0);
-
-
 
 	function ledgeIntersection(a, b) {
 	  return (Math.abs(a.x - b.x) * 2 < (a.width + b.width)) &&
@@ -92,12 +86,20 @@ define(function(require){
 		return closestIndex;
 	}
 
+	function computeNearest(ledges) {
+		var somethign = ledges.map(function(ledge, index, ledges) {
+			var nearestLedgesList = findNearestLedges(ledge, ledges);
+			return nearestLedgesList;
+		});
+		return somethign;
+	}
+
 	/*
 	* loops through all the ledges a orders them relative to the 
 	* given ledge.
 	* Haven't tested this yet
 	**/
-	function findNearestLedges(ledge, allLedges) {
+	function findNearestLedges(ledge, ledges) {
 
 		var distances = [];
 		
@@ -148,7 +150,11 @@ define(function(require){
  			var distance = interval + random(8, 16);  // y pos for next ledge
  			var ledge = LedgePeice.create(x, distance, width, "right");
 
-			level.add(ledge);
+ 			var canPlace = canPlaceLedge(ledge, level.ledges);
+ 			// canPlace = true;
+ 			if(canPlace){
+				level.add(ledge);
+ 			} 
 			interval = distance;
  		}
 	}
@@ -243,8 +249,6 @@ define(function(require){
 						var x = ledge.side === "left" ? (ledge.width + Math.floor(distanceX / 2) )  : (ledge.x  - Math.floor(distanceX / 2) - Math.floor(ledge.width / 2));
 
 						var stump =  LedgePeice.create(x, y, rand.nextInt(3, 5), "middle");
-
-						canPlaceLedge(stump, ledges);
 					
 						ledges.push(stump);
 						ledge.connectingPlatform = stump;
@@ -255,6 +259,7 @@ define(function(require){
 			level.sort();
 
 			mofos = level.ledges; // global var for testin
+			level.nearestLedges = computeNearest(level.ledges);
 
 			return {
 				ledges : level.ledges

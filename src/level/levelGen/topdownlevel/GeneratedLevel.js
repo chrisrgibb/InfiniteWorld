@@ -17,6 +17,7 @@ define(function(){
 	
 	function GeneratedLevel(){
 		this.ledges = [];
+		this.nearestLedges = {}; // { index : [ ]}
 	}
 
 	GeneratedLevel.prototype = {
