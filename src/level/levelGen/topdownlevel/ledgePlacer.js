@@ -2,56 +2,7 @@ define(function(require){
 	
 	var LedgePeice = require('./ledge');
 	var GeneratedLevel = require('./generatedlevel');
-
-	
-	/*
-	* checks the area around the ledge if the ledge is valid to be placed there
-	*/
-	function canPlaceLedge(ledge, ledges) {
-		var centerOfLedge = {
-			x : ledge.x + Math.floor(ledge.width / 2),
-			y : ledge.y + Math.floor(ledge.height / 2)
-		};	
-
-		return !ledges.some(function(l) {
-			return compareTwo(ledge, l);
-		});
-	}
-
-	// b is the ledge we are trying to place
-	function compareTwo(a, b, c) {
-		if (c == null) {
-			c = 0;
-		}
-		var buffer = c;
-
-		if (a.width + a.x < b.x - buffer) return false;
-		if (a.x > b.width + b.x + buffer ) return false;
-		if (a.y + a.height + buffer < b.y - buffer) return false;
-		if (a.y > b.height + b.y + buffer) return false; 
-		return true; // boxes overlap
-	}
-
-	function ledgeIntersection(a, b) {
-	  return (Math.abs(a.x - b.x) * 2 < (a.width + b.width)) &&
-         (Math.abs(a.y - b.y) * 2 < (a.height + b.height));
-	}
-
-	function distanceBetween(ledge1, ledge2) {
-		var xDist = getXDistance(ledge1, ledge2);
-		var yDist = getYDistance(ledge1, ledge2);
-		return Math.sqrt( Math.pow(xDist, 2) + Math.pow(yDist, 2) );
-	}
-
-	function getXDistance(ledge1, ledge2) {
-		var x1 = ledge1.side === "left" ? ledge1.width : ledge1.x;
-		var x2 = ledge2.side === "left" ? ledge2.width : ledge2.x;
-		return x1 - x2;
-	}
-
-	function getYDistance(ledge1, ledge2) {
-		return ledge1.y - ledge2.y;
-	}
+	var ledgeHelper = require('./ledgedistancehelper');
 
 
 	/*
@@ -75,7 +26,7 @@ define(function(require){
 			var otherLedge = ledges[j];
 
 			if (ledges[j] !== ledge && otherLedge.y > ledge.y) {
-				var dist = distanceBetween(ledge, otherLedge);
+				var dist = ledgeHelper.distanceBetween(ledge, otherLedge);
 
 				if(dist < closest){
 					closest = dist;
@@ -85,47 +36,6 @@ define(function(require){
 		}
 		return closestIndex;
 	}
-
-	function computeNearest(ledges) {
-		var somethign = ledges.map(function(ledge, index, ledges) {
-			var nearestLedgesList = findNearestLedges(ledge, ledges);
-			return nearestLedgesList;
-		});
-		return somethign;
-	}
-
-	/*
-	* loops through all the ledges a orders them relative to the 
-	* given ledge.
-	* Haven't tested this yet
-	**/
-	function findNearestLedges(ledge, ledges) {
-
-		var distances = [];
-		
-		for(var j = 0; j < ledges.length; j++){
-
-			var otherLedge = ledges[j];
-			if (otherLedge !== ledge) {
-				var dist = distanceBetween(ledge, otherLedge);
-				distances.push({
-					index : j,
-					distance : dist
-				});
-			} 
-		}
-		distances.sort(function(a, b){
-			if ( a.distance < b.distance ) {
-				return -1;
-			}
-			if( a.distance > b.distance) {
-				return 1;
-			}
-			return 0;
-		});
-		return distances;
-	}
-
 
 	/*
 	*  Loop through the level and add ledges to right hand side
@@ -150,9 +60,9 @@ define(function(require){
  			var distance = interval + random(8, 16);  // y pos for next ledge
  			var ledge = LedgePeice.create(x, distance, width, "right");
 
- 			var canPlace = canPlaceLedge(ledge, level.ledges);
+ 			var canPlace = ledgeHelper.canPlaceLedge(ledge, level.ledges);
  			// canPlace = true;
- 			if(canPlace){
+ 			if (canPlace) {
 				level.add(ledge);
  			} else {
  				// console.log("")
@@ -242,7 +152,7 @@ define(function(require){
 				if (closestIndex > -1) {
 
 					var closestLedge = ledges[closestIndex];
-					var distanceX = Math.abs(getXDistance(ledge, closestLedge));
+					var distanceX = Math.abs(ledgeHelper.getXDistance(ledge, closestLedge));
 					var distanceY = Math.abs(ledge.y - closestLedge.y);
 					
 					if (distanceY > 5) { 
@@ -261,7 +171,7 @@ define(function(require){
 			level.sort();
 
 			mofos = level.ledges; // global var for testin
-			level.nearestLedges = computeNearest(level.ledges);
+			level.nearestLedges = ledgeHelper.computeNearest(level.ledges);
 
 			return {
 				ledges : level.ledges
