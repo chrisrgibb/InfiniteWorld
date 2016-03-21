@@ -1,3 +1,6 @@
 require.js
 src/require.min.js
 src/game/player/jumpingstate.js
+r.js
+main-built.js
+build.js

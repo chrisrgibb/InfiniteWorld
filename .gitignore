@@ -6,3 +6,4 @@ app.js
 *.sql
 *.psd
 notes.txt
+main-built.js

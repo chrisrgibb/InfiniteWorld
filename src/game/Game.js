@@ -1,5 +1,5 @@
-define(['./player/player', '../graphics/camera', '../level/levelState', '../graphics/levelRenderer', '../graphics/objectRenderer', './gamestate'],
-	function(Player, Camera, LevelState, LevelRenderer, ObjectRenderer, gamestate){
+define(['./player/player', '../graphics/camera', '../level/levelState', '../graphics/levelRenderer', '../graphics/objectRenderer', './gamestate', '../extras/controls'],
+	function(Player, Camera, LevelState, LevelRenderer, ObjectRenderer, gamestate, controls){
 
 	// main game function
 	var Game = {
@@ -25,7 +25,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 		},
 
 		init : function(ctx){
-			
+			controls.init();
 			initCanvas();
 
 			this.camera = Camera;

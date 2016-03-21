@@ -154,7 +154,9 @@ define(function(require){
  			// canPlace = true;
  			if(canPlace){
 				level.add(ledge);
- 			} 
+ 			} else {
+ 				// console.log("")
+ 			}
 			interval = distance;
  		}
 	}
