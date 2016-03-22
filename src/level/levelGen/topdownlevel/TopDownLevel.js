@@ -4,6 +4,8 @@ define(function(require) {
 	var SectionCreator = require('./ledgeplacer');
 	var LedgePeice = require('./ledge');
 	var PlaceBoxes = require('./placeboxes');
+	var EnemyFactory = require('../../../game/enemies/enemyfactory');
+	var PlaceEnemies = require('./placeenemies');
 
 	// main loop
 	// travel down map creating platforms
@@ -39,11 +41,13 @@ define(function(require) {
 			PlaceBoxes.placeBoxes(ledges.ledges, tiles, rand);
 			
 			CreateSides(tiles, mapDetails.startAt);
+			var enemies = PlaceEnemies.placeEnemies(ledges.ledges, tiles, rand);
 
 			return {
 				tiles : tiles,
 				backgroundColor : theme.background,
-				direction : 1 // 0 for LR, 1 for topdown, 2 for RL, 3 for anything
+				direction : 1, // 0 for LR, 1 for topdown, 2 for RL, 3 for anything
+				enemies: enemies
 			};
 		}	
 	};

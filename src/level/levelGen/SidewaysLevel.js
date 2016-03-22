@@ -134,7 +134,6 @@ define(function(require) {
 
 			for(var i = 0; i < len; i++){
 				var section = sections[i];
-				//debugger;
 				var odds = calculateOdds(myOdds);
 				var vallls = parseInt(getValueFromOdds(rand.nextNumber(0, 1), odds));
 

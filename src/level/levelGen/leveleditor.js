@@ -57,7 +57,6 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 	});
 
 	document.getElementById('randomSeed').addEventListener('change',function(){
-		// debugger;
 		options.seedValue = parseInt(this.value);
 		updateLevel(options);
 	});

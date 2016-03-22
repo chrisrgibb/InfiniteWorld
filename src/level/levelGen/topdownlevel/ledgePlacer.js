@@ -14,7 +14,9 @@ define(function(require){
 		while (interval < mapDetails.height) {
 			var distance = interval + rand.nextInt(8, 16);  // y pos for next ledge
 			level.add(LedgePeice.create(0, distance, rand.nextInt(5, 8), "left"));
+			
 			interval = distance;
+
 		}
 	}
 
@@ -156,7 +158,6 @@ define(function(require){
 					var distanceY = Math.abs(ledge.y - closestLedge.y);
 					
 					if (distanceY > 5) { 
-						// debugger;
 						var y = ledge.y + Math.floor((distanceY / 2));
 						var x = ledge.side === "left" ? (ledge.width + Math.floor(distanceX / 2) )  : (ledge.x  - Math.floor(distanceX / 2) - Math.floor(ledge.width / 2));
 
@@ -178,6 +179,6 @@ define(function(require){
 			};
 		}
 	};
-	return SectionCreator;
 
+	return SectionCreator;
 });
