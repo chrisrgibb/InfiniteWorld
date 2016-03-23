@@ -55,14 +55,14 @@ define(['../objects/gameobject', '../../graphics/enemySheet'] ,function(GameObje
 		if(this.playerDead){
 			this.y += this.speed;
 		} else {
-			if(destX > this.x){
+			if (destX > this.x) {
 				this.x += this.speed;
-			}else if(destX < this.x){
+			} else if(destX < this.x) {
 				this.x -= this.speed;
 			}
-			if(destY < this.y){
+			if(destY < this.y) {
 				this.y -= this.speed;
-			}else if(destY > this.y){
+			}else if(destY > this.y) {
 				this.y += this.speed;
 			}
 

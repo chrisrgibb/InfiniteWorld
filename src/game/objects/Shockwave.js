@@ -33,7 +33,7 @@ define(['../../graphics/ObjectSheet'], function(ObjectSheet){
 		if(!this.dead){
 			this.x += this.dir * this.speed;
 		}
-		if(!isOnScreen(Game.camera, this)){
+		if(!Game.camera.isOnScreen(this)) {
 			this.dead = true;
 		}
 	};

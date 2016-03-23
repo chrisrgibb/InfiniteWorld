@@ -27,8 +27,7 @@ define(['./ObjectSheet', './camera', '../game/player/player', '../level/levelSta
 		}
 
 		function drawIfOnScreen(obj, camera, tick){
-
-			if(isOnScreen(camera, obj)){
+			if(camera.isOnScreen(obj)) {
 				obj.draw(camera, ctx, tick);
 			}
 		}

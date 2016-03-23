@@ -1,4 +1,4 @@
-define(['../../graphics/enemySheet'],function(enemySheet){
+define(['../../graphics/enemySheet'], function(enemySheet){
 
 	var Enemy = function(x, y){
 		this.width = 24;
@@ -76,23 +76,3 @@ define(['../../graphics/enemySheet'],function(enemySheet){
 	};
 	return Enemy;
 });
-
-function isOnScreen(camera, enemy){
-	var xWidth = (camera.x + CONSTANTS.screenWidth);
-	var cameraHeight = (camera.y + CONSTANTS.screenHeight);
-	var eX = enemy.x ;
-	var eY = enemy.y ;
-
-	if(eX > camera.x && eX <  xWidth){
-		if(eY > camera.y && eY < cameraHeight ){
-			return true;
-		}
-	}
-	return false;
-}
-
-
-
-
-var hasGP = false;
-

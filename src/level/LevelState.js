@@ -232,7 +232,7 @@ define(function(require){
 			var y = levelState.shockWave.y / 16 | 0;
 			
 			// if x is not off screen
-			if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 || !isOnScreen(camera, this.shockWave) ) {
+			if(x > (map.getWidth()-1 ) || levelState.shockWave.x < 0 || !camera.isOnScreen(this.shockWave) ) {
 				levelState.shockWave.dead = true;
 				this.player.shockwaveOnscreen = false;
 				return; 
@@ -271,17 +271,19 @@ define(function(require){
 	 	 */
 
 
-		for(var i = 0; i< enemys.length; i++){
-			if( isOnScreen(camera, enemys[i]) ){
+		for (var i = 0; i< enemys.length; i++) {
+			var enemy = enemys[i];
 
-				enemys[i].move(this);
+			if( camera.isOnScreen(enemy) ) {
+
+				enemy.move(this);
 				countage++;
 				debug.setText(countage);
-				collideWithPlayer(enemys[i], this.player);
+				collideWithPlayer(enemy, this.player);
 
-			}	else if(enemys[i].y < camera.y + 16) {
+			}	else if(enemy.y < camera.y + 16) {
 				// enemy is offscreen
-				removeEnemys.push(enemys[i]);
+				removeEnemys.push(enemy);
 			}
 		}
 

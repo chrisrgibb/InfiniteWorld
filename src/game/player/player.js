@@ -110,7 +110,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 			// player is dead
 			this.y -= 1;
 
-			if(!isOnScreen(Game.camera, this)){
+			if(!Game.camera.isOnScreen(this)) {
 				var respawnPoint = levelState.respawn();
 				this.deadTime = 0;
 				this.x = respawnPoint.x * 16 + 8;
