@@ -21,7 +21,7 @@ define(['../objects/gameobject', '../../graphics/enemySheet'] ,function(GameObje
 	Ghost.prototype.update = function(){
 		this.timer++;
 		this.move();
-		if(!isOnScreen(Game.camera, this)){
+		if(!Game.camera.isOnScreen(this)) {
 			this.remove = true;
 		}
 	};

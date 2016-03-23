@@ -11,13 +11,8 @@ var WIDTH,
 
 var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
 
-(function() {
-    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-    window.requestAnimationFrame = requestAnimationFrame;
-})();
 
-
-define([ './game/Game','./extras/Debugger'] ,function(Game, Debugger){
+define([ './game/Game','./extras/Debugger', './graphics/requestanimationframe'] ,function(Game, Debugger){
 	
 	function init(){
 

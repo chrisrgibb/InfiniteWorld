@@ -1,20 +1,25 @@
-define(['../game/objects/shockWave', './MapCreater', '../game/player/player', 
-		 './Block', '../game/enemies/ghost', 
-		  '../graphics/animationgenerator', '../game/gameobjects', './levelGen/levelGenerator'], 
-		function( ShockWave, MapCreater, Player,  Block, Ghost, animationgen, GameObjects, LevelGen){
+define(function(require){
+	var ShockWave = require('../game/objects/shockWave');
+	var MapCreater = require('./MapCreater');
+	var Player = require('../game/player/player');
+	var Block = require('./Block');
+	var Ghost = require('../game/enemies/ghost');
+	var animationgen = require('../graphics/animationgenerator');
+	var GameObjects = require('../game/gameobjects');
+	var LevelGen = require('./levelGen/levelGenerator');
 
 
-		/*
-		*	
-		*/
+	/*
+	*	
+	*/
 
-		function removeObject(fromArray, obj, toArray, i){
-			var index = fromArray.indexOf(obj);
-			if(index!=-1){
-				fromArray.splice(index, 1);
-				toArray.splice(i, 1);
-			}
+	function removeObject(fromArray, obj, toArray, i){
+		var index = fromArray.indexOf(obj);
+		if(index!=-1){
+			fromArray.splice(index, 1);
+			toArray.splice(i, 1);
 		}
+	}
 
 	var LevelState = function(){
 

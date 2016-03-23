@@ -31,6 +31,20 @@ define(function(){
 			if(this.x + CONSTANTS.screenWidth > map.getWidth() * 16){
 				this.x = map.getWidth() * 16 - CONSTANTS.screenWidth;
 			}
+		},
+		isOnScreen : function(enemy) {
+			var camera = this;
+			var xWidth = (camera.x + CONSTANTS.screenWidth);
+			var cameraHeight = (camera.y + CONSTANTS.screenHeight);
+			var eX = enemy.x ;
+			var eY = enemy.y ;
+
+			if(eX > camera.x && eX <  xWidth) {
+				if(eY > camera.y && eY < cameraHeight ) {
+					return true;
+				}
+			}
+			return false;
 		}
 	};
 
