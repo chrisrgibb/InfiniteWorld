@@ -7,6 +7,11 @@ define(function(){
 	}
 
 	Camera.prototype = {
+		init: function(){
+			this.x = 0;
+			this.y = 0;
+			this.minY = 0;
+		},
 		update: function(map) {
 			var player = Game.player;
 

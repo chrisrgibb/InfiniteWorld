@@ -70,11 +70,36 @@ define(function(){
 		return Math.sqrt( Math.pow(xDist, 2) + Math.pow(yDist, 2) );
 	}
 
+	/*
+	 *  returns the index of the closet ledge to the given ledge
+	 *  will return -1 if there is no closest ledge
+	*/
+	function findClosestIndex(ledge, ledges) {
+		var closest = 100000000;
+		var closestIndex = -1;	
+				
+		for(var j = 0; j < ledges.length; j++){
+			var otherLedge = ledges[j];
+
+			if (ledges[j] !== ledge && otherLedge.y > ledge.y) {
+				var dist = distanceBetween(ledge, otherLedge);
+
+				if(dist < closest){
+					closest = dist;
+					closestIndex = j;
+				}
+			}
+		}
+		return closestIndex;
+	}
+
 	return {
 
 		getXDistance : getXDistance,
 
 		distanceBetween : distanceBetween,
+		
+		findClosestIndex : findClosestIndex,
 
 		computeNearest : function (ledges) {
 			var somethign = ledges.map(function(ledge, index, ledges) {

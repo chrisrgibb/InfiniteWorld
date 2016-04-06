@@ -14,6 +14,7 @@ define(function(){
 	Block.star = 9;
 	Block.question = 8;
 	Block.yellowskull = 10;
+	Block.normal = 11; // not always normal
 
 	return Block;
 });

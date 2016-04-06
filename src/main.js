@@ -41,6 +41,7 @@ define([ './game/Game','./extras/Debugger', './graphics/requestanimationframe'] 
 	randomSeedValueBox.value = parseInt(localStorage['infinite.alexkidd.randomSeed'] || 0);
 	randomSeedValueBox.addEventListener('change', function(){
 		localStorage['infinite.alexkidd.randomSeed'] = this.value;
+		Game.init();
 	});
 
 	

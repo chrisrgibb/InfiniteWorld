@@ -29,6 +29,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 			initCanvas();
 
 			this.camera = Camera;
+			this.camera.init();
 
 			this.player = Player;
 
@@ -123,6 +124,14 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 						}
 					}
 				}
+			}
+		},
+
+		startGame : function(){
+			this.init();
+
+			if(!this.running){
+				this.run();
 			}
 		},
 		

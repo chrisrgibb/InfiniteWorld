@@ -12,31 +12,12 @@ define(function(require){
 		var interval = y;
 			// create left hand side ledges
 		while (interval < mapDetails.height) {
-			var distance = interval + rand.nextInt(8, 16);  // y pos for next ledge
+			var distance = interval + rand.nextInt(8, 14);  // y pos for next ledge
 			level.add(LedgePeice.create(0, distance, rand.nextInt(5, 8), "left"));
 			
 			interval = distance;
 
 		}
-	}
-
-	function findClosestIndex(ledge, ledges) {
-		var closest = 100000000;
-		var closestIndex = -1;	
-				
-		for(var j = 0; j < ledges.length; j++){
-			var otherLedge = ledges[j];
-
-			if (ledges[j] !== ledge && otherLedge.y > ledge.y) {
-				var dist = ledgeHelper.distanceBetween(ledge, otherLedge);
-
-				if(dist < closest){
-					closest = dist;
-					closestIndex = j;
-				}
-			}
-		}
-		return closestIndex;
 	}
 
 	/*
@@ -149,11 +130,12 @@ define(function(require){
 	 		// add a bridging ledge in between two ledges
 			level.ledges.forEach(function(ledge, i, ledges){
 	
-				var closestIndex = findClosestIndex(ledge, ledges);
+				var closestLedgeIndex = ledgeHelper.findClosestIndex(ledge, ledges);
 
-				if (closestIndex > -1) {
+				if (closestLedgeIndex > -1) {
 
-					var closestLedge = ledges[closestIndex];
+					var closestLedge = ledges[closestLedgeIndex];
+					// find the distances between the two ledges
 					var distanceX = Math.abs(ledgeHelper.getXDistance(ledge, closestLedge));
 					var distanceY = Math.abs(ledge.y - closestLedge.y);
 					
