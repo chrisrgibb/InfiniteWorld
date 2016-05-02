@@ -10,13 +10,16 @@ define(function(require){
 	*/
 	function addLeftLedges(y, mapDetails, rand, level) {
 		var interval = y;
+		var previousLedge = null;
 			// create left hand side ledges
 		while (interval < mapDetails.height) {
 			var distance = interval + rand.nextInt(8, 14);  // y pos for next ledge
-			level.add(LedgePeice.create(0, distance, rand.nextInt(5, 8), "left"));
-			
-			interval = distance;
+			var ledge = LedgePeice.create(0, distance, rand.nextInt(5, 8), "left");
+			ledge.aboveLedge = previousLedge;
 
+			level.add(ledge);
+			interval = distance;
+			previousLedge = ledge;
 		}
 	}
 
@@ -30,23 +33,26 @@ define(function(require){
 		}
 
 		var sizes = [5, 6, 6, 7, 5, 12];
-
+		var previousLedge = null;
 
  		var interval = y;
  		var rightLedges = [];
  		while (interval < mapDetails.height) {
 
- 			var width = rand.nextInt(5, 8);
- 			// var width = sizes[rand.nextInt(0, sizes.length-1)];
+ 			// var width = rand.nextInt(5, 8);
+ 			var width = sizes[rand.nextInt(0, sizes.length-1)];
  			var x = mapDetails.width - width;
 
  			var distance = interval + random(8, 16);  // y pos for next ledge
  			var ledge = LedgePeice.create(x, distance, width, "right");
 
  			var canPlace = ledgeHelper.canPlaceLedge(ledge, level.ledges);
+
  			// canPlace = true;
  			if (canPlace) {
+ 				ledge.aboveLedge = previousLedge;
 				level.add(ledge);
+				previousLedge = ledge;
  			} else {
  				// console.log("")
  			}
@@ -156,9 +162,7 @@ define(function(require){
 			mofos = level.ledges; // global var for testin
 			level.nearestLedges = ledgeHelper.computeNearest(level.ledges);
 
-			return {
-				ledges : level.ledges
-			};
+			return level;
 		}
 	};
 

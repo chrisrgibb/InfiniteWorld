@@ -1,7 +1,7 @@
 define(function(require) {	
 
 	var TileCreator = require('../helpers/tilecreater');
-	var SectionCreator = require('./ledgeplacer');
+	var LedgePlacer = require('./ledgeplacer');
 	var LedgePeice = require('./ledge');
 	var PlaceBoxes = require('./placeboxes');
 	var EnemyFactory = require('../../../game/enemies/enemyfactory');
@@ -32,16 +32,19 @@ define(function(require) {
 			var tilecreator = new TileCreator(mapDetails.height, mapDetails.width, 0, theme);
 			var tiles = tilecreator.getBlankMap(mapDetails.width, mapDetails.height).tiles;
 			
-			var sectioncreator = new SectionCreator(tiles);
-
+			// Place the ledges
+			var ledgeplacer = new LedgePlacer(tiles);
 	
-			// var ledges = CreateLedges(rand, tiles, mapDetails);
-			var ledges = sectioncreator.makeHeaps(rand, tiles, mapDetails);
-			ledges.ledges.forEach(sectioncreator.apply, sectioncreator);
-			PlaceBoxes.placeBoxes(ledges.ledges, tiles, rand);
+			var ledges = ledgeplacer.makeHeaps(rand, tiles, mapDetails).ledges;
+			// create ledges in the tile array
+			ledges.forEach(ledgeplacer.apply, ledgeplacer);
+
+
+			
+			PlaceBoxes.placeBoxes(ledges, tiles, rand);
 			
 			CreateSides(tiles, mapDetails.startAt);
-			var enemies = PlaceEnemies.placeEnemies(ledges.ledges, tiles, rand);
+			var enemies = PlaceEnemies.placeEnemies(ledges, tiles, rand);
 
 			return {
 				tiles : tiles,

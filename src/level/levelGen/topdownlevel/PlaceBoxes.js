@@ -9,7 +9,7 @@ define(function (require) {
 	function getRandomPoints(bb, rand){
 		var x1 = rand.nextInt(0, bb.width-1);
 		var y1 = rand.nextInt(0, bb.height-1);
-		var x2 = rand.nextInt(0, bb.width-1);
+		var x2 = rand.nextInt(x1, x1 + 3);
 		var y2 = rand.nextInt(0, bb.height-1);
 
 		var minX = Math.min(x1, x2);
@@ -65,14 +65,24 @@ define(function (require) {
 
 	}
 
-	function doSquare(bb, ledge, tiles){
+	function doSquare(bb, ledge, tiles, rand){
 		if(ledge.side === "left"){
+			var x = rand.nextInt(1, 4);
+
+
 			placeLine({
-				x0 : bb.width-2,
+				x0 : x,
 				y0 : 0,
-				x1 : bb.width-1,
+				x1 : x+1,
 				y1 : bb.height-2
 			}, bb, tiles);
+		} else {
+			placeLine({
+				x0:  bb.x,
+				y0 : bb.y,
+				x1 : bb.width-1,
+				y1 : bb.height-1
+			});
 		}
 	}
 
@@ -90,8 +100,16 @@ define(function (require) {
 						height : 4 
 					};
 					var randomLine = getRandomPoints(boundingBox, rand);
-					placeLine(randomLine, boundingBox, tiles);
-					// doSquare(boundingBox, ledge, tiles);
+					// straightRandom(boundingBox, ledge, tiles, rand);
+					// placeLine(randomLine, boundingBox, tiles);
+					// doSquare(boundingBox, ledge, tiles, rand);
+					for(var i = ledge.x; i < ledge.x + ledge.width-1; i++){
+						if(rand.nextInt(0, 10) < 1 && tiles[boundingBox.y] ) {
+							tiles[boundingBox.y][i] = 11;
+						}
+						
+					}
+
 
 				}	
 				// place box on it
