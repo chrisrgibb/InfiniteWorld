@@ -2,6 +2,7 @@ define(function(require) {
 
 	var TileCreator = require('../helpers/tilecreater');
 	var LedgePlacer = require('./ledgeplacer');
+	var LedgePlacer2 = require('./ledgeplacer2');
 	var LedgePeice = require('./ledge');
 	var PlaceBoxes = require('./placeboxes');
 	var EnemyFactory = require('../../../game/enemies/enemyfactory');
@@ -18,6 +19,44 @@ define(function(require) {
 		}
 	}
 
+	function createBlankMap(mapDetails, theme) {
+		var tilecreator = new TileCreator(mapDetails.height, mapDetails.width, 0, theme);
+		var tiles = tilecreator.getBlankMap(mapDetails.width, mapDetails.height).tiles;
+		return tiles;
+	}
+
+
+	function versionOne(rand, tiles, theme, mapDetails) {
+		// Place the ledges
+		var ledgeplacer = new LedgePlacer(tiles); 
+		var ledges = ledgeplacer.makeHeaps(rand, tiles, mapDetails).ledges;
+		ledges.forEach(ledgeplacer.apply, ledgeplacer);
+
+		PlaceBoxes.placeBoxes(ledges, tiles, rand);
+			
+		var enemies = PlaceEnemies.placeEnemies(ledges, tiles, rand);
+
+		return {
+			tiles : tiles,
+			backgroundColor : theme.background,
+			direction : 1, // 0 for LR, 1 for topdown, 2 for RL, 3 for anything
+			enemies: enemies
+		};
+	}
+
+	function versionTwo(rand, tiles, theme, mapDetails) {
+		// Place the ledges
+		var ledges2 = LedgePlacer2.makeLedges(tiles,rand);
+
+
+		
+		return {
+			tiles : tiles,
+			backgroundColor : theme.background,
+			direction : 1 // 0
+		}
+	}
+
 	return {
 		buildMap : function(theme, options, randomgenerator){
 
@@ -29,29 +68,13 @@ define(function(require) {
 				height :rand.nextInt(80, 100)
 			};
 
-			var tilecreator = new TileCreator(mapDetails.height, mapDetails.width, 0, theme);
-			var tiles = tilecreator.getBlankMap(mapDetails.width, mapDetails.height).tiles;
-			
-			// Place the ledges
-			var ledgeplacer = new LedgePlacer(tiles);
-	
-			var ledges = ledgeplacer.makeHeaps(rand, tiles, mapDetails).ledges;
-			// create ledges in the tile array
-			ledges.forEach(ledgeplacer.apply, ledgeplacer);
-
-
-			
-			PlaceBoxes.placeBoxes(ledges, tiles, rand);
+			var tiles = createBlankMap(mapDetails, theme);
 			
 			CreateSides(tiles, mapDetails.startAt);
-			var enemies = PlaceEnemies.placeEnemies(ledges, tiles, rand);
+			return versionTwo(rand, tiles, theme, mapDetails);
 
-			return {
-				tiles : tiles,
-				backgroundColor : theme.background,
-				direction : 1, // 0 for LR, 1 for topdown, 2 for RL, 3 for anything
-				enemies: enemies
-			};
+			return versionOne(rand, tiles, theme, mapDetails);
+
 		}	
 	};
 });

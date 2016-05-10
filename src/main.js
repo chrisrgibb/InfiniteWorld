@@ -44,5 +44,13 @@ define([ './game/Game','./extras/Debugger', './graphics/requestanimationframe'] 
 		Game.init();
 	});
 
+	document.getElementById('randomLevel').addEventListener('click', function(){
+		var randomNumber = Math.random() * 100000 | 0;
+		randomSeedValueBox.value = randomNumber;
+		localStorage['infinite.alexkidd.randomSeed'] = randomNumber;
+		Game.init();
+
+	})
+
 	
 });
