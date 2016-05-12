@@ -36,6 +36,7 @@ define(function(require) {
 			
 		var enemies = PlaceEnemies.placeEnemies(ledges, tiles, rand);
 
+		CreateSides(tiles, mapDetails.startAt);
 		return {
 			tiles : tiles,
 			backgroundColor : theme.background,
@@ -46,8 +47,9 @@ define(function(require) {
 
 	function versionTwo(rand, tiles, theme, mapDetails) {
 		// Place the ledges
-		var ledges2 = LedgePlacer2.makeLedges(tiles,rand);
+		var ledges2 = LedgePlacer2.makeLedges(tiles,rand, theme, mapDetails);
 
+		CreateSides(tiles, mapDetails.startAt);
 
 		
 		return {
@@ -58,7 +60,7 @@ define(function(require) {
 	}
 
 	return {
-		buildMap : function(theme, options, randomgenerator){
+		buildMap : function(theme, seed, options, randomgenerator){
 
 			var rand = randomgenerator;
 
@@ -70,10 +72,15 @@ define(function(require) {
 
 			var tiles = createBlankMap(mapDetails, theme);
 			
-			CreateSides(tiles, mapDetails.startAt);
-			return versionTwo(rand, tiles, theme, mapDetails);
+			try {
+				return versionTwo(rand, tiles, theme, mapDetails);
 
-			return versionOne(rand, tiles, theme, mapDetails);
+				return versionOne(rand, tiles, theme, mapDetails);
+			} catch(e) {
+				console.error("error with seed " + seed);
+				debugger;
+			}
+			
 
 		}	
 	};
