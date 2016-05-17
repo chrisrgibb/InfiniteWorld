@@ -78,7 +78,7 @@ define(function(){
 		var closest = 100000000;
 		var closestIndex = -1;	
 				
-		for(var j = 0; j < ledges.length; j++){
+		for(var j = 0; j < ledges.length; j++) {
 			var otherLedge = ledges[j];
 
 			if (ledges[j] !== ledge && otherLedge.y > ledge.y) {
@@ -98,6 +98,37 @@ define(function(){
 		getXDistance : getXDistance,
 
 		distanceBetween : distanceBetween,
+
+		/*
+		* takes two arrays of 3 x,y coords representing a triangle
+		* and returns the two closest points in those triangles and the distances between them
+		*  
+		*/
+		distanceBetween : function (ledge1, ledge2) {
+			// get closest points
+			var closest1, closest2;
+			var closestDistance;
+
+			for(var i = 0; i < ledge1.length; i++) {
+				for(var j = 0; j < ledge2.length; j++) {
+					var p1 = ledge1[i];
+					var p2 = ledge2[j];
+					var distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+					if(closestDistance == null) {
+						closestDistance = distance;
+					} else if(distance < closestDistance) {
+						closest1 = p1;
+						closest2 = p2;
+						closestDistance = distance;
+					}
+				}
+			}
+			return {
+				p1 : closest1,
+				p2 : closest2,
+				distance : closestDistance
+			};
+		},
 		
 		findClosestIndex : findClosestIndex,
 

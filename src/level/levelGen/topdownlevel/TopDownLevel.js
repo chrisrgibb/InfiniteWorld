@@ -25,7 +25,6 @@ define(function(require) {
 		return tiles;
 	}
 
-
 	function versionOne(rand, tiles, theme, mapDetails) {
 		// Place the ledges
 		var ledgeplacer = new LedgePlacer(tiles); 
@@ -51,12 +50,15 @@ define(function(require) {
 
 		CreateSides(tiles, mapDetails.startAt);
 
+		var enemies = PlaceEnemies.placeEnemies(ledges2, tiles, rand);
+
 		
 		return {
 			tiles : tiles,
 			backgroundColor : theme.background,
-			direction : 1 // 0
-		}
+			direction : 1, // 0
+			enemies : enemies
+		};
 	}
 
 	return {
@@ -78,7 +80,9 @@ define(function(require) {
 				return versionOne(rand, tiles, theme, mapDetails);
 			} catch(e) {
 				console.error("error with seed " + seed);
-				debugger;
+				console.error(e.stack);
+				document.getElementById('stacktrace').innerText = e.stack;
+				// debugger;
 			}
 			
 
