@@ -1,5 +1,4 @@
 define(function (require) {
-	var ledgeHelper = require('./ledgedistancehelper');
 	var Block = require('../../block');
 
 

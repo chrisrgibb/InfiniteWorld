@@ -1,7 +1,6 @@
 define(function(require) {	
 
 	var TileCreator = require('../helpers/tilecreater');
-	var LedgePlacer = require('./ledgeplacer');
 	var LedgePlacer2 = require('./ledgeplacer2');
 	var LedgePeice = require('./ledge');
 	var PlaceBoxes = require('./placeboxes');
@@ -77,7 +76,7 @@ define(function(require) {
 			try {
 				return versionTwo(rand, tiles, theme, mapDetails);
 
-				return versionOne(rand, tiles, theme, mapDetails);
+				// return versionOne(rand, tiles, theme, mapDetails);
 			} catch(e) {
 				console.error("error with seed " + seed);
 				console.error(e.stack);

@@ -1,6 +1,4 @@
 define(function(require){ 
-
-	var ledgeHelper = require('./ledgedistancehelper'); 
 	var createLedge = require('./ledge2').create;
 	var applyLedge = require('./utils').applyLedge;
 
@@ -78,8 +76,6 @@ define(function(require){
 		ledges.forEach(function(l) {
 			applyLedge(l, tiles);
 		});
-
-		var ld = ledgeHelper.findClosestIndex(ledges[3], ledges);
 
 		return ledges.concat(rightLedges);
 	}
