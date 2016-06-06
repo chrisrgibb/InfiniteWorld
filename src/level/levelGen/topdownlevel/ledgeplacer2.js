@@ -94,24 +94,26 @@ define(function(require){
 
 
 
-			var m = createLedge(6, 13, 3, "middle");
-			var p = createLedge(1, 10, 5, "left"); // 5, 10 
-			var q = createLedge(9, 9, 7, "right"); // 7, 9
+			var m = createLedge(6, 13, 2, "middle");
+			var p = createLedge(1, 10, 4, "left"); // 5, 10 
+			var q = createLedge(10, 9, 6, "right"); // 7, 9
 
 			applyLedge(m, tiles);
 			applyLedge(p, tiles);
 			applyLedge(q, tiles);
 
 
+			// var s = createLedge(7, 20, 7, "middle" );
+			// var z = createLedge(2, 15, 8, "middle" );
+
+			// applyLedge(s, tiles);
+			// applyLedge(z, tiles);
 
 			var ledges = createRandomLedges(mapDetails, rand);
 
-			var h = ledges['left'][3];
+			var le = this.placeLedges(ledges, tiles, 3, rand);
 
-			this.placeLedges(ledges, tiles, 10, rand);
-
-			// return [m , q, p];
-			return createLedgesv1(applyLedge, mapDetails, rand, tiles);
+			return [];	
 		},
 
 		placeLedges : function(ledges, tiles, n, rand) {
@@ -121,23 +123,44 @@ define(function(require){
 
 			function getRandomLedge(rand) {
 				var side = sides[rand.nextInt(3)];
-				var index = rand.nextInt(0, ledges[side].length);
+				var index = rand.nextInt(0, ledges[side].length-1);
 				var ledgeToPlace = ledges[side][index];
 				return ledgeToPlace;
 			}
 
 			for(var i = 0; i < n; i++){
 				// choose side to place (left, right, or middle)
-				var g = getRandomLedge(rand);
+				var ledge = getRandomLedge(rand);
 				// make sure it hasn't been placed yet
-				if(placedLedges.indexOf(g) > 0){
+				if(placedLedges.indexOf(ledge) === -1){
 					// try place it
+					var x = 0;
+					if(ledge == null) {
+						debugger;
+					}
+					if (ledge.side === 'middle') {
+						x = 3 + rand.nextInt(0, 4);
+					} else if( ledge.side === 'right') {
+						x = 9;
+					}
+					var y = rand.nextInt(10, 70);
+
+					ledge.v1.x += x;
+					ledge.v2.x += x;
+					ledge.v3.x += x;
+					ledge.v1.y += y;
+					ledge.v2.y += y;
+					ledge.v3.y += y;
+
+					applyLedge(ledge, tiles);
 					
+					placedLedges.push(ledge);
 				} 
 				
 				// make sure it isn't too close to another ledge or touching
-
+				
 			}
+			return placedLedges;	
 		}
 	};
 	

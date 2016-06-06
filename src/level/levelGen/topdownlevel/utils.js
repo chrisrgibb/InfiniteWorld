@@ -14,8 +14,8 @@ define(function(argument) {
 
 				// is it the top of the ledge? then draw a green block
 				var isTop = y == ledge.v2.y+1;
-				var start = Math.floor(x1);
-				var end = Math.floor(x2);
+				var start = Math.round(x1);
+				var end = Math.round(x2);
 
 				for (var x = start; x < end; x++) {
 					tiles[y][x] = isTop ? 2 : 5;
@@ -27,6 +27,12 @@ define(function(argument) {
 				if(slope2 !== 0) {
 					// add a sloped piece on the right;
 					tiles[y][end] = isTop? 3 : 6;
+					
+					// make sure the slope is smooth and we don't get two edge peices on top of each other
+					if(tiles[y+1][end] === tiles[y][end]) {
+						tiles[y][end] = isTop ? 2 : 5;
+					}
+
 				}
 			}
 		},

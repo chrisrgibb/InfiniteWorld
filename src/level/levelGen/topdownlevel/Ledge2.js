@@ -7,6 +7,8 @@ define(function(require){
 		*/
 		create : function(x, y, width, direction) {
  	
+ 			// function to work out the x co-ordinate of the bottom vertice 
+ 			// of a ledge that is a symetrical or "middle" ledge
 			var xcalc = {
 				"left" : function(x, width) {
 					return x;
@@ -15,7 +17,7 @@ define(function(require){
 					return x + width - 1;
 				},
 				"middle" : function(x, width) {
-					return Math.floor((x + width) / 2) + 1;
+					return Math.floor(x + (width / 2));
 				}
 			};
 
@@ -27,7 +29,7 @@ define(function(require){
 					return y + 4;
 				},
 				"middle" : function(y, width) {
-					return y + Math.ceil(width / 3);
+					return y + Math.floor(width / 3);
 				}
 	 		};
 	 		// creates a triangle v3 is the bottom vertex
@@ -40,7 +42,7 @@ define(function(require){
 				y : y
 			};
 			var v2 = {
-				x : x + width-1,
+				x : x + width,
 				y : y
 			};
 			var v3 = {
@@ -53,7 +55,8 @@ define(function(require){
 				v1 : v1,
 				v2 : v2,
 				v3 : v3,
-				side : direction
+				side : direction,
+				width : width
 			};
 		}
 	};

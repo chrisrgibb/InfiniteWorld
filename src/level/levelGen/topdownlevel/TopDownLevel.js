@@ -2,7 +2,6 @@ define(function(require) {
 
 	var TileCreator = require('../helpers/tilecreater');
 	var LedgePlacer2 = require('./ledgeplacer2');
-	var LedgePeice = require('./ledge');
 	var PlaceBoxes = require('./placeboxes');
 	var EnemyFactory = require('../../../game/enemies/enemyfactory');
 	var PlaceEnemies = require('./placeenemies');
@@ -24,25 +23,6 @@ define(function(require) {
 		return tiles;
 	}
 
-	function versionOne(rand, tiles, theme, mapDetails) {
-		// Place the ledges
-		var ledgeplacer = new LedgePlacer(tiles); 
-		var ledges = ledgeplacer.makeHeaps(rand, tiles, mapDetails).ledges;
-		ledges.forEach(ledgeplacer.apply, ledgeplacer);
-
-		PlaceBoxes.placeBoxes(ledges, tiles, rand);
-			
-		var enemies = PlaceEnemies.placeEnemies(ledges, tiles, rand);
-
-		CreateSides(tiles, mapDetails.startAt);
-		return {
-			tiles : tiles,
-			backgroundColor : theme.background,
-			direction : 1, // 0 for LR, 1 for topdown, 2 for RL, 3 for anything
-			enemies: enemies
-		};
-	}
-
 	function versionTwo(rand, tiles, theme, mapDetails) {
 		// Place the ledges
 		var ledges2 = LedgePlacer2.makeLedges(tiles,rand, theme, mapDetails);
@@ -51,7 +31,6 @@ define(function(require) {
 
 		var enemies = PlaceEnemies.placeEnemies(ledges2, tiles, rand);
 
-		
 		return {
 			tiles : tiles,
 			backgroundColor : theme.background,
@@ -75,8 +54,6 @@ define(function(require) {
 			
 			try {
 				return versionTwo(rand, tiles, theme, mapDetails);
-
-				// return versionOne(rand, tiles, theme, mapDetails);
 			} catch(e) {
 				console.error("error with seed " + seed);
 				console.error(e.stack);
