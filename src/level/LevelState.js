@@ -62,7 +62,7 @@ define(function(require){
 				this.map = LevelGen.createNewMap({				
 					isRandom : isRandom, 
 					seedvalue : seedValue 
-				});
+				}).map;
 			} else {
 				this.map = new MapCreater().createMap();
 			}

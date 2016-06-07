@@ -13,12 +13,13 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 	*/
 	function updateLevel(){
 		// var direction = 
-
-		map = levelGenerator.createNewMap({ 
+		var generatedLevel = levelGenerator.createNewMap({ 
 			isRandom : true, 
 			seedvalue : options.seedValue,
 			direction : options.direction
 		});
+
+		map = generatedLevel.map;
 
 		tiles = map.tiles;
 

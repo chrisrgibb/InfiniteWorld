@@ -26,7 +26,10 @@ define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections
 		var seconds = (end - start) / 1000;
 		console.log("took " + seconds + " seconds to generate");
 		
-		return map;
+		return {
+			map : map,
+			levelData : levelData
+		};
 	}
 
 	/**

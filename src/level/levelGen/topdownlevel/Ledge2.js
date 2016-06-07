@@ -14,7 +14,7 @@ define(function(require){
 					return x;
 				},
 				"right" : function(x, width) {
-					return x + width - 1;
+					return x + width;
 				},
 				"middle" : function(x, width) {
 					return Math.floor(x + (width / 2));

@@ -49,8 +49,7 @@ define([ './game/Game','./extras/Debugger', './graphics/requestanimationframe'] 
 		randomSeedValueBox.value = randomNumber;
 		localStorage['infinite.alexkidd.randomSeed'] = randomNumber;
 		Game.init();
-
-	})
+	});
 
 	
 });

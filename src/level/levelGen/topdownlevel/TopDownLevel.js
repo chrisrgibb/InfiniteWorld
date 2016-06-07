@@ -35,7 +35,8 @@ define(function(require) {
 			tiles : tiles,
 			backgroundColor : theme.background,
 			direction : 1, // 0
-			enemies : enemies
+			enemies : enemies,
+			ledges : ledges2
 		};
 	}
 

@@ -2,45 +2,6 @@ define(function(require){
 	var createLedge = require('./ledge2').create;
 	var applyLedge = require('./utils').applyLedge;
 
-	function addLeftLedges(y, mapDetails, rand, level) {
-		var interval = y;
-		var previousLedge = null;
-		var ledges = [];
-			// create left hand side ledges
-
-		while (interval < mapDetails.height - 20) {
-			var distance = interval + rand.nextInt(8, 14);  // y pos for next ledge
-
-			var ledge = createLedge(0, distance, rand.nextInt(5, 8), "left");
-
-			interval = distance;
-			if(ledge.v3.y < mapDetails.height) {
-				previousLedge = ledge;
-				ledges.push(ledge);
-			}			
-		}
-		return ledges;
-	}
-	// x, width = rand.nextInt
-
-	function addRightLedges(y, mapDetails, rand, level) {
-		var interval = y;
- 		var rightLedges = [];
- 		while (interval < mapDetails.height) {
- 			var width = rand.nextInt(5, 8);
- 			var x = mapDetails.width - width;
-
- 			var distance = interval + rand.nextInt(8, 16);  // y pos for next ledge
-
- 			var ledge = createLedge(x, distance, width, "right");
- 			if(ledge.v3.y < mapDetails.height){
-				rightLedges.push(ledge);
- 			}
- 			interval = distance;
- 		}
- 		return rightLedges;
-	}
-
 	// need to create random ledges that aren't coupled to an x and y position, that we can specify later
 	function createRandomLedges(mapDetails, rand, N){
 		var ledges = {
@@ -65,20 +26,6 @@ define(function(require){
 		return ledges;
 	}
 
-	function createLedgesv1(applyLedge, mapDetails, rand, tiles) {
-		var ledges = addLeftLedges(10, mapDetails, rand);
-		var rightLedges = addRightLedges(10, mapDetails, rand);
-
-		rightLedges.forEach(function(l) {
-			applyLedge(l, tiles);
-		});
-
-		ledges.forEach(function(l) {
-			applyLedge(l, tiles);
-		});
-
-		return ledges.concat(rightLedges);
-	}
 
 	return {
 		makeLedges : function(tiles, rand, theme, mapDetails){
@@ -94,26 +41,26 @@ define(function(require){
 
 
 
-			var m = createLedge(6, 13, 2, "middle");
-			var p = createLedge(1, 10, 4, "left"); // 5, 10 
-			var q = createLedge(10, 9, 6, "right"); // 7, 9
+			// var m = createLedge(6, 13, 2, "middle");
+			// var p = createLedge(1, 10, 4, "left"); // 5, 10 
+			// var q = createLedge(10, 9, 6, "right"); // 7, 9
 
-			applyLedge(m, tiles);
-			applyLedge(p, tiles);
-			applyLedge(q, tiles);
+			// applyLedge(m, tiles);
+			// applyLedge(p, tiles);
+			// applyLedge(q, tiles);
 
 
-			// var s = createLedge(7, 20, 7, "middle" );
-			// var z = createLedge(2, 15, 8, "middle" );
+			var s = createLedge(10, 20, 5, "right" );
+			var z = createLedge(2, 15, 8, "middle" );
 
-			// applyLedge(s, tiles);
-			// applyLedge(z, tiles);
+			applyLedge(s, tiles);
+			applyLedge(z, tiles);
 
 			var ledges = createRandomLedges(mapDetails, rand);
 
 			var le = this.placeLedges(ledges, tiles, 3, rand);
 
-			return [];	
+			return [];//[m, p, q];	
 		},
 
 		placeLedges : function(ledges, tiles, n, rand) {
@@ -141,7 +88,7 @@ define(function(require){
 					if (ledge.side === 'middle') {
 						x = 3 + rand.nextInt(0, 4);
 					} else if( ledge.side === 'right') {
-						x = 9;
+						x = 10;
 					}
 					var y = rand.nextInt(10, 70);
 
@@ -151,6 +98,9 @@ define(function(require){
 					ledge.v1.y += y;
 					ledge.v2.y += y;
 					ledge.v3.y += y;
+
+					ledge.x = ledge.v1.x;
+					ledge.y = ledge.v2.y;
 
 					applyLedge(ledge, tiles);
 					
