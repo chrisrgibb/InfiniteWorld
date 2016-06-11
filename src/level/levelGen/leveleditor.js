@@ -16,7 +16,8 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 		var generatedLevel = levelGenerator.createNewMap({ 
 			isRandom : true, 
 			seedvalue : options.seedValue,
-			direction : options.direction
+			direction : options.direction,
+			numberOfPlatforms : 3
 		});
 
 		map = generatedLevel.map;

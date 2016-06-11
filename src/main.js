@@ -12,7 +12,9 @@ var WIDTH,
 var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
 
 
-define([ './game/Game','./extras/Debugger', './graphics/requestanimationframe'] ,function(Game, Debugger){
+define([ './game/Game','./extras/Debugger', './graphics/requestanimationframe'] ,
+	
+	function(Game, Debugger){
 	
 	function init(){
 
