@@ -49,10 +49,10 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 				CONSTANTS.WIDTH = canvas.width;
 				CONSTANTS.HEIGHT = canvas.height;
 				// TODO use function below to scale
-				if(!haveScaled){
+				if(!CONSTANTS.haveScaled){
 					var scale = CONSTANTS.scale;
 					ctx.scale(scale, scale);
-					haveScaled =true;
+					CONSTANTS.haveScaled =true;
 				}	
 			}
 		},

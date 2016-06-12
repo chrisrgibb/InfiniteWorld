@@ -12,7 +12,13 @@ requirejs.config({
     }
 });
 
-require(['main', 'hbs!UI/templates/controlpanel'], function (main, templo) {
+// global variables whoop
+var	CONSTANTS = {
+		scale : 2,
+		haveScaled : false
+	};
+
+require(['main', 'hbs!UI/templates/controlpanel', 'UI/UI'], function (main, templo) {
 
 	document.getElementById('cp2').innerHTML = templo();
 
