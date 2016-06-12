@@ -1,10 +1,7 @@
-// global variables whoop
 
 
-var	CONSTANTS = {
-		scale : 2,
-		haveScaled : false
-	};
+
+
 
 define([ './game/Game','./extras/Debugger', './graphics/requestanimationframe'],
 function(Game, Debugger){
