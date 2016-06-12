@@ -13,7 +13,7 @@ module.exports = function(grunt) {
                  options: {
                     baseUrl: "./src",
                     mainConfigFile: 'build.js',
-                    out: 'dist/main-built.js',
+                    out: 'main-built.js',
                     name: 'app',
                     paths: {
                         hbs : '../node_modules/require-handlebars-plugin/hbs'

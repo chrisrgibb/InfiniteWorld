@@ -9,6 +9,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 		dt : 0,
 		step : 1000/ 60,
 		throttle : false,
+		COUNTER : 0,
 
 
 		/**
@@ -58,9 +59,9 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 
 		update : function(){
-			COUNTER++;
-			if(COUNTER>23){
-				COUNTER=0;
+			Game.COUNTER++;
+			if(Game.COUNTER>23){
+				Game.COUNTER=0;
 			}
 			this.levelState.update();
 			this.player.update(this.levelState);
@@ -81,14 +82,14 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 					Game.then = now - (delta % Game.step);
 					Game.update();
-					Game.tick = COUNTER;
+					Game.tick = Game.COUNTER;
 			
 				}
 			} else {
 				Game.update();
 			}
 		
-			Game.draw(COUNTER);
+			Game.draw(Game.COUNTER);
 			
 			Game.running = true;
 		},
