@@ -18,19 +18,11 @@ var	CONSTANTS = {
 		haveScaled : false
 	};
 
-require(['main', 'hbs!UI/templates/controlpanel', 'UI/UI'], function (main, templo) {
+require(['hbs!UI/templates/controlpanel', 'UI/UI'], function (templo, UI) {
 
 	document.getElementById('cp2').innerHTML = templo();
-
-	document.getElementById('start-button').addEventListener('click', function(){
-		// startGame();
-		Game.startGame();
-	});	
-
-	main.init();
-	main.addEventListeners();
-
-	Game.startGame();
+    
+	UI.init();
 
 });
 

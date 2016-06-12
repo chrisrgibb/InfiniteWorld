@@ -67,10 +67,9 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 			this.player.update(this.levelState);
 		},
 
-		/*
+		/**
 		* Main game loop
 		*/
-
 		run : function(){
 			requestAnimationFrame(Game.run);	
 			
