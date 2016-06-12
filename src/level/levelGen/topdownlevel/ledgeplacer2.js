@@ -37,6 +37,8 @@ define(function(require){
 			// 7 = 3
 			// 8 = 3
 
+			var numLedges = mapDetails.numberOfPlatforms || 40;
+
 			var ledges = [];
 
 
@@ -56,9 +58,9 @@ define(function(require){
 			applyLedge(s, tiles);
 			applyLedge(z, tiles);
 
-			var ledges = createRandomLedges(mapDetails, rand);
+			ledges = createRandomLedges(mapDetails, rand);
 
-			var le = this.placeLedges(ledges, tiles, 3, rand);
+			var le = this.placeLedges(ledges, tiles, numLedges, rand);
 
 			return [];//[m, p, q];	
 		},
@@ -83,7 +85,7 @@ define(function(require){
 					// try place it
 					var x = 0;
 					if(ledge == null) {
-						debugger;
+						throw Error;
 					}
 					if (ledge.side === 'middle') {
 						x = 3 + rand.nextInt(0, 4);

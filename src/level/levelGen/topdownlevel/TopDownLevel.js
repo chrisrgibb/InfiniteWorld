@@ -10,7 +10,7 @@ define(function(require) {
 	// travel down map creating platforms
 
 	var settings = {
-		numberOfPlatforms : 3
+		numberOfPlatforms : 12
 	};
 
 

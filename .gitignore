@@ -7,3 +7,4 @@ app.js
 *.psd
 notes.txt
 main-built.js
+dist/
