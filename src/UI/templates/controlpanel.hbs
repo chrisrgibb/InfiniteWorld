@@ -1,6 +1,6 @@
 <input type="checkbox" id="checkbox-isRandom">Generate Random Level
 <br>
-<input type="range" id="range" name="points" min="1" max="100">
-<input type="number" id="randomSeed" min="0" max = "1000000">
+{{> UI/templates/randomseed seed }}
+{{> UI/templates/leveltype direction}}
 <button id="buttongo">Go</button>
 <button id="randomLevel">Random Level</button>

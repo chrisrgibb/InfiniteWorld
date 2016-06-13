@@ -1,20 +1,21 @@
-define(['./eventhandlers', './controlpanel', '../game/Game', '../extras/debugger'],function(handlers, controlPanel, Game, Debugger){
-    /**
-    * A module representing a shirt.
-    * @exports my/shirt
-    */
+/**
+* The UI for the game
+*/
+define(function(require) {
+
+    var handlers = require('./eventhandlers');
+    var controlPanel = require('./controlPanel');
+    var Game = require('../game/Game');
+    var Debugger = require('../extras/debugger');
+
     
     // 
     // Seed int  range slider and number input
     // horizontal or vertical boolean
     // generate random level
-    /**
-     * DO SOM THISE
-     */
     return {
         /** 
          *  Sets up the eventhandlers and starts the Game
-         *  
         */
         init : function () {
             window.debug = new Debugger();
@@ -25,5 +26,4 @@ define(['./eventhandlers', './controlpanel', '../game/Game', '../extras/debugger
             Game.startGame();
         }
     };
-
 });

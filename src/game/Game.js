@@ -69,6 +69,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 		/**
 		* Main game loop
+		* handles the drawing and updates the game
 		*/
 		run : function(){
 			requestAnimationFrame(Game.run);	
@@ -126,7 +127,9 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 				}
 			}
 		},
-
+		/**
+		 * 
+		 */
 		startGame : function(){
 			this.init();
 

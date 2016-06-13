@@ -1,5 +1,5 @@
 requirejs.config({
-    //By default load any module IDs from js/lib
+    //By default load any module IDs from src
     baseUrl: 'src',
     //except, if the module ID starts with "app",
     //load it from the js/app directory. paths
@@ -18,10 +18,13 @@ var	CONSTANTS = {
 		haveScaled : false
 	};
 
+/// reference requirejs.d.ts
 require(['hbs!UI/templates/controlpanel', 'UI/UI'], function (templo, UI) {
 
-	document.getElementById('cp2').innerHTML = templo();
-    
+	// document.getElementById('cp2').innerHTML = templo();
+    /**
+     * start the UI and the game
+     */
 	UI.init();
 
 });

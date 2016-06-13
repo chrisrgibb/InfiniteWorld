@@ -1,6 +1,9 @@
 define(function(){
 
     return  {
+		/**
+		 * STOP LYING!!!
+		 */
         init : function() {
 
 			document.getElementById('start-button').addEventListener('click', function(){
@@ -10,7 +13,10 @@ define(function(){
 
             var rangeSlider = document.getElementById('range');
 			rangeSlider.addEventListener('change', function(){
-				init(rangeSlider.value);
+				localStorage['infinite.alexkidd.randomSeed'] = this.value;
+				document.getElementById('randomSeed').value = rangeSlider.value;
+				Game.init();
+
 			});
 
 			var checkbox = document.getElementById('checkbox-isRandom');
@@ -33,6 +39,15 @@ define(function(){
 				randomSeedValueBox.value = randomNumber;
 				localStorage['infinite.alexkidd.randomSeed'] = randomNumber;
 				Game.init();
+			});
+
+			var directionToggle = document.getElementById('select-direction');
+			directionToggle.value = localStorage["infinite.alexkidd.direction"] === "1" ?  "vertical" : "horizontal";
+			// directionToggle.value = LocalStorageAdapter.get('direction') === "1" ? "vertical" : "horizontal";
+			
+			directionToggle.addEventListener('change', function(){
+				options.direction = this.value === "vertical" ? 1 : 0;
+			// 	LocalStorageAdapter.update('direction', options.direction);
 			});
         }
     };
