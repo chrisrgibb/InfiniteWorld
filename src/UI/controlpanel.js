@@ -19,15 +19,5 @@ define(function(reqsuire) {
         }
     }
 
-    var seed = {
-        name : 'seed',
-        type : 'number',
-        min : 0,
-        max : 200000
-    };
-
-    var s = randomSeedTemplate(seed);
-
     document.getElementById('cp2').innerHTML = controlpanelTemplate(config);
-
 });

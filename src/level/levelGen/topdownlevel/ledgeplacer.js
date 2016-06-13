@@ -1,5 +1,5 @@
 define(function(require){ 
-	var createLedge = require('./ledge2').create;
+	var createLedge = require('./ledge').create;
 	var applyLedge = require('./utils').applyLedge;
 
 	// need to create random ledges that aren't coupled to an x and y position, that we can specify later
@@ -85,8 +85,10 @@ define(function(require){
 					// try place it
 					var x = 0;
 					if(ledge == null) {
-						throw Error;
+						throw Error("ledge " + placedLedges.indexOf(ledge) + "cannot be null") ;
 					}
+
+
 					if (ledge.side === 'middle') {
 						x = 3 + rand.nextInt(0, 4);
 					} else if( ledge.side === 'right') {

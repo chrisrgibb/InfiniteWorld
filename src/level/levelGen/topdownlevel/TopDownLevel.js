@@ -1,7 +1,7 @@
 define(function(require) {	
 
 	var TileCreator = require('../helpers/tilecreater');
-	var LedgePlacer2 = require('./ledgeplacer2');
+	var LedgePlacer = require('./ledgeplacer');
 	var PlaceBoxes = require('./placeboxes');
 	var EnemyFactory = require('../../../game/enemies/enemyfactory');
 	var PlaceEnemies = require('./placeenemies');
@@ -34,7 +34,7 @@ define(function(require) {
 
 	function versionTwo(rand, tiles, theme, mapDetails) {
 		// Place the ledges
-		var ledges2 = LedgePlacer2.makeLedges(tiles,rand, theme, mapDetails);
+		var ledges2 = LedgePlacer.makeLedges(tiles,rand, theme, mapDetails);
 
 		CreateSides(tiles, mapDetails.startAt);
 
