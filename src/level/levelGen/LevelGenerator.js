@@ -16,12 +16,13 @@ define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections
 
 		// random seed used to calculate everything from
 		var seedValue = parseInt(mapOptions.seedvalue),
-			rand = new Random(seedValue);
+			rand = new Random(seedValue),
+			direction = mapOptions.direction || (parseInt(localStorage['infinite.alexkidd.direction']) || 0);
 
 		var start = Date.now();
 		
 		// this is where we create the level
-		var levelData = buildMap(Options.theme, seedValue, parseInt(localStorage['infinite.alexkidd.direction']) || 0, rand),
+		var levelData = buildMap(Options.theme, seedValue, direction, rand),
 			map = new Map(levelData);
 
 		var end = Date.now();

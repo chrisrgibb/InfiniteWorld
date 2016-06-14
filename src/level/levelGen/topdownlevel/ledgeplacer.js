@@ -27,6 +27,14 @@ define(function(require){
 	}
 
 
+	function tryPlaceLedge(ledge) {
+		var x = 0;
+		// clone ledge
+		//try find place to put it
+
+
+	}
+
 	return {
 		makeLedges : function(tiles, rand, theme, mapDetails){
 			// make start ledge

@@ -19,9 +19,8 @@ var	CONSTANTS = {
 	};
 
 /// reference requirejs.d.ts
-require(['hbs!UI/templates/controlpanel', 'UI/UI'], function (templo, UI) {
+require(['UI/UI'], function (UI) {
 
-	// document.getElementById('cp2').innerHTML = templo();
     /**
      * start the UI and the game
      */

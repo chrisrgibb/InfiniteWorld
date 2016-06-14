@@ -11,6 +11,17 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 		throttle : false,
 		COUNTER : 0,
 
+		/**
+		 * start the game 
+		 */
+		startGame : function(options){
+			this.init(options);
+
+			if(!this.running){
+				this.run();
+			}
+		},
+
 
 		/**
 			Main draw function
@@ -24,8 +35,10 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 			debug.render(this.player.ctx);
 			// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
 		},
-
-		init : function(ctx){
+		/***
+		 * Initialize everything
+		 */
+		init : function(options){
 			controls.init();
 			initCanvas();
 
@@ -36,7 +49,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 			this.levelState = LevelState;
 
-			this.levelState.init();
+			this.levelState.init(options);
 
 			this.levelRenderer = LevelRenderer;
 			this.objectRenderer = ObjectRenderer;
@@ -125,16 +138,6 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 						}
 					}
 				}
-			}
-		},
-		/**
-		 * 
-		 */
-		startGame : function(){
-			this.init();
-
-			if(!this.running){
-				this.run();
 			}
 		},
 		

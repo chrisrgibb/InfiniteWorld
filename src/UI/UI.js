@@ -7,6 +7,14 @@ define(function(require) {
     var controlPanel = require('./controlPanel');
     var Game = require('../game/Game');
     var Debugger = require('../extras/debugger');
+    var optionsManager = require('../level/levelgen/useroptions');
+
+
+    var userDefinedOptions = {
+        direction : 1,
+        seedValue : parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6,
+        isRandom : localStorage['infinite.alexkidd.generateRandomLevel'] === "true"
+    };
 
     
     // 
@@ -21,9 +29,9 @@ define(function(require) {
             window.debug = new Debugger();
 		    window.Game = Game;
             
-            handlers.init();
+            handlers.init(optionsManager);
 
-            Game.startGame();
+            Game.startGame(userDefinedOptions);
         }
     };
 });

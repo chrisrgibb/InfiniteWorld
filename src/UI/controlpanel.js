@@ -17,7 +17,7 @@ define(function(reqsuire) {
                 'vertical'
             ]
         }
-    }
+    };
 
     document.getElementById('cp2').innerHTML = controlpanelTemplate(config);
 });
