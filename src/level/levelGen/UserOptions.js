@@ -9,6 +9,9 @@ define(function(require) {
         },
         'isRandom' : {
             dataType : 'bool'
+        },
+        'direction' : {
+            dataType : 'direction'
         }
     };
 
@@ -22,6 +25,14 @@ define(function(require) {
         },
         'bool' : function (key) {
             return localStorageAdapter.get(key) === 'true';
+        },
+        'direction' : function (key) {
+            var value = localStorageAdapter.get(key);
+            var directions = {
+                '0' : 'horizontal',
+                '1' : 'vertical'
+            }
+            return directions;
         }
     };
 
@@ -32,11 +43,16 @@ define(function(require) {
         isRandom : localStorage['infinite.alexkidd.generateRandomLevel'] === "true"
     };
 
-    var currentOptions = {
+    // var currentOptions = {
+    //     isRandom : localStorageAdapter.get('generateRandomLevel'),
+    //     seedValue : localStorageAdapter.get('randomSeed')
 
-    };
+    // };
 
-
+    /**
+     * gets and sets all the options for the game. saves them to local storage
+     * @class OptionsManager
+     */
     return {
         get : function(key) {
             var info = mappings[key];

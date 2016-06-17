@@ -1,72 +1,99 @@
 define(function(require){
 
 
-
+	/** @type {optionsManager} */
 	var optionsManager = null;
 
-    return  {
-		/**
-		 * STOP LYING!!!
-		 */
-        init : function(optsman) {
-			
-			optionsManager = optsman;
-			document.getElementById('start-button').addEventListener('click', function(){
-				// startGame();
-				console.log(userdef);
-				Game.startGame();
-			
-			});	
+	var noop = function () {};
 
-            var rangeSlider = document.getElementById('range');
-			rangeSlider.addEventListener('change', function(){
-				localStorage['infinite.alexkidd.randomSeed'] = this.value;
-				document.getElementById('randomSeed').value = rangeSlider.value;
+	var listeners = [
+		{
+			id : 'range',
+			event : 'change',
+			fn : function () {
+				optionsManager.update('randomSeed', this.value);
+				// localStorage['infinite.alexkidd.randomSeed'] = this.value;		
+				document.getElementById('randomSeed').value = this.value;
 
-				var opss = optionsManager.getMany(['randomSeed', 'generateRandomLevel']);
+				var opss = optionsManager.getMany(['randomSeed', 'generateRandomLevel', 'direction']);
 
 				Game.init({
 					isRandom : opss.generateRandomLevel,
 					seedValue : opss.randomSeed
 				});
-
-			});
-
-			var checkbox = document.getElementById('checkbox-isRandom');
-			checkbox.checked = optionsManager.get('generateRandomLevel');
-			//checkbox.checked = localStorage['infinite.alexkidd.generateRandomLevel'] === "true";
-
-			checkbox.addEventListener('change', function() {
+			},
+			init : noop
+		},
+		{
+			id : 'start-button',
+			event : 'click',
+			fn : function () {
+				Game.startGame();
+			},
+			init : noop
+		},
+		{
+			id : 'checkbox-isRandom',
+			event : 'change',
+			fn : function () {
 				var generateRandom = this.checked;
 				optionsManager.update('generateRandomLevel', generateRandom);
-				optionsManager.update('generateRandomLevel', generateRandom);
-				// localStorage['infinite.alexkidd.generateRandomLevel'] = generateRandom;
-			});
-
-			//RANDOM SEEd
-			var randomSeedValueBox = document.getElementById('randomSeed');
-			randomSeedValueBox.value = optionsManager.get('randomSeed') || 0;
-
-			randomSeedValueBox.addEventListener('change', function() {
+			},
+			init : function () {
+				document.getElementById(this.id).checked = optionsManager.get('generateRandomLevel');
+			}
+		},
+		{
+			id : 'randomSeed',
+			event : 'change',
+			fn : function() {
 				optionsManager.update('randomSeed', this.value);
 				Game.init();
-			});
-
-			// Random Seed slider
-			document.getElementById('randomLevel').addEventListener('click', function() {
+			},
+			init : function () {
+				document.getElementById(this.id).value = optionsManager.get('randomSeed') || 0;
+			}
+		},
+		{
+			id : 'randomLevel',
+			event : 'click',
+			fn : function () {
 				var randomNumber = Math.random() * 100000 | 0;
-				randomSeedValueBox.value = randomNumber;
-				localStorage['infinite.alexkidd.randomSeed'] = randomNumber;
+				document.getElementById('randomSeed').value = randomNumber;
+				optionsManager.update('randomSeed', randomNumber);
+				// localStorage['infinite.alexkidd.randomSeed'] = randomNumber;
 				Game.init();
-			});
-
-			var directionToggle = document.getElementById('select-direction');
-			directionToggle.value = localStorage["infinite.alexkidd.direction"] === "1" ?  "vertical" : "horizontal";
-			// directionToggle.value = LocalStorageAdapter.get('direction') === "1" ? "vertical" : "horizontal";
-			
-			directionToggle.addEventListener('change', function(){
+			},
+			init : noop
+		},
+		{
+			id : 'select-direction',
+			event : 'click',
+			fn : function () {
+				var options = {};
 				options.direction = this.value === "vertical" ? 1 : 0;
-			// 	LocalStorageAdapter.update('direction', options.direction);
+				optionsManager.update('direction', options.direction);
+			},
+			init : function () {
+				document.getElementById('select-direction').value = optionsManager.get('direction');
+			}
+		}
+	];
+
+
+    return  {
+		/**
+		 * STOP LYING!!!
+		 * @param {optionsManager} optsman - the optionsManager
+		 */
+        init : function(optsman) {
+			
+			optionsManager = optsman;
+
+			listeners.forEach(function (listener) {
+				listener.init();
+				var domElement = document.getElementById(listener.id);
+				domElement.addEventListener(listener.event, listener.fn);
 			});
         }
     };

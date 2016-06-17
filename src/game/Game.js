@@ -59,6 +59,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 				var canvas = document.getElementById('canvas');
 				ctx = canvas.getContext('2d');
 				ctx.imageSmoothingEnabled = false;
+				ctx.mozImageSmoothingEnabled = false;
 				CONSTANTS.WIDTH = canvas.width;
 				CONSTANTS.HEIGHT = canvas.height;
 				// TODO use function below to scale
