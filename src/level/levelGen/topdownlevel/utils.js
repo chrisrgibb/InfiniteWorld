@@ -1,6 +1,6 @@
-define(function(argument) {
+define(function(require, exports, module) {
 
-	return {
+	module.exports = {
 		/**
 		 * Hello
 		 */

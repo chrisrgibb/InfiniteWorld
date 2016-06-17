@@ -1,5 +1,6 @@
-define(['../utils/noise'],function(Noise){
+define(function(require, exports, module) {
 
+var Noise = require('../utils/noise');
 
 var theme;
 
@@ -120,6 +121,6 @@ TilesCreater.prototype  = {
 	}
 
 };
-	return TilesCreater;
+	module.exports = TilesCreater;
 });
 

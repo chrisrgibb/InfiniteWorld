@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var localStorageAdapter = require('./localStorageAdapter');
@@ -53,7 +53,7 @@ define(function(require) {
      * gets and sets all the options for the game. saves them to local storage
      * @class OptionsManager
      */
-    return {
+    module.exports = {
         get : function(key) {
             var info = mappings[key];
             if(info && info.dataType) {

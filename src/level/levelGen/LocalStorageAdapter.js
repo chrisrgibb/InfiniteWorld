@@ -1,10 +1,10 @@
-define(function(){
+define(function(require, exports, module){
 	// whatever has been saved from the UI from last session
 	var localStoragePrefix = 'infinite.alexkidd.';
 
 
 
-	return {
+	module.exports = {
 		update : function(key, value){
 			var localStorageKey = localStoragePrefix + key;
 			// var item = 

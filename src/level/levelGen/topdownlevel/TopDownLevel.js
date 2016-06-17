@@ -1,4 +1,4 @@
-define(function(require) {	
+define(function(require, exports, module) {	
 
 	var TileCreator = require('../helpers/tilecreater');
 	var LedgePlacer = require('./ledgeplacer');
@@ -49,7 +49,7 @@ define(function(require) {
 		};
 	}
 
-	return {
+	module.exports = {
 		buildMap : function(theme, seed, options, randomgenerator){
 
 			var rand = randomgenerator;
@@ -70,8 +70,6 @@ define(function(require) {
 				document.getElementById('stacktrace').innerText = e.stack;
 				// debugger;
 			}
-			
-
 		}	
 	};
 });
