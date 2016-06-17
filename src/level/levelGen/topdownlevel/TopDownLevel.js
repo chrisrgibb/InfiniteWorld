@@ -3,7 +3,6 @@ define(function(require, exports, module) {
 	var TileCreator = require('../helpers/tilecreater');
 	var LedgePlacer = require('./ledgeplacer');
 	var PlaceBoxes = require('./placeboxes');
-	var EnemyFactory = require('../../../game/enemies/enemyfactory');
 	var PlaceEnemies = require('./placeenemies');
 
 	// main loop
@@ -68,7 +67,6 @@ define(function(require, exports, module) {
 				console.error("error with seed " + seed);
 				console.error(e.stack);
 				document.getElementById('stacktrace').innerText = e.stack;
-				// debugger;
 			}
 		}	
 	};

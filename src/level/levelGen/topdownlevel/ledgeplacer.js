@@ -1,4 +1,4 @@
-define(function(require){ 
+define(function(require, exports, module){ 
 	var createLedge = require('./ledge').create;
 	var applyLedge = require('./utils').applyLedge;
 
@@ -26,16 +26,18 @@ define(function(require){
 		return ledges;
 	}
 
-
+	/**
+	 * @param {Ledge} ledge
+	 */
 	function tryPlaceLedge(ledge) {
 		var x = 0;
 		// clone ledge
+		var newledge = JSON.parse(JSON.stringify(ledge));
 		//try find place to put it
-
 
 	}
 
-	return {
+	module.exports = {
 		makeLedges : function(tiles, rand, theme, mapDetails){
 			// make start ledge
 			// 3 = 1
@@ -96,6 +98,7 @@ define(function(require){
 						throw Error("ledge " + placedLedges.indexOf(ledge) + "cannot be null") ;
 					}
 
+					tryPlaceLedge(ledge);
 
 					if (ledge.side === 'middle') {
 						x = 3 + rand.nextInt(0, 4);

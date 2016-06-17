@@ -55,7 +55,7 @@ define(['./player'],function(player){
 							player.startYvel = -2.750; //
 							player.jumpTime =  21 + Math.abs(player.xVel)/2;// magic numbers
 							player.jumpingXSpeed = player.xVel;
-						}else{
+						} else {
 							player.jumpTime = 22;
 							player.yVel = -2.25;
 							player.startYvel = -2.25;
@@ -63,9 +63,6 @@ define(['./player'],function(player){
 						player.jumping = true;
 						player.onGround = false;
 
-					// }
-					// console.log("dasdsa");
-					// debugger;
 				} else {
 					// now player is in mid air
 					if(player.jumpTime > 0){

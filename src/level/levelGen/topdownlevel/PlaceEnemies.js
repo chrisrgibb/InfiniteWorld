@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require, exports, module){
 	var EnemyFactory = require('../../../game/enemies/enemyfactory');
 
 
@@ -14,7 +14,7 @@ define(function(require){
 		return enemies;
 	}
 
-	return {
+	module.exports = {
 		placeEnemies : placeEnemies
 	};
 
