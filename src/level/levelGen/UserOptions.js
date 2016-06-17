@@ -31,7 +31,7 @@ define(function(require) {
             var directions = {
                 '0' : 'horizontal',
                 '1' : 'vertical'
-            }
+            };
             return directions;
         }
     };

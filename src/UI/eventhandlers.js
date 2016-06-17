@@ -75,7 +75,7 @@ define(function(require){
 				optionsManager.update('direction', options.direction);
 			},
 			init : function () {
-				document.getElementById('select-direction').value = optionsManager.get('direction');
+				document.getElementById(this.id).value = optionsManager.get('direction');
 			}
 		}
 	];
