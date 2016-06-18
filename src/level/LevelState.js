@@ -50,18 +50,18 @@ define(function(require){
 
 
 	LevelState.prototype = {
-		init : function() {
+		init : function(gameOptions) {
 			this.enemys = [];
-			var seedValue = parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6;
+		//	var seedValue = parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6;
 
-			var isRandom = localStorage['infinite.alexkidd.generateRandomLevel'] === "true";
-			if(isRandom){
+		//	var isRandom = localStorage['infinite.alexkidd.generateRandomLevel'] === "true";
+			if(gameOptions.isRandom){
 				/* 
 					Create Random Level
 				*/
-				this.map = LevelGen.createNewMap({				
-					isRandom : isRandom, 
-					seedvalue : seedValue 
+				this.map = LevelGen.createNewMap({
+					isRandom : gameOptions.isRandom,
+					seedvalue : gameOptions.seedValue
 				}).map;
 			} else {
 				this.map = new MapCreater().createMap();

@@ -37,7 +37,7 @@ function(TileSheet,     camera,     player,                  levelState){
 				endTileY = map.getHeight();
 			} 
 
-			if(COUNTER % 23 === 0){
+			if(Game.COUNTER % 23 === 0){
 				animationCounter++;
 				if(animationCounter > 3){
 					animationCounter = 0 ;

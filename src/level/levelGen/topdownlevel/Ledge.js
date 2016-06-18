@@ -1,9 +1,32 @@
-define(function(require){  
+define(function(require, exports, module){  
 
 
-	return {
-		/*
-		* 
+	var LedgeType = {
+
+	};
+
+	/**
+	 * typedef {object} Vertex
+	 * @property {number} x
+	 * @property {number} y
+	 */
+
+	/**
+	 * @typedef {object} Ledge
+	 * @property {number} x
+	 * @property {number} y
+	 * @property {Vertex} v1
+	 * @property {Vertex} v2 
+	 * @property {Vertex} v3 
+	 * @property {string} direction
+	 * @property {number} width
+	 * @property {number} height
+	 */
+
+	module.exports = {
+		/** 
+		* @method create
+		* @return {Ledge}
 		*/
 		create : function(x, y, width, direction) {
  	
@@ -49,6 +72,12 @@ define(function(require){
 				x : xcalc[direction](x, width),
 				y : ycalc[direction](y, width) + 1
 			};
+
+			var height = v3.y - v2.y;
+			/**
+			 * @class Ledge
+			 * 
+			 */
 			return {
 				x : v1.x,
 				y : v1.y,
@@ -56,7 +85,8 @@ define(function(require){
 				v2 : v2,
 				v3 : v3,
 				side : direction,
-				width : width
+				width : width,
+				height : height
 			};
 		}
 	};

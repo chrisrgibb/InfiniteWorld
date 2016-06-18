@@ -9,6 +9,18 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 		dt : 0,
 		step : 1000/ 60,
 		throttle : false,
+		COUNTER : 0,
+
+		/**
+		 * start the game 
+		 */
+		startGame : function(options){
+			this.init(options);
+
+			if(!this.running){
+				this.run();
+			}
+		},
 
 
 		/**
@@ -23,8 +35,10 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 			debug.render(this.player.ctx);
 			// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
 		},
-
-		init : function(ctx){
+		/***
+		 * Initialize everything
+		 */
+		init : function(options){
 			controls.init();
 			initCanvas();
 
@@ -35,7 +49,7 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 			this.levelState = LevelState;
 
-			this.levelState.init();
+			this.levelState.init(options);
 
 			this.levelRenderer = LevelRenderer;
 			this.objectRenderer = ObjectRenderer;
@@ -45,31 +59,32 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 				var canvas = document.getElementById('canvas');
 				ctx = canvas.getContext('2d');
 				ctx.imageSmoothingEnabled = false;
+				ctx.mozImageSmoothingEnabled = false;
 				CONSTANTS.WIDTH = canvas.width;
 				CONSTANTS.HEIGHT = canvas.height;
 				// TODO use function below to scale
-				if(!haveScaled){
+				if(!CONSTANTS.haveScaled){
 					var scale = CONSTANTS.scale;
 					ctx.scale(scale, scale);
-					haveScaled =true;
+					CONSTANTS.haveScaled =true;
 				}	
 			}
 		},
 
 
 		update : function(){
-			COUNTER++;
-			if(COUNTER>23){
-				COUNTER=0;
+			Game.COUNTER++;
+			if(Game.COUNTER>23){
+				Game.COUNTER=0;
 			}
 			this.levelState.update();
 			this.player.update(this.levelState);
 		},
 
-		/*
+		/**
 		* Main game loop
+		* handles the drawing and updates the game
 		*/
-
 		run : function(){
 			requestAnimationFrame(Game.run);	
 			
@@ -81,14 +96,14 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 					Game.then = now - (delta % Game.step);
 					Game.update();
-					Game.tick = COUNTER;
+					Game.tick = Game.COUNTER;
 			
 				}
 			} else {
 				Game.update();
 			}
 		
-			Game.draw(COUNTER);
+			Game.draw(Game.COUNTER);
 			
 			Game.running = true;
 		},
@@ -124,14 +139,6 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 						}
 					}
 				}
-			}
-		},
-
-		startGame : function(){
-			this.init();
-
-			if(!this.running){
-				this.run();
 			}
 		},
 		

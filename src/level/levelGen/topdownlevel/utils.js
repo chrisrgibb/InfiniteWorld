@@ -1,6 +1,9 @@
-define(function(argument) {
+define(function(require, exports, module) {
 
-	return {
+	module.exports = {
+		/**
+		 * Hello
+		 */
 		applyLedge : function(ledge, tiles) {
 			//http://www.sunshine2k.de/coding/java/TriangleRasterization/TriangleRasterization.html
 			var slope1 = (ledge.v3.x - ledge.v1.x) / (ledge.v3.y - ledge.v1.y);

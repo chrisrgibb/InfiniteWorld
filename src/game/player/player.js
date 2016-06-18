@@ -328,7 +328,7 @@ define(['../../graphics/camera', './Inventory','./movecomponent', './playerphysi
 	};
 
 	Player.prototype.updateCounter = function(){
-		if(COUNTER % 6 ===0){
+		if(Game.COUNTER % 6 ===0){
 				this.counter++;
 			if(this.counter > 3){
 				this.counter =0 ;

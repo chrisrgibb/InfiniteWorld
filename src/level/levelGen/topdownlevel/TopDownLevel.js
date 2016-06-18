@@ -1,15 +1,23 @@
-define(function(require) {	
+define(function(require, exports, module) {	
 
 	var TileCreator = require('../helpers/tilecreater');
-	var LedgePlacer2 = require('./ledgeplacer2');
+	var LedgePlacer = require('./ledgeplacer');
 	var PlaceBoxes = require('./placeboxes');
-	var EnemyFactory = require('../../../game/enemies/enemyfactory');
 	var PlaceEnemies = require('./placeenemies');
 
 	// main loop
 	// travel down map creating platforms
 
-	
+	var settings = {
+		numberOfPlatforms : 12
+	};
+
+
+	/**
+	* creates the sides of a topdown level
+	* @param {tiles} the 2d array of the level
+	* @param {number} the index to start creating the sides from
+	*/
 	function CreateSides(tiles, start){
 		for(var i = start+1; i< tiles.length; i++){
 			tiles[i][0] = 5;
@@ -25,7 +33,7 @@ define(function(require) {
 
 	function versionTwo(rand, tiles, theme, mapDetails) {
 		// Place the ledges
-		var ledges2 = LedgePlacer2.makeLedges(tiles,rand, theme, mapDetails);
+		var ledges2 = LedgePlacer.makeLedges(tiles,rand, theme, mapDetails);
 
 		CreateSides(tiles, mapDetails.startAt);
 
@@ -40,7 +48,14 @@ define(function(require) {
 		};
 	}
 
-	return {
+	module.exports = {
+
+		/**
+		 * @param  {object} theme
+		 * @param  {number} seed
+		 * @param  {object} options
+		 * @param  {object} randomgenerator
+		 */
 		buildMap : function(theme, seed, options, randomgenerator){
 
 			var rand = randomgenerator;
@@ -48,7 +63,7 @@ define(function(require) {
 			var mapDetails = {
 				startAt : 7,
 				width : 16,
-				height :rand.nextInt(80, 100)
+				height : rand.nextInt(80, 100)
 			};
 
 			var tiles = createBlankMap(mapDetails, theme);
@@ -59,10 +74,7 @@ define(function(require) {
 				console.error("error with seed " + seed);
 				console.error(e.stack);
 				document.getElementById('stacktrace').innerText = e.stack;
-				// debugger;
 			}
-			
-
 		}	
 	};
 });

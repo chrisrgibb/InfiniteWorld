@@ -50,7 +50,6 @@ define(function (require) {
 		var error = 0;
 		var deltaerr = Math.abs(dy / dx);
 		var y = 0;
-			// debugger;
 
 		for(var x = line.x0; x < line.x1; x++) {
 			error += deltaerr;

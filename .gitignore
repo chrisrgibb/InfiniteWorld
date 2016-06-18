@@ -1,9 +1,9 @@
 .DS_Store
 /node_modules
 /libs
-app.js
 /extra-assets
 *.sql
 *.psd
 notes.txt
 main-built.js
+dist/
