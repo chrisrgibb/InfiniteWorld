@@ -1,5 +1,5 @@
 define(function(require, exports, module){ 
-	// var createLedge = require('./ledge').create;
+	"use strict";
 	var createLedge = require('./ledge').create;
 	var applyLedge = require('./utils').applyLedge;
 
@@ -73,33 +73,37 @@ define(function(require, exports, module){
 	function cloneLedge(ledge){
 		return JSON.parse(JSON.stringify(ledge));
 	}
-
-	function checkForColish(ledges, ledge, buffer){
-		var isColish = false;
-		for(var i = 0; i < ledges.length; i++) {
-			var overlap = compareTwo(ledge, ledges[i], buffer);
-			if(overlap) {
-				isColish = true;
-				break;
-			}
-		}
-		// console.log(isColish + "  colish");
-		return isColish;
+	/**
+	 * returns true if the given ledge overlaps with one of the ledges in the array
+	 * @param  {array} ledges
+	 * @param  {object} ledge
+	 * @param  {number} buffer
+	 */
+	function checkForCollish(ledges, ledge, buffer){
+		return ledges.some(function(e){
+			return compareTwo(ledge, e, buffer);
+		});
 	}
 
 	/**
+	 * finds a random position and checks to see if that position overlaps with any other
+	 * ledges. It adds the ledge to the list of ledges if there is no collisions
+	 * 
 	 * @param {Ledge} ledge
+	 * @param {array} ledges
+	 * @param {object} randomNumberGenerator
 	 */
-	function tryPlaceLedge(ledge,ledges, rand) {
+	function tryPlaceLedge(ledge, ledges, rand) {
 		var x = 0;
 		var y = 0;
 	
-	
-	
 		var foundPlace = false;
 		var newledge;
+		var maxAttempts = 10;
+		var count = 0;
 
 		while(!foundPlace){
+			count++;
 			// clone ledge
 			newledge = cloneLedge(ledge);
 			//try find place to put it
@@ -113,12 +117,17 @@ define(function(require, exports, module){
 			setCoordinates(newledge, x, y);
 			// make sure theres no collisions
 
-			var isColish = checkForColish(ledges, newledge);
-
-			foundPlace = true;
+			var isColish = checkForCollish(ledges, newledge, 1);
+			if(!isColish) {
+				// applyLedge(newledge, tiles);
+				ledges.push(newledge);
+				foundPlace = true;
+			}
+			if(count > maxAttempts) {
+				foundPlace = true;
+			}
 		}
 		
-
 	}
 
 	module.exports = {
@@ -183,12 +192,8 @@ define(function(require, exports, module){
 				return ledgeToPlace;
 			}
 
-			var colishes = {
-				true : 0,
-				false : 1
-			};
-
 			for(var i = 0; i < n; i++){
+				console.log(i);
 				// choose side to place (left, right, or middle)
 				var ledge = getRandomLedge(rand);
 				// make sure it hasn't been placed yet
@@ -198,32 +203,16 @@ define(function(require, exports, module){
 					if(ledge == null) {
 						throw Error("ledge " + placedLedges.indexOf(ledge) + "cannot be null") ;
 					}
-
-					// tryPlaceLedge(ledge, placedLedges, rand);
-
-					if (ledge.side === 'middle') {
-						x = 3 + rand.nextInt(0, 4);
-					} else if( ledge.side === 'right') {
-						x = 10;
-					}
-					var y = rand.nextInt(10, 70);
-
-					var cloned = cloneLedge(ledge);
 					
-					// set the ledge at this x y position 
-					setCoordinates(cloned, x, y);
-
-					var isColish = checkForColish(placedLedges, cloned, 1);
-					colishes[isColish]++;
-					if (!isColish) {
-						applyLedge(cloned, tiles);
-						placedLedges.push(cloned);
-					}				
+					tryPlaceLedge(ledge, placedLedges, rand);
 				}
 				// make sure it isn't too close to another ledge or touching
 				
 			}
-			console.log(colishes);
+			placedLedges.forEach(function(l){
+				applyLedge(l, tiles);
+			});
+
 			return placedLedges;	
 		}
 	};
