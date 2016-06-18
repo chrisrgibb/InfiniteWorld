@@ -20,6 +20,7 @@ define(function(require, exports, module){
 	 * @property {Vertex} v3 
 	 * @property {string} direction
 	 * @property {number} width
+	 * @property {number} height
 	 */
 
 	module.exports = {
@@ -71,6 +72,8 @@ define(function(require, exports, module){
 				x : xcalc[direction](x, width),
 				y : ycalc[direction](y, width) + 1
 			};
+
+			var height = v3.y - v2.y;
 			/**
 			 * @class Ledge
 			 * 
@@ -82,7 +85,8 @@ define(function(require, exports, module){
 				v2 : v2,
 				v3 : v3,
 				side : direction,
-				width : width
+				width : width,
+				height : height
 			};
 		}
 	};

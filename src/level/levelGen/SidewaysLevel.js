@@ -1,4 +1,5 @@
-define(function(require) {	
+define(function(require) {
+	'use strict';	
 
 	var SectionCreator = require('./helpers/createsections');
 	var TileCreater = require('./helpers/tilecreater');

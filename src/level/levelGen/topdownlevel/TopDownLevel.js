@@ -49,6 +49,13 @@ define(function(require, exports, module) {
 	}
 
 	module.exports = {
+
+		/**
+		 * @param  {object} theme
+		 * @param  {number} seed
+		 * @param  {object} options
+		 * @param  {object} randomgenerator
+		 */
 		buildMap : function(theme, seed, options, randomgenerator){
 
 			var rand = randomgenerator;
