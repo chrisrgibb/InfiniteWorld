@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require, exports, module){
 
 
 	/** @type {optionsManager} */
@@ -6,21 +6,26 @@ define(function(require){
 
 	var noop = function () {};
 
+	var getOptions = function() {
+		var opts = optionsManager.getMany(['randomSeed', 'generateRandomLevel', 'direction']);
+		return {
+			isRandom : opts.generateRandomLevel,
+			seedValue : opts.randomSeed,
+			direction : opts.direction
+		};
+	}
+
 	var listeners = [
 		{
 			id : 'range',
 			event : 'change',
 			fn : function () {
-				optionsManager.update('randomSeed', this.value);
-				// localStorage['infinite.alexkidd.randomSeed'] = this.value;		
+				optionsManager.update('randomSeed', this.value);	
 				document.getElementById('randomSeed').value = this.value;
 
-				var opss = optionsManager.getMany(['randomSeed', 'generateRandomLevel', 'direction']);
-
-				Game.init({
-					isRandom : opss.generateRandomLevel,
-					seedValue : opss.randomSeed
-				});
+			//	var opss = optionsManager.getMany(['randomSeed', 'generateRandomLevel', 'direction']);
+				var g = getOptions();
+				Game.init(g);
 			},
 			init : noop
 		},
@@ -48,7 +53,9 @@ define(function(require){
 			event : 'change',
 			fn : function() {
 				optionsManager.update('randomSeed', this.value);
-				Game.init();
+			
+				var g = getOptions();
+				Game.init(g);
 			},
 			init : function () {
 				document.getElementById(this.id).value = optionsManager.get('randomSeed') || 0;
@@ -61,8 +68,9 @@ define(function(require){
 				var randomNumber = Math.random() * 100000 | 0;
 				document.getElementById('randomSeed').value = randomNumber;
 				optionsManager.update('randomSeed', randomNumber);
-				// localStorage['infinite.alexkidd.randomSeed'] = randomNumber;
-				Game.init();
+
+				var g = getOptions();
+				Game.init(g);
 			},
 			init : noop
 		},
@@ -81,7 +89,7 @@ define(function(require){
 	];
 
 
-    return  {
+    module.exports = {
 		/**
 		 * STOP LYING!!!
 		 * @param {optionsManager} optsman - the optionsManager

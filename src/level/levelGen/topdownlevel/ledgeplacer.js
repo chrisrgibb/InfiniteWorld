@@ -193,7 +193,7 @@ define(function(require, exports, module){
 			}
 
 			for(var i = 0; i < n; i++){
-				console.log(i);
+				
 				// choose side to place (left, right, or middle)
 				var ledge = getRandomLedge(rand);
 				// make sure it hasn't been placed yet

@@ -1,5 +1,14 @@
-define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections', './settings/options', './helpers/heightcalculator', './sidewayslevel', './topdownlevel/topdownlevel'],
-	function(Random, Map, themes , CreateSections, Options, HeightCalculator, Sidewayslevel, TopDownLevel){
+// define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections', './settings/options', './sidewayslevel', './topdownlevel/topdownlevel'],
+// 	function(Random, Map, themes , CreateSections, Options, Sidewayslevel, TopDownLevel){
+
+define(function(require, exports, module){
+	var Random = require('./utils/noise');
+	var Map = require('../Map');
+	var themes = require('./settings/themes');
+	var CreateSections = require('./helpers/createsections');
+	var Options = require('./settings/options');
+	var HeightCalculator = require('./helpers/heightcalculator')
+	var TopDownLevel = require('./topdownlevel/topdownlevel');
 
 	/**
 	*	MAIN LOOP
@@ -46,7 +55,7 @@ define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections
 		return Sidewayslevel.buildMap(theme, seed, Options, rand);
 	}
 
-	return {
+	module.exports = {
 		createNewMap : createNewMap
 	};
 });

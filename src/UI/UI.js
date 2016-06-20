@@ -1,7 +1,7 @@
 /**
 * The UI for the game
 */
-define(function(require) {
+define(function(require, exports, module) {
 
     var handlers = require('./eventhandlers');
     var controlPanel = require('./controlPanel');
@@ -13,7 +13,8 @@ define(function(require) {
     var userDefinedOptions = {
         direction : 1,
         seedValue : parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6,
-        isRandom : localStorage['infinite.alexkidd.generateRandomLevel'] === "true"
+        isRandom : localStorage['infinite.alexkidd.generateRandomLevel'] === "true",
+        isBozo : true
     };
 
     
@@ -21,7 +22,7 @@ define(function(require) {
     // Seed int  range slider and number input
     // horizontal or vertical boolean
     // generate random level
-    return {
+    module.exports = {
         /** 
          *  Sets up the eventhandlers and starts the Game
         */

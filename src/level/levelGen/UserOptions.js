@@ -12,6 +12,9 @@ define(function(require, exports, module) {
         },
         'direction' : {
             dataType : 'direction'
+        },
+        'generateRandomLevel' : {
+            dataType : 'bool'
         }
     };
 
@@ -32,7 +35,7 @@ define(function(require, exports, module) {
                 '0' : 'horizontal',
                 '1' : 'vertical'
             };
-            return directions;
+            return directions[value];
         }
     };
 

@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require, exports, module){
 	var ShockWave = require('../game/objects/shockWave');
 	var MapCreater = require('./MapCreater');
 	var Player = require('../game/player/player');
@@ -356,5 +356,5 @@ define(function(require){
 
 	var ls = new LevelState();
 
-	return ls;
+	module.exports = ls;
 });
