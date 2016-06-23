@@ -1,8 +1,11 @@
-define(['./levelgenerator', './Renderer', './settings/options', './localstorageadapter'],
-	function(levelGenerator, Renderer, LevelOptions, LocalStorageAdapter){
+define(function(require, exports, module){
 
-
-
+	var levelGenerator = require('./levelgenerator');
+	var Renderer = require('./Renderer');
+	var LevelOptions = require('./settings/options');
+	var LocalStorageAdapter = require('./localstorageadapter');
+	var handlers = require('../../UI/eventhandlers');
+	var optionsManager = require('./useroptions');
 
 
 	var map;
@@ -15,7 +18,7 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 		// var direction = 
 		var generatedLevel = levelGenerator.createNewMap({ 
 			isRandom : true, 
-			seedvalue : options.seedValue,
+			seedValue : options.seedValue,
 			direction : options.direction,
 			numberOfPlatforms : 3
 		});
@@ -32,10 +35,10 @@ define(['./levelgenerator', './Renderer', './settings/options', './localstoragea
 
 	function addDirectionToggleListeners () {
 		var directionToggle = document.getElementById('select-direction');
-		directionToggle.value = LocalStorageAdapter.get('direction') === "1" ? "vertical" : "horizontal";
+		directionToggle.value = LocalStorageAdapter.get('direction');
 		
 		directionToggle.addEventListener('change', function(){
-			options.direction = this.value === "vertical" ? 1 : 0;
+			options.direction = this.value;
 			LocalStorageAdapter.update('direction', options.direction);
 		});
 	}

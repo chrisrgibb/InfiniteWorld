@@ -9,6 +9,7 @@ define(function(require, exports, module){
 	var Options = require('./settings/options');
 	var HeightCalculator = require('./helpers/heightcalculator')
 	var TopDownLevel = require('./topdownlevel/topdownlevel');
+	var Sidewayslevel = require('./sidewayslevel');
 
 	/**
 	*	MAIN LOOP
@@ -19,19 +20,19 @@ define(function(require, exports, module){
 
 	var rand = new Random(3);
 
-	function createNewMap(mapOptions){
+	function createNewMap(mapOptions, options2){
 
 		CreateSections.reset();
 
 		// random seed used to calculate everything from
-		var seedValue = parseInt(mapOptions.seedvalue),
+		var seedValue = parseInt(mapOptions.seedValue),
 			rand = new Random(seedValue),
 			direction = mapOptions.direction || (parseInt(localStorage['infinite.alexkidd.direction']) || 0);
 
 		var start = Date.now();
 		
 		// this is where we create the level
-		var levelData = buildMap(Options.theme, seedValue, direction, rand),
+		var levelData = buildMap(Options.theme, seedValue, direction, rand, options2),
 			map = new Map(levelData);
 
 		var end = Date.now();
@@ -48,8 +49,8 @@ define(function(require, exports, module){
 	*
 	*
 	*/
-	function buildMap(theme, seed, direction, rand) {
-		if(direction === Options.direction.vertical){
+	function buildMap(theme, seed, direction, rand, options) {
+		if(direction === Options.direction.vertical || direction === "vertical"){
 			return TopDownLevel.buildMap(theme, seed, Options, rand);
 		}
 		return Sidewayslevel.buildMap(theme, seed, Options, rand);

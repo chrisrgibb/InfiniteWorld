@@ -3,6 +3,18 @@ define(['./themes'],function(themes){
 
 	var themeOption = 0;
 
+	var topDownOptions = {
+		startY : 7,
+		width :16,
+		height : 100 //random
+	};
+
+	var sideWaysOptions = {
+		startX : 10 // the gap at the start of the level to start generating from
+
+	};
+
+
 	return {
 		difficulty : {
 			EASY : 0, 
@@ -18,6 +30,7 @@ define(['./themes'],function(themes){
 			vertical : 1,
 			rightLeft : 2
 		},
-		themeOption : themeOption
+		themeOption : themeOption,
+		topDownOptions : topDownOptions
 	};
 });

@@ -144,33 +144,18 @@ define(function(require, exports, module){
 			var ledges = [];
 
 
+			var placedLedges = [];
+			var startLedge = createLedge(1, mapDetails.startY, 5, "left");
+			placedLedges.push(startLedge);
 
-			// var m = createLedge(6, 13, 2, "middle");
-			// var p = createLedge(1, 10, 4, "left"); // 5, 10 
-			// var q = createLedge(10, 9, 6, "right"); // 7, 9
-
-			// applyLedge(m, tiles);
-			// applyLedge(p, tiles);
-			// applyLedge(q, tiles);
-
-
-			// var s = createLedge(10, 20, 5, "right" );
-			// var z = createLedge(2, 15, 8, "middle" );
-
-			// var p = createLedge(10, 24, 4, "right");
-
-			// var res = compareTwo(z, p);
-			// console.log(res)
-
-
-			// applyLedge(s, tiles);
-			// applyLedge(z, tiles);
-			// applyLedge(p, tiles);
-
+			if(rand.nextInt(0,1) > 0){
+				placedLedges.push(createLedge(10, mapDetails.startY, 5, "right" ));
+			}
 
 
 			ledges = createRandomLedges(mapDetails, rand);
-			var le = this.placeLedges(ledges, tiles, numLedges, rand);
+			
+			var le = this.placeLedges(ledges, tiles, numLedges, rand, placedLedges);
 
 			return [];//[m, p, q];	
 		},
@@ -180,9 +165,9 @@ define(function(require, exports, module){
 		 * @param {number} n - number of ledges to create
 		 * @param {object} rand - random number generator
 		 */
-		placeLedges : function(ledges, tiles, n, rand) {
+		placeLedges : function(ledges, tiles, n, rand, placedLedges) {
 
-			var placedLedges = [];
+			// var placedLedges = [];
 			var sides = ['left', 'right', 'middle'];
 
 			function getRandomLedge(rand) {
@@ -193,7 +178,7 @@ define(function(require, exports, module){
 			}
 
 			for(var i = 0; i < n; i++){
-				
+
 				// choose side to place (left, right, or middle)
 				var ledge = getRandomLedge(rand);
 				// make sure it hasn't been placed yet

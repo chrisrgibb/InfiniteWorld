@@ -76,10 +76,10 @@ define(function(require, exports, module){
 		},
 		{
 			id : 'select-direction',
-			event : 'click',
+			event : 'change',
 			fn : function () {
 				var options = {};
-				options.direction = this.value === "vertical" ? 1 : 0;
+				options.direction = this.value;
 				optionsManager.update('direction', options.direction);
 			},
 			init : function () {
@@ -91,19 +91,29 @@ define(function(require, exports, module){
 
     module.exports = {
 		/**
-		 * STOP LYING!!!
+		 * 
 		 * @param {optionsManager} optsman - the optionsManager
 		 */
-        init : function(optsman) {
+        init : function(optsman, skip) {
+			skip = skip || {};
 			
 			optionsManager = optsman;
 
 			listeners.forEach(function (listener) {
+				if(listener.id in skip) {
+					// 
+					return;
+				}
+
 				listener.init();
 				var domElement = document.getElementById(listener.id);
+				if ( domElement == null) {
+					console.warn("domElement : #" +listener.id  + " was null" );
+				}
 				domElement.addEventListener(listener.event, listener.fn);
 			});
         }
     };
 
 });
+

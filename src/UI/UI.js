@@ -10,12 +10,25 @@ define(function(require, exports, module) {
     var optionsManager = require('../level/levelgen/useroptions');
 
 
+ 
+
+    var topDownOptions = {
+        startAt : 7,
+        width : 16,
+        height : {
+            max : 100,
+            min : 80    
+        }
+    };
+
     var userDefinedOptions = {
         direction : 1,
         seedValue : parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6,
         isRandom : localStorage['infinite.alexkidd.generateRandomLevel'] === "true",
-        isBozo : true
+        isBozo : true,
+        topDownOptions : topDownOptions
     };
+
 
     
     // 

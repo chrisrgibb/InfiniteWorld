@@ -62,6 +62,7 @@ define(function(require, exports, module) {
 
 			var mapDetails = {
 				startAt : 7,
+				startY : 7,
 				width : 16,
 				height : rand.nextInt(80, 100)
 			};

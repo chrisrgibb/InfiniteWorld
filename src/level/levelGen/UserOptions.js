@@ -35,7 +35,8 @@ define(function(require, exports, module) {
                 '0' : 'horizontal',
                 '1' : 'vertical'
             };
-            return directions[value];
+            // return directions[value];
+            return value;
         }
     };
 
@@ -82,6 +83,12 @@ define(function(require, exports, module) {
         },
         getCurrent : function(){
             return currentOptions;
+        },
+        /**
+         * Get all the options the user has saved
+         */
+        getAll : function () {
+
         }
     };
 });

@@ -59,10 +59,7 @@ define(function(require, exports, module){
 				/* 
 					Create Random Level
 				*/
-				this.map = LevelGen.createNewMap({
-					isRandom : gameOptions.isRandom,
-					seedvalue : gameOptions.seedValue
-				}).map;
+				this.map = LevelGen.createNewMap(gameOptions).map;
 			} else {
 				this.map = new MapCreater().createMap();
 			}
