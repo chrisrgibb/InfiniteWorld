@@ -18,7 +18,8 @@ define(function(require, exports, module) {
         height : {
             max : 100,
             min : 80    
-        }
+        },
+        buffer : 2 // minumum gap between ledges
     };
 
     var userDefinedOptions = {

@@ -11,7 +11,7 @@ define(function(require, exports, module){
 			'middle' :[]
 		};
 		var interval = mapDetails.startY;
-		N = N || 90;
+		N = N || 400;
 
 		var sides = ['left', 'right', 'middle'];
 		var index = 0;
@@ -93,13 +93,13 @@ define(function(require, exports, module){
 	 * @param {array} ledges
 	 * @param {object} randomNumberGenerator
 	 */
-	function tryPlaceLedge(ledge, ledges, rand) {
+	function tryPlaceLedge(ledge, ledges, rand, mapDetails) {
 		var x = 0;
 		var y = 0;
 	
 		var foundPlace = false;
 		var newledge;
-		var maxAttempts = 10;
+		var maxAttempts = 500;
 		var count = 0;
 
 		while(!foundPlace){
@@ -110,14 +110,17 @@ define(function(require, exports, module){
 			if (ledge.side === 'middle') {
 				x = 3 + rand.nextInt(0, 4);
 			} else if( ledge.side === 'right') {
+				var p = mapDetails.width - ledge.width -1;
 				x = 10;
+				x = p;//  118370
 			}
 			y = rand.nextInt(10, 70);
-
+			
+			// we take the cloned object and update its coordinates
 			setCoordinates(newledge, x, y);
 			// make sure theres no collisions
 
-			var isColish = checkForCollish(ledges, newledge, 1);
+			var isColish = checkForCollish(ledges, newledge, 2);
 			if(!isColish) {
 				// applyLedge(newledge, tiles);
 				ledges.push(newledge);
@@ -130,7 +133,13 @@ define(function(require, exports, module){
 		
 	}
 
-	module.exports = {
+	var LedgePlacer = function (options) {
+		this.gameOptions = options;
+	}
+
+	LedgePlacer.prototype = {
+
+	// module.exports = {
 		/**
 		 * @param {array} tiles
 		 * @param {object} rand
@@ -155,21 +164,32 @@ define(function(require, exports, module){
 
 			ledges = createRandomLedges(mapDetails, rand);
 			
-			var le = this.placeLedges(ledges, tiles, numLedges, rand, placedLedges);
+			var finalLedges = this.placeLedges(ledges, tiles, numLedges, rand, placedLedges, mapDetails);
 
-			return [];//[m, p, q];	
+			// sets the ledges as tiles in the game
+			finalLedges.forEach(function(l){
+				applyLedge(l, tiles);
+			});
+
+
+			return finalLedges;//[m, p, q];	
 		},
 		/**
 		 * @param {object} ledges
 		 * @param {array} tiles
 		 * @param {number} n - number of ledges to create
 		 * @param {object} rand - random number generator
+		 * @param {array} placedLedges
+		 * @param {object} mapDetails
+		 * @return {array}
 		 */
-		placeLedges : function(ledges, tiles, n, rand, placedLedges) {
+		placeLedges : function(ledges, tiles, n, rand, placedLedges, mapDetails) {
 
 			// var placedLedges = [];
 			var sides = ['left', 'right', 'middle'];
 
+
+			// 
 			function getRandomLedge(rand) {
 				var side = sides[rand.nextInt(3)];
 				var index = rand.nextInt(0, ledges[side].length-1);
@@ -189,17 +209,15 @@ define(function(require, exports, module){
 						throw Error("ledge " + placedLedges.indexOf(ledge) + "cannot be null") ;
 					}
 					
-					tryPlaceLedge(ledge, placedLedges, rand);
+					tryPlaceLedge(ledge, placedLedges, rand, mapDetails);
 				}
 				// make sure it isn't too close to another ledge or touching
 				
 			}
-			placedLedges.forEach(function(l){
-				applyLedge(l, tiles);
-			});
 
 			return placedLedges;	
 		}
 	};
 	
+	module.exports = LedgePlacer;
 });

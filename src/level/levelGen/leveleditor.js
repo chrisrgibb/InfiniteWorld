@@ -10,6 +10,7 @@ define(function(require, exports, module){
 
 	var map;
 	var options = {};
+	var level; 
 	/**
 	*
 	*
@@ -24,6 +25,7 @@ define(function(require, exports, module){
 		});
 
 		map = generatedLevel.map;
+		level = generatedLevel;
 
 		tiles = map.tiles;
 
@@ -36,6 +38,7 @@ define(function(require, exports, module){
 	function addDirectionToggleListeners () {
 		var directionToggle = document.getElementById('select-direction');
 		directionToggle.value = LocalStorageAdapter.get('direction');
+		options.direction = directionToggle.value; 
 		
 		directionToggle.addEventListener('change', function(){
 			options.direction = this.value;
@@ -71,7 +74,7 @@ define(function(require, exports, module){
 		var x = e.offsetX / Renderer.tileSize;
 		var y = e.offsetY / Renderer.tileSize;
 		
-		var ledgos = mofos.filter(function(mofo){
+		var ledgos = level.levelData.ledges.filter(function(mofo){
 			if (x > mofo.x && x < mofo.x + mofo.width){
 				if (mofo.y < y && y < mofo.y + mofo.height){
 					return mofo;
@@ -79,8 +82,8 @@ define(function(require, exports, module){
 			}
 		});
 		
-		Renderer.highlightLedge(ledgos[0].connectingPlatform);
-		Renderer.highlightLedge(ledgos[0].partnerLedge);
+		Renderer.highlightLedge(ledgos[0]);
+		// Renderer.highlightLedge(ledgos[0].partnerLedge);
 
 		// ledgos.forEach(Renderer.highlightLedge, Renderer);
 

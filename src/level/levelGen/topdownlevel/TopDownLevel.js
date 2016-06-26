@@ -33,7 +33,9 @@ define(function(require, exports, module) {
 
 	function versionTwo(rand, tiles, theme, mapDetails) {
 		// Place the ledges
-		var ledges2 = LedgePlacer.makeLedges(tiles,rand, theme, mapDetails);
+		var ledgeplacer = new LedgePlacer(mapDetails);
+
+		var ledges2 = ledgeplacer.makeLedges(tiles,rand, theme, mapDetails);
 
 		CreateSides(tiles, mapDetails.startAt);
 
@@ -48,6 +50,11 @@ define(function(require, exports, module) {
 		};
 	}
 
+	var topDownLevel = function (params) {
+		
+	}
+
+
 	module.exports = {
 
 		/**
@@ -56,7 +63,7 @@ define(function(require, exports, module) {
 		 * @param  {object} options
 		 * @param  {object} randomgenerator
 		 */
-		buildMap : function(theme, seed, options, randomgenerator){
+		buildMap : function(theme, seed, options, randomgenerator) {
 
 			var rand = randomgenerator;
 

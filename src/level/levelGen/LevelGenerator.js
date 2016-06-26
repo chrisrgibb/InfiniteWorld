@@ -7,9 +7,9 @@ define(function(require, exports, module){
 	var themes = require('./settings/themes');
 	var CreateSections = require('./helpers/createsections');
 	var Options = require('./settings/options');
-	var HeightCalculator = require('./helpers/heightcalculator')
+	// var HeightCalculator = require('./helpers/heightcalculator')
 	var TopDownLevel = require('./topdownlevel/topdownlevel');
-	var Sidewayslevel = require('./sidewayslevel');
+	var Sidewayslevel = require('./sidewayslevel')
 
 	/**
 	*	MAIN LOOP
@@ -19,7 +19,10 @@ define(function(require, exports, module){
 	*/
 
 	var rand = new Random(3);
-
+	/**
+	 * @param  {any} mapOptions
+	 * @param  {any} options2
+	 */
 	function createNewMap(mapOptions, options2){
 
 		CreateSections.reset();
@@ -46,9 +49,12 @@ define(function(require, exports, module){
 	}
 
 	/**
-	*
-	*
-	*/
+	 * @param  {any} theme
+	 * @param  {any} seed
+	 * @param  {any} direction
+	 * @param  {any} rand
+	 * @param  {any} options
+	 */
 	function buildMap(theme, seed, direction, rand, options) {
 		if(direction === Options.direction.vertical || direction === "vertical"){
 			return TopDownLevel.buildMap(theme, seed, Options, rand);

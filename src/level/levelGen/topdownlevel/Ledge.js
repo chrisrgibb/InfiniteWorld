@@ -24,10 +24,14 @@ define(function(require, exports, module){
 	 */
 
 	module.exports = {
-		/** 
-		* @method create
-		* @return {Ledge}
-		*/
+		/**
+		 * @method create
+		 * @param  {number} x
+		 * @param  {number} y
+		 * @param  {number} width
+		 * @param  {string} direction
+	 	 * @return {Ledge}
+		 */
 		create : function(x, y, width, direction) {
  	
  			// function to work out the x co-ordinate of the bottom vertice 
