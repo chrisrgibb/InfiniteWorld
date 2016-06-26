@@ -35,8 +35,10 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 			debug.render(this.player.ctx);
 			// Game.drawDebugGrid(ctx, this.levelRenderer.camera);
 		},
-		/***
+
+		/**
 		 * Initialize everything
+		 * @param  {any} options
 		 */
 		init : function(options){
 			controls.init();
@@ -47,7 +49,12 @@ define(['./player/player', '../graphics/camera', '../level/levelState', '../grap
 
 			this.player = Player;
 
+
 			this.levelState = LevelState;
+			if(options.isRandom) {
+				// create random level
+				
+			}
 
 			this.levelState.init(options);
 

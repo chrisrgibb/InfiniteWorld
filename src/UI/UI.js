@@ -23,7 +23,7 @@ define(function(require, exports, module) {
     };
 
     var userDefinedOptions = {
-        direction : 1,
+        direction : "vertical",
         seedValue : parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6,
         isRandom : localStorage['infinite.alexkidd.generateRandomLevel'] === "true",
         isBozo : true,

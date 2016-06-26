@@ -105,7 +105,7 @@ define(function(require) {
 
 
 	return {
-		buildMap : function(theme, seed, options, randomgenerator){
+		buildMap : function(theme, options, randomgenerator){
 			rand = randomgenerator;
 			var height = Options.height,
 				length = rand.nextInt(40, 80),
@@ -113,7 +113,7 @@ define(function(require) {
 				withGround = true,
 				tiles = tilecreater.getBlankMap(length, height, withGround);
 
-			SectionCreator.setDefaults(theme, tilecreater, seed);
+			SectionCreator.setDefaults(theme, tilecreater, options.seed);
 
 			var enemies = [];
 			// splits level up into sections

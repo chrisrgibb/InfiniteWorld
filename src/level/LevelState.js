@@ -52,9 +52,7 @@ define(function(require, exports, module){
 	LevelState.prototype = {
 		init : function(gameOptions) {
 			this.enemys = [];
-		//	var seedValue = parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6;
 
-		//	var isRandom = localStorage['infinite.alexkidd.generateRandomLevel'] === "true";
 			if(gameOptions.isRandom){
 				/* 
 					Create Random Level

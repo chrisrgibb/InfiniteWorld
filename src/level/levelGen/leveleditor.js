@@ -11,6 +11,17 @@ define(function(require, exports, module){
 	var map;
 	var options = {};
 	var level; 
+	// eventually need to have topDownOptions only in one place 
+	var topDownOptions = {
+        startAt : 7,
+        width : 16,
+        height : {
+            max : 100,
+            min : 80
+        },
+        buffer : 2 // minumum gap between ledges
+    };
+
 	/**
 	*
 	*
@@ -21,7 +32,8 @@ define(function(require, exports, module){
 			isRandom : true, 
 			seedValue : options.seedValue,
 			direction : options.direction,
-			numberOfPlatforms : 3
+			numberOfPlatforms : 90,
+			topDownOptions : topDownOptions
 		});
 
 		map = generatedLevel.map;

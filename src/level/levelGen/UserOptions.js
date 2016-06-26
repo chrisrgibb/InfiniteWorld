@@ -41,18 +41,6 @@ define(function(require, exports, module) {
     };
 
 
-    var userDefinedOptions = {
-        direction : 1,
-        seedValue : parseInt(localStorage['infinite.alexkidd.randomSeed']) || 6,
-        isRandom : localStorage['infinite.alexkidd.generateRandomLevel'] === "true"
-    };
-
-    // var currentOptions = {
-    //     isRandom : localStorageAdapter.get('generateRandomLevel'),
-    //     seedValue : localStorageAdapter.get('randomSeed')
-
-    // };
-
     /**
      * gets and sets all the options for the game. saves them to local storage
      * @class OptionsManager

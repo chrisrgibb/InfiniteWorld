@@ -1,6 +1,3 @@
-// define(['./utils/noise', '../Map', './settings/themes','./helpers/createsections', './settings/options', './sidewayslevel', './topdownlevel/topdownlevel'],
-// 	function(Random, Map, themes , CreateSections, Options, Sidewayslevel, TopDownLevel){
-
 define(function(require, exports, module){
 	var Random = require('./utils/noise');
 	var Map = require('../Map');
@@ -21,22 +18,19 @@ define(function(require, exports, module){
 	var rand = new Random(3);
 	/**
 	 * @param  {any} mapOptions
-	 * @param  {any} options2
 	 */
-	function createNewMap(mapOptions, options2){
+	function createNewMap(mapOptions){
 
 		CreateSections.reset();
 
 		// random seed used to calculate everything from
-		var seedValue = parseInt(mapOptions.seedValue),
-			rand = new Random(seedValue),
-			direction = mapOptions.direction || (parseInt(localStorage['infinite.alexkidd.direction']) || 0);
-
+		var rand = new Random(mapOptions.seedValue);
+			
 		var start = Date.now();
 		
 		// this is where we create the level
-		var levelData = buildMap(Options.theme, seedValue, direction, rand, options2),
-			map = new Map(levelData);
+		var levelData = buildMap(Options.theme, mapOptions, rand);
+		var map = new Map(levelData);
 
 		var end = Date.now();
 		var seconds = (end - start) / 1000;
@@ -55,11 +49,11 @@ define(function(require, exports, module){
 	 * @param  {any} rand
 	 * @param  {any} options
 	 */
-	function buildMap(theme, seed, direction, rand, options) {
-		if(direction === Options.direction.vertical || direction === "vertical"){
-			return TopDownLevel.buildMap(theme, seed, Options, rand);
+	function buildMap(theme, options,rand) {
+		if (options.direction === "vertical") { 
+			return TopDownLevel.buildMap(theme, options, rand);
 		}
-		return Sidewayslevel.buildMap(theme, seed, Options, rand);
+		return Sidewayslevel.buildMap(theme, Options, rand);
 	}
 
 	module.exports = {
