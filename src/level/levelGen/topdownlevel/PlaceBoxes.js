@@ -1,4 +1,4 @@
-define(function (require) {
+define(function (require, exports, module) {
 	var Block = require('../../block');
 
 
@@ -85,7 +85,7 @@ define(function (require) {
 	}
 
 
-	return {
+	module.exports =  {
 		placeBoxes : function(ledges, tiles, rand) {
 		
 			ledges.forEach(function(ledge, index){

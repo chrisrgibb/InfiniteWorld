@@ -40,6 +40,8 @@ define(function(require, exports, module) {
 		var ledgeplacer = new LedgePlacer(mapDetails);
 		var ledges2 = ledgeplacer.makeLedges(tiles,rand, theme, mapDetails);
 
+		PlaceBoxes.placeBoxes(ledges2, tiles, rand);
+
 		CreateSides(tiles, mapDetails.topDownOptions.startAt);
 
 		var enemies = PlaceEnemies.placeEnemies(ledges2, tiles, rand);
