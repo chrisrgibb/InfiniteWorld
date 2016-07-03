@@ -76,7 +76,13 @@ define(function(require, exports, module) {
          * Get all the options the user has saved
          */
         getAll : function () {
-
+            var opts = localStorageAdapter.get('all');
+            return JSON.parse(opts);
+        },
+        setAll : function(opts) {
+            debugger;
+            var optsToJson = JSON.stringify(opts);
+            localStorageAdapter.update('all', optsToJson);
         }
     };
 });

@@ -4,6 +4,7 @@ define(function(require, exports, module) {
 	var LedgePlacer = require('./ledgeplacer');
 	var PlaceBoxes = require('./placeboxes');
 	var PlaceEnemies = require('./placeenemies');
+	var LedgePlacer2 = require('./ledgeplacer2');
 
 	// main loop
 	// travel down map creating platforms
@@ -38,9 +39,11 @@ define(function(require, exports, module) {
 
 		// Place the ledges
 		var ledgeplacer = new LedgePlacer(mapDetails);
-		var ledges2 = ledgeplacer.makeLedges(tiles,rand, theme, mapDetails);
+		var lp2 = new LedgePlacer2(mapDetails);
+		// var ledges2 = ledgeplacer.makeLedges(tiles,rand, theme, mapDetails);
+		var ledges2 = lp2.makeLedges(tiles,rand, theme, mapDetails);;
 
-		PlaceBoxes.placeBoxes(ledges2, tiles, rand);
+		PlaceBoxes.placeBoxes(ledges2, tiles, rand)
 
 		CreateSides(tiles, mapDetails.topDownOptions.startAt);
 

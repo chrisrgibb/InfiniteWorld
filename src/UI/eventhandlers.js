@@ -20,12 +20,14 @@ define(function(require, exports, module){
 			id : 'range',
 			event : 'change',
 			fn : function () {
+				var all = optionsManager.getAll();
+				all.seedValue = parseInt(this.value);
+				optionsManager.setAll(all);
+
 				optionsManager.update('randomSeed', this.value);	
 				document.getElementById('randomSeed').value = this.value;
 
-			//	var opss = optionsManager.getMany(['randomSeed', 'generateRandomLevel', 'direction']);
-				var g = getOptions();
-				Game.init(g);
+				Game.init(all);
 			},
 			init : noop
 		},

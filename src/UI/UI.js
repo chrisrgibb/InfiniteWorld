@@ -43,6 +43,8 @@ define(function(require, exports, module) {
         init : function () {
             window.debug = new Debugger();
 		    window.Game = Game;
+
+            optionsManager.setAll(userDefinedOptions);
             
             handlers.init(optionsManager);
 
